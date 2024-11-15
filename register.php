@@ -58,6 +58,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-radius: 8px;
             background-color: white;
         }
+        .sair{
+            padding-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -88,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
             </form>
             <div>
-            <a href="javascript:history.back();" class="btn btn-outline-danger logout-btn w-100">
+            <a href="javascript:history.back();" class="btn btn-outline-danger logout-btn w-100 sair">
                 Voltar
             </a>
             </div>
