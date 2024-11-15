@@ -1,4 +1,4 @@
-<!-- <?php
+<?php
 session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Verifica se existe um cookie de "lembrar-me"
 $remembered_user = isset($_COOKIE['remember_user']) ? $_COOKIE['remember_user'] : '';
-?> -->
+?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
