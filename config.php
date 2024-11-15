@@ -26,6 +26,3 @@ class Database {
         return $this->conn;
     }
 }
-session_start();
-require_once 'config.php';
-exit;
