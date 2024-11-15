@@ -61,9 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-    <a href="logout.php" class="btn btn-outline-danger logout-btn">
-        <i class="bi bi-box-arrow-right"></i> Sair
-    </a>
+    
     <div class="container">
         <div class="register-container">
             <h2 class="text-center mb-4">Cadastrar Usuário</h2>
@@ -89,6 +87,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
             </form>
+            <a href="logout.php" class="btn btn-outline-danger logout-btn">
+            <i class="bi bi-box-arrow-right"></i> Sair
+            </a>
         </div>
     </div>
 
