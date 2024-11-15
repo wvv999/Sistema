@@ -33,15 +33,7 @@ $remembered_user = isset($_COOKIE['remember_user']) ? $_COOKIE['remember_user'] 
     <title>Login</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-        }
-    </style>
+    <link rel="stylesheet" href="./styles/index.css">
 </head>
 <body>
     <div class="container">
