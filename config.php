@@ -26,3 +26,4 @@ class Database {
         return $this->conn;
     }
 }
+include('index.php');
