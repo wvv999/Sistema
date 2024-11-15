@@ -26,4 +26,4 @@ class Database {
         return $this->conn;
     }
 }
-header("location: pagina. php");
+header("location: index.php");
