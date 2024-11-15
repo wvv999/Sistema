@@ -87,9 +87,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
             </form>
-            <a href="javascript:history.back();" class="btn btn-outline-danger logout-btn">Voltar</a>   
-            <i class="bi bi-box-arrow-right">Teste</i>
-            </a>
+            <a href="javascript:history.back();" class="btn btn-outline-danger logout-btn">
+                Voltar
+            </a>   
+            
+
         </div>
     </div>
 
