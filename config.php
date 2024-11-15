@@ -26,3 +26,11 @@ class Database {
         return $this->conn;
     }
 }
+session_start();
+require_once 'config.php';
+
+// Verifica se está logado (proteção da página)
+if(!isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit;
+}
