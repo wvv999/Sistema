@@ -39,6 +39,7 @@ $remembered_user = isset($_COOKIE['remember_user']) ? $_COOKIE['remember_user'] 
     <div class="container">
         <div class="login-container">
             <h2 class="text-center mb-4">Login</h2>
+            <h1>Teste</h1>
             
             <form method="POST" action="">
                 <div class="mb-3">
