@@ -1,6 +1,6 @@
 <?php
-// session_start();
-// require_once 'config.php';
+session_start();
+require_once 'config.php';
 
 // Verifica se está logado (proteção da página)
 if(!isset($_SESSION['user_id'])) {
