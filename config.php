@@ -1,28 +1,45 @@
 <?php
 
 class Database {
-    private $host = "localhost";
-    private $database = "u120179821_database";
-    private $user = "u120179821_user";
-    private $password = "493827Gp.";
+    private $host;
+    private $database;
+    private $user;
+    private $password;
     private $conn;
 
-    public function getConnection() {
-        $this->conn = null;
+    public function __construct() {
+        // Carrega configurações do arquivo .env
+        $env = parse_ini_file('.env');
+        
+        $this->host = $env['DB_HOST'] ?? 'localhost';
+        $this->database = $env['DB_NAME'] ?? '';
+        $this->user = $env['DB_USER'] ?? '';
+        $this->password = $env['DB_PASS'] ?? '';
+    }
 
-        try {
-            $this->conn = new PDO(
-                "mysql:host=" . $this->host . ";dbname=" . $this->database,
-                $this->user,
-                $this->password
-            );
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-            $this->conn->exec("set names utf8");
-        } catch(PDOException $e) {
-            echo "Erro na conexão: " . $e->getMessage();
+    public function getConnection() {
+        if ($this->conn !== null) {
+            return $this->conn;
         }
 
-        return $this->conn;
+        try {
+            $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->database . ";charset=utf8mb4";
+            $options = [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
+            ];
+
+            $this->conn = new PDO($dsn, $this->user, $this->password, $options);
+            return $this->conn;
+            
+        } catch(PDOException $e) {
+            // Log do erro real para arquivo de log
+            error_log("Erro de conexão DB: " . $e->getMessage());
+            
+            // Mensagem genérica para o usuário
+            throw new Exception("Erro ao conectar com o banco de dados. Tente novamente mais tarde.");
+        }
     }
 }
