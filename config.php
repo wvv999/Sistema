@@ -24,6 +24,8 @@ class Database {
         }
 
         return $this->conn;
-        header("location: index.php");
     }
 }
+
+    include('./index.php')
+?>
