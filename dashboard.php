@@ -87,6 +87,12 @@ if(!isset($_SESSION['user_id'])) {
                     </a>
                 </div>
                 <div class="col-md-6">
+                    <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
+                    <i class="bi bi-file-earmark-text"></i>
+                    Nova Ordem de Serviço
+                    </a>
+                </div>
+                <div class="col-md-6">
                     <a href="clientes.php" class="btn btn-outline-primary w-100 nav-button">
                         <i class="bi bi-person-lines-fill"></i>
                         Gerenciar Clientes
