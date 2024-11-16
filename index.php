@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $login_err = "Usuário não encontrado.";
         }
     } catch(PDOException $e) {
-        $login_err = "Erro no login. Tente novamente mais tarde.";
+        $login_err = "Erro no login. Tente novamente.";
     }
 }
 
