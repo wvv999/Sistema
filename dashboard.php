@@ -86,7 +86,12 @@ if(!isset($_SESSION['user_id'])) {
                         Página de Login
                     </a>
                 </div>
-                
+                <div class="col-md-6">
+                    <a href="clients.php" class="btn btn-outline-primary w-100 nav-button">
+                        <i class="bi bi-person-lines-fill"></i>
+                        Gerenciar Clientes
+                    </a>
+                </div>
                 <div class="col-md-6">
                     <a href="register.php" class="btn btn-outline-success w-100 nav-button">
                         <i class="bi bi-person-plus"></i>
