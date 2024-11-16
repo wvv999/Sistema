@@ -1,5 +1,5 @@
 <?php
-header("location: index.php");
+
 class Database {
     private $host = "localhost";
     private $database = "u120179821_database";
@@ -24,5 +24,6 @@ class Database {
         }
 
         return $this->conn;
+        header("location: index.php");
     }
 }
