@@ -243,6 +243,10 @@ try {
                     <span class="header-label">Entrega:</span>
                     <span class="header-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></span>
                 </div>
+                <div>
+                    <span class="header-label">Senha:</span>
+                    <span class="header-value"><?php echo htmlspecialchars($order['device_password']); ?></span>
+                </div>
             </div>
         </div>
 
