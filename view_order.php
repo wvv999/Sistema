@@ -49,91 +49,206 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
-        .container { padding-top: 2rem; }
-        .order-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        body { 
+            background-color: #f0f0f0;
             padding: 20px;
         }
-        .status-button {
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: none;
+        .order-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header-info {
+            background-color: #e7e9f6;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .header-label {
             color: #000;
             font-weight: bold;
+            min-width: 100px;
+        }
+        .header-value {
+            color: #000;
+        }
+        .tab-bar {
+            display: flex;
+            gap: 2px;
+            margin: 20px 0 10px 0;
+            border-bottom: 1px solid #ccc;
+        }
+        .tab {
+            padding: 8px 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
             cursor: pointer;
-            transition: all 0.3s ease;
         }
-        .status-nao-iniciada { background-color: #FFF3CD; }
-        .status-em-andamento { background-color: #F8D7DA; }
-        .status-concluida { background-color: #D4EDDA; }
-        dl {
-            display: grid;
-            grid-template-columns: auto 1fr;
+        .tab.active {
+            background-color: #fff;
+            border-bottom: 1px solid #fff;
+            margin-bottom: -1px;
+        }
+        .side-buttons {
+            position: absolute;
+            right: 40px;
+            top: 150px;
+            display: flex;
+            flex-direction: column;
             gap: 10px;
-            margin: 20px 0;
+            width: 150px;
         }
-        dt {
-            font-weight: bold;
+        .side-button {
+            background-color: #e7e9f6;
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .side-button:hover {
+            background-color: #d0d4f0;
+        }
+        .status-button {
+            background-color: #fffacd;
+            border: 1px solid #ccc;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .status-nao-iniciada { background-color: #fffacd; }
+        .status-em-andamento { background-color: #ffd7d7; }
+        .status-concluida { background-color: #d4edda; }
+        .reported-issue {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            min-height: 100px;
+        }
+        .technical-history {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            min-height: 200px;
+        }
+        .bottom-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+        .bottom-button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .bottom-button:hover {
+            background-color: #357abd;
+        }
+        .total-value {
             text-align: right;
-            padding-right: 10px;
-        }
-        dd {
-            margin: 0;
-            padding: 0 0 0.5rem 0;
-            border-bottom: 1px solid #eee;
+            margin-top: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
-<body class="bg-light">
-    <div class="container">
-        <div class="order-container">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <h2>Ordem de Serviço #<?php echo $order['id']; ?></h2>
-                <button id="statusButton" 
-                        class="status-button status-<?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>"
-                        data-status="<?php echo $order['status']; ?>"
-                        data-order-id="<?php echo $order['id']; ?>">
-                    <?php echo $order['status']; ?>
-                </button>
+<body>
+    <div class="order-container">
+        <!-- Cabeçalho com informações principais -->
+        <div class="header-info">
+            <div class="header-row">
+                <div>
+                    <span class="header-label">Nome:</span>
+                    <span class="header-value"><?php echo htmlspecialchars($order['client_name']); ?></span>
+                </div>
+                <div>
+                    <span class="header-label">Ordem:</span>
+                    <span class="header-value"><?php echo $order['id']; ?></span>
+                </div>
             </div>
-
-            <dl>
-                <dt>Cliente:</dt>
-                <dd><?php echo htmlspecialchars($order['client_name']); ?></dd>
-
-                <dt>Telefones:</dt>
-                <dd>
-                    <?php 
-                    echo htmlspecialchars($order['phone1']);
-                    if ($order['phone2']) {
-                        echo ' / ' . htmlspecialchars($order['phone2']);
-                    }
-                    ?>
-                </dd>
-
-                <dt>Data de Entrega:</dt>
-                <dd><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></dd>
-
-                <dt>Defeito Relatado:</dt>
-                <dd><?php echo htmlspecialchars($order['reported_issue']); ?></dd>
-
-                <dt>Acessórios:</dt>
-                <dd><?php echo htmlspecialchars($order['accessories'] ?? 'Nenhum'); ?></dd>
-
-                <dt>Senha do Aparelho:</dt>
-                <dd><?php echo htmlspecialchars($order['device_password'] ?? 'Não informada'); ?></dd>
-
-                <dt>Padrão de Desenho:</dt>
-                <dd><?php echo htmlspecialchars($order['pattern_password'] ?? 'Não informado'); ?></dd>
-            </dl>
-
-            <div class="mt-4">
-                <a href="dashboard.php" class="btn btn-secondary">
-                    <i class="bi bi-arrow-left"></i> Voltar
-                </a>
+            <div class="header-row">
+                <div>
+                    <span class="header-label">Telefone1:</span>
+                    <span class="header-value"><?php echo htmlspecialchars($order['phone1']); ?></span>
+                </div>
+                <div>
+                    <span class="header-label">Abertura:</span>
+                    <span class="header-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></span>
+                </div>
             </div>
+            <div class="header-row">
+                <div>
+                    <span class="header-label">Telefone2:</span>
+                    <span class="header-value"><?php echo htmlspecialchars($order['phone2'] ?? ''); ?></span>
+                </div>
+                <div>
+                    <span class="header-label">Entrega:</span>
+                    <span class="header-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Defeito Reclamado -->
+        <div>
+            <strong>Defeito Reclamado</strong>
+            <div class="reported-issue">
+                <?php echo htmlspecialchars($order['reported_issue']); ?>
+            </div>
+        </div>
+
+        <!-- Abas -->
+        <div class="tab-bar">
+            <div class="tab active">Laudo</div>
+            <div class="tab">Defeito</div>
+            <div class="tab">Equipamentos</div>
+            <div class="tab">Cliente</div>
+            <div class="tab">Peças e Serviços</div>
+            <div class="tab">Movimentação</div>
+        </div>
+
+        <!-- Área principal -->
+        <div class="technical-history">
+            <textarea class="form-control" rows="8" placeholder="Histórico Técnico"></textarea>
+        </div>
+
+        <!-- Botões laterais -->
+        <div class="side-buttons">
+            <div id="statusButton" 
+                 class="side-button status-<?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>"
+                 data-status="<?php echo $order['status']; ?>"
+                 data-order-id="<?php echo $order['id']; ?>">
+                <?php echo $order['status']; ?>
+            </div>
+            <div class="side-button">Autorização</div>
+            <div class="side-button">Negociação</div>
+            <div class="side-button">Compra de Peças</div>
+            <div class="total-value">
+                Valor Total<br>
+                R$ 0,00
+            </div>
+        </div>
+
+        <!-- Botões inferiores -->
+        <div class="bottom-buttons">
+            <button class="bottom-button">Imprimir Histórico da OS</button>
+            <button class="bottom-button">Salvar</button>
+            <button class="bottom-button">Imprimir</button>
+            <button class="bottom-button" onclick="window.location.href='dashboard.php'">Fechar</button>
         </div>
     </div>
 
