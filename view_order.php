@@ -1,3 +1,7 @@
+// update_status.php
+
+
+// view_order.php
 <?php
 session_start();
 require_once 'config.php';
@@ -101,35 +105,29 @@ try {
             font-weight: 500;
         }
 
-        .tab-bar {
-            display: flex;
-            gap: 4px;
-            margin: 24px 0 16px 0;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 2px;
+        .technical-history {
+            width: 75%;
         }
 
-        .tab {
-            padding: 10px 20px;
-            background-color: var(--secondary-color);
+        .technical-history textarea {
             border: 1px solid #e0e0e0;
-            border-bottom: none;
-            border-radius: 8px 8px 0 0;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            min-height: 200px;
+            width: 100%;
+            font-family: inherit;
+            resize: vertical;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
 
-        .tab:hover {
+        .reported-issue {
+            border: 1px solid #e0e0e0;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: var(--border-radius);
+            min-height: 100px;
             background-color: #fff;
-            transform: translateY(-2px);
-        }
-
-        .tab.active {
-            background-color: #fff;
-            border-bottom: 2px solid var(--primary-color);
-            margin-bottom: -2px;
-            color: var(--primary-color);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .side-buttons {
@@ -165,47 +163,21 @@ try {
         }
 
         #statusButton.status-nao-iniciada { 
-            background-color: #ffc107 !important; /* Amarelo para 'Não iniciada' */
+            background-color: #ffc107 !important;
             border-color: #ffeeba !important;
             color: #856404 !important;
         }
 
         #statusButton.status-em-andamento { 
-            background-color: #007bff !important; /* Azul para 'Em andamento' */
+            background-color: #007bff !important;
             border-color: #b8daff !important;
-            color: #004085 !important;
+            color: #fff !important;
         }
 
         #statusButton.status-concluida { 
-            background-color: #28a745 !important; /* Verde para 'Concluída' */
+            background-color: #28a745 !important;
             border-color: #c3e6cb !important;
-            color: #155724 !important;
-        }
-
-
-        .reported-issue {
-            border: 1px solid #e0e0e0;
-            padding: 16px;
-            margin: 16px 0;
-            border-radius: var(--border-radius);
-            min-height: 100px;
-            background-color: #fff;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .technical-history {
-            width: 75%;
-        }
-
-        .technical-history textarea {
-            border: 1px solid #e0e0e0;
-            padding: 16px;
-            border-radius: var(--border-radius);
-            min-height: 200px;
-            width: 100%;
-            font-family: inherit;
-            resize: vertical;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            color: #fff !important;
         }
 
         .bottom-buttons {
@@ -282,20 +254,12 @@ try {
                 <?php echo htmlspecialchars($order['reported_issue']); ?>
             </div>
         </div>
-        <div class="section-title w-75">Laudo Técnico</div>
-        <!-- <div class="tab-bar">
-            <div class="tab active">Laudo</div> -->
-            <!-- <div class="tab">Defeito</div>
-            <div class="tab">Equipamentos</div>
-            <div class="tab">Cliente</div>
-            <div class="tab">Peças e Serviços</div>
-            <div class="tab">Movimentação</div> -->
-        <!-- </div> -->
+        <div class="section-title">Laudo Técnico</div>
 
         <div class="technical-history">
             <textarea class="form-control" rows="8" placeholder="Histórico Técnico"></textarea>
         </div>
-        <!-- Botão de status -->
+
         <div class="side-buttons">
             <div id="statusButton" 
                  class="side-button status-button status-<?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>"
@@ -313,7 +277,6 @@ try {
                 <i class="bi bi-cart"></i> Compra de Peças
             </div>
         </div>
-        <button id="statusButton" class="side-button status-nao-iniciada" data-status="Não iniciada" data-order-id="123">Não iniciada</button>
 
         <div class="bottom-buttons">
             <button class="bottom-button">
@@ -331,7 +294,7 @@ try {
         </div>
     </div>
 
-    <!-- <script>
+    <script>
         const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
 
@@ -355,117 +318,16 @@ try {
                 const data = await response.json();
                 
                 if (data.success) {
+                    // Atualizar o texto e o dataset
                     this.textContent = nextStatus;
                     this.dataset.status = nextStatus;
 
                     // Remover todas as classes de status existentes
                     this.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
                     
-                    // Adicionar a classe correta com base no novo status
-                    const statusClass = nextStatus.toLowerCase().replace(/ /g, '-');
-                    console.log(`Adicionando classe: status-${statusClass}`);
-                    this.classList.add(`status-${statusClass}`);
-                } else {
-                    alert('Erro ao atualizar status: ' + data.message);
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao atualizar status');
-            }
-        });
-
-    </script> -->
-    <!-- <script>
-        const statusButton = document.getElementById('statusButton');
-        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
-
-        statusButton.addEventListener('click', async function() {
-        const currentStatus = this.dataset.status;
-        const currentIndex = statusFlow.indexOf(currentStatus);
-        const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
-    
-        try {
-        const response = await fetch('update_status.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                orderId: this.dataset.orderId,
-                status: nextStatus
-            })
-        });
-
-        const data = await response.json();
-        
-        if (data.success) {
-            this.textContent = nextStatus;
-            this.dataset.status = nextStatus;
-
-            // Remover todas as classes de status existentes
-            this.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
-            
-            // Adicionar a nova classe com base no status atualizado
-            const statusClass = `status-${nextStatus.toLowerCase().replace(/ /g, '-')}`;
-            console.log(`Classe adicionada: ${statusClass}`);
-            
-            this.classList.add(statusClass);
-
-            // Verificar as classes atuais no botão
-            console.log('Classes atuais:', this.classList);
-        } else {
-            alert('Erro ao atualizar status: ' + data.message);
-        }
-        } catch (error) {
-        console.error('Erro:', error);
-        alert('Erro ao atualizar status');
-        }
-        });
-
-    </script> -->
-    <!-- <script>
-        const statusButton = document.getElementById('statusButton');
-        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
-
-        statusButton.addEventListener('click', async function () {
-            const currentStatus = this.dataset.status;
-            const currentIndex = statusFlow.indexOf(currentStatus);
-            const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
-
-            console.log('Status atual:', currentStatus);
-            console.log('Próximo status:', nextStatus);
-
-            try {
-                const response = await fetch('update_status.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        orderId: this.dataset.orderId,
-                        status: nextStatus,
-                    }),
-                });
-
-                const data = await response.json();
-
-                console.log('Resposta do servidor:', data);
-
-                if (data.success) {
-                    // Atualizar status
-                    this.textContent = nextStatus;
-                    this.dataset.status = nextStatus;
-
-                    // Remover todas as classes de status existentes
-                    this.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
-
-                    // Adicionar a nova classe
+                    // Adicionar a nova classe com base no status atualizado
                     const statusClass = `status-${nextStatus.toLowerCase().replace(/ /g, '-')}`;
-                    console.log(`Classe adicionada: ${statusClass}`);
                     this.classList.add(statusClass);
-
-                    // Exibir as classes atuais do botão
-                    console.log('Classes atuais:', this.classList);
                 } else {
                     alert('Erro ao atualizar status: ' + data.message);
                 }
@@ -474,25 +336,6 @@ try {
                 alert('Erro ao atualizar status');
             }
         });
-
-    </script> -->
-    <script>
-        const statusButton = document.getElementById('statusButton');
-        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
-
-        statusButton.onclick = function () {
-            const currentStatus = this.dataset.status;
-            const currentIndex = statusFlow.indexOf(currentStatus);
-            const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
-
-            this.textContent = nextStatus;
-            this.dataset.status = nextStatus;
-
-            this.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
-            this.classList.add(`status-${nextStatus.toLowerCase().replace(/ /g, '-')}`);
-            
-            console.log('Status atualizado para:', nextStatus);
-        };
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
