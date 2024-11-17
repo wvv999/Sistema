@@ -37,9 +37,9 @@ class RecentOrders {
         $html = '';
         foreach ($orders as $order) {
             $orderNumber = str_pad($order['id'], 5, '0', STR_PAD_LEFT);
-            $deviceModel = htmlspecialchars($order['device_model']);
-            $clientName = htmlspecialchars($order['client_name']);
-            $dateCreated = (new DateTime($order['date_created']))->format('d/m/Y H:i');
+            // $deviceModel = htmlspecialchars($order['device_model']);
+            // $clientName = htmlspecialchars($order['client_name']);
+            // $dateCreated = (new DateTime($order['date_created']))->format('d/m/Y H:i');
             
             $html .= sprintf(
                 '<li class="list-group-item d-flex justify-content-between align-items-center">
@@ -50,9 +50,9 @@ class RecentOrders {
                     <small class="text-muted">%s</small>
                 </li>',
                 $orderNumber,
-                $deviceModel,
-                $clientName,
-                $dateCreated
+                // $deviceModel,
+                // $clientName,
+                // $dateCreated
             );
         }
         return $html ?: '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
