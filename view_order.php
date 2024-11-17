@@ -424,12 +424,57 @@ try {
 
     </script> -->
     <script>
-        const button = document.getElementById('statusButton');
-        button.onclick = () => {
-            button.classList.toggle('status-nao-iniciada');
-            button.classList.toggle('status-em-andamento');
-            console.log('Classe atual:', button.className);
-        };
+        const statusButton = document.getElementById('statusButton');
+        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
+
+        statusButton.addEventListener('click', async function () {
+            const currentStatus = this.dataset.status;
+            const currentIndex = statusFlow.indexOf(currentStatus);
+            const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+
+            console.log('Status atual:', currentStatus);
+            console.log('Próximo status:', nextStatus);
+
+            try {
+                const response = await fetch('update_status.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderId: this.dataset.orderId,
+                        status: nextStatus,
+                    }),
+                });
+
+                const data = await response.json();
+
+                console.log('Resposta do servidor:', data);
+
+                if (data.success) {
+                    // Atualizar status
+                    this.textContent = nextStatus;
+                    this.dataset.status = nextStatus;
+
+                    // Remover todas as classes de status existentes
+                    this.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
+
+                    // Adicionar a nova classe
+                    const statusClass = `status-${nextStatus.toLowerCase().replace(/ /g, '-')}`;
+                    console.log(`Classe adicionada: ${statusClass}`);
+                    this.classList.add(statusClass);
+
+                    // Exibir as classes atuais do botão
+                    console.log('Classes atuais:', this.classList);
+                } else {
+                    alert('Erro ao atualizar status: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao atualizar status');
+            }
+        });
+
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
