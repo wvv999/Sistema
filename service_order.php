@@ -23,8 +23,11 @@ try {
 }
 
 // Processa o formulário quando enviado
+// Substitua o trecho de processamento do POST por este:
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
+        $db->beginTransaction(); // Inicia uma transação
+
         $client_id = $_POST['client_id'];
         $phone1 = $_POST['phone1'];
         $phone2 = $_POST['phone2'];
@@ -34,19 +37,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $device_password = $_POST['device_password'];
         $pattern_password = $_POST['pattern_password'];
 
-        // Primeiro, encontra o menor ID disponível
+        // Encontra o menor ID disponível com bloqueio para evitar race conditions
         $stmt = $db->query("
-            SELECT t1.id + 1 AS next_id
-            FROM service_orders t1
-            LEFT JOIN service_orders t2 ON t1.id + 1 = t2.id
-            WHERE t2.id IS NULL
-            UNION
-            SELECT 1
-            ORDER BY next_id
-            LIMIT 1
+            SELECT 
+                COALESCE(
+                    (
+                        SELECT t1.id + 1
+                        FROM service_orders t1
+                        LEFT JOIN service_orders t2 ON t1.id + 1 = t2.id
+                        WHERE t2.id IS NULL
+                        ORDER BY t1.id
+                        LIMIT 1
+                    ),
+                    1
+                ) as next_id
+            FOR UPDATE
         ");
         
         $next_id = $stmt->fetch(PDO::FETCH_ASSOC)['next_id'];
+
+        // Verifica se o ID já não foi usado (dupla verificação)
+        $check = $db->prepare("SELECT id FROM service_orders WHERE id = ? LIMIT 1");
+        $check->execute([$next_id]);
+        if ($check->fetch()) {
+            throw new Exception("Erro de concorrência ao gerar ID. Por favor, tente novamente.");
+        }
 
         // Insere a nova ordem usando o ID encontrado
         $stmt = $db->prepare("
@@ -57,11 +72,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($stmt->execute([$next_id, $client_id, $phone1, $phone2, $delivery_date, 
                            $reported_issue, $accessories, $device_password, $pattern_password])) {
+            $db->commit(); // Confirma a transação
             $success = "Ordem de serviço #" . $next_id . " criada com sucesso!";
         } else {
             throw new Exception("Erro ao criar ordem de serviço.");
         }
     } catch(Exception $e) {
+        $db->rollBack(); // Desfaz a transação em caso de erro
         $error = $e->getMessage();
     }
 }
