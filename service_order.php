@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .pattern-line {
         position: absolute;
         height: 4px;
-        background-color: #007bff;
+        background-color: black;
         transform-origin: 0 0; /* Define o ponto de rotação */
         z-index: 1;
         }
