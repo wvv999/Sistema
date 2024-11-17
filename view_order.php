@@ -208,7 +208,7 @@ try {
         <!-- Defeito Reclamado -->
         <div>
             <strong>Defeito Reclamado</strong>
-            <div class="reported-issue">
+            <div class="reported-issue w-50">
                 <?php echo htmlspecialchars($order['reported_issue']); ?>
             </div>
         </div>
