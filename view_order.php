@@ -316,7 +316,7 @@ try {
             <button class="bottom-button">
                 <i class="bi bi-printer"></i> Histórico
             </button>
-            <button style="background-color:#0d6efd" class="bottom-button">
+            <button style="background-color:#28a745" class="bottom-button">
                 <i class="bi bi-save"></i> Salvar
             </button>
             <button class="bottom-button">
