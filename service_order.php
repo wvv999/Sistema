@@ -23,7 +23,6 @@ try {
 }
 
 // Processa o formulário quando enviado
-// Substitua o trecho de processamento do POST por este:
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $db->beginTransaction(); // Inicia uma transação
