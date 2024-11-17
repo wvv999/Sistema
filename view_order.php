@@ -280,15 +280,15 @@ try {
                 <?php echo htmlspecialchars($order['reported_issue']); ?>
             </div>
         </div>
-
-        <div class="tab-bar">
-            <div class="tab active">Laudo</div>
+        <div class="section-title">Laudo Técnico</div>
+        <!-- <div class="tab-bar">
+            <div class="tab active">Laudo</div> -->
             <!-- <div class="tab">Defeito</div>
             <div class="tab">Equipamentos</div>
             <div class="tab">Cliente</div>
             <div class="tab">Peças e Serviços</div>
             <div class="tab">Movimentação</div> -->
-        </div>
+        <!-- </div> -->
 
         <div class="technical-history">
             <textarea class="form-control" rows="8" placeholder="Histórico Técnico"></textarea>
