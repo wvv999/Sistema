@@ -248,7 +248,7 @@ try {
             <button class="bottom-button">Imprimir Histórico da OS</button>
             <button class="bottom-button">Salvar</button>
             <button class="bottom-button">Imprimir</button>
-            <button class="bottom-button" onclick="window.location.href='dashboard.php'">Fechar</button>
+            <button class="bottom-button" onclick="window.location.href='javascript:history.go(1)'">Fechar</button>
         </div>
     </div>
 
