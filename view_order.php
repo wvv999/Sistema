@@ -53,6 +53,7 @@ try {
         body { 
             background-color: #f0f0f0;
             padding: 20px;
+            user-select: none;
         }
         .order-container {
             background-color: #fff;
