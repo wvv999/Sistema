@@ -17,13 +17,14 @@ $db = $database->getConnection();
 
 try {
     $query = "SELECT 
-                so.*,
-                c.name as client_name,
-                c.phone1,
-                c.phone2 
-              FROM service_orders so 
-              INNER JOIN clients c ON so.client_id = c.id 
-              WHERE so.id = :id";
+            so.*,
+            c.name as client_name,
+            c.phone1,
+            c.phone2,
+            COALESCE(so.status, 'Não iniciada') as status
+          FROM service_orders so 
+          INNER JOIN clients c ON so.client_id = c.id 
+          WHERE so.id = :id";
 
     $stmt = $db->prepare($query);
     $stmt->execute([':id' => $_GET['id']]);
