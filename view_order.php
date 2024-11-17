@@ -238,10 +238,6 @@ try {
             <div class="side-button">Autorização</div>
             <div class="side-button">Negociação</div>
             <div class="side-button">Compra de Peças</div>
-            <div class="total-value">
-                Valor Total<br>
-                R$ 0,00
-            </div>
         </div>
 
         <!-- Botões inferiores -->
