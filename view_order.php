@@ -232,6 +232,7 @@ try {
         }
 
         .section-title {
+            background: red;
             font-weight: 600;
             color: #333;
             margin-bottom: 12px;
@@ -274,7 +275,7 @@ try {
             </div>
         </div>
 
-        <div class="w-80">
+        <div class="w-75">
             <div class="section-title">Defeito Reclamado</div>
             <div class="reported-issue"> 
                 <?php echo htmlspecialchars($order['reported_issue']); ?>
