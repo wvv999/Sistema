@@ -276,11 +276,11 @@ try {
 
         <div class="w-75">
             <div class="section-title">Defeito Reclamado</div>
-            <div class="reported-issue">
+            <div class="reported-issue"> 
                 <?php echo htmlspecialchars($order['reported_issue']); ?>
             </div>
         </div>
-        <div class="section-title">Laudo Técnico</div>
+        <div class="section-title w-75">Laudo Técnico</div>
         <!-- <div class="tab-bar">
             <div class="tab active">Laudo</div> -->
             <!-- <div class="tab">Defeito</div>
@@ -291,7 +291,7 @@ try {
         <!-- </div> -->
 
         <div class="technical-history">
-            <textarea class="form-control w-75" rows="8" placeholder="Histórico Técnico"></textarea>
+            <textarea class="form-control" rows="8" placeholder="Histórico Técnico"></textarea>
         </div>
         <!-- Botão de status -->
         <div class="side-buttons">
