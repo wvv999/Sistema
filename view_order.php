@@ -291,7 +291,7 @@ try {
         <!-- </div> -->
 
         <div class="technical-history">
-            <textarea class="form-control" rows="8" placeholder="Histórico Técnico"></textarea>
+            <textarea class="form-control w-75" rows="8" placeholder="Histórico Técnico"></textarea>
         </div>
         <!-- Botão de status -->
         <div class="side-buttons">
