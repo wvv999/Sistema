@@ -136,18 +136,18 @@ if(!isset($_SESSION['user_id'])) {
                 </div> -->
             </div>
 
-            <!-- <div class="mt-4 p-3 bg-light rounded">
-                <h5><i class="bi bi-info-circle"></i> Arquivos do Projeto:</h5>
+            <div class="mt-4 p-3 bg-light rounded">
+                <h5><i class="bi bi-info-circle"></i> Abertas recentemente:</h5>
                 <ul class="list-group mt-2">
-                    <li class="list-group-item"><code>index.php</code> - Página de Login</li>
-                    <li class="list-group-item"><code>register.php</code> - Cadastro de Usuários</li>
-                    <li class="list-group-item"><code>users.php</code> - Lista de Usuários</li>
-                    <li class="list-group-item"><code>config.php</code> - Configurações do Banco</li>
+                    <li class="list-group-item"><code>15000</code> - G8 Power Lite/li>
+                    <li class="list-group-item"><code>13500</code> - Iphone 11</li>
+                    <li class="list-group-item"><code>14200</code> - LG K51s</li>
+                    <!-- <li class="list-group-item"><code>config.php</code> - Configurações do Banco</li>
                     <li class="list-group-item"><code>add_user.php</code> - Script para Adicionar Usuário</li>
                     <li class="list-group-item"><code>dashboard.php</code> - Este Painel de Controle</li>
-                    <li class="list-group-item"><code>logout.php</code> - Script de Logout</li>
+                    <li class="list-group-item"><code>logout.php</code> - Script de Logout</li> -->
                 </ul>
-            </div> -->
+            </div>
         </div>
     </div>
 
