@@ -2,45 +2,29 @@
 session_start();
 require_once 'config.php';
 
-if(!isset($_SESSION['user_id'])) {
-    header("Location: index.php");
+// Verificação de autenticação
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
     exit;
 }
 
-if(!isset($_GET['id'])) {
-    header("Location: dashboard.php");
-    exit;
+// Conexão com o banco de dados
+$db = (new Database())->getConnection();
+
+// Obter dados da ordem de serviço
+$order_id = $_GET['id'] ?? null;
+if (!$order_id) {
+    die("Ordem de serviço não encontrada.");
 }
 
-$database = new Database();
-$db = $database->getConnection();
+$stmt = $db->prepare("SELECT * FROM service_orders WHERE id = :id");
+$stmt->execute([':id' => $order_id]);
+$order = $stmt->fetch(PDO::FETCH_ASSOC);
 
-try {
-    $query = "SELECT 
-            so.*,
-            c.name as client_name,
-            c.phone1,
-            c.phone2,
-            COALESCE(so.status, 'Não iniciada') as status
-          FROM service_orders so 
-          INNER JOIN clients c ON so.client_id = c.id 
-          WHERE so.id = :id";
-
-    $stmt = $db->prepare($query);
-    $stmt->execute([':id' => $_GET['id']]);
-    $order = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$order) {
-        header("Location: dashboard.php");
-        exit;
-    }
-
-} catch(Exception $e) {
-    header("Location: dashboard.php");
-    exit;
+if (!$order) {
+    die("Ordem de serviço não encontrada.");
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -145,61 +129,15 @@ try {
             transition: all 0.2s ease;
         }
 
-        .side-button:hover {
-            transform: translateX(-2px);
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .status-button {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        .status-nao-iniciada { 
-            background-color: #fff3cd; 
-            border-color: #ffeeba;
-            color: #856404;
-        }
-
-        .status-em-andamento { 
-            background-color: #cce5ff; 
-            border-color: #b8daff;
-            color: #004085;
-        }
-
-        .status-concluida { 
-            background-color: #d4edda; 
-            border-color: #c3e6cb;
-            color: #155724;
-        }
-
-        .reported-issue {
-            border: 1px solid #e0e0e0;
-            padding: 16px;
-            margin: 16px 0;
-            border-radius: var(--border-radius);
-            background-color: #fff;
-        }
+        .status-nao-iniciada { background-color: #fff3cd; color: #856404; }
+        .status-em-andamento { background-color: #cce5ff; color: #004085; }
+        .status-concluida { background-color: #d4edda; color: #155724; }
 
         .bottom-buttons {
             display: flex;
             gap: 12px;
             margin-top: 24px;
             justify-content: flex-end;
-        }
-
-        .bottom-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-        }
-
-        .highlight {
-            background-color: #e0ffe0 !important;
-            transition: background-color 0.5s ease;
         }
     </style>
 </head>
@@ -209,11 +147,11 @@ try {
             <div class="header-row">
                 <div>
                     <span class="header-label">Nome:</span>
-                    <span class="header-value"><?php echo htmlspecialchars($order['client_name'], ENT_QUOTES, 'UTF-8'); ?></span>
+                    <span class="header-value"><?php echo htmlspecialchars($order['client_name']); ?></span>
                 </div>
                 <div>
                     <span class="header-label">Ordem:</span>
-                    <span class="header-value">#<?php echo htmlspecialchars($order['id'], ENT_QUOTES, 'UTF-8'); ?></span>
+                    <span class="header-value">#<?php echo $order['id']; ?></span>
                 </div>
             </div>
         </div>
@@ -222,26 +160,18 @@ try {
             <div class="tab active">Laudo</div>
         </div>
 
-        <div class="reported-issue">
-            <?php echo htmlspecialchars($order['reported_issue'], ENT_QUOTES, 'UTF-8'); ?>
-        </div>
-
         <div class="side-buttons">
             <div id="statusButton" 
-                 class="side-button status-button status-<?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>"
-                 data-status="<?php echo htmlspecialchars($order['status']); ?>"
-                 data-order-id="<?php echo htmlspecialchars($order['id']); ?>">
-                <?php echo htmlspecialchars($order['status']); ?>
+                 class="side-button status-<?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>"
+                 data-status="<?php echo $order['status']; ?>"
+                 data-order-id="<?php echo $order['id']; ?>">
+                <?php echo $order['status']; ?>
             </div>
         </div>
 
         <div class="bottom-buttons">
-            <button class="bottom-button">
-                <i class="bi bi-save"></i> Salvar
-            </button>
-            <button class="bottom-button" onclick="javascript:history.go(-1)">
-                <i class="bi bi-x-lg"></i> Fechar
-            </button>
+            <button class="bottom-button"><i class="bi bi-save"></i> Salvar</button>
+            <button class="bottom-button" onclick="javascript:history.go(-1)"><i class="bi bi-x-lg"></i> Fechar</button>
         </div>
     </div>
 
@@ -251,33 +181,25 @@ try {
 
         statusButton.addEventListener('click', async function() {
             const currentStatus = this.dataset.status;
-            const currentIndex = statusFlow.indexOf(currentStatus);
-            const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+            const nextStatus = statusFlow[(statusFlow.indexOf(currentStatus) + 1) % statusFlow.length];
 
             try {
                 const response = await fetch('update_status.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        orderId: this.dataset.orderId,
-                        status: nextStatus
-                    })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ orderId: this.dataset.orderId, status: nextStatus })
                 });
-
                 const data = await response.json();
-                
+
                 if (data.success) {
                     this.textContent = nextStatus;
                     this.dataset.status = nextStatus;
-                    this.classList.add('highlight');
-                    setTimeout(() => this.classList.remove('highlight'), 500);
+                    this.className = `side-button status-${nextStatus.toLowerCase().replace(' ', '-')}`;
                 } else {
-                    alert('Erro ao atualizar status: ' + data.message);
+                    alert(data.message || 'Erro ao atualizar status');
                 }
             } catch (error) {
-                alert('Erro ao atualizar status');
+                alert('Erro de conexão');
             }
         });
     </script>
