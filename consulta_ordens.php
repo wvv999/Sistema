@@ -125,7 +125,7 @@ try {
                                 <th>Data de Abertura</th>
                                 <th>Data de Entrega</th>
                                 <th>Problema Relatado</th>
-                                <th>Acessórios</th>
+                                <!-- <th>Acessórios</th> -->
                                 <th>Senha do Dispositivo</th>
                                 <th>Senha Padrão</th>
                                 <th>Ações</th>
@@ -141,7 +141,7 @@ try {
                                     <td><?= date('d/m/Y H:i', strtotime($order['opening_date'])) ?></td>
                                     <td><?= $order['delivery_date'] ? date('d/m/Y', strtotime($order['delivery_date'])) : '-' ?></td>
                                     <td><?= nl2br(htmlspecialchars($order['reported_issue'])) ?></td>
-                                    <td><?= htmlspecialchars($order['accessories']) ?></td>
+                                    <!-- <td><?= htmlspecialchars($order['accessories']) ?></td> -->
                                     <td><?= htmlspecialchars($order['device_password']) ?></td>
                                     <td><?= htmlspecialchars($order['pattern_password']) ?></td>
                                     <td>
