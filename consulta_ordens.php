@@ -138,7 +138,7 @@ try {
                                     <td><?= $order['id'] ?></td>
                                     <td><?= htmlspecialchars($order['phone1']) ?></td>
                                     <td><?= htmlspecialchars($order['phone2']) ?></td>
-                                    <td><?= date('d/m/Y H:i', strtotime($order['opening_date'])) ?></td>
+                                    <td><?= date('d/m/Y', strtotime($order['opening_date'])) ?></td>
                                     <td><?= $order['delivery_date'] ? date('d/m/Y', strtotime($order['delivery_date'])) : '-' ?></td>
                                     <!-- <td><?= nl2br(htmlspecialchars($order['reported_issue'])) ?></td> -->
                                     <!-- <td><?= htmlspecialchars($order['accessories']) ?></td> -->
