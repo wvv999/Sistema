@@ -158,35 +158,27 @@ if(!isset($_SESSION['user_id'])) {
     </div>
 
     <!-- Modal para exibir detalhes da ordem -->
-    <div class="modal fade" id="orderModal" tabindex="-1">
+    <!-- <div class="modal fade" id="orderModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Detalhes da Ordem de Serviço</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body" id="orderDetails">
+                <div class="modal-body" id="orderDetails"> -->
                     <!-- Os detalhes serão inseridos aqui via JavaScript -->
-                </div>
+                <!-- </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Substitua o código JavaScript existente por este
-const searchInput = document.getElementById('searchInput');
+    const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
-const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
-
-function formatDate(dateString) {
-    if (!dateString) return 'Não definida';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('pt-BR');
-}
 
 async function searchOrder() {
     const searchValue = searchInput.value.trim();
@@ -208,37 +200,7 @@ async function searchOrder() {
 
         if (data.success && data.data.length > 0) {
             const order = data.data[0]; // Pega o primeiro resultado
-            
-            const detailsHtml = `
-                <dl>
-                    <dt>Número da OS:</dt>
-                    <dd>${order.id || 'N/A'}</dd>
-                    
-                    <dt>Cliente:</dt>
-                    <dd>${order.client_name || 'N/A'}</dd>
-                    
-                    <dt>Telefones:</dt>
-                    <dd>${order.phone1 || 'N/A'}${order.phone2 ? ' / ' + order.phone2 : ''}</dd>
-                    
-                    <dt>Data de Entrega:</dt>
-                    <dd>${formatDate(order.delivery_date)}</dd>
-                    
-                    <dt>Defeito Relatado:</dt>
-                    <dd>${order.reported_issue || 'Não informado'}</dd>
-                    
-                    <dt>Acessórios:</dt>
-                    <dd>${order.accessories || 'Nenhum'}</dd>
-                    
-                    <dt>Senha do Aparelho:</dt>
-                    <dd>${order.device_password || 'Não informada'}</dd>
-                    
-                    <dt>Padrão de Desenho:</dt>
-                    <dd>${order.pattern_password || 'Não informado'}</dd>
-                </dl>
-            `;
-            
-            document.getElementById('orderDetails').innerHTML = detailsHtml;
-            orderModal.show();
+            window.location.href = `view_order.php?id=${order.id}`;
         } else {
             alert('Nenhuma ordem encontrada com os critérios informados');
         }
