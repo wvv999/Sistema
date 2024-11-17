@@ -117,9 +117,9 @@ try {
             cursor: pointer;
             transition: background-color 0.2s;
         }
-        .side-button:hover {
+        /* .side-button:hover {
             background-color: #d0d4f0;
-        }
+        } */
         .status-button {
             background-color: #fffacd;
             border: 1px solid #ccc;
@@ -158,9 +158,9 @@ try {
             border-radius: 5px;
             cursor: pointer;
         }
-        .bottom-button:hover {
+        /* .bottom-button:hover {
             background-color: #357abd;
-        }
+        } */
         .total-value {
             text-align: right;
             margin-top: 20px;
