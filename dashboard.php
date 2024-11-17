@@ -86,14 +86,7 @@ if(!isset($_SESSION['user_id'])) {
                         Página de Login
                     </a>
                 </div> -->
-                <form class="row row-cols-lg-auto g-3 align-items-center">
-      <div class="col-2">
-        <div class="input-group">  
-          <input type="text" class="form-control" placeholder="Número da ordem ou nome do cliente">
-        </div>
-      </div>
-        <button type="submit" class="btn btn-primary">Procurar</button>
-    </form>
+                
                 <div class="col-md-6">
                     <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
                     <i class="bi bi-file-earmark-text"></i>
