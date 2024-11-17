@@ -274,7 +274,7 @@ try {
             </div>
         </div>
 
-        <div class="w-75">
+        <div class="w-80">
             <div class="section-title">Defeito Reclamado</div>
             <div class="reported-issue"> 
                 <?php echo htmlspecialchars($order['reported_issue']); ?>
