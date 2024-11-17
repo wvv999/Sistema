@@ -109,9 +109,50 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
             </div>
 
-            <!-- Resto do seu código do dashboard aqui... -->
             <div class="row">
-                <!-- Seus botões de navegação aqui... -->
+                <div class="col-md-6">
+                    <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
+                    <i class="bi bi-file-earmark-text"></i>
+                    Nova Ordem de Serviço
+                    </a>
+                </div>
+
+                <div class="col-md-6">
+                    <a href="new_user.php" class="btn btn-outline-info w-100 nav-button">
+                        <i class="bi bi-person-plus"></i>
+                        Cadastrar Novo Usuário
+                    </a>
+                </div>
+                
+                <div class="col-md-6">
+                    <a href="clientes.php" class="btn btn-outline-success w-100 nav-button">
+                        <i class="bi bi-person-lines-fill"></i>
+                        Cadastrar Clientes
+                    </a>
+                </div>
+
+                <div class="col-md-6">
+                    <a href="users.php" class="btn btn-outline-info w-100 nav-button">
+                        <i class="bi bi-people"></i>
+                        Lista de Usuários
+                    </a>
+                </div>
+
+                <div class="col-md-6">
+                    <a href="consulta_ordens.php" class="btn btn-outline-info w-100 nav-button">
+                        <i class="bi bi-people"></i>
+                        Lista de Ordens
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-light rounded">
+                <h5><i class="bi bi-info-circle"></i> Abertas recentemente:</h5>
+                <ul class="list-group mt-2">
+                    <li class="list-group-item"><code>15000</code> - G8 Power Lite</li>
+                    <li class="list-group-item"><code>13500</code> - Iphone 11</li>
+                    <li class="list-group-item"><code>14200</code> - LG K51s</li>
+                </ul>
             </div>
         </div>
     </div>
