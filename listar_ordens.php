@@ -80,7 +80,7 @@ try {
             <div class="header-container">
                 <h2>Usuários Cadastrados</h2>
                 <div class="user-count">
-                    Total de usuários: <?php echo count($users); ?>
+                    Total de usuários: <?php echo count($query); ?>
                 </div>
             </div>
 
