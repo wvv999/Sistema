@@ -1,4 +1,9 @@
 <?php
+// Ativar exibição de erros para debug
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
 // Verifica se está logado
@@ -10,23 +15,30 @@ if(!isset($_SESSION['user_id'])) {
 // Inclui o arquivo de configuração do banco de dados
 require_once 'config.php';
 
-// Cria uma nova instância da classe Database e obtém a conexão
-$db = new Database();
-$conn = $db->getConnection();
+// Envolva o código da conexão e consulta em um try-catch para debug
+try {
+    // Cria uma nova instância da classe Database e obtém a conexão
+    $db = new Database();
+    $conn = $db->getConnection();
 
-// Consulta para buscar todas as ordens de serviço
-$sql = "SELECT so.id, so.client_id, so.phone1, so.phone2, 
-               so.created_at AS opening_date, so.delivery_date, 
-               so.reported_issue, so.accessories, 
-               so.device_password, so.pattern_password,
-               c.name AS client_name
-        FROM service_orders so
-        JOIN clients c ON so.client_id = c.id
-        ORDER BY so.created_at DESC";
+    // Consulta para buscar todas as ordens de serviço
+    $sql = "SELECT so.id, so.client_id, so.phone1, so.phone2, 
+                   so.created_at AS opening_date, so.delivery_date, 
+                   so.reported_issue, so.accessories, 
+                   so.device_password, so.pattern_password,
+                   c.name AS client_name
+            FROM service_orders so
+            JOIN clients c ON so.client_id = c.id
+            ORDER BY so.created_at DESC";
 
-$stmt = $conn->prepare($sql);
-$stmt->execute();
-$serviceOrders = $stmt->fetchAll();
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $serviceOrders = $stmt->fetchAll();
+
+} catch (Exception $e) {
+    echo "Erro: " . $e->getMessage();
+    die();
+}
 ?>
 
 <!DOCTYPE html>
