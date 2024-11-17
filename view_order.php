@@ -1,3 +1,46 @@
+<?php
+session_start();
+require_once 'config.php';
+
+if(!isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit;
+}
+
+if(!isset($_GET['id'])) {
+    header("Location: dashboard.php");
+    exit;
+}
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $query = "SELECT 
+            so.*,
+            c.name as client_name,
+            c.phone1,
+            c.phone2,
+            COALESCE(so.status, 'Não iniciada') as status
+          FROM service_orders so 
+          INNER JOIN clients c ON so.client_id = c.id 
+          WHERE so.id = :id";
+
+    $stmt = $db->prepare($query);
+    $stmt->execute([':id' => $_GET['id']]);
+    $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$order) {
+        header("Location: dashboard.php");
+        exit;
+    }
+
+} catch(Exception $e) {
+    header("Location: dashboard.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
