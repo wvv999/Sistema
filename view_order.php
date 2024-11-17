@@ -313,6 +313,7 @@ try {
                 <i class="bi bi-cart"></i> Compra de Peças
             </div>
         </div>
+        <button id="statusButton" class="side-button status-nao-iniciada">Não iniciada</button>
 
         <div class="bottom-buttons">
             <button class="bottom-button">
@@ -374,16 +375,16 @@ try {
         });
 
     </script> -->
-    <script>
+    <!-- <script>
         const statusButton = document.getElementById('statusButton');
-const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
+        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
 
-statusButton.addEventListener('click', async function() {
-    const currentStatus = this.dataset.status;
-    const currentIndex = statusFlow.indexOf(currentStatus);
-    const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+        statusButton.addEventListener('click', async function() {
+        const currentStatus = this.dataset.status;
+        const currentIndex = statusFlow.indexOf(currentStatus);
+        const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
     
-    try {
+        try {
         const response = await fetch('update_status.php', {
             method: 'POST',
             headers: {
@@ -415,12 +416,20 @@ statusButton.addEventListener('click', async function() {
         } else {
             alert('Erro ao atualizar status: ' + data.message);
         }
-    } catch (error) {
+        } catch (error) {
         console.error('Erro:', error);
         alert('Erro ao atualizar status');
-    }
-});
+        }
+        });
 
+    </script> -->
+    <script>
+        const button = document.getElementById('statusButton');
+        button.onclick = () => {
+            button.classList.toggle('status-nao-iniciada');
+            button.classList.toggle('status-em-andamento');
+            console.log('Classe atual:', button.className);
+        };
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
