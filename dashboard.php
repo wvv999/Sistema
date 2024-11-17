@@ -134,7 +134,7 @@ if(!isset($_SESSION['user_id'])) {
                 </div> -->
             </div>
 
-            <div class="mt-4 p-3 bg-light rounded">
+            <!-- <div class="mt-4 p-3 bg-light rounded">
                 <h5><i class="bi bi-info-circle"></i> Arquivos do Projeto:</h5>
                 <ul class="list-group mt-2">
                     <li class="list-group-item"><code>index.php</code> - Página de Login</li>
@@ -145,7 +145,7 @@ if(!isset($_SESSION['user_id'])) {
                     <li class="list-group-item"><code>dashboard.php</code> - Este Painel de Controle</li>
                     <li class="list-group-item"><code>logout.php</code> - Script de Logout</li>
                 </ul>
-            </div>
+            </div> -->
         </div>
     </div>
 
