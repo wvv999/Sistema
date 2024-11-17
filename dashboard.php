@@ -113,13 +113,6 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
 
                 <div class="col-md-6">
-                    <a href="config.php" class="btn btn-outline-secondary w-100 nav-button">
-                        <i class="bi bi-gear"></i>
-                        Configurações do Banco
-                    </a>
-                </div>
-
-                <div class="col-md-6">
                     <a href="add_user.php" class="btn btn-outline-warning w-100 nav-button">
                         <i class="bi bi-person-plus-fill"></i>
                         Adicionar Usuário (Script)
