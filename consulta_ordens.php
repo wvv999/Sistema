@@ -76,7 +76,7 @@ $serviceOrders = $stmt->fetchAll();
     </style>
 </head>
 <body class="bg-light">
-    <a href="javascript:history.go(-1)" class="btn btn-outline-danger logout-btn">
+    <a href="javascript:history.go(-1)" class="btn btn-outline-danger exit-btn">
         <i class="bi bi-box-arrow-right"></i> Sair
     </a>
 
