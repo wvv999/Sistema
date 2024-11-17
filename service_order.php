@@ -90,13 +90,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #0d6efd;
             border-color: #0d6efd;
         }
-        .pattern-line {
+        /* .pattern-line {
             position: absolute;
             background-color: #0d6efd;
             height: 2px;
             pointer-events: none;
             transform-origin: left center;
+        } */
+        .pattern-line {
+        position: absolute;
+        height: 4px;
+        background-color: #007bff;
+        transform-origin: 0 0; /* Define o ponto de rotação */
+        z-index: 1;
         }
+
     </style>
 </head>
 <body class="bg-light">
