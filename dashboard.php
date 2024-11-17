@@ -80,12 +80,7 @@ if(!isset($_SESSION['user_id'])) {
             </div>
 
             <div class="row">
-                <div class="col-md-6">
-                    <a href="index.php" class="btn btn-outline-primary w-100 nav-button">
-                        <i class="bi bi-box-arrow-in-right"></i>
-                        Página de Login
-                    </a>
-                </div>
+                
                 <div class="col-md-6">
                     <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
                     <i class="bi bi-file-earmark-text"></i>
