@@ -156,24 +156,26 @@ try {
         .status-button {
             font-weight: 600;
             letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
 
-        #statusButton.status-nao-iniciada { 
+        /* Estilos específicos para cada status */
+        .status-nao-iniciada { 
             background-color: #ffc107 !important;
             border-color: #ffeeba !important;
             color: #856404 !important;
         }
 
-        #statusButton.status-em-andamento { 
+        .status-em-andamento { 
             background-color: #007bff !important;
             border-color: #b8daff !important;
-            color: #fff !important;
+            color: #ffffff !important;
         }
 
-        #statusButton.status-concluida { 
+        .status-concluida { 
             background-color: #28a745 !important;
             border-color: #c3e6cb !important;
-            color: #fff !important;
+            color: #ffffff !important;
         }
 
         .bottom-buttons {
@@ -244,14 +246,12 @@ try {
             </div>
         </div>
 
-        <div class="section-title">
-            <div class="section-title">Defeito Reclamado</div>
-            <div class="reported-issue"> 
-                <?php echo htmlspecialchars($order['reported_issue']); ?>
-            </div>
+        <div class="section-title">Defeito Reclamado</div>
+        <div class="reported-issue"> 
+            <?php echo htmlspecialchars($order['reported_issue']); ?>
         </div>
-        <div class="section-title">Laudo Técnico</div>
 
+        <div class="section-title">Laudo Técnico</div>
         <div class="technical-history">
             <textarea class="form-control" rows="8" placeholder="Histórico Técnico"></textarea>
         </div>
@@ -293,6 +293,22 @@ try {
     <script>
         const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
+        
+        // Função para atualizar a aparência do botão
+        function updateButtonAppearance(status) {
+            // Remover todas as classes de status existentes
+            statusButton.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
+            
+            // Adicionar a classe apropriada baseada no status atual
+            const statusClass = `status-${status.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/ /g, '-')}`;
+            statusButton.classList.add(statusClass);
+            
+            // Atualizar o texto do botão
+            statusButton.textContent = status;
+        }
+
+        // Definir o status inicial
+        updateButtonAppearance(statusButton.dataset.status);
 
         statusButton.addEventListener('click', async function() {
             const currentStatus = this.dataset.status;
@@ -314,16 +330,11 @@ try {
                 const data = await response.json();
                 
                 if (data.success) {
-                    // Atualizar o texto e o dataset
-                    this.textContent = nextStatus;
+                    // Atualizar o status no dataset
                     this.dataset.status = nextStatus;
-
-                    // Remover todas as classes de status existentes
-                    this.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
                     
-                    // Adicionar a nova classe com base no status atualizado
-                    const statusClass = `status-${nextStatus.toLowerCase().replace(/ /g, '-')}`;
-                    this.classList.add(statusClass);
+                    // Atualizar a aparência do botão
+                    updateButtonAppearance(nextStatus);
                 } else {
                     alert('Erro ao atualizar status: ' + data.message);
                 }
