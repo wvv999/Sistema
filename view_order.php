@@ -193,7 +193,7 @@ try {
         }
 
         .technical-history {
-            width: calc(100% - 220px);
+            width: 75%;
         }
 
         .technical-history textarea {
