@@ -316,11 +316,11 @@ try {
             <button class="bottom-button">
                 <i class="bi bi-printer"></i> Histórico
             </button>
-            <button style="background-color:#28a745" class="bottom-button">
-                <i class="bi bi-save"></i> Salvar
-            </button>
             <button class="bottom-button">
                 <i class="bi bi-printer"></i> Imprimir
+            </button>
+            <button style="background-color:#28a745" class="bottom-button">
+                <i class="bi bi-save"></i> Salvar
             </button>
             <button class="bottom-button" onclick="javascript:history.go(-1)">
                 <i class="bi bi-x-lg"></i> Fechar
