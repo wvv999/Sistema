@@ -118,8 +118,8 @@ try {
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>ID</th>
                                 <th>Cliente</th>
+                                <th>ID</th>
                                 <th>Telefone 1</th>
                                 <th>Telefone 2</th>
                                 <th>Data de Abertura</th>
@@ -134,8 +134,8 @@ try {
                         <tbody>
                             <?php foreach ($serviceOrders as $order): ?>
                                 <tr>
-                                    <td><?= $order['id'] ?></td>
                                     <td><?= htmlspecialchars($order['client_name']) ?></td>
+                                    <td><?= $order['id'] ?></td>
                                     <td><?= htmlspecialchars($order['phone1']) ?></td>
                                     <td><?= htmlspecialchars($order['phone2']) ?></td>
                                     <td><?= date('d/m/Y H:i', strtotime($order['opening_date'])) ?></td>
