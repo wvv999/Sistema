@@ -8,7 +8,15 @@ if(!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$success = $error = '';
+// Se houver uma mensagem de sucesso na sessão, pegue-a e limpe
+if (isset($_SESSION['success_message'])) {
+    $success = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
+} else {
+    $success = '';
+}
+
+$error = '';
 $database = new Database();
 $db = $database->getConnection();
 
@@ -72,7 +80,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute([$next_id, $client_id, $phone1, $phone2, $delivery_date, 
                            $reported_issue, $accessories, $device_password, $pattern_password])) {
             $db->commit(); // Confirma a transação
-            $success = "Ordem de serviço #" . $next_id . " criada com sucesso!";
+            
+            // Armazena a mensagem de sucesso na sessão
+            $_SESSION['success_message'] = "Ordem de serviço #" . $next_id . " criada com sucesso!";
+            
+            // Redireciona para a mesma página (GET request)
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit;
         } else {
             throw new Exception("Erro ao criar ordem de serviço.");
         }
