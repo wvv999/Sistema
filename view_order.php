@@ -330,7 +330,7 @@ try {
     </div>
 
     <script>
-        const statusButton = document.getElementById('statusButton');
+                const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
 
         statusButton.addEventListener('click', async function() {
@@ -355,8 +355,13 @@ try {
                 if (data.success) {
                     this.textContent = nextStatus;
                     this.dataset.status = nextStatus;
+
+                    // Remover todas as classes de status existentes
                     this.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
-                    this.classList.add(nextStatus.toLowerCase().replace(' ', '-'));
+                    
+                    // Adicionar a classe correta com base no novo status
+                    const statusClass = nextStatus.toLowerCase().replace(' ', '-');
+                    this.classList.add(`status-${statusClass}`);
                 } else {
                     alert('Erro ao atualizar status: ' + data.message);
                 }
@@ -365,6 +370,7 @@ try {
                 alert('Erro ao atualizar status');
             }
         });
+
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
