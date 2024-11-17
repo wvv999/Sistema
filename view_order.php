@@ -1,7 +1,3 @@
-// update_status.php
-
-
-// view_order.php
 <?php
 session_start();
 require_once 'config.php';
