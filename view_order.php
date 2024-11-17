@@ -356,7 +356,7 @@ try {
                     this.textContent = nextStatus;
                     this.dataset.status = nextStatus;
                     this.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
-                    this.classList.add('status-' + nextStatus.toLowerCase().replace(' ', '-'));
+                    this.classList.add(nextStatus.toLowerCase().replace(' ', '-'));
                 } else {
                     alert('Erro ao atualizar status: ' + data.message);
                 }
