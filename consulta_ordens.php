@@ -26,7 +26,7 @@ try {
                    so.created_at AS opening_date, so.delivery_date, 
                    so.reported_issue, so.accessories, 
                    so.device_password, so.pattern_password,
-                   c.name AS client_name
+                   c.name AS client_name, so.status
             FROM service_orders so
             JOIN clients c ON so.client_id = c.id
             ORDER BY so.created_at DESC";
@@ -124,6 +124,7 @@ try {
                                 <th>Telefone 2</th>
                                 <th>Data de Abertura</th>
                                 <th>Data de Entrega</th>
+                                <th>Status</th>
                                 <!-- <th>Problema Relatado</th> -->
                                 <!-- <th>Acessórios</th> -->
                                 <!-- <th>Senha do Dispositivo</th> -->
@@ -140,6 +141,7 @@ try {
                                     <td><?= htmlspecialchars($order['phone2']) ?></td>
                                     <td><?= date('d/m/Y', strtotime($order['opening_date'])) ?></td>
                                     <td><?= $order['delivery_date'] ? date('d/m/Y', strtotime($order['delivery_date'])) : '-' ?></td>
+                                    <td><?= htmlspecialchars($order['status']) ?></td>
                                     <!-- <td><?= nl2br(htmlspecialchars($order['reported_issue'])) ?></td> -->
                                     <!-- <td><?= htmlspecialchars($order['accessories']) ?></td> -->
                                     <!-- <td><?= htmlspecialchars($order['device_password']) ?></td> -->
