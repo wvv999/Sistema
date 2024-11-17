@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Verifica se está logado
 if(!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit;
@@ -17,10 +16,7 @@ if(!isset($_SESSION['user_id'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
-        .container {
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-        }
+        .container { padding-top: 2rem; padding-bottom: 2rem; }
         
         .dashboard-container {
             background-color: white;
@@ -46,9 +42,7 @@ if(!isset($_SESSION['user_id'])) {
             font-size: 1.1em;
         }
 
-        .nav-button i {
-            margin-right: 10px;
-        }
+        .nav-button i { margin-right: 10px; }
 
         .logout-btn {
             position: absolute;
@@ -61,6 +55,31 @@ if(!isset($_SESSION['user_id'])) {
             padding: 10px 20px;
             border-radius: 5px;
             display: inline-block;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        #orderDetails dl {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px;
+            margin: 0;
+        }
+
+        #orderDetails dt {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        #orderDetails dd {
+            margin: 0;
+            padding: 0 0 0.5rem 0;
+            border-bottom: 1px solid #eee;
         }
     </style>
 </head>
@@ -79,86 +98,110 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
             </div>
 
-            <div class="row">
-                <!-- <div class="col-md-6">
-                    <a href="index.php" class="btn btn-outline-primary w-100 nav-button">
-                        <i class="bi bi-box-arrow-in-right"></i>
-                        Página de Login
-                    </a>
-                </div> -->
-                
-                <div class="col-md-6">
-                    <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
-                    <i class="bi bi-file-earmark-text"></i>
-                    Nova Ordem de Serviço
-                    </a>
+            <!-- Nova seção de busca -->
+            <div class="search-container">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchInput" 
+                           placeholder="Digite o número da OS ou nome do cliente...">
+                    <button class="btn btn-primary" type="button" id="searchButton">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
                 </div>
-
-                <div class="col-md-6">
-                    <a href="new_user.php" class="btn btn-outline-info w-100 nav-button">
-                        <i class="bi bi-person-plus"></i>
-                        Cadastrar Novo Usuário
-                    </a>
-                </div>
-                
-                <div class="col-md-6">
-                    <a href="clientes.php" class="btn btn-outline-success w-100 nav-button">
-                        <i class="bi bi-person-lines-fill"></i>
-                        Cadastrar Clientes
-                    </a>
-                </div>
-
-                <div class="col-md-6">
-                    <a href="users.php" class="btn btn-outline-info w-100 nav-button">
-                        <i class="bi bi-people"></i>
-                        Lista de Usuários
-                    </a>
-                </div>
-
-                <div class="col-md-6">
-                    <a href="consulta_ordens.php" class="btn btn-outline-info w-100 nav-button">
-                        <i class="bi bi-people"></i>
-                        Lista de Ordens
-                    </a>
-                </div>
-
-                <!-- <div class="col-md-6">
-                    <a href="config.php" class="btn btn-outline-secondary w-100 nav-button">
-                        <i class="bi bi-gear"></i>
-                        Configurações do Banco
-                    </a>
-                </div> -->
-
-                <!-- <div class="col-md-6">
-                    <a href="add_user.php" class="btn btn-outline-warning w-100 nav-button">
-                        <i class="bi bi-person-plus-fill"></i>
-                        Adicionar Usuário (Script)
-                    </a>
-                </div> -->
-
-                <!-- <div class="col-md-6">
-                    <a href="logout.php" class="btn btn-outline-danger w-100 nav-button">
-                        <i class="bi bi-box-arrow-right"></i>
-                        Logout
-                    </a>
-                </div> -->
             </div>
 
-            <div class="mt-4 p-3 bg-light rounded">
-                <h5><i class="bi bi-info-circle"></i> Abertas recentemente:</h5>
-                <ul class="list-group mt-2">
-                    <li class="list-group-item"><code>15000</code> - G8 Power Lite</li>
-                    <li class="list-group-item"><code>13500</code> - Iphone 11</li>
-                    <li class="list-group-item"><code>14200</code> - LG K51s</li>
-                    <!-- <li class="list-group-item"><code>config.php</code> - Configurações do Banco</li>
-                    <li class="list-group-item"><code>add_user.php</code> - Script para Adicionar Usuário</li>
-                    <li class="list-group-item"><code>dashboard.php</code> - Este Painel de Controle</li>
-                    <li class="list-group-item"><code>logout.php</code> - Script de Logout</li> -->
-                </ul>
+            <!-- Resto do seu código do dashboard aqui... -->
+            <div class="row">
+                <!-- Seus botões de navegação aqui... -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para exibir detalhes da ordem -->
+    <div class="modal fade" id="orderModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalhes da Ordem de Serviço</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="orderDetails">
+                    <!-- Os detalhes serão inseridos aqui via JavaScript -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('pt-BR');
+        }
+
+        function searchOrder() {
+            const searchValue = searchInput.value.trim();
+            if (!searchValue) return;
+
+            fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.data.length > 0) {
+                        const order = data.data[0]; // Pega o primeiro resultado
+                        
+                        // Monta o HTML com os detalhes da ordem
+                        const detailsHtml = `
+                            <dl>
+                                <dt>Número da OS:</dt>
+                                <dd>${order.id}</dd>
+                                
+                                <dt>Cliente:</dt>
+                                <dd>${order.client_name}</dd>
+                                
+                                <dt>Telefones:</dt>
+                                <dd>${order.phone1}${order.phone2 ? ' / ' + order.phone2 : ''}</dd>
+                                
+                                <dt>Data de Entrega:</dt>
+                                <dd>${formatDate(order.delivery_date)}</dd>
+                                
+                                <dt>Defeito Relatado:</dt>
+                                <dd>${order.reported_issue}</dd>
+                                
+                                <dt>Acessórios:</dt>
+                                <dd>${order.accessories || 'Nenhum'}</dd>
+                                
+                                <dt>Senha do Aparelho:</dt>
+                                <dd>${order.device_password || 'Não informada'}</dd>
+                                
+                                <dt>Padrão de Desenho:</dt>
+                                <dd>${order.pattern_password || 'Não informado'}</dd>
+                            </dl>
+                        `;
+                        
+                        document.getElementById('orderDetails').innerHTML = detailsHtml;
+                        orderModal.show();
+                    } else {
+                        alert('Nenhuma ordem encontrada');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Erro ao buscar ordem');
+                });
+        }
+
+        // Event listeners
+        searchButton.addEventListener('click', searchOrder);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchOrder();
+        });
+    </script>
 </body>
 </html>
