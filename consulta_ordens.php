@@ -53,6 +53,7 @@ try {
         .body{
             padding:50px;
             box-sizing: border-box;
+            margin: 40px;
         }
         .container {
             padding-top: 2rem;
