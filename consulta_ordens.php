@@ -119,7 +119,7 @@ try {
                         <thead>
                             <tr>
                                 <th>Cliente</th>
-                                <th>ID</th>
+                                <th>Número da Ordem</th>
                                 <th>Telefone 1</th>
                                 <th>Telefone 2</th>
                                 <th>Data de Abertura</th>
