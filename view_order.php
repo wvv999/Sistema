@@ -330,7 +330,7 @@ try {
     </div>
 
     <script>
-                const statusButton = document.getElementById('statusButton');
+        const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
 
         statusButton.addEventListener('click', async function() {
@@ -360,7 +360,8 @@ try {
                     this.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
                     
                     // Adicionar a classe correta com base no novo status
-                    const statusClass = nextStatus.toLowerCase().replace(' ', '-');
+                    const statusClass = nextStatus.toLowerCase().replace(/ /g, '-');
+                    console.log(`Adicionando classe: status-${statusClass}`);
                     this.classList.add(`status-${statusClass}`);
                 } else {
                     alert('Erro ao atualizar status: ' + data.message);
