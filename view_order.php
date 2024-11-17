@@ -21,6 +21,7 @@ try {
             c.name as client_name,
             c.phone1,
             c.phone2,
+            so.device_password,
             COALESCE(so.status, 'Não iniciada') as status
           FROM service_orders so 
           INNER JOIN clients c ON so.client_id = c.id 
