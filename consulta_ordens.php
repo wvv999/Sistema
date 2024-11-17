@@ -85,6 +85,11 @@ try {
             top: 20px;
             right: 20px;
         }
+
+        .view-btn {
+            padding: 2px 8px;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -117,12 +122,12 @@ try {
                                 <th>Acessórios</th>
                                 <th>Senha do Dispositivo</th>
                                 <th>Senha Padrão</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($serviceOrders as $order): ?>
                                 <tr>
-                                    <a href="view_order.php = $order['id']"></a><td><?= $order['id'] ?></td>
                                     <td><?= $order['id'] ?></td>
                                     <td><?= htmlspecialchars($order['client_name']) ?></td>
                                     <td><?= htmlspecialchars($order['phone1']) ?></td>
@@ -133,6 +138,11 @@ try {
                                     <td><?= htmlspecialchars($order['accessories']) ?></td>
                                     <td><?= htmlspecialchars($order['device_password']) ?></td>
                                     <td><?= htmlspecialchars($order['pattern_password']) ?></td>
+                                    <td>
+                                        <a href="view_order.php?id=<?= $order['id'] ?>" class="btn btn-primary view-btn">
+                                            <i class="bi bi-eye"></i> Ver
+                                        </a>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
