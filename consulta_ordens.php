@@ -122,6 +122,7 @@ try {
                         <tbody>
                             <?php foreach ($serviceOrders as $order): ?>
                                 <tr>
+                                    <a href="view_order.php = $order['id']"></a><td><?= $order['id'] ?></td>
                                     <td><?= $order['id'] ?></td>
                                     <td><?= htmlspecialchars($order['client_name']) ?></td>
                                     <td><?= htmlspecialchars($order['phone1']) ?></td>
