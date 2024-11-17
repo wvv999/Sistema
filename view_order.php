@@ -313,7 +313,7 @@ try {
                 <i class="bi bi-cart"></i> Compra de Peças
             </div>
         </div>
-        <button id="statusButton" class="side-button status-nao-iniciada">Não iniciada</button>
+        <button id="statusButton" class="side-button status-nao-iniciada" data-status="Não iniciada" data-order-id="123">Não iniciada</button>
 
         <div class="bottom-buttons">
             <button class="bottom-button">
@@ -423,7 +423,7 @@ try {
         });
 
     </script> -->
-    <script>
+    <!-- <script>
         const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
 
@@ -475,6 +475,24 @@ try {
             }
         });
 
+    </script> -->
+    <script>
+        const statusButton = document.getElementById('statusButton');
+        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
+
+        statusButton.onclick = function () {
+            const currentStatus = this.dataset.status;
+            const currentIndex = statusFlow.indexOf(currentStatus);
+            const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+
+            this.textContent = nextStatus;
+            this.dataset.status = nextStatus;
+
+            this.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
+            this.classList.add(`status-${nextStatus.toLowerCase().replace(/ /g, '-')}`);
+            
+            console.log('Status atualizado para:', nextStatus);
+        };
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
