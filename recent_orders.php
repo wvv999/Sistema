@@ -12,10 +12,13 @@ class RecentOrders {
         try {
             $conn = $this->db->getConnection();
             
-            $query = "SELECT o.id, o.device_model, o.created_at, c.name as client_name 
-                     FROM orders o 
-                     LEFT JOIN clients c ON o.client_id = c.id 
-                     ORDER BY o.created_at DESC 
+            $query = "SELECT 
+                        id,
+                        client_name,
+                        device_model,
+                        date_created 
+                     FROM service_orders 
+                     ORDER BY date_created DESC 
                      LIMIT :limit";
             
             $stmt = $conn->prepare($query);
@@ -34,9 +37,9 @@ class RecentOrders {
         $html = '';
         foreach ($orders as $order) {
             $orderNumber = str_pad($order['id'], 5, '0', STR_PAD_LEFT);
-            $deviceInfo = htmlspecialchars($order['device_model']);
+            $deviceModel = htmlspecialchars($order['device_model']);
             $clientName = htmlspecialchars($order['client_name']);
-            $createdAt = (new DateTime($order['created_at']))->format('d/m/Y H:i');
+            $dateCreated = (new DateTime($order['date_created']))->format('d/m/Y H:i');
             
             $html .= sprintf(
                 '<li class="list-group-item d-flex justify-content-between align-items-center">
@@ -47,11 +50,11 @@ class RecentOrders {
                     <small class="text-muted">%s</small>
                 </li>',
                 $orderNumber,
-                $deviceInfo,
+                $deviceModel,
                 $clientName,
-                $createdAt
+                $dateCreated
             );
         }
-        return $html;
+        return $html ?: '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
     }
 }
