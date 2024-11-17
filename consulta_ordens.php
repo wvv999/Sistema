@@ -16,13 +16,13 @@ $conn = $db->getConnection();
 
 // Consulta para buscar todas as ordens de serviço
 $sql = "SELECT so.id, so.client_id, so.phone1, so.phone2, 
-               so.opening_date, so.delivery_date, 
+               so.created_at AS opening_date, so.delivery_date, 
                so.reported_issue, so.accessories, 
                so.device_password, so.pattern_password,
                c.name AS client_name
         FROM service_orders so
         JOIN clients c ON so.client_id = c.id
-        ORDER BY so.opening_date DESC";
+        ORDER BY so.created_at DESC";
 
 $stmt = $conn->prepare($sql);
 $stmt->execute();
