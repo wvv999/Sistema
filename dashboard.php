@@ -107,12 +107,6 @@ if(!isset($_SESSION['user_id'])) {
                     </a>
                 </div>
 
-                <div class="col-md-6">
-                    <a href="add_user.php" class="btn btn-outline-warning w-100 nav-button">
-                        <i class="bi bi-person-plus-fill"></i>
-                        Adicionar Usuário (Script)
-                    </a>
-                </div>
 
                 <div class="col-md-6">
                     <a href="logout.php" class="btn btn-outline-danger w-100 nav-button">
