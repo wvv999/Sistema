@@ -177,72 +177,85 @@ if(!isset($_SESSION['user_id'])) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const searchInput = document.getElementById('searchInput');
-        const searchButton = document.getElementById('searchButton');
-        const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+        // Substitua o código JavaScript existente por este
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
+const orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
 
-        function formatDate(dateString) {
-            if (!dateString) return '';
-            const date = new Date(dateString);
-            return date.toLocaleDateString('pt-BR');
+function formatDate(dateString) {
+    if (!dateString) return 'Não definida';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('pt-BR');
+}
+
+async function searchOrder() {
+    const searchValue = searchInput.value.trim();
+    if (!searchValue) {
+        alert('Por favor, digite um número de OS ou nome do cliente');
+        return;
+    }
+
+    try {
+        searchButton.disabled = true;
+        searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
+
+        const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Erro ao buscar ordem');
         }
 
-        function searchOrder() {
-            const searchValue = searchInput.value.trim();
-            if (!searchValue) return;
-
-            fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success && data.data.length > 0) {
-                        const order = data.data[0]; // Pega o primeiro resultado
-                        
-                        // Monta o HTML com os detalhes da ordem
-                        const detailsHtml = `
-                            <dl>
-                                <dt>Número da OS:</dt>
-                                <dd>${order.id}</dd>
-                                
-                                <dt>Cliente:</dt>
-                                <dd>${order.client_name}</dd>
-                                
-                                <dt>Telefones:</dt>
-                                <dd>${order.phone1}${order.phone2 ? ' / ' + order.phone2 : ''}</dd>
-                                
-                                <dt>Data de Entrega:</dt>
-                                <dd>${formatDate(order.delivery_date)}</dd>
-                                
-                                <dt>Defeito Relatado:</dt>
-                                <dd>${order.reported_issue}</dd>
-                                
-                                <dt>Acessórios:</dt>
-                                <dd>${order.accessories || 'Nenhum'}</dd>
-                                
-                                <dt>Senha do Aparelho:</dt>
-                                <dd>${order.device_password || 'Não informada'}</dd>
-                                
-                                <dt>Padrão de Desenho:</dt>
-                                <dd>${order.pattern_password || 'Não informado'}</dd>
-                            </dl>
-                        `;
-                        
-                        document.getElementById('orderDetails').innerHTML = detailsHtml;
-                        orderModal.show();
-                    } else {
-                        alert('Nenhuma ordem encontrada');
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    alert('Erro ao buscar ordem');
-                });
+        if (data.success && data.data.length > 0) {
+            const order = data.data[0]; // Pega o primeiro resultado
+            
+            const detailsHtml = `
+                <dl>
+                    <dt>Número da OS:</dt>
+                    <dd>${order.id || 'N/A'}</dd>
+                    
+                    <dt>Cliente:</dt>
+                    <dd>${order.client_name || 'N/A'}</dd>
+                    
+                    <dt>Telefones:</dt>
+                    <dd>${order.phone1 || 'N/A'}${order.phone2 ? ' / ' + order.phone2 : ''}</dd>
+                    
+                    <dt>Data de Entrega:</dt>
+                    <dd>${formatDate(order.delivery_date)}</dd>
+                    
+                    <dt>Defeito Relatado:</dt>
+                    <dd>${order.reported_issue || 'Não informado'}</dd>
+                    
+                    <dt>Acessórios:</dt>
+                    <dd>${order.accessories || 'Nenhum'}</dd>
+                    
+                    <dt>Senha do Aparelho:</dt>
+                    <dd>${order.device_password || 'Não informada'}</dd>
+                    
+                    <dt>Padrão de Desenho:</dt>
+                    <dd>${order.pattern_password || 'Não informado'}</dd>
+                </dl>
+            `;
+            
+            document.getElementById('orderDetails').innerHTML = detailsHtml;
+            orderModal.show();
+        } else {
+            alert('Nenhuma ordem encontrada com os critérios informados');
         }
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao buscar ordem: ' + error.message);
+    } finally {
+        searchButton.disabled = false;
+        searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
+    }
+}
 
-        // Event listeners
-        searchButton.addEventListener('click', searchOrder);
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') searchOrder();
-        });
+// Event listeners
+searchButton.addEventListener('click', searchOrder);
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') searchOrder();
+});
     </script>
 </body>
 </html>
