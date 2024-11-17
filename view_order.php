@@ -165,19 +165,19 @@ try {
         }
 
         .status-nao-iniciada { 
-            background-color: #fff3cd; 
+            background-color: red; 
             border-color: #ffeeba;
             color: #856404;
         }
 
         .status-em-andamento { 
-            background-color: #cce5ff; 
+            background-color: blue; 
             border-color: #b8daff;
             color: #004085;
         }
 
         .status-concluida { 
-            background-color: #d4edda; 
+            background-color: green; 
             border-color: #c3e6cb;
             color: #155724;
         }
