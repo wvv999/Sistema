@@ -155,6 +155,7 @@ if(!isset($_SESSION['user_id'])) {
                     $orders = $recentOrders->getRecentOrders(5);
                     echo $recentOrders->formatOrders($orders);
                     ?>
+                    <td><?= htmlspecialchars($orderNumber['id']) ?></td>
                 </ul>
             </div>
         </div>
