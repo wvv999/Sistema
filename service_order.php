@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $db->commit(); // Confirma a transação
             
             // Armazena a mensagem de sucesso na sessão
-            $_SESSION['success_message'] = "Ordem de serviço #" . $next_id . " criada com sucesso!";
+            $_SESSION['success_message'] = "Ordem de serviço " . $next_id . " criada com sucesso!";
             
             // Redireciona para a mesma página (GET request)
             header("Location: " . $_SERVER['PHP_SELF']);
