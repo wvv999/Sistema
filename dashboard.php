@@ -93,7 +93,7 @@ if(!isset($_SESSION['user_id'])) {
                     </a>
                 </div>
                 <div class="col-md-6">
-                    <a href="new_user.php" class="btn btn-outline-primary w-100 nav-button">
+                    <a href="new_user.php" class="btn btn-outline-info w-100 nav-button">
                         <i class="bi bi-person-plus"></i>
                         Cadastrar Novo Usuário
                     </a>
