@@ -220,30 +220,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         lines = [];
     }
 
-    function createLine(start, end) {
-        const line = document.createElement('div');
-        line.className = 'pattern-line';
+    // function createLine(start, end) {
+    //     const line = document.createElement('div');
+    //     line.className = 'pattern-line';
         
-        const rect = patternContainer.getBoundingClientRect();
-        const startRect = start.getBoundingClientRect();
-        const endRect = end.getBoundingClientRect();
+    //     const rect = patternContainer.getBoundingClientRect();
+    //     const startRect = start.getBoundingClientRect();
+    //     const endRect = end.getBoundingClientRect();
         
-        const x1 = startRect.left + startRect.width/2 - rect.left;
-        const y1 = startRect.top + startRect.height/2 - rect.top;
-        const x2 = endRect.left + endRect.width/2 - rect.left;
-        const y2 = endRect.top + endRect.height/2 - rect.top;
+    //     const x1 = startRect.left + startRect.width/2 - rect.left;
+    //     const y1 = startRect.top + startRect.height/2 - rect.top;
+    //     const x2 = endRect.left + endRect.width/2 - rect.left;
+    //     const y2 = endRect.top + endRect.height/2 - rect.top;
         
-        const length = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
-        const angle = Math.atan2(y2-y1, x2-x1) * 180/Math.PI;
+    //     const length = Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2));
+    //     const angle = Math.atan2(y2-y1, x2-x1) * 180/Math.PI;
         
-        line.style.width = length + 'px';
-        line.style.left = x1 + 'px';
-        line.style.top = y1 + 'px';
-        line.style.transform = `rotate(${angle}deg)`;
+    //     line.style.width = length + 'px';
+    //     line.style.left = x1 + 'px';
+    //     line.style.top = y1 + 'px';
+    //     line.style.transform = `rotate(${angle}deg)`;
         
-        patternContainer.appendChild(line);
-        lines.push(line);
-    }
+    //     patternContainer.appendChild(line);
+    //     lines.push(line);
+    // }
 
     dots.forEach(dot => {
         dot.addEventListener('mousedown', (e) => {
