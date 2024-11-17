@@ -139,7 +139,7 @@ if(!isset($_SESSION['user_id'])) {
             <div class="mt-4 p-3 bg-light rounded">
                 <h5><i class="bi bi-info-circle"></i> Abertas recentemente:</h5>
                 <ul class="list-group mt-2">
-                    <li class="list-group-item"><code>15000</code> - G8 Power Lite/li>
+                    <li class="list-group-item"><code>15000</code> - G8 Power Lite</li>
                     <li class="list-group-item"><code>13500</code> - Iphone 11</li>
                     <li class="list-group-item"><code>14200</code> - LG K51s</li>
                     <!-- <li class="list-group-item"><code>config.php</code> - Configurações do Banco</li>
