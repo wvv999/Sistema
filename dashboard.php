@@ -80,7 +80,12 @@ if(!isset($_SESSION['user_id'])) {
             </div>
 
             <div class="row">
-                
+                <!-- <div class="col-md-6">
+                    <a href="index.php" class="btn btn-outline-primary w-100 nav-button">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Página de Login
+                    </a>
+                </div> -->
                 <div class="col-md-6">
                     <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
                     <i class="bi bi-file-earmark-text"></i>
@@ -107,13 +112,26 @@ if(!isset($_SESSION['user_id'])) {
                     </a>
                 </div>
 
+                <!-- <div class="col-md-6">
+                    <a href="config.php" class="btn btn-outline-secondary w-100 nav-button">
+                        <i class="bi bi-gear"></i>
+                        Configurações do Banco
+                    </a>
+                </div> -->
 
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
+                    <a href="add_user.php" class="btn btn-outline-warning w-100 nav-button">
+                        <i class="bi bi-person-plus-fill"></i>
+                        Adicionar Usuário (Script)
+                    </a>
+                </div> -->
+
+                <!-- <div class="col-md-6">
                     <a href="logout.php" class="btn btn-outline-danger w-100 nav-button">
                         <i class="bi bi-box-arrow-right"></i>
                         Logout
                     </a>
-                </div>
+                </div> -->
             </div>
 
             <div class="mt-4 p-3 bg-light rounded">
