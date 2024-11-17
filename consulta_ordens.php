@@ -52,6 +52,7 @@ try {
     <style>
         .body{
             padding:50px;
+            box-sizing: border-box;
         }
         .container {
             padding-top: 2rem;
