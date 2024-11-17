@@ -114,6 +114,13 @@ if(!isset($_SESSION['user_id'])) {
                     </a>
                 </div>
 
+                <div class="col-md-6">
+                    <a href="consulta_ordens.php" class="btn btn-outline-info w-100 nav-button">
+                        <i class="bi bi-people"></i>
+                        Lista de Ordens
+                    </a>
+                </div>
+
                 <!-- <div class="col-md-6">
                     <a href="config.php" class="btn btn-outline-secondary w-100 nav-button">
                         <i class="bi bi-gear"></i>
