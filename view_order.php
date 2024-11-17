@@ -135,7 +135,7 @@ try {
         .side-buttons {
             position: absolute;
             right: 24px;
-            top: 180px;
+            top: 200px;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -293,7 +293,7 @@ try {
         <div class="technical-history">
             <textarea class="form-control" rows="8" placeholder="Histórico Técnico"></textarea>
         </div>
-
+        <!-- Botão de status -->
         <div class="side-buttons">
             <div id="statusButton" 
                  class="side-button status-button status-<?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>"
