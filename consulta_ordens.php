@@ -30,7 +30,42 @@ $serviceOrders = $stmt->fetchAll();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container my-5">
+
+
+<!-- <div class="mt-4 p-3 bg-light rounded">
+                <h5><i class="bi bi-info-circle"></i> Abertas recentemente:</h5>
+                <ul class="list-group mt-2">
+                    <li class="list-group-item"><code>15000</code> - G8 Power Lite</li>
+                    <li class="list-group-item"><code>13500</code> - Iphone 11</li>
+                    <li class="list-group-item"><code>14200</code> - LG K51s</li>
+                    <li class="list-group-item"><code>config.php</code> - Configurações do Banco</li>
+                    <li class="list-group-item"><code>add_user.php</code> - Script para Adicionar Usuário</li>
+                    <li class="list-group-item"><code>dashboard.php</code> - Este Painel de Controle</li>
+                    <li class="list-group-item"><code>logout.php</code> - Script de Logout</li>
+                </ul>
+            </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="container mt-4 p-3 bg-light rounded">
         <h2 class="mb-4">Ordens de Serviço</h2>
         <?php if (count($serviceOrders) > 0): ?>
             <div class="table-responsive">
