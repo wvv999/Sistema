@@ -233,7 +233,6 @@ try {
 
         .section-title {
             width: 75%;
-            background: red;
             font-weight: 600;
             color: #333;
             margin-bottom: 12px;
