@@ -72,7 +72,7 @@ if(!isset($_SESSION['user_id'])) {
     <div class="container">
         <div class="dashboard-container">
             <div class="welcome-header">
-                <h2><i class="bi bi-grid-1x2"></i> Painel de Controle</h2>
+                <h2><i class="bi bi-grid-1x2"></i> Sistema Interno Tele Dil</h2>
                 <div class="user-info">
                     <i class="bi bi-person-circle"></i>
                     Bem-vindo, <?php echo htmlspecialchars($_SESSION['username']); ?>
