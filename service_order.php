@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-color: #0d6efd;
         }
         .pattern-line {
-            position: absolute;
+            position: relative;
             height: 4px;
             background-color: black;
             transform-origin: 0 0;
