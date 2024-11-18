@@ -118,12 +118,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 20px;
             margin-top: 20px;
         }
+        /* .pattern-container {
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            gap: 10px;
+            margin: 20px auto;
+            width: 200px;
+        } */
+         /* Substitua o CSS do pattern-container e pattern-line por este */
         .pattern-container {
             display: grid;
             grid-template-columns: repeat(3, 60px);
             gap: 10px;
             margin: 20px auto;
             width: 200px;
+            position: relative;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .pattern-line {
+            position: absolute;
+            height: 2px;
+            background-color: #0d6efd;
+            transform-origin: left center;
+            z-index: 0;
+            pointer-events: none;
         }
         .pattern-dot {
             width: 60px;
@@ -138,14 +159,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #0d6efd;
             border-color: #0d6efd;
         }
-        .pattern-line {
+        /* .pattern-line {
             position: absolute;
-            /* height: 4px; */
-            bottom: 5px;
+            height: 4px;
             background-color: black;
             transform-origin: 0 0;
             z-index: 1;
-        }
+        } */
     </style>
 </head>
 <body class="bg-light">
