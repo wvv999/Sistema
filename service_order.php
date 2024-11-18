@@ -149,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .pattern-dot {
             width: 60px;
             height: 60px;
-            background-color: #f8f9fa;
+            background-color: gray;
             border: 2px solid #dee2e6;
             border-radius: 50%;
             cursor: pointer;
