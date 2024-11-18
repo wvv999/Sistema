@@ -251,113 +251,116 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-    // Atualiza os telefones quando um cliente é selecionado
-    document.getElementById('client_id').addEventListener('change', function() {
-        const selectedOption = this.options[this.selectedIndex];
-        document.getElementById('phone1').value = selectedOption.dataset.phone1 || '';
-        document.getElementById('phone2').value = selectedOption.dataset.phone2 || '';
-    });
+        // Atualiza os telefones quando um cliente é selecionado
+        document.getElementById('client_id').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            document.getElementById('phone1').value = selectedOption.dataset.phone1 || '';
+            document.getElementById('phone2').value = selectedOption.dataset.phone2 || '';
+        });
 
-    // Código para o padrão de desenho
-    const patternContainer = document.getElementById('patternContainer');
-    const dots = document.querySelectorAll('.pattern-dot');
-    const patternPassword = document.getElementById('pattern_password');
-    let pattern = [];
-    let isDrawing = false;
-    let lines = [];
+        // Código para o padrão de desenho
+        const patternContainer = document.getElementById('patternContainer');
+        const dots = document.querySelectorAll('.pattern-dot');
+        const patternPassword = document.getElementById('pattern_password');
+        let pattern = [];
+        let isDrawing = false;
+        let lines = [];
 
-    // Função para limpar o padrão e as linhas
-    function clearPattern() {
-        pattern = [];
-        patternPassword.value = '';
-        dots.forEach(dot => dot.classList.remove('active'));
-        lines.forEach(line => line.remove());
-        lines = [];
-    }
+        // Função para limpar o padrão e as linhas
+        function clearPattern() {
+            pattern = [];
+            patternPassword.value = '';
+            dots.forEach(dot => dot.classList.remove('active'));
+            lines.forEach(line => line.remove());
+            lines = [];
+        }
 
-    // Função para criar uma linha entre dois pontos
-    function createLine(start, end) {
-        const line = document.createElement('div');
-        line.className = 'pattern-line';
+        // Função para criar uma linha entre dois pontos
+        function createLine(start, end) {
+            const line = document.createElement('div');
+            line.className = 'pattern-line';
 
-        const rect = patternContainer.getBoundingClientRect();
-        const startRect = start.getBoundingClientRect();
-        const endRect = end.getBoundingClientRect();
+            const startRect = start.getBoundingClientRect();
+            const endRect = end.getBoundingClientRect();
+            const containerRect = patternContainer.getBoundingClientRect();
 
-        const x1 = startRect.left + startRect.width / -20 - rect.left;
-        const y1 = startRect.top + startRect.height / -20 - rect.top;
-        const x2 = endRect.left + endRect.width / 2 - rect.left;
-        const y2 = endRect.top + endRect.height / 2 - rect.top;
+            // Calcula as posições relativas ao container
+            const x1 = startRect.left + (startRect.width / 2) - containerRect.left;
+            const y1 = startRect.top + (startRect.height / 2) - containerRect.top;
+            const x2 = endRect.left + (endRect.width / 2) - containerRect.left;
+            const y2 = endRect.top + (endRect.height / 2) - containerRect.top;
 
-        const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+            // Calcula o comprimento e o ângulo da linha
+            const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
 
-        line.style.width = length + 'px';
-        line.style.left = x1 + 'px';
-        line.style.top = y1 + 'px';
-        line.style.transform = `rotate(${angle}deg)`;
+            // Aplica as propriedades à linha
+            line.style.width = `${length}px`;
+            line.style.left = `${x1}px`;
+            line.style.top = `${y1}px`;
+            line.style.transform = `rotate(${angle}deg)`;
 
-        patternContainer.appendChild(line);
-        lines.push(line);
-    }
+            patternContainer.appendChild(line);
+            lines.push(line);
+        }
 
-    // Função para adicionar ponto ao padrão
-    function addDotToPattern(dot) {
-        const index = dot.dataset.index;
-        if (!pattern.includes(index)) {
-            pattern.push(index);
-            dot.classList.add('active');
-            patternPassword.value = pattern.join('');
+        // Função para adicionar ponto ao padrão
+        function addDotToPattern(dot) {
+            const index = dot.dataset.index;
+            if (!pattern.includes(index)) {
+                pattern.push(index);
+                dot.classList.add('active');
+                patternPassword.value = pattern.join('');
 
-            // Conecta com a linha anterior, se houver
-            if (pattern.length > 1) {
-                const prevDot = document.querySelector(`[data-index="${pattern[pattern.length - 2]}"]`);
-                createLine(prevDot, dot);
+                // Conecta com a linha anterior, se houver
+                if (pattern.length > 1) {
+                    const prevDot = document.querySelector(`[data-index="${pattern[pattern.length - 2]}"]`);
+                    createLine(prevDot, dot);
+                }
             }
         }
-    }
 
-    // Eventos para mouse
-    dots.forEach(dot => {
-        dot.addEventListener('mousedown', () => {
-            isDrawing = true;
-            addDotToPattern(dot);
-        });
-
-        dot.addEventListener('mouseenter', () => {
-            if (isDrawing) {
+        // Eventos para mouse
+        dots.forEach(dot => {
+            dot.addEventListener('mousedown', () => {
+                isDrawing = true;
                 addDotToPattern(dot);
-            }
-        });
-    });
+            });
 
-    // Eventos para toque (touch)
-    dots.forEach(dot => {
-        dot.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            isDrawing = true;
-            addDotToPattern(dot);
+            dot.addEventListener('mouseenter', () => {
+                if (isDrawing) {
+                    addDotToPattern(dot);
+                }
+            });
         });
 
-        dot.addEventListener('touchmove', (e) => {
-            const touch = e.touches[0];
-            const dot = document.elementFromPoint(touch.clientX, touch.clientY);
-            if (dot && dot.classList.contains('pattern-dot')) {
+        // Eventos para toque (touch)
+        dots.forEach(dot => {
+            dot.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                isDrawing = true;
                 addDotToPattern(dot);
-            }
+            });
+
+            dot.addEventListener('touchmove', (e) => {
+                const touch = e.touches[0];
+                const dot = document.elementFromPoint(touch.clientX, touch.clientY);
+                if (dot && dot.classList.contains('pattern-dot')) {
+                    addDotToPattern(dot);
+                }
+            });
         });
-    });
 
-    document.addEventListener('mouseup', () => {
-        isDrawing = false;
-    });
+        document.addEventListener('mouseup', () => {
+            isDrawing = false;
+        });
 
-    document.addEventListener('touchend', () => {
-        isDrawing = false;
-    });
+        document.addEventListener('touchend', () => {
+            isDrawing = false;
+        });
 
-    // Define a data mínima como hoje
-    document.getElementById('delivery_date').min = new Date().toISOString().split('T')[0];
+        // Define a data mínima como hoje
+        document.getElementById('delivery_date').min = new Date().toISOString().split('T')[0];
     </script>
 </body>
 </html>
