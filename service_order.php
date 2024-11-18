@@ -43,6 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $accessories = $_POST['accessories'];
         $device_password = $_POST['device_password'];
         $pattern_password = $_POST['pattern_password'];
+        $device_model = $_POST['device_model'];
 
         // Encontra o menor ID disponível com bloqueio para evitar race conditions
         $stmt = $db->query("
@@ -211,6 +212,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-12 mb-3">
                         <label for="accessories" class="form-label">Acessórios</label>
                         <textarea class="form-control" id="accessories" name="accessories" rows="2"></textarea>
+                    </div>
+                    
+                    <!-- Modelo do aparelho -->
+                    <div class="col-12 mb-3">
+                        <label for="device_model" class="form-label">Modelo</label>
+                        <textarea class="form-control" id="device_model" name="device_model" rows="2"></textarea>
                     </div>
 
                     <!-- Senha Numérica -->

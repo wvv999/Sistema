@@ -30,6 +30,7 @@ try {
                 so.accessories,
                 so.device_password,
                 so.pattern_password,
+                so.device_model,
                 c.name as client_name,
                 c.phone1,
                 c.phone2 
