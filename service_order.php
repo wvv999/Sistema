@@ -213,7 +213,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="accessories" class="form-label">Acessórios</label>
                         <textarea class="form-control" id="accessories" name="accessories" rows="2"></textarea>
                     </div>
-
+                    
                     <!-- Modelo do aparelho -->
                     <div class="col-12 mb-3">
                         <label for="device_model" class="form-label">Modelo</label>
@@ -284,10 +284,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const startRect = start.getBoundingClientRect();
         const endRect = end.getBoundingClientRect();
 
-        const x1 = startRect.left + startRect.width / 20 - rect.left;
-        const y1 = startRect.top + startRect.height / 20 - rect.top;
-        const x2 = endRect.left + endRect.width / 20 - rect.left;
-        const y2 = endRect.top + endRect.height / 20 - rect.top;
+        const x1 = startRect.left + startRect.width / 2 - rect.left;
+        const y1 = startRect.top + startRect.height / 2 - rect.top;
+        const x2 = endRect.left + endRect.width / 2 - rect.left;
+        const y2 = endRect.top + endRect.height / 2 - rect.top;
 
         const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
         const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
