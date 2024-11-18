@@ -155,10 +155,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .pattern-dot.active {
+        /* .pattern-dot.active {
             background-color: #0d6efd;
             border-color: #0d6efd;
-        }
+        } */
         /* .pattern-line {
             position: absolute;
             height: 4px;
