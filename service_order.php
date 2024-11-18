@@ -141,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .pattern-line {
             position: absolute;
             height: 2px;
-            background-color: #0d6efd;
+            background-color: red;
             transform-origin: left center;
             z-index: 0;
             pointer-events: none;
