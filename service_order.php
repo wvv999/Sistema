@@ -284,8 +284,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         const startRect = start.getBoundingClientRect();
         const endRect = end.getBoundingClientRect();
 
-        const x1 = startRect.left + startRect.width / 2 - rect.left;
-        const y1 = startRect.top + startRect.height / 2 - rect.top;
+        const x1 = startRect.left + startRect.width / -20 - rect.left;
+        const y1 = startRect.top + startRect.height / -20 - rect.top;
         const x2 = endRect.left + endRect.width / 2 - rect.left;
         const y2 = endRect.top + endRect.height / 2 - rect.top;
 
