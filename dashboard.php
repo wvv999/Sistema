@@ -192,8 +192,8 @@ if(!isset($_SESSION['user_id'])) {
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <code>{$orderNumber}</code> - {$device_model}
+                                    <small class="text-muted d-block">Defeito: {$issue}</small>
                                     <small class="text-muted d-block">Cliente: {$clientName}</small>
-                                    <small class="text-muted d-block">Modelo: {$issue}</small>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
                                     <small class="text-muted">{$createdAt}</small>
