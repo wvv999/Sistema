@@ -1,72 +1,9 @@
 <?php
-require_once 'config.php';
+session_start();
 
-class RecentOrders {
-    private $db;
-    
-    public function __construct() {
-        $this->db = new Database();
-    }
-    
-    public function getRecentOrders($limit = 5) {
-        try {
-            $conn = $this->db->getConnection();
-            
-            $query = "SELECT 
-                        so.id,
-                        so.reported_issue,
-                        so.delivery_date,
-                        so.created_at,
-                        c.name as client_name
-                     FROM service_orders so
-                     JOIN clients c ON so.client_id = c.id 
-                     ORDER BY so.created_at DESC 
-                     LIMIT :limit";
-            
-            $stmt = $conn->prepare($query);
-            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-            $stmt->execute();
-            
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-        } catch (Exception $e) {
-            error_log("Erro ao buscar ordens recentes: " . $e->getMessage());
-            return [];
-        }
-    }
-    
-    public function formatOrders($orders) {
-        $html = '';
-        foreach ($orders as $order) {
-            $orderNumber = str_pad($order['id'], 5, '0', STR_PAD_LEFT);
-            $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "...")); // Limita o tamanho do problema reportado
-            $clientName = htmlspecialchars($order['client_name']);
-            $createdAt = (new DateTime($order['created_at']))->format('d/m/Y H:i');
-            
-            $html .= sprintf(
-                '<li class="list-group-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <code>%s</code> - %s
-                            <small class="text-muted d-block">Cliente: %s</small>
-                        </div>
-                        <div class="d-flex align-items-center gap-3">
-                            <small class="text-muted">%s</small>
-                            <a href="view_order.php?id=%d" class="btn btn-sm btn-outline-primary">
-                                <i class="bi bi-eye"></i> Ver
-                            </a>
-                        </div>
-                    </div>
-                </li>',
-                $orderNumber,
-                $issue,
-                $clientName,
-                $createdAt,
-                $order['id']
-            );
-        }
-        return $html ?: '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
-    }
+if(!isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit;
 }
 ?>
 
