@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
-        if ($stmt->execute([$next_id, $client_id, $phone1, $phone2, $delivery_date, 
+        if ($stmt->execute([$next_id, $client_id, $device_model, $phone1, $phone2, $delivery_date, 
                            $reported_issue, $accessories, $device_password, $pattern_password])) {
             $db->commit(); // Confirma a transação
             
