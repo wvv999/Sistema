@@ -186,7 +186,7 @@ try {
                                         <?php echo htmlspecialchars($client['name']); ?>
                                     </a>
                                     <i class="bi bi-person-circle me-2"></i>
-                                    <?php echo htmlspecialchars($client['name']); ?>
+                                    <!-- <?php echo htmlspecialchars($client['name']); ?> -->
                                 </td>
                                 <td><?php echo htmlspecialchars($client['cpf']); ?></td>
                                 <td><?php echo htmlspecialchars($client['phone1']); ?></td>
