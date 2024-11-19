@@ -122,7 +122,7 @@ try {
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2>
                     <i class="bi bi-file-text"></i> 
-                    Ordem de Serviço #<?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?>
+                    Ordem de Serviço    <?php echo str_pad($order['id'], STR_PAD_LEFT); ?>
                 </h2>
                 <div class="no-print">
                     <button onclick="window.print()" class="btn btn-secondary me-2">
