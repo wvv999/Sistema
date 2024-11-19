@@ -18,6 +18,7 @@ class RecentOrders {
                         so.reported_issue,
                         so.delivery_date,
                         so.created_at,
+                        so.status,
                         c.name as client_name
                      FROM service_orders so
                      JOIN clients c ON so.client_id = c.id 
@@ -44,6 +45,15 @@ class RecentOrders {
             $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "...")); // Limita o tamanho do problema reportado
             $clientName = htmlspecialchars($order['client_name']);
             $createdAt = (new DateTime($order['created_at']))->format('d/m/Y H:i');
+            $status = $order['status'] ?? 'Não iniciada';
+            
+            // Define as classes de estilo baseadas no status
+            $statusClasses = [
+                'Não iniciada' => 'btn-outline-primary',
+                'Em andamento' => 'btn-outline-warning',
+                'Concluída' => 'btn-outline-success'
+            ];
+            $statusClass = $statusClasses[$status] ?? 'btn-outline-primary';
             
             $html .= sprintf(
                 '<li class="list-group-item d-flex justify-content-between align-items-center">
@@ -51,13 +61,19 @@ class RecentOrders {
                         <code>%s</code> - %s
                         <small class="text-muted d-block">Cliente: %s</small>
                     </div>
-                    <small class="text-muted">%s</small>
+                    <div class="d-flex align-items-center gap-3">
+                        <small class="text-muted">%s</small>
+                        <button class="btn btn-sm %s" onclick="event.stopPropagation();">
+                            <i class="bi bi-clock"></i> %s
+                        </button>
+                    </div>
                 </li>',
                 $orderNumber,
                 $device_model,
-                $issue,
                 $clientName,
-                $createdAt
+                $createdAt,
+                $statusClass,
+                htmlspecialchars($status)
             );
         }
         return $html ?: '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
