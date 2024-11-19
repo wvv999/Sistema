@@ -168,7 +168,7 @@ if(!isset($_SESSION['user_id'])) {
             </div>
 
                 
-            <!-- <div class="mt-4 p-3 bg-light rounded">
+            <div class="mt-4 p-3 bg-light rounded">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="mb-0">
                         <i class="bi bi-clock-history"></i> Ordens de Serviço Recentes
@@ -197,7 +197,6 @@ if(!isset($_SESSION['user_id'])) {
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
                                     <small class="text-muted">{$createdAt}</small>
-
                                     
                                     <!-- Indicador da situação -->
                                     <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
@@ -221,7 +220,7 @@ if(!isset($_SESSION['user_id'])) {
                     }
                     ?>
                 </ul>
-            </div> -->
+            </div>
         </div>
     </div>
 
