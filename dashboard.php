@@ -146,7 +146,7 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
             </div>
 
-            <div class="mt-4 p-3 bg-light rounded">
+                        <div class="mt-4 p-3 bg-light rounded">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="mb-0">
                         <i class="bi bi-clock-history"></i> Ordens de Serviço Recentes
@@ -157,7 +157,34 @@ if(!isset($_SESSION['user_id'])) {
                     require_once 'recent_orders.php';
                     $recentOrders = new RecentOrders();
                     $orders = $recentOrders->getRecentOrders(5);
-                    echo $recentOrders->formatOrders($orders);
+                    
+                    foreach ($orders as $order) {
+                        $orderNumber = str_pad($order['id'], 5, '0', STR_PAD_LEFT);
+                        $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
+                        $clientName = htmlspecialchars($order['client_name']);
+                        $createdAt = (new DateTime($order['created_at']))->format('d/m/Y H:i');
+                        
+                        echo <<<HTML
+                        <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <code>{$orderNumber}</code> - {$issue}
+                                    <small class="text-muted d-block">Cliente: {$clientName}</small>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <small class="text-muted">{$createdAt}</small>
+                                    <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
+                                        <i class="bi bi-eye"></i> Ver
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                        HTML;
+                    }
+
+                    if (empty($orders)) {
+                        echo '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
+                    }
                     ?>
                 </ul>
             </div>
@@ -167,46 +194,46 @@ if(!isset($_SESSION['user_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     const searchInput = document.getElementById('searchInput');
-    const searchButton = document.getElementById('searchButton');
+const searchButton = document.getElementById('searchButton');
 
-    async function searchOrder() {
-        const searchValue = searchInput.value.trim();
-        if (!searchValue) {
-            alert('Por favor, digite um número de OS ou nome do cliente');
-            return;
-        }
-
-        try {
-            searchButton.disabled = true;
-            searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
-
-            const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Erro ao buscar ordem');
-            }
-
-            if (data.success && data.data.length > 0) {
-                const order = data.data[0]; // Pega o primeiro resultado
-                window.location.href = `view_order.php?id=${order.id}`;
-            } else {
-                alert('Nenhuma ordem encontrada com os critérios informados');
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-            alert('Erro ao buscar ordem: ' + error.message);
-        } finally {
-            searchButton.disabled = false;
-            searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
-        }
+async function searchOrder() {
+    const searchValue = searchInput.value.trim();
+    if (!searchValue) {
+        alert('Por favor, digite um número de OS ou nome do cliente');
+        return;
     }
 
-    // Event listeners
-    searchButton.addEventListener('click', searchOrder);
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') searchOrder();
-    });
+    try {
+        searchButton.disabled = true;
+        searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
+
+        const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Erro ao buscar ordem');
+        }
+
+        if (data.success && data.data.length > 0) {
+            const order = data.data[0]; // Pega o primeiro resultado
+            window.location.href = `view_order.php?id=${order.id}`;
+        } else {
+            alert('Nenhuma ordem encontrada com os critérios informados');
+        }
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao buscar ordem: ' + error.message);
+    } finally {
+        searchButton.disabled = false;
+        searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
+    }
+}
+
+// Event listeners
+searchButton.addEventListener('click', searchOrder);
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') searchOrder();
+});
     </script>
 </body>
 </html>
