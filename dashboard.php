@@ -152,7 +152,7 @@ if(!isset($_SESSION['user_id'])) {
                 <div class="col-md-6">
                     <a href="clientes.php" class="btn btn-outline-success w-100 nav-button">
                         <i class="bi bi-person-lines-fill"></i>
-                        Cadastrar Clientes
+                        Cadastro de Clientes
                     </a>
                 </div>
 
