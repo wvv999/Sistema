@@ -34,16 +34,12 @@ try {
     
     $client_name = $client['name'];
     
-    // Busca todas as ordens do cliente
-    $query = "SELECT orders.*, 
-                     services.name as service_name,
-                     status.name as status_name,
-                     status.color as status_color
-              FROM orders 
-              LEFT JOIN services ON orders.service_id = services.id
-              LEFT JOIN status ON orders.status_id = status.id
-              WHERE orders.client_id = ? 
-              ORDER BY orders.created_at DESC";
+    // Busca todas as ordens de serviço do cliente
+    $query = "SELECT so.*, c.name as client_name 
+              FROM service_orders so
+              INNER JOIN clients c ON so.client_id = c.id
+              WHERE so.client_id = ? 
+              ORDER BY so.created_at DESC";
               
     $stmt = $db->prepare($query);
     $stmt->execute([$client_id]);
@@ -90,11 +86,11 @@ try {
             font-weight: bold;
         }
 
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.875rem;
-            font-weight: 500;
+        .reported-issue {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -129,10 +125,11 @@ try {
                         <thead class="table-light">
                             <tr>
                                 <th>Nº da Ordem</th>
-                                <th>Serviço</th>
-                                <th>Status</th>
+                                <th>Modelo do Dispositivo</th>
+                                <th>Problema Relatado</th>
+                                <th>Data de Entrega</th>
+                                <th>Telefones</th>
                                 <th>Data de Criação</th>
-                                <th>Valor Total</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -140,18 +137,22 @@ try {
                             <?php foreach ($orders as $order): ?>
                                 <tr>
                                     <td>#<?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?></td>
-                                    <td><?php echo htmlspecialchars($order['service_name']); ?></td>
-                                    <td>
-                                        <span class="status-badge" style="background-color: <?php echo htmlspecialchars($order['status_color']); ?>">
-                                            <?php echo htmlspecialchars($order['status_name']); ?>
-                                        </span>
+                                    <td><?php echo htmlspecialchars($order['device_model']); ?></td>
+                                    <td class="reported-issue" title="<?php echo htmlspecialchars($order['reported_issue']); ?>">
+                                        <?php echo htmlspecialchars($order['reported_issue']); ?>
                                     </td>
                                     <td>
                                         <i class="bi bi-calendar-event me-2"></i>
-                                        <?php echo date('d/m/Y H:i', strtotime($order['created_at'])); ?>
+                                        <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?>
                                     </td>
                                     <td>
-                                        R$ <?php echo number_format($order['total_value'], 2, ',', '.'); ?>
+                                        <div><?php echo htmlspecialchars($order['phone1']); ?></div>
+                                        <?php if ($order['phone2']): ?>
+                                            <div><?php echo htmlspecialchars($order['phone2']); ?></div>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo date('d/m/Y H:i', strtotime($order['created_at'])); ?>
                                     </td>
                                     <td>
                                         <a href="ver_ordem.php?id=<?php echo $order['id']; ?>" 
