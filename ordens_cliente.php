@@ -154,7 +154,7 @@ try {
                                         R$ <?php echo number_format($order['total_value'], 2, ',', '.'); ?>
                                     </td>
                                     <td>
-                                        <!-- <a href="ver_ordem.php?id=<?php echo $order['id']; ?>" 
+                                        <!-- <a href="ver_ordem.php?id=" 
                                            class="btn btn-sm btn-primary">
                                             <i class="bi bi-eye"></i> Ver Detalhes
                                         </a> -->
