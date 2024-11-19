@@ -185,7 +185,7 @@ try {
                                     <a href="ordens_cliente.php?id=<?php echo $client['id']; ?>" class="text-decoration-none text-dark">
                                         <?php echo htmlspecialchars($client['name']); ?>
                                     </a>
-                                    <i class="bi bi-person-circle me-2"></i>
+                                    <!-- <i class="bi bi-person-circle me-2"></i> -->
                                     <!-- <?php echo htmlspecialchars($client['name']); ?> -->
                                 </td>
                                 <td><?php echo htmlspecialchars($client['cpf']); ?></td>
