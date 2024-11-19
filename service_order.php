@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $db->prepare("
             INSERT INTO service_orders (id, client_id, device_model, phone1, phone2, delivery_date, 
                                       reported_issue, accessories, device_password, pattern_password) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
         
         if ($stmt->execute([$next_id, $client_id, $device_model, $phone1, $phone2, $delivery_date, 
