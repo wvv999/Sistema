@@ -36,9 +36,9 @@ try {
     
     // Busca todas as ordens do cliente
     $query = "SELECT orders.*, 
-                     so.id as service_name,
-                    --  status.name as status_name,
-                    --  status.color as status_color
+                     services.name as service_name,
+                     status.name as status_name,
+                     status.color as status_color
               FROM service_orders 
               LEFT JOIN services ON orders.service_id = services.id
               LEFT JOIN status ON orders.status_id = status.id
