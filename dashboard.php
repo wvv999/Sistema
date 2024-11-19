@@ -81,6 +81,32 @@ if(!isset($_SESSION['user_id'])) {
             padding: 0 0 0.5rem 0;
             border-bottom: 1px solid #eee;
         }
+
+        .recent-orders-list .list-group-item {
+            transition: background-color 0.2s ease;
+        }
+
+        .recent-orders-list .list-group-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .recent-orders-list .btn-view-order {
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
+        }
+
+        .recent-orders-list .list-group-item:hover .btn-view-order {
+            opacity: 1;
+        }
+
+        .list-group-item {
+            border-left: 4px solid transparent;
+            transition: border-left-color 0.2s ease;
+        }
+
+        .list-group-item:hover {
+            border-left-color: #0d6efd;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -98,7 +124,6 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
             </div>
 
-            <!-- Nova seção de busca -->
             <div class="search-container">
                 <div class="input-group">
                     <input type="text" class="form-control" id="searchInput" 
@@ -112,8 +137,8 @@ if(!isset($_SESSION['user_id'])) {
             <div class="row">
                 <div class="col-md-6">
                     <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
-                    <i class="bi bi-file-earmark-text"></i>
-                    Nova Ordem de Serviço
+                        <i class="bi bi-file-earmark-text"></i>
+                        Nova Ordem de Serviço
                     </a>
                 </div>
 
@@ -147,8 +172,12 @@ if(!isset($_SESSION['user_id'])) {
             </div>
 
             <div class="mt-4 p-3 bg-light rounded">
-                <h5><i class="bi bi-info-circle"></i> Abertas recentemente:</h5>
-                <ul class="list-group mt-2">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-clock-history"></i> Ordens de Serviço Recentes
+                    </h5>
+                </div>
+                <ul class="list-group recent-orders-list">
                     <?php
                     require_once 'recent_orders.php';
                     $recentOrders = new RecentOrders();
@@ -160,67 +189,49 @@ if(!isset($_SESSION['user_id'])) {
         </div>
     </div>
 
-    <!-- Modal para exibir detalhes da ordem -->
-    <!-- <div class="modal fade" id="orderModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Detalhes da Ordem de Serviço</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body" id="orderDetails"> -->
-                    <!-- Os detalhes serão inseridos aqui via JavaScript -->
-                <!-- </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     const searchInput = document.getElementById('searchInput');
-const searchButton = document.getElementById('searchButton');
+    const searchButton = document.getElementById('searchButton');
 
-async function searchOrder() {
-    const searchValue = searchInput.value.trim();
-    if (!searchValue) {
-        alert('Por favor, digite um número de OS ou nome do cliente');
-        return;
-    }
-
-    try {
-        searchButton.disabled = true;
-        searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
-
-        const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Erro ao buscar ordem');
+    async function searchOrder() {
+        const searchValue = searchInput.value.trim();
+        if (!searchValue) {
+            alert('Por favor, digite um número de OS ou nome do cliente');
+            return;
         }
 
-        if (data.success && data.data.length > 0) {
-            const order = data.data[0]; // Pega o primeiro resultado
-            window.location.href = `view_order.php?id=${order.id}`;
-        } else {
-            alert('Nenhuma ordem encontrada com os critérios informados');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-        alert('Erro ao buscar ordem: ' + error.message);
-    } finally {
-        searchButton.disabled = false;
-        searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
-    }
-}
+        try {
+            searchButton.disabled = true;
+            searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
 
-// Event listeners
-searchButton.addEventListener('click', searchOrder);
-searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') searchOrder();
-});
+            const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao buscar ordem');
+            }
+
+            if (data.success && data.data.length > 0) {
+                const order = data.data[0]; // Pega o primeiro resultado
+                window.location.href = `view_order.php?id=${order.id}`;
+            } else {
+                alert('Nenhuma ordem encontrada com os critérios informados');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao buscar ordem: ' + error.message);
+        } finally {
+            searchButton.disabled = false;
+            searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
+        }
+    }
+
+    // Event listeners
+    searchButton.addEventListener('click', searchOrder);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchOrder();
+    });
     </script>
 </body>
 </html>
