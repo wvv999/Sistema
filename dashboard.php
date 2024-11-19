@@ -167,96 +167,60 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
             </div>
 
-            <?php
-require_once 'recent_orders.php';
-require_once 'OrderStatus.php'; // Novo arquivo com a classe que criamos
-
-$recentOrders = new RecentOrders();
-$orders = $recentOrders->getRecentOrders(5);
-
-foreach ($orders as $order) {
-    $orderNumber = str_pad($order['id'], 5, "0", STR_PAD_LEFT);
-    $clientName = htmlspecialchars($order['client_name']);
-    $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
-    $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
-    $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
-    $statusButton = OrderStatus::getStatusButton($order['status']);
-    
-    echo <<<HTML
-    <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
-        <div class="d-flex justify-content-between align-items-center">
-            <div>
-                <code>{$orderNumber}</code> - {$device_model} - <small>{$issue}</small>
-                <small class="text-muted d-block">Cliente: {$clientName}</small>
-            </div>
-            <div class="d-flex align-items-center gap-3">
-                <small class="text-muted">{$createdAt}</small>
                 
-                <!-- Indicador da situação -->
-                {$statusButton}
-
-                <!-- botão de ver -->
-                <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
-                    <i class="bi bi-eye"></i> Ver
-                </button>
-            </div>
-        </div>
-    </li>
-    HTML;
-}    
-            // <div class="mt-4 p-3 bg-light rounded">
-            //     <div class="d-flex justify-content-between align-items-center mb-3">
-            //         <h5 class="mb-0">
-            //             <i class="bi bi-clock-history"></i> Ordens de Serviço Recentes
-            //         </h5>
-            //     </div>
-            //     <ul class="list-group recent-orders-list">
-            //         <?php
-            //         require_once 'recent_orders.php';
-            //         $recentOrders = new RecentOrders();
-            //         $orders = $recentOrders->getRecentOrders(5);
+            <div class="mt-4 p-3 bg-light rounded">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">
+                        <i class="bi bi-clock-history"></i> Ordens de Serviço Recentes
+                    </h5>
+                </div>
+                <ul class="list-group recent-orders-list">
+                    <?php
+                    require_once 'recent_orders.php';
+                    $recentOrders = new RecentOrders();
+                    $orders = $recentOrders->getRecentOrders(5);
                     
-            //         foreach ($orders as $order) {
-            //             $orderNumber = str_pad($order['id'], STR_PAD_LEFT);
-            //             $clientName = htmlspecialchars($order['client_name']);
-            //             $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
-            //             $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
-            //             $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
+                    foreach ($orders as $order) {
+                        $orderNumber = str_pad($order['id'], STR_PAD_LEFT);
+                        $clientName = htmlspecialchars($order['client_name']);
+                        $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
+                        $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
+                        $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
                         
-            //             echo <<<HTML
-            //             <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
-            //                 <div class="d-flex justify-content-between align-items-center">
-            //                     <div>
-            //                         <code>{$orderNumber}</code> - {$device_model} - <small>{$issue}</small>
+                        echo <<<HTML
+                        <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <code>{$orderNumber}</code> - {$device_model} - <small>{$issue}</small>
                                     
-            //                         <small class="text-muted d-block">Cliente: {$clientName}</small>
-            //                     </div>
-            //                     <div class="d-flex align-items-center gap-3">
-            //                         <small class="text-muted">{$createdAt}</small>
+                                    <small class="text-muted d-block">Cliente: {$clientName}</small>
+                                </div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <small class="text-muted">{$createdAt}</small>
                                     
-            //                         <!-- Indicador da situação -->
-            //                         <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
-            //                             <i class="bi bi-eye"></i> Situação
-            //                         </button>
+                                    <!-- Indicador da situação -->
+                                    <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
+                                        <i class="bi bi-eye"></i> Situação
+                                    </button>
 
 
 
-            //                         <!-- botão de ver -->
-            //                         <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
-            //                             <i class="bi bi-eye"></i> Ver
-            //                         </button>
-            //                     </div>
-            //                 </div>
-            //             </li>
-            //             HTML;
-            //         }
+                                    <!-- botão de ver -->
+                                    <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
+                                        <i class="bi bi-eye"></i> Ver
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                        HTML;
+                    }
 
-            //         if (empty($orders)) {
-            //             echo '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
-            //         }
-            //         ?>
-            //     </ul>
-            <!-- // </div> -->
+                    if (empty($orders)) {
+                        echo '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
+                    }
+                    ?>
+                </ul>
+            </div>
         </div>
     </div>
 
