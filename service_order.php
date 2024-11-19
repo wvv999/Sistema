@@ -44,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $accessories = $_POST['accessories'];
         $device_password = $_POST['device_password'];
         $pattern_password = $_POST['pattern_password'];
-        $device_model = $_POST['device_model'];
 
         // Encontra o menor ID disponível com bloqueio para evitar race conditions
         $stmt = $db->query("
