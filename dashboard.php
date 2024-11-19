@@ -198,11 +198,22 @@ if(!isset($_SESSION['user_id'])) {
                                 <div class="d-flex align-items-center gap-3">
                                     <small class="text-muted">{$createdAt}</small>
 
-
+                                    
                                     <!-- Indicador da situação -->
-                                    <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
-                                        <i class="bi bi"></i> Não iniciada
+                                    <?php
+                                    $statusClasses = [
+                                        'Não iniciada' => 'btn-outline-primary',
+                                        'Em andamento' => 'btn-outline-warning',
+                                        'Concluída' => 'btn-outline-success'
+                                    ];
+
+                                    $status = $order['status'] ?? 'Não iniciada';
+                                    $statusClass = $statusClasses[$status] ?? 'btn-outline-primary';
+                                    ?>
+                                    <button class="btn btn-sm <?php echo $statusClass; ?>" onclick="event.stopPropagation();">
+                                        <i class="bi bi-clock"></i> <?php echo htmlspecialchars($status); ?>
                                     </button>
+
 
 
                                     <!-- botão de ver -->
