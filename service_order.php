@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Insere a nova ordem usando o ID encontrado
         $stmt = $db->prepare("
-            INSERT INTO service_orders (id, client_id, phone1, phone2, delivery_date, 
+            INSERT INTO service_orders (id, client_id, device_model, phone1, phone2, delivery_date, 
                                       reported_issue, accessories, device_password, pattern_password) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
