@@ -180,7 +180,13 @@ try {
                     <tbody>
                         <?php foreach ($clients as $client): ?>
                             <tr>
-                                <td>
+                            <td>
+                                <i class="bi bi-person-circle me-2"></i>
+                                <a href="ordens_cliente.php?id=<?php echo $client['id']; ?>" class="text-decoration-none text-dark">
+                                    <?php echo htmlspecialchars($client['name']); ?>
+                                </a>
+                            </td>
+                                <!-- <td>
                                     <i class="bi bi-person-circle me-2"></i>
                                     <?php echo htmlspecialchars($client['name']); ?>
                                 </td>
@@ -190,7 +196,7 @@ try {
                                 <td>
                                     <i class="bi bi-calendar-event me-2"></i>
                                     <?php echo date('d/m/Y H:i', strtotime($client['created_at'])); ?>
-                                </td>
+                                </td> -->
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
