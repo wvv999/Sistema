@@ -215,7 +215,7 @@ try {
                 <div class="mt-4 text-muted">
                     <small>
                         <i class="bi bi-clock-history"></i> 
-                        Ordem criada em: <?php echo date('d/m/Y \à\s H:i', strtotime($order['created_at'])); ?>
+                        Ordem criada em: <?php echo date('d/m/Y', strtotime($order['created_at'])); ?>
                     </small>
                 </div>
             </div>
