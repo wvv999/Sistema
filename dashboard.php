@@ -191,9 +191,9 @@ if(!isset($_SESSION['user_id'])) {
                         <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <code>{$orderNumber}</code> - {$issue}
+                                    <code>{$orderNumber}</code> - {$device_model}
                                     <small class="text-muted d-block">Cliente: {$clientName}</small>
-                                    <small class="text-muted d-block">Modelo: {$device_model}</small>
+                                    <small class="text-muted d-block">Modelo: {$issue}</small>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
                                     <small class="text-muted">{$createdAt}</small>
