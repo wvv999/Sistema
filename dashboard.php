@@ -64,34 +64,39 @@ if(!isset($_SESSION['user_id'])) {
             border-radius: 8px;
         }
 
+        #orderDetails dl {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px;
+            margin: 0;
+        }
+
+        #orderDetails dt {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        #orderDetails dd {
+            margin: 0;
+            padding: 0 0 0.5rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
         .recent-orders-list .list-group-item {
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border-left: 4px solid transparent;
+            transition: background-color 0.2s ease;
         }
 
         .recent-orders-list .list-group-item:hover {
             background-color: #f8f9fa;
-            border-left-color: #0d6efd;
         }
 
-        .clickable-order {
-            text-decoration: none;
-            color: inherit;
-            display: block;
+        .recent-orders-list .btn-view-order {
+            opacity: 0.8;
+            transition: opacity 0.2s ease;
         }
 
-        .clickable-order:hover {
-            color: inherit;
-        }
-
-        /* Removido o opacity para manter o botão sempre visível */
-        .btn-view-order {
-            transition: transform 0.2s ease;
-        }
-
-        .btn-view-order:hover {
-            transform: scale(1.05);
+        .recent-orders-list .list-group-item:hover .btn-view-order {
+            opacity: 1;
         }
 
         .list-group-item {
@@ -105,7 +110,66 @@ if(!isset($_SESSION['user_id'])) {
     </style>
 </head>
 <body class="bg-light">
-    <!-- ... Resto do código permanece igual até a seção de ordens recentes ... -->
+    <a href="logout.php" class="btn btn-outline-danger logout-btn">
+        <i class="bi bi-box-arrow-right"></i> Sair
+    </a>
+
+    <div class="container">
+        <div class="dashboard-container">
+            <div class="welcome-header">
+                <h2><i class="bi bi-grid-1x2"></i> Sistema Interno Tele Dil</h2>
+                <div class="user-info">
+                    <i class="bi bi-person-circle"></i>
+                    Bem-vindo, <?php echo htmlspecialchars($_SESSION['username']); ?>
+                </div>
+            </div>
+
+            <div class="search-container">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchInput" 
+                           placeholder="Digite o número da OS ou nome do cliente...">
+                    <button class="btn btn-primary" type="button" id="searchButton">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
+                        <i class="bi bi-file-earmark-text"></i>
+                        Nova Ordem de Serviço
+                    </a>
+                </div>
+
+                <div class="col-md-6">
+                    <a href="new_user.php" class="btn btn-outline-info w-100 nav-button">
+                        <i class="bi bi-person-plus"></i>
+                        Cadastrar Novo Usuário
+                    </a>
+                </div>
+                
+                <div class="col-md-6">
+                    <a href="clientes.php" class="btn btn-outline-success w-100 nav-button">
+                        <i class="bi bi-person-lines-fill"></i>
+                        Cadastrar Clientes
+                    </a>
+                </div>
+
+                <div class="col-md-6">
+                    <a href="users.php" class="btn btn-outline-info w-100 nav-button">
+                        <i class="bi bi-people"></i>
+                        Lista de Usuários
+                    </a>
+                </div>
+
+                <div class="col-md-6">
+                    <a href="consulta_ordens.php" class="btn btn-outline-info w-100 nav-button">
+                        <i class="bi bi-people"></i>
+                        Lista de Ordens
+                    </a>
+                </div>
+            </div>
 
             <div class="mt-4 p-3 bg-light rounded">
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -118,34 +182,7 @@ if(!isset($_SESSION['user_id'])) {
                     require_once 'recent_orders.php';
                     $recentOrders = new RecentOrders();
                     $orders = $recentOrders->getRecentOrders(5);
-                    
-                    foreach ($orders as $order) {
-                        $orderNumber = str_pad($order['id'], 5, '0', STR_PAD_LEFT);
-                        $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
-                        $clientName = htmlspecialchars($order['client_name']);
-                        $createdAt = (new DateTime($order['created_at']))->format('d/m/Y H:i');
-                        
-                        echo <<<HTML
-                        <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <code>{$orderNumber}</code> - {$issue}
-                                    <small class="text-muted d-block">Cliente: {$clientName}</small>
-                                </div>
-                                <div class="d-flex align-items-center gap-3">
-                                    <small class="text-muted">{$createdAt}</small>
-                                    <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
-                                        <i class="bi bi-eye"></i> Ver
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        HTML;
-                    }
-
-                    if (empty($orders)) {
-                        echo '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
-                    }
+                    echo $recentOrders->formatOrders($orders);
                     ?>
                 </ul>
             </div>
@@ -153,6 +190,48 @@ if(!isset($_SESSION['user_id'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- ... Resto do código do script permanece igual ... -->
+    <script>
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+
+    async function searchOrder() {
+        const searchValue = searchInput.value.trim();
+        if (!searchValue) {
+            alert('Por favor, digite um número de OS ou nome do cliente');
+            return;
+        }
+
+        try {
+            searchButton.disabled = true;
+            searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
+
+            const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao buscar ordem');
+            }
+
+            if (data.success && data.data.length > 0) {
+                const order = data.data[0]; // Pega o primeiro resultado
+                window.location.href = `view_order.php?id=${order.id}`;
+            } else {
+                alert('Nenhuma ordem encontrada com os critérios informados');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao buscar ordem: ' + error.message);
+        } finally {
+            searchButton.disabled = false;
+            searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
+        }
+    }
+
+    // Event listeners
+    searchButton.addEventListener('click', searchOrder);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchOrder();
+    });
+    </script>
 </body>
 </html>
