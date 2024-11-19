@@ -14,6 +14,7 @@ class RecentOrders {
             
             $query = "SELECT 
                         so.id,
+                        so.device_model,
                         so.reported_issue,
                         so.delivery_date,
                         so.created_at,
@@ -39,6 +40,7 @@ class RecentOrders {
         $html = '';
         foreach ($orders as $order) {
             $orderNumber = str_pad($order['id'], 5, '0', STR_PAD_LEFT);
+            $device_model = htmlspecialchars($order['device_model']);
             $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "...")); // Limita o tamanho do problema reportado
             $clientName = htmlspecialchars($order['client_name']);
             $createdAt = (new DateTime($order['created_at']))->format('d/m/Y H:i');
@@ -52,6 +54,7 @@ class RecentOrders {
                     <small class="text-muted">%s</small>
                 </li>',
                 $orderNumber,
+                $device_model,
                 $issue,
                 $clientName,
                 $createdAt
