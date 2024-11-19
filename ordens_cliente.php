@@ -39,7 +39,7 @@ try {
                      services.name as service_name,
                      status.name as status_name,
                      status.color as status_color
-              FROM service_orders 
+              FROM orders 
               LEFT JOIN services ON orders.service_id = services.id
               LEFT JOIN status ON orders.status_id = status.id
               WHERE orders.client_id = ? 
