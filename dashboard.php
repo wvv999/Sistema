@@ -193,7 +193,7 @@ if(!isset($_SESSION['user_id'])) {
                                 <div>
                                     <code>{$orderNumber}</code> - {$issue}
                                     <small class="text-muted d-block">Cliente: {$clientName}</small>
-                                    <small class="text-muted d-block">Cliente: {$device_model}</small>
+                                    <small class="text-muted d-block">Modelo: {$device_model}</small>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
                                     <small class="text-muted">{$createdAt}</small>
