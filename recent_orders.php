@@ -1,6 +1,7 @@
 <?php
 require_once 'config.php';
 
+
 class RecentOrders {
     private $db;
     
@@ -12,17 +13,11 @@ class RecentOrders {
         try {
             $conn = $this->db->getConnection();
             
-            $query = "SELECT 
-                        so.id,
-                        so.device_model,
-                        so.reported_issue,
-                        so.delivery_date,
-                        so.created_at,
-                        c.name as client_name
-                     FROM service_orders so
-                     JOIN clients c ON so.client_id = c.id 
-                     ORDER BY so.created_at DESC 
-                     LIMIT :limit";
+            $query = "SELECT service_orders.*, clients.name as client_name 
+              FROM service_orders 
+              LEFT JOIN clients ON service_orders.client_id = clients.id 
+              ORDER BY service_orders.created_at DESC 
+              LIMIT :limit";
             
             $stmt = $conn->prepare($query);
             $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
