@@ -184,7 +184,7 @@ if(!isset($_SESSION['user_id'])) {
                         $orderNumber = str_pad($order['id'], 5, '0', STR_PAD_LEFT);
                         $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
                         $clientName = htmlspecialchars($order['client_name']);
-                        $createdAt = (new DateTime($order['created_at']))->format('d/m/Y H:i');
+                        $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
                         
                         echo <<<HTML
                         <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
