@@ -182,8 +182,9 @@ if(!isset($_SESSION['user_id'])) {
                     
                     foreach ($orders as $order) {
                         $orderNumber = str_pad($order['id'], STR_PAD_LEFT);
-                        $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
                         $clientName = htmlspecialchars($order['client_name']);
+                        $device_model = htmlspecialchars($order['device_model']);
+                        $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
                         $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
                         
                         echo <<<HTML
@@ -192,6 +193,7 @@ if(!isset($_SESSION['user_id'])) {
                                 <div>
                                     <code>{$orderNumber}</code> - {$issue}
                                     <small class="text-muted d-block">Cliente: {$clientName}</small>
+                                    <small class="text-muted d-block">Cliente: {$device_model}</small>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
                                     <small class="text-muted">{$createdAt}</small>
