@@ -90,9 +90,9 @@ if(!isset($_SESSION['user_id'])) {
             transition: transform 0.2s ease;
         }
 
-        .btn-view-order:hover {
+        /* .btn-view-order:hover {
             transform: scale(1.05);
-        }
+        } */
 
         .list-group-item {
             border-left: 4px solid transparent;
