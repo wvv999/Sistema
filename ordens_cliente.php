@@ -152,7 +152,7 @@ try {
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <?php echo date('d/m/Y H:i', strtotime($order['created_at'])); ?>
+                                        <?php echo date('d/m/Y', strtotime($order['created_at'])); ?>
                                     </td>
                                     <td>
                                         <a href="ver_ordem.php?id=<?php echo $order['id']; ?>" 
