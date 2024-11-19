@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $db->beginTransaction(); // Inicia uma transação
 
         $client_id = $_POST['client_id'];
+        $device_model = $_POST['device_model'];
         $phone1 = $_POST['phone1'];
         $phone2 = $_POST['phone2'];
         $delivery_date = $_POST['delivery_date'];
