@@ -198,7 +198,7 @@ if(!isset($_SESSION['user_id'])) {
                                 <div class="d-flex align-items-center gap-3">
                                     <small class="text-muted">{$createdAt}</small>
                                     <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
-                                        <i class="bi bi "></i> Situação
+                                        <i class="bi bi ">Situação</i> 
                                         <i class="bi bi-eye"></i> Ver
                                     </button>
                                 </div>
