@@ -136,7 +136,7 @@ try {
                         <tbody>
                             <?php foreach ($orders as $order): ?>
                                 <tr>
-                                    <td><?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?></td>
+                                    <td><?php echo str_pad($order['id'], STR_PAD_LEFT); ?></td>
                                     <td><?php echo htmlspecialchars($order['device_model']); ?></td>
                                     <td class="reported-issue" title="<?php echo htmlspecialchars($order['reported_issue']); ?>">
                                         <?php echo htmlspecialchars($order['reported_issue']); ?>
