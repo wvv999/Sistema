@@ -146,7 +146,8 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
             </div>
 
-                        <div class="mt-4 p-3 bg-light rounded">
+                
+            <div class="mt-4 p-3 bg-light rounded">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="mb-0">
                         <i class="bi bi-clock-history"></i> Ordens de Serviço Recentes
@@ -192,6 +193,7 @@ if(!isset($_SESSION['user_id'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- ... Resto do código do script permanece igual ... -->
     <script>
     const searchInput = document.getElementById('searchInput');
 const searchButton = document.getElementById('searchButton');
