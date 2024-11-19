@@ -64,22 +64,43 @@ if(!isset($_SESSION['user_id'])) {
             border-radius: 8px;
         }
 
-        #orderDetails dl {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 10px;
-            margin: 0;
+        .recent-orders-list .list-group-item {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-left: 4px solid transparent;
         }
 
-        #orderDetails dt {
-            font-weight: bold;
-            text-align: right;
+        .recent-orders-list .list-group-item:hover {
+            background-color: #f8f9fa;
+            border-left-color: #0d6efd;
         }
 
-        #orderDetails dd {
-            margin: 0;
-            padding: 0 0 0.5rem 0;
-            border-bottom: 1px solid #eee;
+        .clickable-order {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .clickable-order:hover {
+            color: inherit;
+        }
+
+        /* Removido o opacity para manter o botão sempre visível */
+        .btn-view-order {
+            transition: transform 0.2s ease;
+        }
+
+        .btn-view-order:hover {
+            transform: scale(1.05);
+        }
+
+        .list-group-item {
+            border-left: 4px solid transparent;
+            transition: border-left-color 0.2s ease;
+        }
+
+        .list-group-item:hover {
+            border-left-color: #0d6efd;
         }
     </style>
 </head>
