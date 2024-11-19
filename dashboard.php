@@ -181,7 +181,7 @@ if(!isset($_SESSION['user_id'])) {
                     $orders = $recentOrders->getRecentOrders(5);
                     
                     foreach ($orders as $order) {
-                        $orderNumber = str_pad($order['id'], 5, '0', STR_PAD_LEFT);
+                        $orderNumber = str_pad($order['id'], STR_PAD_LEFT);
                         $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
                         $clientName = htmlspecialchars($order['client_name']);
                         $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
