@@ -291,6 +291,7 @@ try {
         gap: 12px;
         border-top: 1px solid #dee2e6;
         margin-top: auto;
+        user-select: none;
     }
 
     .bottom-button {
@@ -307,6 +308,7 @@ try {
         gap: 8px;
         min-width: 120px;
         justify-content: center;
+        user-select: none;
     }
 
     /* .bottom-button:hover {
