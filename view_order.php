@@ -177,8 +177,13 @@ try {
         flex-direction: column;
         gap: 16px;
     }
-
-    .reported-issue, .device-password{
+    .device-password{
+        background-color: #f8f9fa;
+        padding: 16px;
+        border-radius: var(--border-radius);
+        height: fit-content;
+    }
+    .reported-issue{
         background-color: #f8f9fa;
         padding: 16px;
         margin-bottom: 16px;
