@@ -387,7 +387,7 @@ try {
                 </div>
 
                 <div>
-    
+                    
     <div class="section-title">Laudo Técnico</div>
     <div class="technical-report">
         <?php
@@ -415,7 +415,9 @@ try {
                 <div class="input-group">
                     <textarea id="newNote" 
                             rows="1"
-                            placeholder="Digite sua nota técnica..."></textarea>
+                            placeholder="Digite sua nota técnica...">                    <button onclick="addNote()" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Adicionar
+                    </button></textarea>
                     <button onclick="addNote()" class="btn btn-primary">
                         <i class="bi bi-plus-circle"></i> Adicionar
                     </button>
