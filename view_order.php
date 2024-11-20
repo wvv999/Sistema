@@ -93,7 +93,10 @@ try {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             margin: 0;
             min-height: 100vh;
+            
         }
+        
+        .example::-webkit-scrollbar { display: none; }
 
         .order-container {
             background-color: #fff;
