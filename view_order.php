@@ -273,42 +273,44 @@ try {
 </head>
 <body>
     <div class="order-container">
-        <div class="header-info">
-            <div class="header-row">
-                <div>
-                    <span class="header-label">Nome:</span>
-                    <span class="header-value"><?php echo htmlspecialchars($order['client_name']); ?></span>
-                </div>
-                <div>
-                    <span class="header-label">Ordem:</span>
-                    <span class="header-value"><?php echo $order['id']; ?></span>
-                </div>
+    <div class="order-info">
+    <h4 class="mb-3">
+        <i class="bi bi-person-circle"></i> 
+        Informações do Cliente
+    </h4>
+    <div class="client-details">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="info-label">Nome do Cliente</div>
+                <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
             </div>
-            <div class="header-row">
-                <div>
-                    <span class="header-label">Telefone 1:</span>
-                    <span class="header-value"><?php echo htmlspecialchars($order['phone1']); ?></span>
-                </div>
-                <div>
-                    <span class="header-label">Abertura:</span>
-                    <span class="header-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></span>
-                </div>
+            <div class="col-md-6">
+                <div class="info-label">Ordem</div>
+                <div class="info-value">#<?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?></div>
             </div>
-            <div class="header-row">
-                <div>
-                    <span class="header-label">Telefone 2:</span>
-                    <span class="header-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></span>
-                </div>
-                <div>
-                    <span class="header-label">Entrega:</span>
-                    <span class="header-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></span>
-                </div>
-                <div>
-                    <span class="header-label">Senha:</span>
-                    <span class="header-value"><?php echo htmlspecialchars($order['device_password']); ?></span>
-                </div>
+            <div class="col-md-6">
+                <div class="info-label">Telefone Principal</div>
+                <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-label">Data de Abertura</div>
+                <div class="info-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-label">Telefone Secundário</div>
+                <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-label">Data de Entrega</div>
+                <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-label">Senha do Dispositivo</div>
+                <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
             </div>
         </div>
+    </div>
+</div>
 
         <div class="technical-info-container">
             <div class="technical-notes">
