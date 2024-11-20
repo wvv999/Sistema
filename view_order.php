@@ -51,245 +51,253 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
-    :root {
-        --primary-color: #4a6fff;
-        --secondary-color: #f8f9fa;
-        --accent-color: #e7e9f6;
-        --border-radius: 8px;
-        --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    }
+        :root {
+            --primary-color: #4a6fff;
+            --secondary-color: #f8f9fa;
+            --accent-color: #e7e9f6;
+            --border-radius: 8px;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
 
-    body { 
-        background-color: #f5f6fa;
-        padding: 20px;
-        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        margin: 0;
-        min-height: 100vh;
-    }
+        body { 
+            background-color: #f5f6fa;
+            padding: 20px;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
 
-    .order-container {
-        background-color: #fff;
-        border-radius: var(--border-radius);
-        padding: 24px;
-        box-shadow: var(--shadow);
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        min-height: calc(100vh - 40px);
-    }
-
-    .order-info {
-        background: linear-gradient(145deg, var(--accent-color), #f8f9ff);
-        padding: 20px;
-        border-radius: var(--border-radius);
-        margin-bottom: 24px;
-        border: 1px solid rgba(0,0,0,0.05);
-    }
-
-    .client-details {
-        border-left: 4px solid #0d6efd;
-        padding-left: 15px;
-        margin-top: 10px;
-    }
-
-    .main-content {
-        display: flex;
-        gap: 24px;
-        flex: 1;
-        margin-bottom: 24px;
-    }
-
-    .content-left {
-        flex: 1;
-    }
-
-    .content-right {
-        width: 250px;
-    }
-
-    .info-label {
-        font-weight: bold;
-        color: #6c757d;
-        margin-bottom: 5px;
-        font-size: 0.9rem;
-    }
-
-    .info-value {
-        color: #333;
-        margin-bottom: 15px;
-        font-size: 1rem;
-    }
-
-    .device-password {
-        background-color: #f8f9fa;
-        padding: 16px;
-        border-radius: var(--border-radius);
-        border: 1px solid rgba(0,0,0,0.05);
-        border-left: 4px solid #0d6efd;
-        margin-bottom: 20px;
-    }
-
-    .reported-issue {
-        background-color: #f8f9fa;
-        padding: 16px;
-        margin-bottom: 20px;
-        border-radius: var(--border-radius);
-        min-height: 100px;
-        border: 1px solid rgba(0,0,0,0.05);
-        border-left: 4px solid #0d6efd;
-    }
-
-    .section-title {
-        font-weight: bold;
-        color: #6c757d;
-        margin-bottom: 12px;
-        font-size: 1.1em;
-    }
-
-    .side-panel {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-    }
-
-    .menu-section {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        padding: 16px;
-        border: 1px solid rgba(0,0,0,0.1);
-        border-radius: var(--border-radius);
-        background-color: #fff;
-    }
-
-    .action-button {
-        width: 100%;
-        padding: 12px;
-        border-radius: 8px;
-        border: 1px solid #dee2e6;
-        background: white;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-weight: 500;
-    }
-
-    .action-button:hover {
-        transform: translateX(-2px);
-        box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-    }
-
-    /* Status buttons */
-    .status-button {
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        transition: all 0.3s ease;
-        justify-content: center;
-    }
-
-    .status-nao-iniciada { background-color: #6c757d; color: white; }
-    .status-em-andamento { background-color: #fd7e14; color: white; }
-    .status-concluida { background-color: #28a745; color: white; }
-    .status-pronto-e-avisado { background-color: #0dcaf0; color: white; }
-    .status-entregue { background-color: #20c997; color: white; }
-
-    /* Auth button styles */
-    .auth-button {
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        justify-content: center;
-    }
-
-    .auth-autorizacao { background-color: #6c757d; color: white; }
-    .auth-solicitado { background-color: #ffc107; color: black; }
-    .auth-autorizado { background-color: #28a745; color: white; }
-
-    /* Menu buttons */
-    .menu-button {
-        width: 100%;
-        padding: 12px;
-        border-radius: 8px;
-        border: 1px solid #dee2e6;
-        background: white;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-weight: 500;
-    }
-
-    .menu-button:hover {
-        transform: translateX(-2px);
-        box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-    }
-
-    /* Technical report section */
-    .technical-report {
-        background-color: #f8f9fa;
-        padding: 16px;
-        border-radius: var(--border-radius);
-        border: 1px solid rgba(0,0,0,0.05);
-        border-left: 4px solid #0d6efd;
-    }
-
-    .technical-notes textarea {
-        border: none;
-        background: transparent;
-        width: 100%;
-        resize: none;
-        padding: 0;
-        margin-bottom: 10px;
-        font-size: 0.9rem;
-    }
-
-    .technical-notes textarea:focus {
-        outline: none;
-        box-shadow: none;
-    }
-
-    .add-note-form {
-        border-top: 1px solid rgba(0,0,0,0.1);
-        padding-top: 10px;
-        margin-top: 10px;
-    }
-
-    .add-note-form .input-group {
-        display: flex;
-        gap: 8px;
-    }
-
-    .add-note-form textarea {
-        min-height: 38px;
-        padding: 8px;
-        border: 1px solid #dee2e6;
-        border-radius: 4px;
-        background-color: white;
-    }
-
-    .add-note-form button {
-        padding: 8px 16px;
-        height: 38px;
-        white-space: nowrap;
-    }
-
-    @media (max-width: 768px) {
-        .main-content {
+        .order-container {
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
             flex-direction: column;
+            min-height: calc(100vh - 40px);
         }
-        
+
+        .order-info {
+            background: linear-gradient(145deg, var(--accent-color), #f8f9ff);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 24px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .client-details {
+            border-left: 4px solid #0d6efd;
+            padding-left: 15px;
+            margin-top: 10px;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 24px;
+            flex: 1;
+            margin-bottom: 24px;
+        }
+
+        .content-left {
+            flex: 1;
+        }
+
         .content-right {
+            width: 250px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #6c757d;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .device-password {
+            background-color: #f8f9fa;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-left: 4px solid #0d6efd;
+            margin-bottom: 20px;
+        }
+
+        .reported-issue {
+            background-color: #f8f9fa;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            min-height: 100px;
+            border: 1px solid rgba(0,0,0,0.05);
+            border-left: 4px solid #0d6efd;
+        }
+
+        .section-title {
+            font-weight: bold;
+            color: #6c757d;
+            margin-bottom: 12px;
+            font-size: 1.1em;
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .menu-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--border-radius);
+            background-color: #fff;
+        }
+
+        .action-button {
             width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
         }
-        
+
+        .action-button:hover {
+            transform: translateX(-2px);
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Status buttons */
+        .status-button {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            justify-content: center;
+        }
+
+        .status-nao-iniciada { background-color: #6c757d; color: white; }
+        .status-em-andamento { background-color: #fd7e14; color: white; }
+        .status-concluida { background-color: #28a745; color: white; }
+        .status-pronto-e-avisado { background-color: #0dcaf0; color: white; }
+        .status-entregue { background-color: #20c997; color: white; }
+
+        /* Auth button styles */
+        .auth-button {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            justify-content: center;
+        }
+
+        .auth-autorizacao { background-color: #6c757d; color: white; }
+        .auth-solicitado { background-color: #ffc107; color: black; }
+        .auth-autorizado { background-color: #28a745; color: white; }
+
+        /* Menu buttons */
         .menu-button {
-            min-width: calc(50% - 12px);
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
         }
-    }
-    </style>
+
+        .menu-button:hover {
+            transform: translateX(-2px);
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Technical report section */
+        .technical-report {
+            background-color: #f8f9fa;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-left: 4px solid #0d6efd;
+        }
+
+        .technical-notes textarea {
+            border: none;
+            background: transparent;
+            width: 100%;
+            resize: none;
+            padding: 0;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+
+        .technical-notes textarea:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .add-note-form {
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .add-note-form .input-group {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            align-items: start;
+        }
+
+        .add-note-form textarea {
+            min-height: 38px;
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            background-color: white;
+            resize: none;
+            line-height: 20px;
+        }
+
+        .add-note-form button {
+            height: 38px;
+            white-space: nowrap;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .content-right {
+                width: 100%;
+            }
+            
+            .menu-button {
+                min-width: calc(50% - 12px);
+            }
+        }
+</style>
 </head>
 <body>
     <div class="order-container">
