@@ -607,7 +607,98 @@ try {
         updateButtonAppearance(statusButton, statusButton.dataset.status);
         updateButtonAppearance(authButton, authButton.dataset.authStatus, 'auth');
     </script>
+    <script>
+        import React, { useState } from 'react';
+        import { Clock, AlertCircle, CheckCircle, Phone, Package, Tool } from 'lucide-react';
 
+        // Timeline de Status
+        const StatusTimeline = ({ currentStatus }) => {
+        const statuses = [
+            { id: 'new', label: 'Não iniciada', icon: Clock },
+            { id: 'progress', label: 'Em andamento', icon: Tool },
+            { id: 'complete', label: 'Concluída', icon: CheckCircle },
+            { id: 'ready', label: 'Pronto e avisado', icon: Phone },
+            { id: 'delivered', label: 'Entregue', icon: Package }
+        ];
+
+        const getCurrentIndex = () => statuses.findIndex(s => s.label === currentStatus);
+
+        return (
+            <div className="flex items-center justify-between w-full mb-6 px-4">
+            {statuses.map((status, idx) => {
+                const Icon = status.icon;
+                const isActive = idx <= getCurrentIndex();
+                return (
+                <div key={status.id} className="flex flex-col items-center">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 
+                    ${isActive ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
+                    <Icon size={20} />
+                    </div>
+                    <span className="text-sm text-gray-600">{status.label}</span>
+                    {idx < statuses.length - 1 && (
+                    <div className={`h-0.5 w-24 mt-5 -ml-12 
+                        ${isActive ? 'bg-blue-500' : 'bg-gray-200'}`} />
+                    )}
+                </div>
+                );
+            })}
+            </div>
+        );
+        };
+
+        // Notas Técnicas Melhoradas
+        const TechnicalNotes = ({ notes }) => {
+        const [newNote, setNewNote] = useState('');
+        const [searchTerm, setSearchTerm] = useState('');
+
+        return (
+            <div className="bg-white rounded-lg shadow p-4">
+            <div className="mb-4">
+                <div className="relative">
+                <input
+                    type="text"
+                    placeholder="Pesquisar nas notas..."
+                    className="w-full px-4 py-2 border rounded-lg"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <div className="absolute right-3 top-2.5 text-gray-400">🔍</div>
+                </div>
+            </div>
+            
+            <div className="mb-4 max-h-96 overflow-y-auto">
+                {notes.map((note, idx) => (
+                <div key={idx} className="mb-4 p-3 bg-gray-50 rounded-lg">
+                    <div className="flex justify-between items-center mb-2">
+                    <span className="font-medium text-blue-600">{note.username}</span>
+                    <span className="text-sm text-gray-500">{note.formatted_date}</span>
+                    </div>
+                    <p className="text-gray-700">{note.note}</p>
+                </div>
+                ))}
+            </div>
+
+            <div className="border-t pt-4">
+                <textarea
+                className="w-full p-3 border rounded-lg mb-2"
+                placeholder="Digite sua nota técnica..."
+                rows="3"
+                value={newNote}
+                onChange={(e) => setNewNote(e.target.value)}
+                />
+                <div className="flex gap-2">
+                <button className="px-4 py-2 bg-blue-500 text-white rounded-lg flex items-center gap-2">
+                    <span>Adicionar Nota</span>
+                </button>
+                <button className="px-4 py-2 border rounded-lg text-gray-600">
+                    Usar Template
+                </button>
+                </div>
+            </div>
+            </div>
+        );
+        };
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
