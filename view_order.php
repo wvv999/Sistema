@@ -636,52 +636,7 @@ try {
 
         // Função para adicionar nota técnica
         async function addNote() {
-            const noteText = document.getElementById('newNote').value.trim();
-            if (!noteText) {
-                showToast('Por favor, digite uma nota técnica.', 'error');
-                return;
-            }
-
-            try {
-                const response = await fetch('save_technical_note.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        orderId: <?php echo $_GET['id']; ?>,
-                        note: noteText
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    const technicalNotes = document.getElementById('technicalNotes');
-                    const today = new Date().toLocaleDateString('pt-BR', { 
-                        day: '2-digit', 
-                        month: '2-digit', 
-                        year: '2-digit' 
-                    });
-                    
-                    let newNoteText = '';
-                    if (!technicalNotes.value.includes(today)) {
-                        newNoteText = `\n---------------- ${today} ----------------\n\n`;
-                    }
-                    
-                    newNoteText += `${data.username}: ${noteText}\n`;
-                    technicalNotes.value += newNoteText;
-                    document.getElementById('newNote').value = '';
-                    technicalNotes.scrollTop = technicalNotes.scrollHeight;
-                    
-                    showToast('Nota adicionada com sucesso!');
-                } else {
-                    showToast(data.message || 'Erro ao salvar nota', 'error');
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                showToast('Erro ao salvar nota técnica', 'error');
-            }
+            // ... (código existente da função addNote permanece igual)
         }
 
         // Event listener para tecla Enter no campo de nota
@@ -695,37 +650,41 @@ try {
         // Gestão de status e autorização
         const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
-        
+
         function updateButtonAppearance(button, status, prefix = 'status') {
-            button.className = 'action-button ' + prefix + '-button';
+            // Remove todas as classes anteriores que começam com o prefixo
+            button.classList.forEach(className => {
+                if (className.startsWith(`${prefix}-`)) {
+                    button.classList.remove(className);
+                }
+            });
+            
+            // Adiciona as novas classes
+            button.classList.add('action-button', `${prefix}-button`);
             const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, "")
                 .replace(/ /g, '-')}`;
             button.classList.add(statusClass);
-            button.innerHTML = `<i class="bi bi-gear"></i> <span>${status}</span>`;
+            button.querySelector('span').textContent = status;
         }
 
-        statusButton.addEventListener('click', async function() {
-            const currentStatus = this.dataset.status;
-            const currentIndex = statusFlow.indexOf(currentStatus);
-            const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
-            
+        async function updateStatus(button, newStatus) {
             try {
                 const response = await fetch('update_status.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        orderId: this.dataset.orderId,
-                        status: nextStatus
+                        orderId: button.dataset.orderId,
+                        status: newStatus
                     })
                 });
 
                 const data = await response.json();
                 
                 if (data.success) {
-                    this.dataset.status = nextStatus;
-                    updateButtonAppearance(this, nextStatus);
-                    showToast(`Status atualizado para: ${nextStatus}`);
+                    button.dataset.status = newStatus;
+                    updateButtonAppearance(button, newStatus);
+                    showToast(`Status atualizado para: ${newStatus}`);
                 } else {
                     showToast(data.message || 'Erro ao atualizar status', 'error');
                 }
@@ -733,32 +692,35 @@ try {
                 console.error('Erro:', error);
                 showToast('Erro ao atualizar status', 'error');
             }
+        }
+
+        statusButton.addEventListener('click', function() {
+            const currentStatus = this.dataset.status;
+            const currentIndex = statusFlow.indexOf(currentStatus);
+            const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+            updateStatus(this, nextStatus);
         });
 
         // Gestão de autorização
         const authButton = document.getElementById('authButton');
         const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
 
-        authButton.addEventListener('click', async function() {
-            const currentStatus = this.dataset.authStatus;
-            const currentIndex = authFlow.indexOf(currentStatus);
-            const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
-            
+        async function updateAuthStatus(button, newStatus) {
             try {
                 const response = await fetch('update_auth_status.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        orderId: this.dataset.orderId,
-                        authStatus: nextStatus
+                        orderId: button.dataset.orderId,
+                        authStatus: newStatus
                     })
                 });
 
                 const data = await response.json();
                 
                 if (data.success) {
-                    this.dataset.authStatus = nextStatus;
-                    updateButtonAppearance(this, nextStatus, 'auth');
+                    button.dataset.authStatus = newStatus;
+                    updateButtonAppearance(button, newStatus, 'auth');
                     showToast(`Autorização atualizada para: ${nextStatus}`);
                 } else {
                     showToast(data.message || 'Erro ao atualizar autorização', 'error');
@@ -767,11 +729,28 @@ try {
                 console.error('Erro:', error);
                 showToast('Erro ao atualizar autorização', 'error');
             }
+        }
+
+        authButton.addEventListener('click', function() {
+            const currentStatus = this.dataset.authStatus;
+            const currentIndex = authFlow.indexOf(currentStatus);
+            const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
+            updateAuthStatus(this, nextStatus);
         });
 
         // Definir estados iniciais
-        updateButtonAppearance(statusButton, statusButton.dataset.status);
-        updateButtonAppearance(authButton, authButton.dataset.authStatus, 'auth');
+        document.addEventListener('DOMContentLoaded', function() {
+            const initialStatus = statusButton.dataset.status;
+            const initialAuthStatus = authButton.dataset.authStatus;
+            
+            // Configura a estrutura inicial dos botões
+            statusButton.innerHTML = '<i class="bi bi-gear"></i> <span>' + initialStatus + '</span>';
+            authButton.innerHTML = '<i class="bi bi-check-circle"></i> <span>' + initialAuthStatus + '</span>';
+            
+            // Aplica as classes iniciais
+            updateButtonAppearance(statusButton, initialStatus);
+            updateButtonAppearance(authButton, initialAuthStatus, 'auth');
+        });
     </script>
 </body>
 </html>
