@@ -57,6 +57,9 @@ try {
             box-sizing: border-box;
             margin: 40px;
         }
+        
+        .example::-webkit-scrollbar { display: none; }
+
         .container {
             padding-top: 2rem;
             padding-bottom: 2rem;
