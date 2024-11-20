@@ -479,7 +479,7 @@ try {
         async function addNote() {
             const noteText = document.getElementById('newNote').value.trim();
             if (!noteText) {
-                // alert('Por favor, digite uma nota técnica.');
+                alert('Por favor, digite uma nota técnica.');
                 return;
             }
 
