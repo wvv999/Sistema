@@ -179,7 +179,7 @@ require_once 'GestaoStats.php';
                     <label class="form-label">Ordenar por</label>
                     <select class="form-select" id="sort-filter">
                         <option value="date_desc">Mais recente</option>
-                        <option value="date_asc">Mmais antiga</option>
+                        <option value="date_asc">Mais antiga</option>
                         <option value="status">Status</option>
                     </select>
                 </div>
