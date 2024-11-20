@@ -599,6 +599,43 @@ try {
             </div>
         </div>
     </div>
+    <!-- Modal de Histórico -->
+    <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="historyModalLabel">Histórico da Ordem de Serviço</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="historyTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button" role="tab">
+                                <i class="bi bi-clock-history"></i> Status
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab">
+                                <i class="bi bi-card-text"></i> Notas Técnicas
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-3" id="historyTabContent">
+                        <div class="tab-pane fade show active" id="status" role="tabpanel">
+                            <div class="status-history-list" style="max-height: 400px; overflow-y: auto;">
+                                <!-- Status history will be inserted here -->
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="notes" role="tabpanel">
+                            <div class="notes-history-list" style="max-height: 400px; overflow-y: auto;">
+                                <!-- Notes history will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Container para notificações toast -->
     <div class="toast-container"></div>
