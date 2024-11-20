@@ -172,7 +172,7 @@ require_once 'GestaoStats.php';
                         <option value="">Todos</option>
                         <option value="não iniciada">Não Iniciada</option>
                         <option value="em andamento">Em Andamento</option>
-                        <option value="aguardando peça">Aguardando Peça</option>
+                        <!-- <option value="aguardando peça">Aguardando Peça</option> -->
                         <option value="finalizada">Finalizada</option>
                     </select>
                 </div>
