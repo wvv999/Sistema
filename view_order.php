@@ -253,7 +253,7 @@ try {
         }
 
         .add-note-form {
-            border-top: 1px solid rgba(0,0,0,0.1);
+            /* border-top: 1px solid rgba(0,0,0,0.1); */
             padding-top: 10px;
             margin-top: 10px;
         }
