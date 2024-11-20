@@ -205,7 +205,7 @@ try {
                                 <th>OS</th>
                                 <th>Cliente</th>
                                 <th>Dispositivo / Problema</th>
-                                <th>Datas</th>
+                                <th>Entrada / Saída</th>
                                 <th>Status</th>
                                 <th>Ações</th>
                             </tr>
