@@ -427,6 +427,18 @@ try {
                 </div>
             </div>
         </div>
+        <?php
+            $created = new DateTime($order['created_at']);
+            $now = new DateTime();
+            $days = $created->diff($now)->days;
+            if ($days > 3) {
+                echo '<div class="alert alert-warning">
+                        <i class="bi bi-clock"></i>
+                        <strong>Atenção ao prazo:</strong> 
+                        Esta ordem está aberta há ' . $days . ' dias
+                    </div>';
+            }
+        ?>
 
         <!-- Conteúdo principal com duas colunas -->
         <div class="main-content">
