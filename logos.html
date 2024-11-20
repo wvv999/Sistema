@@ -17,97 +17,26 @@
           </filter>
         </defs>
         <rect width="100%" height="100%" fill="#212121"/>
-        <!-- Logo D mais moderno -->
+        
+        <!-- Logo D mais definido -->
         <g transform="translate(50,40)" filter="url(#shadow)">
-          <path d="M 0,0 h 30 v 80 h -30 c 5,-20 5,-60 0,-80 z" fill="#4a4a4a"/>
-          <rect x="-5" y="0" width="40" height="12" rx="2" fill="url(#redGradient)"/>
-          <path d="M 8,12 v 56 h 3 v -56 z M 15,12 v 56 h 3 v -56 z" fill="url(#redGradient)"/>
+          <!-- Base do D -->
+          <path d="M 0,0 
+                   h 30 
+                   a 40,40 0 0,1 0,80 
+                   h -30 
+                   z" 
+                fill="#4a4a4a"/>
+          
+          <!-- Elementos de circuito vermelhos -->
+          <rect x="-5" y="0" width="40" height="8" rx="2" fill="url(#redGradient)"/>
+          <path d="M 8,8 v 64 h 2 v -64 z 
+                   M 15,8 v 64 h 2 v -64 z" 
+                fill="url(#redGradient)"/>
         </g>
+        
         <text x="100" y="90" font-family="'Segoe UI', Arial" font-size="42" fill="#ffffff" filter="url(#shadow)">Tele Dil</text>
         <text x="100" y="120" font-family="'Segoe UI', Arial" font-size="24" fill="#888888">Assistência Técnica</text>
-      </svg>
-      <svg viewBox="0 0 400 250">
-        <defs>
-          <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#1a1a1a"/>
-            <stop offset="100%" style="stop-color:#2a2a2a"/>
-          </linearGradient>
-          <linearGradient id="redAccent" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" style="stop-color:#cc0000"/>
-            <stop offset="100%" style="stop-color:#990000"/>
-          </linearGradient>
-        </defs>
-        
-        <!-- Background com design moderno -->
-        <rect width="100%" height="100%" fill="url(#bgGradient)"/>
-        <path d="M 0,0 L 400,0 L 400,250 L 350,250 L 300,200 L 0,200 Z" fill="url(#redAccent)" opacity="0.1"/>
-        
-        <!-- Conteúdo -->
-        <g transform="translate(40,50)">
-          <path d="M 0,0 h 25 v 60 h -25 c 4,-15 4,-45 0,-60 z" fill="#4a4a4a"/>
-          <rect x="-4" y="0" width="33" height="10" rx="2" fill="url(#redAccent)"/>
-          <path d="M 6,10 v 42 h 2.5 v -42 z M 12,10 v 42 h 2.5 v -42 z" fill="url(#redAccent)"/>
-        </g>
-        
-        <text x="90" y="80" font-family="'Segoe UI', Arial" font-size="32" fill="#ffffff">Tele Dil</text>
-        <text x="90" y="110" font-family="'Segoe UI', Arial" font-size="18" fill="#888888">Assistência Técnica</text>
-        
-        <!-- Informações de Contato -->
-        <g transform="translate(40,150)">
-          <text font-family="'Segoe UI', Arial" font-size="14" fill="#ffffff">
-            <tspan x="0" y="0">📱 (51) 99538-4838</tspan>
-            <tspan x="0" y="20">📞 (51) 3561-5145</tspan>
-            <tspan x="150" y="0">📍 Seu Endereço Aqui</tspan>
-            <tspan x="150" y="20">💻 @telediloficial</tspan>
-          </text>
-        </g>
-      </svg>
-      <svg viewBox="0 0 1000 200">
-        <defs>
-          <linearGradient id="bannerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" style="stop-color:#1a1a1a"/>
-            <stop offset="85%" style="stop-color:#cc0000"/>
-          </linearGradient>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-            <feMerge>
-              <feMergeNode in="coloredBlur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-        
-        <!-- Background moderno -->
-        <rect width="100%" height="100%" fill="url(#bannerGradient)"/>
-        
-        <!-- Logo e Nome -->
-        <g transform="translate(40,40)">
-          <path d="M 0,0 h 35 v 80 h -35 c 6,-20 6,-60 0,-80 z" fill="#4a4a4a" filter="url(#glow)"/>
-          <rect x="-5" y="0" width="45" height="12" rx="2" fill="#cc0000" filter="url(#glow)"/>
-          <path d="M 8,12 v 56 h 3 v -56 z M 18,12 v 56 h 3 v -56 z" fill="#cc0000" filter="url(#glow)"/>
-        </g>
-        
-        <text x="120" y="80" font-family="'Segoe UI', Arial" font-size="42" fill="#ffffff" filter="url(#glow)">Tele Dil</text>
-        <text x="120" y="110" font-family="'Segoe UI', Arial" font-size="24" fill="#cccccc">Assistência Técnica</text>
-        
-        <!-- Serviços com ícones modernos -->
-        <g transform="translate(600,40)">
-          <text font-family="'Segoe UI', Arial" font-size="18" fill="#ffffff">
-            <tspan x="0" y="0">🔧 Acessórios</tspan>
-            <tspan x="0" y="30">📱 Troca de Vidros</tspan>
-            <tspan x="0" y="60">🔄 Troca de Telas</tspan>
-            <tspan x="0" y="90">⚡ Reparos em Placa</tspan>
-          </text>
-        </g>
-        
-        <!-- Contatos modernos -->
-        <g transform="translate(40,160)">
-          <text font-family="'Segoe UI', Arial" font-size="16" fill="#ffffff">
-            <tspan x="0" y="0">📱 (51) 99538-4838</tspan>
-            <tspan x="200" y="0">📞 (51) 3561-5145</tspan>
-            <tspan x="400" y="0">📷 @telediloficial</tspan>
-          </text>
-        </g>
       </svg>
 </body>
 </html>
