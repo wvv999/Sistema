@@ -139,6 +139,65 @@ try {
         border: 1px solid rgba(0,0,0,0.05);
         border-left: 4px solid #0d6efd;
     }
+    .technical-report {
+        background-color: #f8f9fa;
+        padding: 16px;
+        border-radius: var(--border-radius);
+        border: 1px solid rgba(0,0,0,0.05);
+        border-left: 4px solid #0d6efd;
+    }
+    .technical-notes textarea {
+        border: none;
+        background: transparent;
+        width: 100%;
+        resize: none;
+        padding: 0;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+    .technical-notes textarea:focus {
+        outline: none;
+        box-shadow: none;
+    }
+    .add-note-form {
+        border-top: 1px solid rgba(0,0,0,0.1);
+        padding-top: 10px;
+        margin-top: 10px;
+    }
+    .add-note-form .input-group {
+        display: flex;
+        gap: 8px;
+    }
+    .add-note-form textarea {
+        min-height: 38px;
+        padding: 8px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        background-color: white;
+    }
+    .add-note-form button {
+        padding: 8px 16px;
+        height: 38px;
+        white-space: nowrap;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     .section-title {
         font-weight: bold;
@@ -218,22 +277,10 @@ try {
         background-color: #fff;
     }
 
-    .add-note-form {
-        margin-bottom: 20px;
-    }
 
-    .add-note-form .input-group {
-        display: flex;
-        gap: 10px;
-    }
+    
 
-    .add-note-form button {
-        padding: 8px 16px;
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: var(--border-radius);
-    }
+
 
     /* Bottom buttons */
     .bottom-buttons {
