@@ -279,6 +279,7 @@ require_once 'functions.php';
             dateFormat: "d/m/Y",
             maxDate: "today"
         });
+
         // No event listeners dos filtros, adicione o campo de pesquisa
         document.getElementById('search-input').addEventListener('input', debounce(() => {
             const filterValues = {
@@ -288,7 +289,30 @@ require_once 'functions.php';
                 dateRange: document.getElementById('date-range').value
             };
             loadOrders(filterValues);
-        }, 500)); // Delay de 500ms para não sobrecarregar o servidor
+        }, 500));
+
+        // Adiciona listeners para os cards de status
+        document.querySelectorAll('.stats-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove active class de todos os cards
+                document.querySelectorAll('.stats-card').forEach(c => c.classList.remove('active'));
+                // Adiciona active class ao card clicado
+                this.classList.add('active');
+                
+                // Atualiza o select de status
+                const status = this.dataset.status;
+                document.getElementById('status-filter').value = status;
+                
+                // Carrega as ordens com o filtro
+                const filterValues = {
+                    search: document.getElementById('search-input').value,
+                    status: status,
+                    sort: document.getElementById('sort-filter').value,
+                    dateRange: document.getElementById('date-range').value
+                };
+                loadOrders(filterValues);
+            });
+        });
 
         // Função debounce para limitar as requisições
         function debounce(func, wait) {
@@ -302,6 +326,7 @@ require_once 'functions.php';
                 timeout = setTimeout(later, wait);
             };
         }
+
         // Função para carregar ordens
         async function loadOrders(filters = {}) {
             const tableBody = document.getElementById('orders-table-body');
@@ -420,10 +445,11 @@ require_once 'functions.php';
         // Função auxiliar para definir a classe do status
         function getStatusClass(status) {
             const statusClasses = {
-                'não iniciada': 'bg-secondary',
+                'não iniciada': 'bg-warning',
                 'em andamento': 'bg-primary',
-                'aguardando peça': 'bg-warning',
-                'finalizada': 'bg-success'
+                'concluída': 'bg-info',
+                'pronto e avisado': 'bg-success',
+                'entregue': 'bg-dark'
             };
             return statusClasses[status] || 'bg-secondary';
         }
@@ -455,23 +481,23 @@ require_once 'functions.php';
         loadActivities();
 
         // Atualiza as estatísticas periodicamente
-        setInterval(() => {
+        function updateStats() {
             fetch('get_stats.php')
                 .then(response => response.json())
                 .then(data => {
                     if (data.success && data.stats) {
-                        document.querySelector('.stats-card:nth-child(1) h2').textContent = data.stats.ordensAbertas;
-                        document.querySelector('.stats-card:nth-child(2) h2').textContent = data.stats.ordensFinalizadasHoje;
-                        document.querySelector('.stats-card:nth-child(3) h2').textContent = data.stats.tempoMedioResolucao;
-                        document.querySelector('.stats-card:nth-child(4) h2').textContent = data.stats.ordensAtrasadas;
+                        document.querySelector('[data-status="não iniciada"] h2').textContent = data.stats.naoIniciadas;
+                        document.querySelector('[data-status="em andamento"] h2').textContent = data.stats.emAndamento;
+                        document.querySelector('[data-status="concluída"] h2').textContent = data.stats.concluidas;
+                        document.querySelector('[data-status="pronto e avisado"] h2').textContent = data.stats.prontoAvisado;
+                        document.querySelector('[data-status="entregue"] h2').textContent = data.stats.entregue;
                     }
                 })
-                .catch(error => {
-                    console.error('Erro ao atualizar estatísticas:', error);
-                    // Opcional: mostrar mensagem de erro para o usuário
-                    // alert('Erro ao atualizar estatísticas. Por favor, recarregue a página.');
-                });
-        }, 60000); // Atualiza a cada minuto
+                .catch(error => console.error('Erro ao atualizar estatísticas:', error));
+        }
+
+        // Atualiza estatísticas a cada minuto
+        setInterval(updateStats, 60000);
 
         // Atualiza a lista de ordens e atividades a cada 2 minutos
         setInterval(() => {
@@ -481,8 +507,8 @@ require_once 'functions.php';
                 dateRange: document.getElementById('date-range').value
             });
             loadActivities();
-        }, 120000); // 120000 ms = 2 minutos
+        }, 120000);
     });
-    </script>
+</script>
 </body>
 </html>
