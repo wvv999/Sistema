@@ -1,3 +1,71 @@
+<?php 
+session_start(); 
+require_once 'config.php';  
+
+if(!isset($_SESSION['user_id'])) {     
+    header("Location: index.php");     
+    exit; 
+}  
+
+if(!isset($_GET['id'])) {     
+    header("Location: dashboard.php");     
+    exit; 
+}  
+
+$database = new Database(); 
+$db = $database->getConnection();  
+
+try {
+    // Primeiro, buscar os dados da ordem de serviço
+    $query = "SELECT 
+            so.*,
+            c.name as client_name,
+            c.phone1,
+            c.phone2,
+            so.device_password,
+            COALESCE(so.status, 'Não iniciada') as status
+          FROM service_orders so 
+          INNER JOIN clients c ON so.client_id = c.id 
+          WHERE so.id = :id";
+
+    $stmt = $db->prepare($query);
+    $stmt->execute([':id' => $_GET['id']]);
+    $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$order) {         
+        header("Location: dashboard.php");         
+        exit;     
+    }
+
+    // Depois, buscar as notas técnicas
+    $notesQuery = "SELECT tn.*, u.username, 
+                   DATE_FORMAT(tn.created_at, '%d/%m/%y') as formatted_date,
+                   DATE_FORMAT(tn.created_at, '%Y-%m-%d') as note_date
+                   FROM technical_notes tn 
+                   JOIN users u ON tn.user_id = u.id 
+                   WHERE tn.order_id = :order_id 
+                   ORDER BY tn.created_at ASC";  
+
+    $stmt = $db->prepare($notesQuery);     
+    $stmt->execute([':order_id' => $_GET['id']]);     
+    $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);      
+
+    $textareaContent = '';     
+    $currentDate = '';      
+
+    foreach ($notes as $note) {         
+        if ($currentDate != $note['note_date']) {             
+            $textareaContent .= "\n---------------- " . $note['formatted_date'] . " ----------------\n\n";             
+            $currentDate = $note['note_date'];         
+        }         
+        $textareaContent .= "{$note['username']}: {$note['note']}\n";     
+    }      
+
+} catch(Exception $e) {         
+    header("Location: dashboard.php");         
+    exit;     
+} 
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
