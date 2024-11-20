@@ -588,7 +588,7 @@ try {
                         </button> -->
                         <button class="action-button" onclick="javascript:history.go(-1)">
                             <i class="bi bi-x-lg"></i>
-                            <span>Fechar</span>
+                            <span>Salvar e Voltar</span>
                         </button>
                     </div>
                 </div>
