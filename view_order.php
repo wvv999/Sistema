@@ -415,8 +415,7 @@ try {
                 <div class="input-group">
                     <textarea id="newNote" 
                             rows="1"
-                            placeholder="Digite sua nota técnica...">
-                    </textarea>
+                            placeholder="Digite sua nota técnica..."></textarea>
                     <button onclick="addNote()" class="btn btn-primary">
                         <i class="bi bi-plus-circle"></i> Adicionar
                     </button>
