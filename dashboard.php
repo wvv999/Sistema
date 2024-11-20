@@ -189,41 +189,45 @@ if(!isset($_SESSION['user_id'])) {
                     <?php
                     require_once 'recent_orders.php';
                     require_once 'orderStatus.php';
-                    $recentOrders = new RecentOrders();
-                    $orders = $recentOrders->getRecentOrders(5);
                     
-                    foreach ($orders as $order) {
-                        $orderNumber = str_pad($order['id'], STR_PAD_LEFT);
-                        $clientName = htmlspecialchars($order['client_name']);
-                        $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
-                        $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
-                        $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
-                        $statusButton = OrderStatus::getStatusButton($order['status']);
-
+                    try {
+                        $recentOrders = new RecentOrders();
+                        $orders = $recentOrders->getRecentOrders(5);
                         
-                        
-                        echo <<<HTML
-                        <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <code>{$orderNumber}</code> - {$device_model} - <small>{$issue}</small>
-                                    <small class="text-muted d-block">Cliente: {$clientName}</small>
-                                </div>
-                                <div class="d-flex align-items-center gap-3">
-                                    <small class="text-muted">{$createdAt}</small>
-                                    {$statusButton}
-                                    <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
-                                        <i class="bi bi-eye"></i> Ver
-                                    </button>
-                                </div>
-                            </div>
-                        </li>
-                        HTML;
-                    }
-                    var_dump($order['status']);
-
-                    if (empty($orders)) {
-                        echo '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
+                        if (empty($orders)) {
+                            echo '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
+                        } else {
+                            foreach ($orders as $order) {
+                                $orderNumber = str_pad($order['id'], STR_PAD_LEFT);
+                                $clientName = htmlspecialchars($order['client_name']);
+                                $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
+                                $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
+                                $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
+                                $status = $order['status'] ?? 'não iniciada';
+                                $statusButton = OrderStatus::getStatusButton($status);
+                                
+                                echo <<<HTML
+                                <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <code>{$orderNumber}</code> - {$device_model} - <small>{$issue}</small>
+                                            <small class="text-muted d-block">Cliente: {$clientName}</small>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <small class="text-muted">{$createdAt}</small>
+                                            {$statusButton}
+                                            <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
+                                                <i class="bi bi-eye"></i> Ver
+                                            </button>
+                                        </div>
+                                    </div>
+                                </li>
+                                HTML;
+                            }
+                        }
+                    } catch (Exception $e) {
+                        echo '<li class="list-group-item text-danger">Erro ao carregar ordens de serviço: ' . htmlspecialchars($e->getMessage()) . '</li>';
+                        error_log("Erro na dashboard: " . $e->getMessage());
                     }
                     ?>
                 </ul>
