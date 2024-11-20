@@ -179,9 +179,11 @@ try {
     }
     .device-password{
         background-color: #f8f9fa;
-        padding: 16px;
+        padding: 6px;
         border-radius: var(--border-radius);
         height: fit-content;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-left: 4px solid #0d6efd;
     }
     .reported-issue{
         background-color: #f8f9fa;
