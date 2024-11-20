@@ -405,6 +405,49 @@ try {
             animation: slideIn 0.3s ease;
         }
 
+        /* Estilos para o histórico */
+        .history-item {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            background: var(--secondary-color);
+            margin-bottom: 10px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .history-item:hover {
+            background: var(--accent-color);
+        }
+
+        .history-item .date {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .history-item .username {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .history-item .detail {
+            color: #495057;
+        }
+
+        #historyTabs .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+        }
+
+        #historyTabs .nav-link i {
+            font-size: 1.1em;
+        }
+
+        .status-history-list, .notes-history-list {
+            padding: 10px;
+        }
+
         @keyframes slideIn {
             from {
                 transform: translateX(100%);
