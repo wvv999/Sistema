@@ -51,279 +51,225 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
-        :root {
-            --primary-color: #4a6fff;
-            --secondary-color: #f8f9fa;
-            --accent-color: #e7e9f6;
-            --border-radius: 8px;
-            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-        }
+    :root {
+        --primary-color: #4a6fff;
+        --secondary-color: #f8f9fa;
+        --accent-color: #e7e9f6;
+        --border-radius: 8px;
+        --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
 
-        body { 
-            background-color: #f5f6fa;
-            padding: 20px;
-            user-select: none;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
+    body { 
+        background-color: #f5f6fa;
+        padding: 20px;
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
 
-        .order-container {
-            background-color: #fff;
-            border-radius: var(--border-radius);
-            padding: 24px;
-            box-shadow: var(--shadow);
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
+    .order-container {
+        background-color: #fff;
+        border-radius: var(--border-radius);
+        padding: 24px;
+        box-shadow: var(--shadow);
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+    }
 
-        .header-info {
-            background: linear-gradient(145deg, var(--accent-color), #f8f9ff);
-            padding: 20px;
-            border-radius: var(--border-radius);
-            margin-bottom: 24px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
+    /* Estilo similar ao client-details */
+    .header-info {
+        background: linear-gradient(145deg, var(--accent-color), #f8f9ff);
+        padding: 20px;
+        border-radius: var(--border-radius);
+        margin-bottom: 24px;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-left: 4px solid #0d6efd;
+    }
 
-        .header-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            padding: 0 10px;
-        }
+    .header-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 12px;
+        padding: 0 10px;
+    }
 
-        .header-label {
-            color: #555;
-            font-weight: 600;
-            min-width: 120px;
-        }
+    .header-label {
+        font-weight: bold;
+        color: #6c757d;
+        min-width: 120px;
+    }
 
-        .header-value {
-            color: #333;
-            font-weight: 500;
-        }
+    .header-value {
+        color: #333;
+        font-weight: 500;
+    }
 
-        .technical-history {
-            width: 75%;
-        }
+    .technical-info-container {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 24px;
+    }
 
-        .technical-history textarea {
-            border: 1px solid #e0e0e0;
-            padding: 16px;
-            border-radius: var(--border-radius);
-            min-height: 200px;
-            width: 100%;
-            font-family: inherit;
-            resize: vertical;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-        }
+    .technical-notes {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
 
-        .reported-issue {
-            border: 1px solid #e0e0e0;
-            padding: 16px;
-            margin: 16px 0;
-            border-radius: var(--border-radius);
-            min-height: 100px;
-            background-color: #fff;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-        }
+    .reported-issue {
+        background-color: #f8f9fa;
+        padding: 16px;
+        margin-bottom: 16px;
+        border-radius: var(--border-radius);
+        min-height: 100px;
+        border: 1px solid rgba(0,0,0,0.05);
+        border-left: 4px solid #0d6efd;
+    }
 
-        .side-buttons {
-            position: absolute;
-            right: 24px;
-            top: 200px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 180px;
-        }
+    .section-title {
+        font-weight: bold;
+        color: #6c757d;
+        margin-bottom: 12px;
+        font-size: 1.1em;
+    }
 
-        .side-button {
-            background-color: #fff;
-            border: 1px solid #e0e0e0;
-            padding: 12px;
-            text-align: center;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 500;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
+    .side-panel {
+        width: 250px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
 
-        .side-button:hover {
-            transform: translateX(-2px);
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-        }
+    .action-button {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        background: white;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+    }
 
-        .status-button {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
+    .action-button:hover {
+        transform: translateX(-2px);
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    }
 
-        /* Estilos específicos para cada status */
-        .status-nao-iniciada { 
-            background-color: #ffc107 !important;
-            border-color: #ffeeba !important;
-            color: #856404 !important;
-        }
+    /* Status buttons */
+    .status-button {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        justify-content: center;
+    }
 
-        .status-em-andamento { 
-            background-color: #007bff !important;
-            border-color: #b8daff !important;
-            color: #ffffff !important;
-        }
+    /* Status styles */
+    .status-nao-iniciada {
+        background-color: #6c757d !important;
+        border-color: #6c757d !important;
+        color: white !important;
+    }
 
-        .status-concluida { 
-            background-color: #28a745 !important;
-            border-color: #c3e6cb !important;
-            color: #ffffff !important;
-        }
+    .status-em-andamento {
+        background-color: #fd7e14 !important;
+        border-color: #fd7e14 !important;
+        color: white !important;
+    }
 
-        .bottom-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 24px;
-            justify-content: flex-end;
-        }
+    .status-concluida {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        color: white !important;
+    }
 
-        .bottom-button {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 500;
-            box-shadow: 0 2px 4px rgba(74, 111, 255, 0.2);
-        }
+    .status-pronto-e-avisado {
+        background-color: #0dcaf0 !important;
+        border-color: #0dcaf0 !important;
+        color: white !important;
+    }
 
-        .bottom-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(74, 111, 255, 0.3);
-        }
+    .status-entregue {
+        background-color: #20c997 !important;
+        border-color: #20c997 !important;
+        color: white !important;
+    }
 
-        .section-title {
-            width: 75%;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 12px;
-            font-size: 1.1em;
-        }
-        .status-button {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            width: 100%;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-height: 45px;
-        }
+    /* Auth button styles */
+    .auth-button {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        justify-content: center;
+    }
 
-        /* Status da Ordem */
-        .status-nao-iniciada {
-            background-color: #6c757d !important;
-            border-color: #6c757d !important;
-            color: white !important;
-        }
+    .auth-autorizacao {
+        background-color: #6c757d !important;
+        border-color: #6c757d !important;
+        color: white !important;
+    }
 
-        .status-em-andamento {
-            background-color: #fd7e14 !important;
-            border-color: #fd7e14 !important;
-            color: white !important;
-        }
+    .auth-solicitado {
+        background-color: #ffc107 !important;
+        border-color: #ffc107 !important;
+        color: #000 !important;
+    }
 
-        .status-concluida {
-            background-color: #28a745 !important;
-            border-color: #28a745 !important;
-            color: white !important;
-        }
+    .auth-autorizado {
+        background-color: #28a745 !important;
+        border-color: #28a745 !important;
+        color: white !important;
+    }
 
-        .status-pronto-e-avisado {
-            background-color: #0dcaf0 !important;
-            border-color: #0dcaf0 !important;
-            color: white !important;
-        }
+    /* Form controls */
+    textarea.form-control {
+        border: 1px solid #e0e0e0;
+        padding: 16px;
+        border-radius: var(--border-radius);
+        min-height: 100px;
+        font-family: inherit;
+        resize: vertical;
+        background-color: #f8f9fa;
+        border-left: 4px solid #0d6efd;
+    }
 
-        .status-entregue {
-            background-color: #20c997 !important;
-            border-color: #20c997 !important;
-            color: white !important;
-        }
+    textarea.form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.2);
+        background-color: #fff;
+    }
 
-        /* Status de Autorização */
-        .auth-button {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            width: 100%;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-height: 45px;
-        }
+    /* Bottom buttons */
+    .bottom-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        justify-content: flex-end;
+    }
 
-        .auth-autorizacao {
-            background-color: #6c757d !important;
-            border-color: #6c757d !important;
-            color: white !important;
-        }
+    .bottom-button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 10px 24px;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 2px 4px rgba(74, 111, 255, 0.2);
+    }
 
-        .auth-solicitado {
-            background-color: #ffc107 !important;
-            border-color: #ffc107 !important;
-            color: #000 !important;
-        }
-
-        .auth-autorizado {
-            background-color: #28a745 !important;
-            border-color: #28a745 !important;
-            color: white !important;
-        }
-
-        .technical-info-container {
-            display: flex;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        .technical-notes {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .side-panel {
-            width: 250px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .action-button {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-            background: white;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .action-button:hover {
-            transform: translateX(-2px);
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-        }
-    </style>
+    .bottom-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(74, 111, 255, 0.3);
+    }
+</style>
 </head>
 <body>
     <div class="order-container">
