@@ -1,5 +1,4 @@
 <?php
-// get_filtered_orders.php
 header('Content-Type: application/json');
 
 require_once 'config.php';
@@ -14,23 +13,27 @@ try {
     $where = ['1=1'];
     $params = [];
     
-    // Aplica filtro de status
-    if (!empty($data['status'])) {
-        $where[] = "status = ?";
-        $params[] = $data['status'];
+    // Aplica filtro de pesquisa
+    if (!empty($data['search'])) {
+        $searchTerm = '%' . $data['search'] . '%';
+        $where[] = "(c.name LIKE ? OR so.id LIKE ? OR so.device_model LIKE ? OR so.reported_issue LIKE ?)";
+        $params[] = $searchTerm;
+        $params[] = $searchTerm;
+        $params[] = $searchTerm;
+        $params[] = $searchTerm;
     }
     
-    // Aplica filtro de técnico
-    if (!empty($data['technician'])) {
-        $where[] = "technician_id = ?";
-        $params[] = $data['technician'];
+    // Aplica filtro de status
+    if (!empty($data['status'])) {
+        $where[] = "so.status = ?";
+        $params[] = $data['status'];
     }
     
     // Aplica filtro de data
     if (!empty($data['dateRange'])) {
         $dates = explode(" to ", $data['dateRange']);
         if (count($dates) == 2) {
-            $where[] = "created_at BETWEEN ? AND ?";
+            $where[] = "so.created_at BETWEEN ? AND ?";
             $params[] = date('Y-m-d', strtotime($dates[0]));
             $params[] = date('Y-m-d', strtotime($dates[1])) . ' 23:59:59';
         }
@@ -38,9 +41,9 @@ try {
     
     // Monta a ordenação
     $orderBy = match($data['sort'] ?? 'date_desc') {
-        'date_asc' => 'created_at ASC',
-        'status' => 'status ASC, created_at DESC',
-        default => 'created_at DESC'
+        'date_asc' => 'so.created_at ASC',
+        'status' => 'so.status ASC, so.created_at DESC',
+        default => 'so.created_at DESC'
     };
     
     $query = "SELECT so.*, c.name as client_name 

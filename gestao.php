@@ -163,6 +163,11 @@ require_once 'functions.php';
         <!-- Seção de Filtros -->
         <div class="filter-section mb-4">
             <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Pesquisar</label>
+                    <input type="text" class="form-control" id="search-input" 
+                        placeholder="Pesquisar por nome do cliente, número da ordem, modelo ou defeito...">
+                </div>
                 <div class="col-md-4">
                     <label class="form-label">Período</label>
                     <input type="text" class="form-control" id="date-range" placeholder="Selecione o período">
@@ -239,7 +244,29 @@ require_once 'functions.php';
             dateFormat: "d/m/Y",
             maxDate: "today"
         });
+        // No event listeners dos filtros, adicione o campo de pesquisa
+        document.getElementById('search-input').addEventListener('input', debounce(() => {
+            const filterValues = {
+                search: document.getElementById('search-input').value,
+                status: document.getElementById('status-filter').value,
+                sort: document.getElementById('sort-filter').value,
+                dateRange: document.getElementById('date-range').value
+            };
+            loadOrders(filterValues);
+        }, 500)); // Delay de 500ms para não sobrecarregar o servidor
 
+        // Função debounce para limitar as requisições
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
         // Função para carregar ordens
         async function loadOrders(filters = {}) {
             const tableBody = document.getElementById('orders-table-body');
