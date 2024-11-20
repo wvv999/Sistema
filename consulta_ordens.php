@@ -141,11 +141,7 @@ try {
                                     <td><?= htmlspecialchars($order['phone2']) ?></td>
                                     <td><?= date('d/m/Y', strtotime($order['opening_date'])) ?></td>
                                     <td><?= $order['delivery_date'] ? date('d/m/Y', strtotime($order['delivery_date'])) : '-' ?></td>
-                                    <td><?= htmlspecialchars($order['status']) ?></td>
-                                    <!-- <td><?= nl2br(htmlspecialchars($order['reported_issue'])) ?></td> -->
-                                    <!-- <td><?= htmlspecialchars($order['accessories']) ?></td> -->
-                                    <!-- <td><?= htmlspecialchars($order['device_password']) ?></td> -->
-                                    <!-- <td><?= htmlspecialchars($order['pattern_password']) ?></td> -->
+                                    <td><?= OrderStatus::getStatusButton($order['status']) ?></td>
                                     <td>
                                         <a href="view_order.php?id=<?= $order['id'] ?>" class="btn btn-primary view-btn">
                                             <i class="bi bi-eye"></i> Ver
