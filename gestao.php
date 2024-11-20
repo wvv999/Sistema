@@ -89,7 +89,7 @@ require_once 'functions.php';
             border: 3px solid #000;
         }
 
-        
+
         @media (max-width: 768px) {
             .stats-card {
                 margin-bottom: 1rem;
@@ -368,7 +368,47 @@ require_once 'functions.php';
                 `;
             }
         }
+                // Adicione após os outros event listeners
+        document.querySelectorAll('.stats-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove active class de todos os cards
+                document.querySelectorAll('.stats-card').forEach(c => c.classList.remove('active'));
+                // Adiciona active class ao card clicado
+                this.classList.add('active');
+                
+                // Atualiza o select de status
+                const status = this.dataset.status;
+                document.getElementById('status-filter').value = status;
+                
+                // Carrega as ordens com o filtro
+                const filterValues = {
+                    search: document.getElementById('search-input').value,
+                    status: status,
+                    sort: document.getElementById('sort-filter').value,
+                    dateRange: document.getElementById('date-range').value
+                };
+                loadOrders(filterValues);
+            });
+        });
 
+        // Atualiza os números dos cards periodicamente
+        function updateStats() {
+            fetch('get_stats.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.stats) {
+                        document.querySelector('[data-status="não iniciada"] h2').textContent = data.stats.naoIniciadas;
+                        document.querySelector('[data-status="em andamento"] h2').textContent = data.stats.emAndamento;
+                        document.querySelector('[data-status="concluída"] h2').textContent = data.stats.concluidas;
+                        document.querySelector('[data-status="pronto e avisado"] h2').textContent = data.stats.prontoAvisado;
+                        document.querySelector('[data-status="entregue"] h2').textContent = data.stats.entregue;
+                    }
+                })
+                .catch(error => console.error('Erro ao atualizar estatísticas:', error));
+        }
+
+        // Atualiza as estatísticas a cada minuto
+        setInterval(updateStats, 60000);
         // Função para carregar atividades
         async function loadActivities() {
             const activitiesList = document.getElementById('activities-list');
