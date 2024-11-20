@@ -1,10 +1,17 @@
 <?php
+require_once 'config.php';
+
 class RecentOrders {
     private $conn;
 
     public function __construct() {
-        $database = new Database();
-        $this->conn = $database->getConnection();
+        try {
+            $database = new Database();
+            $this->conn = $database->getConnection();
+        } catch (Exception $e) {
+            error_log("Erro ao conectar ao banco de dados: " . $e->getMessage());
+            throw $e;
+        }
     }
 
     public function getRecentOrders($limit = 5) {
@@ -25,9 +32,15 @@ class RecentOrders {
             $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
             $stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            if (empty($result)) {
+                error_log("Nenhuma ordem encontrada");
+            }
+            
+            return $result;
         } catch (Exception $e) {
-            error_log("Error in RecentOrders::getRecentOrders: " . $e->getMessage());
+            error_log("Erro ao buscar ordens recentes: " . $e->getMessage());
             return [];
         }
     }
