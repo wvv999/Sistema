@@ -338,7 +338,7 @@ try {
     <div class="order-info">
     <h4 class="mb-3">
         <i class="bi bi-person-circle"></i> 
-        Informações do Cliente <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
+        Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
     </h4>
     <div class="client-details">
         <div class="row">
@@ -346,10 +346,7 @@ try {
                 <div class="info-label">Nome do Cliente</div>
                 <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
             </div>
-            <div class="col-md-6">
-                <div class="info-label">Ordem</div>
-                <div class="info-value">#<?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?></div>
-            </div>
+
             <div class="col-md-6">
                 <div class="info-label">Telefone Principal</div>
                 <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
