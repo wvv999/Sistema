@@ -130,7 +130,6 @@ try {
 
         .order-row:hover {
             background-color: #f8f9fa !important;
-            transform: translateX(5px);
         }
 
         .status-cell {
