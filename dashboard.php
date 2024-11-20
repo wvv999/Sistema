@@ -199,6 +199,8 @@ if(!isset($_SESSION['user_id'])) {
                         $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
                         $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
                         $statusButton = OrderStatus::getStatusButton($order['status']);
+
+                        
                         
                         echo <<<HTML
                         <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
@@ -218,6 +220,7 @@ if(!isset($_SESSION['user_id'])) {
                         </li>
                         HTML;
                     }
+                    var_dump($order['status']);
 
                     if (empty($orders)) {
                         echo '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
