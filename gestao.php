@@ -127,19 +127,19 @@ require_once 'functions.php';
                 </div>
             </div>
             
-            <div class="col-md-3">
+            <!-- <div class="col-md-3">
                 <div class="card stats-card bg-warning">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
                                 <h6 class="card-title">Tempo Médio (dias)</h6>
-                                <h2 class="mb-0"><?php echo $stats['tempoMedioResolucao']; ?></h2>
+                                <h2 class="mb-0"></h2>
                             </div>
                             <i class="bi bi-clock-history stats-icon"></i>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             
             <div class="col-md-3">
                 <div class="card stats-card bg-danger text-white">
