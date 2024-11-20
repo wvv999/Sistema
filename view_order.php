@@ -338,7 +338,7 @@ try {
     <div class="order-info">
     <h4 class="mb-3">
         <i class="bi bi-person-circle"></i> 
-        Informações do Cliente<div class="info-value">#<?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?></div>
+        Informações do Cliente <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
     </h4>
     <div class="client-details">
         <div class="row">
