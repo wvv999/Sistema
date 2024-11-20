@@ -373,9 +373,7 @@ try {
             <!-- Coluna da esquerda -->
             <div class="content-left">
                 <div>
-                    <div class="info-label">
-                        Senha do Dispositivo
-                    </div>
+                    <div class="info-label">Senha do Dispositivo</div>
                     <div class="device-password">
                         <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
                     </div>
@@ -421,9 +419,7 @@ try {
                 <div class="input-group">
                     <textarea id="newNote" 
                             rows="1"
-                            placeholder="Digite sua nota técnica..."><button onclick="addNote()" class="btn btn-primary">
-                        <i class="bi bi-plus-circle"></i> Adicionar
-                    </button></textarea>
+                            placeholder="Digite sua nota técnica..."></textarea>
                     <button onclick="addNote()" class="btn btn-primary">
                         <i class="bi bi-plus-circle"></i> Adicionar
                     </button>
