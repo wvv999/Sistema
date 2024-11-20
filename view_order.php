@@ -340,38 +340,42 @@ try {
                 </div>
 
                 <div>
-                    <div class="section-title">Laudo Técnico</div>
-                    <?php
-                    $notesQuery = "SELECT tn.*, u.username, DATE_FORMAT(tn.created_at, '%d/%m/%y') as formatted_date
-                                FROM technical_notes tn 
-                                JOIN users u ON tn.user_id = u.id 
-                                WHERE tn.order_id = :order_id 
-                                ORDER BY tn.created_at ASC";
-                    
-                    $stmt = $db->prepare($notesQuery);
-                    $stmt->execute([':order_id' => $_GET['id']]);
-                    $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                    
-                    $textareaContent = '';
-                    foreach ($notes as $note) {
-                        $textareaContent .= "{$note['username']}: {$note['note']} ({$note['formatted_date']})\n";
-                    }
-                    ?>
-                    
-                    <div class="mb-3">
-                        <textarea id="technicalNotes" class="form-control" rows="8" readonly><?php echo $textareaContent; ?></textarea>
-                    </div>
-                    
-                    <div class="add-note-form">
-                        <div class="input-group">
-                            <textarea id="newNote" class="form-control" rows="2" 
-                                    placeholder="Digite sua nota técnica..."></textarea>
-                            <button onclick="addNote()" class="btn btn-primary">
-                                <i class="bi bi-plus-circle"></i> Adicionar
-                            </button>
-                        </div>
-                    </div>
+    <div class="section-title">Laudo Técnico</div>
+    <div class="technical-report">
+        <?php
+        $notesQuery = "SELECT tn.*, u.username, DATE_FORMAT(tn.created_at, '%d/%m/%y') as formatted_date
+                    FROM technical_notes tn 
+                    JOIN users u ON tn.user_id = u.id 
+                    WHERE tn.order_id = :order_id 
+                    ORDER BY tn.created_at ASC";
+        
+        $stmt = $db->prepare($notesQuery);
+        $stmt->execute([':order_id' => $_GET['id']]);
+        $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        $textareaContent = '';
+        foreach ($notes as $note) {
+            $textareaContent .= "{$note['username']}: {$note['note']} ({$note['formatted_date']})\n";
+        }
+        ?>
+        
+        <div class="technical-notes">
+            <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
+            
+            <!-- Formulário para adicionar nova nota -->
+            <div class="add-note-form">
+                <div class="input-group">
+                    <textarea id="newNote" 
+                            rows="1"
+                            placeholder="Digite sua nota técnica..."></textarea>
+                    <button onclick="addNote()" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Adicionar
+                    </button>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
             </div>
 
             <!-- Coluna da direita -->
