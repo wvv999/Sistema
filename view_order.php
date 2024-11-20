@@ -139,65 +139,6 @@ try {
         border: 1px solid rgba(0,0,0,0.05);
         border-left: 4px solid #0d6efd;
     }
-    .technical-report {
-        background-color: #f8f9fa;
-        padding: 16px;
-        border-radius: var(--border-radius);
-        border: 1px solid rgba(0,0,0,0.05);
-        border-left: 4px solid #0d6efd;
-    }
-    .technical-notes textarea {
-        border: none;
-        background: transparent;
-        width: 100%;
-        resize: none;
-        padding: 0;
-        margin-bottom: 10px;
-        font-size: 0.9rem;
-    }
-    .technical-notes textarea:focus {
-        outline: none;
-        box-shadow: none;
-    }
-    .add-note-form {
-        border-top: 1px solid rgba(0,0,0,0.1);
-        padding-top: 10px;
-        margin-top: 10px;
-    }
-    .add-note-form .input-group {
-        display: flex;
-        gap: 8px;
-    }
-    .add-note-form textarea {
-        min-height: 38px;
-        padding: 8px;
-        border: 1px solid #dee2e6;
-        border-radius: 4px;
-        background-color: white;
-    }
-    .add-note-form button {
-        padding: 8px 16px;
-        height: 38px;
-        white-space: nowrap;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     .section-title {
         font-weight: bold;
@@ -209,7 +150,17 @@ try {
     .side-panel {
         display: flex;
         flex-direction: column;
+        gap: 24px;
+    }
+
+    .menu-section {
+        display: flex;
+        flex-direction: column;
         gap: 12px;
+        padding: 16px;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: var(--border-radius);
+        background-color: #fff;
     }
 
     .action-button {
@@ -226,10 +177,10 @@ try {
         font-weight: 500;
     }
 
-    /* .action-button:hover {
+    .action-button:hover {
         transform: translateX(-2px);
         box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-    } */
+    }
 
     /* Status buttons */
     .status-button {
@@ -256,65 +207,74 @@ try {
     .auth-solicitado { background-color: #ffc107; color: black; }
     .auth-autorizado { background-color: #28a745; color: white; }
 
-    /* Form controls */
-    textarea.form-control {
-        border: 1px solid #e0e0e0;
-        padding: 16px;
-        border-radius: var(--border-radius);
-        min-height: 100px;
-        font-family: inherit;
-        resize: vertical;
-        background-color: #f8f9fa;
-        border-left: 4px solid #0d6efd;
-        margin-bottom: 15px;
+    /* Menu buttons */
+    .menu-button {
         width: 100%;
-        box-sizing: border-box;
-    }
-
-    textarea.form-control:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.2);
-        background-color: #fff;
-    }
-
-
-    
-
-
-
-    /* Bottom buttons */
-    .bottom-buttons {
-        background-color: #fff;
-        padding: 15px;
-        display: flex;
-        justify-content: flex-end;
-        gap: 12px;
-        border-top: 1px solid #dee2e6;
-        margin-top: auto;
-        user-select: none;
-    }
-
-    .bottom-button {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        padding: 10px 24px;
-        border-radius: var(--border-radius);
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-weight: 500;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        background: white;
         display: flex;
         align-items: center;
         gap: 8px;
-        min-width: 120px;
-        justify-content: center;
-        user-select: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-weight: 500;
     }
 
-    /* .bottom-button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(74, 111, 255, 0.3);
-    } */
+    .menu-button:hover {
+        transform: translateX(-2px);
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Technical report section */
+    .technical-report {
+        background-color: #f8f9fa;
+        padding: 16px;
+        border-radius: var(--border-radius);
+        border: 1px solid rgba(0,0,0,0.05);
+        border-left: 4px solid #0d6efd;
+    }
+
+    .technical-notes textarea {
+        border: none;
+        background: transparent;
+        width: 100%;
+        resize: none;
+        padding: 0;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+
+    .technical-notes textarea:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .add-note-form {
+        border-top: 1px solid rgba(0,0,0,0.1);
+        padding-top: 10px;
+        margin-top: 10px;
+    }
+
+    .add-note-form .input-group {
+        display: flex;
+        gap: 8px;
+    }
+
+    .add-note-form textarea {
+        min-height: 38px;
+        padding: 8px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        background-color: white;
+    }
+
+    .add-note-form button {
+        padding: 8px 16px;
+        height: 38px;
+        white-space: nowrap;
+    }
 
     @media (max-width: 768px) {
         .main-content {
@@ -325,12 +285,7 @@ try {
             width: 100%;
         }
         
-        .bottom-buttons {
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .bottom-button {
+        .menu-button {
             min-width: calc(50% - 12px);
         }
     }
@@ -389,91 +344,97 @@ try {
                 </div>
 
                 <div>
-                    
-    <div class="section-title">Laudo Técnico</div>
-    <div class="technical-report">
-        <?php
-        $notesQuery = "SELECT tn.*, u.username, DATE_FORMAT(tn.created_at, '%d/%m/%y') as formatted_date
-                    FROM technical_notes tn 
-                    JOIN users u ON tn.user_id = u.id 
-                    WHERE tn.order_id = :order_id 
-                    ORDER BY tn.created_at ASC";
-        
-        $stmt = $db->prepare($notesQuery);
-        $stmt->execute([':order_id' => $_GET['id']]);
-        $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        
-        $textareaContent = '';
-        foreach ($notes as $note) {
-            $textareaContent .= "{$note['username']}: {$note['note']} ({$note['formatted_date']})\n";
-        }
-        ?>
-        
-        <div class="technical-notes">
-            <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
-            
-            <!-- Formulário para adicionar nova nota -->
-            <div class="add-note-form">
-                <div class="input-group">
-                    <textarea id="newNote" 
-                            rows="1"
-                            placeholder="Digite sua nota técnica..."></textarea>
-                    <button onclick="addNote()" class="btn btn-primary">
-                        <i class="bi bi-plus-circle"></i> Adicionar
-                    </button>
+                    <div class="section-title">Laudo Técnico</div>
+                    <div class="technical-report">
+                        <?php
+                        $notesQuery = "SELECT tn.*, u.username, DATE_FORMAT(tn.created_at, '%d/%m/%y') as formatted_date
+                                    FROM technical_notes tn 
+                                    JOIN users u ON tn.user_id = u.id 
+                                    WHERE tn.order_id = :order_id 
+                                    ORDER BY tn.created_at ASC";
+                        
+                        $stmt = $db->prepare($notesQuery);
+                        $stmt->execute([':order_id' => $_GET['id']]);
+                        $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        
+                        $textareaContent = '';
+                        foreach ($notes as $note) {
+                            $textareaContent .= "{$note['username']}: {$note['note']} ({$note['formatted_date']})\n";
+                        }
+                        ?>
+                        
+                        <div class="technical-notes">
+                            <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
+                            
+                            <!-- Formulário para adicionar nova nota -->
+                            <div class="add-note-form">
+                                <div class="input-group">
+                                    <textarea id="newNote" 
+                                            rows="1"
+                                            placeholder="Digite sua nota técnica..."></textarea>
+                                    <button onclick="addNote()" class="btn btn-primary">
+                                        <i class="bi bi-plus-circle"></i> Adicionar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
             </div>
 
             <!-- Coluna da direita -->
             <div class="content-right">
                 <div class="side-panel">
-                    <div id="statusButton" 
-                         class="action-button status-button"
-                         data-status="<?php echo $order['status']; ?>"
-                         data-order-id="<?php echo $order['id']; ?>">
-                        <i class="bi bi-gear"></i>
-                        <span><?php echo $order['status']; ?></span>
+                    <!-- Primeira seção do menu - Status e Ações -->
+                    <div class="menu-section">
+                        <div id="statusButton" 
+                             class="action-button status-button"
+                             data-status="<?php echo $order['status']; ?>"
+                             data-order-id="<?php echo $order['id']; ?>">
+                            <i class="bi bi-gear"></i>
+                            <span><?php echo $order['status']; ?></span>
+                        </div>
+
+                        <div id="authButton" 
+                             class="action-button auth-button auth-autorizacao"
+                             data-auth-status="Autorização"
+                             data-order-id="<?php echo $order['id']; ?>">
+                            <i class="bi bi-check-circle"></i>
+                            <span>Autorização</span>
+                        </div>
+
+                        <div class="action-button">
+                            <i class="bi bi-currency-dollar"></i>
+                            <span>Negociação</span>
+                        </div>
+
+                        <div class="action-button">
+                            <i class="bi bi-cart"></i>
+                            <span>Compra de Peças</span>
+                        </div>
                     </div>
 
-                    <div id="authButton" 
-                         class="action-button auth-button auth-autorizacao"
-                         data-auth-status="Autorização"
-                         data-order-id="<?php echo $order['id']; ?>">
-                        <i class="bi bi-check-circle"></i>
-                        <span>Autorização</span>
-                    </div>
-
-                    <div class="action-button">
-                        <i class="bi bi-currency-dollar"></i>
-                        <span>Negociação</span>
-                    </div>
-
-                    <div class="action-button">
-                        <i class="bi bi-cart"></i>
-                        <span>Compra de Peças</span>
+                    <!-- Segunda seção do menu - Ações da OS -->
+                    <div class="menu-section">
+                        <button class="menu-button">
+                            <i class="bi bi-printer"></i>
+                            <span>Histórico</span>
+                        </button>
+                        <button class="menu-button">
+                            <i class="bi bi-printer"></i>
+                            <span>Imprimir</span>
+                        </button>
+                        <button class="menu-button" style="background-color:#28a745; color: white">
+                            <i class="bi bi-save"></i>
+                            <span>Salvar</span>
+                        </button>
+                        <button class="menu-button" onclick="javascript:history.go(-1)">
+                            <i class="bi bi-x-lg"></i>
+                            <span>Fechar</span>
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Barra de botões dentro do container -->
-        <div class="bottom-buttons">
-            <button class="bottom-button">
-                <i class="bi bi-printer"></i> Histórico
-            </button>
-            <button class="bottom-button">
-                <i class="bi bi-printer"></i> Imprimir
-            </button>
-            <button class="bottom-button" style="background-color:#28a745">
-                <i class="bi bi-save"></i> Salvar
-            </button>
-            <button class="bottom-button" onclick="javascript:history.go(-1)">
-                <i class="bi bi-x-lg"></i> Fechar
-            </button>
         </div>
     </div>
 
