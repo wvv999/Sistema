@@ -636,7 +636,52 @@ try {
 
         // Função para adicionar nota técnica
         async function addNote() {
-            // ... (código existente da função addNote permanece igual)
+            const noteText = document.getElementById('newNote').value.trim();
+            if (!noteText) {
+                showToast('Por favor, digite uma nota técnica.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('save_technical_note.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderId: <?php echo $_GET['id']; ?>,
+                        note: noteText
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    const technicalNotes = document.getElementById('technicalNotes');
+                    const today = new Date().toLocaleDateString('pt-BR', { 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: '2-digit' 
+                    });
+                    
+                    let newNoteText = '';
+                    if (!technicalNotes.value.includes(today)) {
+                        newNoteText = `\n---------------- ${today} ----------------\n\n`;
+                    }
+                    
+                    newNoteText += `${data.username}: ${noteText}\n`;
+                    technicalNotes.value += newNoteText;
+                    document.getElementById('newNote').value = '';
+                    technicalNotes.scrollTop = technicalNotes.scrollHeight;
+                    
+                    showToast('Nota adicionada com sucesso!');
+                } else {
+                    showToast(data.message || 'Erro ao salvar nota', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao salvar nota técnica', 'error');
+            }
         }
 
         // Event listener para tecla Enter no campo de nota
@@ -648,81 +693,119 @@ try {
         });
 
         // Gestão de status e autorização
-const statusButton = document.getElementById('statusButton');
-const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
+        const statusButton = document.getElementById('statusButton');
+        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
 
-function updateButtonAppearance(button, status, prefix = 'status') {
-    // Remove todas as classes anteriores que começam com o prefixo
-    button.classList.forEach(className => {
-        if (className.startsWith(`${prefix}-`)) {
-            button.classList.remove(className);
+        function updateButtonAppearance(button, status, prefix = 'status') {
+            // Remove todas as classes exceto 'action-button'
+            const classes = [...button.classList];
+            classes.forEach(className => {
+                if (className !== 'action-button') {
+                    button.classList.remove(className);
+                }
+            });
+            
+            // Adiciona as novas classes
+            button.classList.add(`${prefix}-button`);
+            const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/ /g, '-')}`;
+            button.classList.add(statusClass);
+            button.querySelector('span').textContent = status;
         }
-    });
-    
-    // Adiciona as novas classes
-    button.classList.add('action-button', `${prefix}-button`);
-    const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/ /g, '-')}`;
-    button.classList.add(statusClass);
-    button.querySelector('span').textContent = status;
-}
 
-async function updateStatus(button, newStatus) {
-    try {
-        const response = await fetch('update_status.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                orderId: button.dataset.orderId,
-                status: newStatus
-            })
+        async function updateStatus(button, newStatus) {
+            try {
+                const response = await fetch('update_status.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        orderId: button.dataset.orderId,
+                        status: newStatus
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    button.dataset.status = newStatus;
+                    updateButtonAppearance(button, newStatus);
+                    showToast(`Status atualizado para: ${newStatus}`);
+                } else {
+                    showToast(data.message || 'Erro ao atualizar status', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao atualizar status', 'error');
+            }
+        }
+
+        statusButton.addEventListener('click', function() {
+            let currentStatus = this.dataset.status;
+            
+            // Normaliza o status atual para garantir correspondência exata
+            currentStatus = statusFlow.find(status => 
+                status.toLowerCase() === currentStatus.toLowerCase()
+            ) || currentStatus;
+            
+            const currentIndex = statusFlow.indexOf(currentStatus);
+            const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+            updateStatus(this, nextStatus);
         });
 
-        const data = await response.json();
-        
-        if (data.success) {
-            button.dataset.status = newStatus;
-            updateButtonAppearance(button, newStatus);
-            showToast(`Status atualizado para: ${newStatus}`);
-        } else {
-            showToast(data.message || 'Erro ao atualizar status', 'error');
+        // Gestão de autorização
+        const authButton = document.getElementById('authButton');
+        const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
+
+        async function updateAuthStatus(button, newStatus) {
+            try {
+                const response = await fetch('update_auth_status.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        orderId: button.dataset.orderId,
+                        authStatus: newStatus
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    button.dataset.authStatus = newStatus;
+                    updateButtonAppearance(button, newStatus, 'auth');
+                    showToast(`Autorização atualizada para: ${newStatus}`);
+                } else {
+                    showToast(data.message || 'Erro ao atualizar autorização', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao atualizar autorização', 'error');
+            }
         }
-    } catch (error) {
-        console.error('Erro:', error);
-        showToast('Erro ao atualizar status', 'error');
-    }
-}
 
-statusButton.addEventListener('click', function() {
-    let currentStatus = this.dataset.status;
-    
-    // Normaliza o status atual para garantir correspondência exata
-    currentStatus = statusFlow.find(status => 
-        status.toLowerCase() === currentStatus.toLowerCase()
-    ) || currentStatus;
-    
-    const currentIndex = statusFlow.indexOf(currentStatus);
-    const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
-    updateStatus(this, nextStatus);
-});
+        authButton.addEventListener('click', function() {
+            const currentStatus = this.dataset.authStatus;
+            const currentIndex = authFlow.indexOf(currentStatus);
+            const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
+            updateAuthStatus(this, nextStatus);
+        });
 
-// Definir estados iniciais na carga da página
-document.addEventListener('DOMContentLoaded', function() {
-    let initialStatus = statusButton.dataset.status;
-    
-    // Normaliza o status inicial
-    initialStatus = statusFlow.find(status => 
-        status.toLowerCase() === initialStatus.toLowerCase()
-    ) || initialStatus;
-    
-    // Atualiza o dataset com o valor normalizado
-    statusButton.dataset.status = initialStatus;
-    
-    // Configura a aparência inicial do botão
-    statusButton.innerHTML = '<i class="bi bi-gear"></i> <span>' + initialStatus + '</span>';
-    updateButtonAppearance(statusButton, initialStatus);
-});
+        // Definir estados iniciais na carga da página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Status inicial
+            let initialStatus = statusButton.dataset.status;
+            initialStatus = statusFlow.find(status => 
+                status.toLowerCase() === initialStatus.toLowerCase()
+            ) || initialStatus;
+            statusButton.dataset.status = initialStatus;
+            statusButton.innerHTML = '<i class="bi bi-gear"></i> <span>' + initialStatus + '</span>';
+            updateButtonAppearance(statusButton, initialStatus);
+
+            // Auth inicial
+            const initialAuthStatus = authButton.dataset.authStatus;
+            authButton.innerHTML = '<i class="bi bi-check-circle"></i> <span>' + initialAuthStatus + '</span>';
+            updateButtonAppearance(authButton, initialAuthStatus, 'auth');
+        });
     </script>
 </body>
 </html>
