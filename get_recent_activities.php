@@ -1,5 +1,4 @@
 <?php
-// get_recent_activities.php
 header('Content-Type: application/json');
 
 require_once 'config.php';
@@ -14,7 +13,8 @@ try {
               ORDER BY a.created_at DESC 
               LIMIT 10";
     
-    $activities = $db->query($query);
+    $stmt = $conn->query($query);
+    $activities = $stmt->fetchAll();
     
     echo json_encode([
         'success' => true,
@@ -28,3 +28,4 @@ try {
         'message' => $e->getMessage()
     ]);
 }
+?>
