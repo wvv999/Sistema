@@ -19,7 +19,7 @@ try {
     $query = "SELECT 
             so.*,
             c.name as client_name,
-            c.device_model,
+            so.device_model,
             c.phone1,
             c.phone2,
             so.device_password,
