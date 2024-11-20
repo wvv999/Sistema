@@ -582,10 +582,10 @@ try {
                             <i class="bi bi-printer"></i>
                             <span>Imprimir</span>
                         </button>
-                        <button class="action-button" style="background-color:var(--success-color); color: white">
+                        <!-- <button class="action-button" style="background-color:var(--success-color); color: white">
                             <i class="bi bi-save"></i>
                             <span>Salvar</span>
-                        </button>
+                        </button> -->
                         <button class="action-button" onclick="javascript:history.go(-1)">
                             <i class="bi bi-x-lg"></i>
                             <span>Fechar</span>
