@@ -364,31 +364,52 @@ try {
             </div>
         </div>
 
-        <div class="section-title">Defeito Reclamado</div>
-        <div class="reported-issue"> 
-            <?php echo htmlspecialchars($order['reported_issue']); ?>
-        </div>
+        <div class="technical-info-container">
+            <div class="technical-notes">
+                <div>
+                    <div class="section-title">Defeito Reclamado</div>
+                    <div class="reported-issue"> 
+                        <?php echo htmlspecialchars($order['reported_issue']); ?>
+                    </div>
+                </div>
 
-        <div class="section-title">Laudo Técnico</div>
-        <div class="technical-history">
-            <textarea class="form-control" rows="8" placeholder="Histórico Técnico"></textarea>
-        </div>
+                <div>
+                    <div class="section-title">Laudo Técnico</div>
+                    <textarea class="form-control" rows="8" placeholder="Descreva o diagnóstico técnico e os procedimentos realizados..."></textarea>
+                </div>
 
-        <div class="side-buttons">
-            <div id="statusButton" 
-                 class="side-button status-button status-<?php echo strtolower(str_replace(' ', '-', $order['status'])); ?>"
-                 data-status="<?php echo $order['status']; ?>"
-                 data-order-id="<?php echo $order['id']; ?>">
-                <?php echo $order['status']; ?>
+                <div>
+                    <div class="section-title">Peças Necessárias</div>
+                    <textarea class="form-control" rows="4" placeholder="Liste as peças necessárias para o reparo..."></textarea>
+                </div>
             </div>
-            <div class="side-button">
-                <i class="bi bi-file-text"></i> Autorização
-            </div>
-            <div class="side-button">
-                <i class="bi bi-currency-dollar"></i> Negociação
-            </div>
-            <div class="side-button">
-                <i class="bi bi-cart"></i> Compra de Peças
+
+            <div class="side-panel">
+                <div id="statusButton" 
+                     class="action-button status-button"
+                     data-status="<?php echo $order['status']; ?>"
+                     data-order-id="<?php echo $order['id']; ?>">
+                    <i class="bi bi-gear"></i>
+                    <span><?php echo $order['status']; ?></span>
+                </div>
+
+                <div id="authButton" 
+                     class="action-button auth-button auth-autorizacao"
+                     data-auth-status="Autorização"
+                     data-order-id="<?php echo $order['id']; ?>">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Autorização</span>
+                </div>
+
+                <div class="action-button">
+                    <i class="bi bi-currency-dollar"></i>
+                    <span>Negociação</span>
+                </div>
+
+                <div class="action-button">
+                    <i class="bi bi-cart"></i>
+                    <span>Compra de Peças</span>
+                </div>
             </div>
         </div>
 
@@ -409,24 +430,21 @@ try {
     </div>
 
     <script>
+        // Status da Ordem
         const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
         
-        // Função para atualizar a aparência do botão
-        function updateButtonAppearance(status) {
+        function updateButtonAppearance(button, status, prefix = 'status') {
             // Remover todas as classes de status existentes
-            statusButton.classList.remove('status-nao-iniciada', 'status-em-andamento', 'status-concluida');
+            button.className = 'action-button ' + prefix + '-button';
             
             // Adicionar a classe apropriada baseada no status atual
-            const statusClass = `status-${status.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/ /g, '-')}`;
-            statusButton.classList.add(statusClass);
+            const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/ /g, '-')}`;
+            button.classList.add(statusClass);
             
-            // Atualizar o texto do botão
-            statusButton.textContent = status;
+            // Atualizar o conteúdo do botão
+            button.innerHTML = `<i class="bi bi-gear"></i> <span>${status}</span>`;
         }
-
-        // Definir o status inicial
-        updateButtonAppearance(statusButton.dataset.status);
 
         statusButton.addEventListener('click', async function() {
             const currentStatus = this.dataset.status;
@@ -436,9 +454,7 @@ try {
             try {
                 const response = await fetch('update_status.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         orderId: this.dataset.orderId,
                         status: nextStatus
@@ -448,11 +464,8 @@ try {
                 const data = await response.json();
                 
                 if (data.success) {
-                    // Atualizar o status no dataset
                     this.dataset.status = nextStatus;
-                    
-                    // Atualizar a aparência do botão
-                    updateButtonAppearance(nextStatus);
+                    updateButtonAppearance(this, nextStatus);
                 } else {
                     alert('Erro ao atualizar status: ' + data.message);
                 }
@@ -461,6 +474,43 @@ try {
                 alert('Erro ao atualizar status');
             }
         });
+
+        // Autorização
+        const authButton = document.getElementById('authButton');
+        const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
+
+        authButton.addEventListener('click', async function() {
+            const currentStatus = this.dataset.authStatus;
+            const currentIndex = authFlow.indexOf(currentStatus);
+            const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
+            
+            try {
+                const response = await fetch('update_auth_status.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        orderId: this.dataset.orderId,
+                        authStatus: nextStatus
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.dataset.authStatus = nextStatus;
+                    updateButtonAppearance(this, nextStatus, 'auth');
+                } else {
+                    alert('Erro ao atualizar autorização: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao atualizar autorização');
+            }
+        });
+
+        // Definir estados iniciais
+        updateButtonAppearance(statusButton, statusButton.dataset.status);
+        updateButtonAppearance(authButton, authButton.dataset.authStatus, 'auth');
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
