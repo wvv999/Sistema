@@ -1,13 +1,127 @@
 <?php
-// [Previous PHP code remains the same until the HTML]
+// Ativar exibição de erros para debug
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+session_start();
+
+// Verifica se está logado
+if(!isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit;
+}
+
+// Inclui o arquivo de configuração do banco de dados e o arquivo de status
+require_once 'config.php';
+require_once 'orderStatus.php';
+
+// Envolva o código da conexão e consulta em um try-catch para debug
+try {
+    // Cria uma nova instância da classe Database e obtém a conexão
+    $db = new Database();
+    $conn = $db->getConnection();
+
+    // Consulta para buscar todas as ordens de serviço
+    $sql = "SELECT so.id, so.client_id, so.phone1, so.phone2, 
+                   so.created_at AS opening_date, so.delivery_date, 
+                   so.reported_issue, so.accessories, 
+                   so.device_password, so.pattern_password,
+                   so.device_model,
+                   c.name AS client_name, so.status
+            FROM service_orders so
+            JOIN clients c ON so.client_id = c.id
+            ORDER BY so.created_at DESC";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $serviceOrders = $stmt->fetchAll();
+
+} catch (Exception $e) {
+    echo "Erro: " . $e->getMessage();
+    die();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <!-- [Previous head content remains the same] -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Ordens de Serviço</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
-        /* [Previous styles remain the same] */
+        .body{
+            padding:50px;
+            box-sizing: border-box;
+            margin: 40px;
+        }
+        .container {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .dashboard-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .welcome-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table thead {
+            background-color: #f8f9fa;
+        }
         
+        .table-hover tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .view-btn {
+            padding: 2px 8px;
+            font-size: 0.875rem;
+        }
+
+        /* Status button styles */
+        .status-indicator {
+            min-width: 140px;
+            text-align: center;
+            font-size: 0.85em;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .status-indicator i {
+            font-size: 0.9em;
+        }
+
+        .order-info {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         .order-row {
             cursor: pointer;
             transition: all 0.2s ease;
@@ -61,7 +175,9 @@
     </style>
 </head>
 <body class="bg-light">
-    <!-- [Previous navigation buttons remain the same] -->
+    <a href="dashboard.php" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
 
     <div class="container">
         <div class="dashboard-container">
