@@ -9,49 +9,49 @@ class GestaoStats {
 
     public function getOrderStats() {
         $stats = [
-            'ordensAbertas' => 0,
-            'ordensFinalizadasHoje' => 0,
-            'ordensAtrasadas' => 0,
-            'tempoMedioResolucao' => 0
+            'naoIniciadas' => 0,
+            'emAndamento' => 0,
+            'concluidas' => 0,
+            'prontoAvisado' => 0,
+            'entregue' => 0
         ];
         
         try {
-            // Total de ordens abertas
-            $query = "SELECT COUNT(*) as total FROM service_orders WHERE status != 'finalizada'";
+            // Não iniciadas
+            $query = "SELECT COUNT(*) as total FROM service_orders WHERE status = 'não iniciada'";
             $stmt = $this->conn->query($query);
             $result = $stmt->fetch();
-            $stats['ordensAbertas'] = $result['total'] ?? 0;
+            $stats['naoIniciadas'] = $result['total'] ?? 0;
 
-            // Ordens finalizadas hoje
-            $query = "SELECT COUNT(*) as total FROM service_orders 
-                     WHERE status = 'finalizada' 
-                     AND DATE(updated_at) = CURDATE()";
+            // Em andamento
+            $query = "SELECT COUNT(*) as total FROM service_orders WHERE status = 'em andamento'";
             $stmt = $this->conn->query($query);
             $result = $stmt->fetch();
-            $stats['ordensFinalizadasHoje'] = $result['total'] ?? 0;
+            $stats['emAndamento'] = $result['total'] ?? 0;
 
-            // Ordens atrasadas (assumindo prazo de 7 dias)
-            $query = "SELECT COUNT(*) as total FROM service_orders 
-                     WHERE status != 'finalizada' 
-                     AND DATEDIFF(CURDATE(), created_at) > 7";
+            // Concluídas
+            $query = "SELECT COUNT(*) as total FROM service_orders WHERE status = 'concluída'";
             $stmt = $this->conn->query($query);
             $result = $stmt->fetch();
-            $stats['ordensAtrasadas'] = $result['total'] ?? 0;
+            $stats['concluidas'] = $result['total'] ?? 0;
 
-            // Tempo médio de resolução (em dias)
-            $query = "SELECT AVG(DATEDIFF(updated_at, created_at)) as media 
-                     FROM service_orders 
-                     WHERE status = 'finalizada'
-                     AND updated_at IS NOT NULL";
+            // Pronto e Avisado
+            $query = "SELECT COUNT(*) as total FROM service_orders WHERE status = 'pronto e avisado'";
             $stmt = $this->conn->query($query);
             $result = $stmt->fetch();
-            $stats['tempoMedioResolucao'] = round($result['media'] ?? 0, 1);
+            $stats['prontoAvisado'] = $result['total'] ?? 0;
+
+            // Entregue
+            $query = "SELECT COUNT(*) as total FROM service_orders WHERE status = 'entregue'";
+            $stmt = $this->conn->query($query);
+            $result = $stmt->fetch();
+            $stats['entregue'] = $result['total'] ?? 0;
 
             return $stats;
             
         } catch (PDOException $e) {
             error_log("Erro ao buscar estatísticas: " . $e->getMessage());
-            return $stats; // Retorna valores padrão em caso de erro
+            return $stats;
         }
     }
 }
