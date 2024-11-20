@@ -172,15 +172,14 @@ require_once 'GestaoStats.php';
                         <option value="">Todos</option>
                         <option value="não iniciada">Não Iniciada</option>
                         <option value="em andamento">Em Andamento</option>
-                        <!-- <option value="aguardando peça">Aguardando Peça</option> -->
                         <option value="finalizada">Finalizada</option>
                     </select>
                 </div>
                 <div class="col-md-4">
                     <label class="form-label">Ordenar por</label>
                     <select class="form-select" id="sort-filter">
-                        <option value="date_desc">Data (mais recente)</option>
-                        <option value="date_asc">Data (mais antiga)</option>
+                        <option value="date_desc">Mais recente</option>
+                        <option value="date_asc">Mmais antiga</option>
                         <option value="status">Status</option>
                     </select>
                 </div>
