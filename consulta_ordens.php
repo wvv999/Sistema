@@ -58,7 +58,7 @@ try {
             margin: 40px;
         }
         
-        .example::-webkit-scrollbar { display: none; }
+        .body::-webkit-scrollbar { display: none; }
 
         .container {
             padding-top: 2rem;
