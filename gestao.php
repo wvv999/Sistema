@@ -1,4 +1,17 @@
 <?php
+session_start();
+
+if(!isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit;
+}
+
+require_once 'config.php';
+require_once 'GestaoStats.php';
+require_once 'functions.php';
+
+?>
+<?php
 class GestaoStats {
     private $conn;
 
