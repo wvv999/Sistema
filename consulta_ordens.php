@@ -69,6 +69,7 @@ try {
             padding: 20px;
             margin-top: 20px;
             width: fit-content;
+            overflow: visible;
         }
 
         .welcome-header {
