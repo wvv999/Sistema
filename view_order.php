@@ -179,8 +179,7 @@ try {
     }
     .device-password{
         background-color: #f8f9fa;
-        padding: 16px;
-        box-sizing: border-box;
+        padding-left: 16px;
         border-radius: var(--border-radius);
         height: fit-content;
         border: 1px solid rgba(0,0,0,0.05);
