@@ -181,7 +181,7 @@ try {
         background-color: #f8f9fa;
         padding-left: 16px;
         border-radius: var(--border-radius);
-        height: fit-content;
+        height: 16px;
         border: 1px solid rgba(0,0,0,0.05);
         border-left: 4px solid #0d6efd;
         vertical-align: middle;
