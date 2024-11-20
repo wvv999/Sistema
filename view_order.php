@@ -586,10 +586,10 @@ try {
                             <i class="bi bi-save"></i>
                             <span>Salvar</span>
                         </button> -->
-                        <button class="action-button" style="background-color:var(--success-color)" onclick="javascript:history.go(-1)">
-                            <i class="bi bi-save"></i>
-                            <span>Salvar e Sair</span>
+                        <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
                             <i class="bi bi-box-arrow-right"></i>
+                           
+                            <span>Salvar e Sair</span>
                         </button>
                     </div>
                 </div>
