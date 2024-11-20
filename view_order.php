@@ -389,7 +389,6 @@ try {
                 <div>
                 </div>
             </div>
-        </div>
     <div class="section-title">Laudo Técnico</div>
     <div class="technical-report">
         <?php
