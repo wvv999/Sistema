@@ -104,7 +104,7 @@ require_once 'functions.php';
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
-                                <h6 class="card-title">Ordens Abertas</h6>
+                                <h6 class="card-title">Não Iniciadas</h6>
                                 <h2 class="mb-0"><?php echo $stats['ordensAbertas']; ?></h2>
                             </div>
                             <i class="bi bi-file-earmark-text stats-icon"></i>
