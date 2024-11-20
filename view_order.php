@@ -679,6 +679,59 @@ try {
             </div>
         </div>
     </div>
+    <script>
+        // Função para buscar e exibir o histórico
+        async function loadOrderHistory() {
+            try {
+                const response = await fetch('get_order_history.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        orderId: <?php echo $_GET['id']; ?>
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Atualizar histórico de status
+                    const statusContainer = document.querySelector('.status-history-list');
+                    statusContainer.innerHTML = data.statusHistory.map(item => `
+                        <div class="history-item">
+                            <div class="date">${item.formatted_date}</div>
+                            <div class="username">${item.username}</div>
+                            <div class="detail">
+                                <i class="bi bi-arrow-right-circle"></i> 
+                                ${JSON.parse(item.details).new_status}
+                            </div>
+                        </div>
+                    `).join('');
+
+                    // Atualizar histórico de notas
+                    const notesContainer = document.querySelector('.notes-history-list');
+                    notesContainer.innerHTML = data.notesHistory.map(item => `
+                        <div class="history-item">
+                            <div class="date">${item.formatted_date}</div>
+                            <div class="username">${item.username}</div>
+                            <div class="detail">${item.note}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    showToast('Erro ao carregar histórico', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao carregar histórico', 'error');
+            }
+        }
+
+        // Adicionar evento ao botão de histórico
+        document.querySelector('button[title="Ver histórico completo"]').addEventListener('click', function() {
+            const historyModal = new bootstrap.Modal(document.getElementById('historyModal'));
+            loadOrderHistory(); // Carrega o histórico
+            historyModal.show(); // Mostra o modal
+        });
+    </script>
 
     <!-- Container para notificações toast -->
     <div class="toast-container"></div>
