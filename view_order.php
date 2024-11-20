@@ -184,7 +184,8 @@ try {
         height: 46px;
         border: 1px solid rgba(0,0,0,0.05);
         border-left: 4px solid #0d6efd;
-        vertical-align: middle;
+        display: flex;
+        align-items: center;
     }
     .reported-issue{
         background-color: #f8f9fa;
