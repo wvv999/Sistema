@@ -66,7 +66,6 @@ try {
     exit;     
 } 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -75,6 +74,9 @@ try {
     <title>Ordem de Serviço <?php echo $order['id']; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     <style>
         :root {
             --primary-color: #4a6fff;
@@ -232,26 +234,6 @@ try {
         .auth-solicitado { background-color: #ffc107; color: black; }
         .auth-autorizado { background-color: #28a745; color: white; }
 
-        /* Menu buttons */
-        .menu-button {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-            background: white;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-
-        .menu-button:hover {
-            transform: translateX(-2px);
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-        }
-
         /* Technical report section */
         .technical-report {
             background-color: #f8f9fa;
@@ -278,7 +260,6 @@ try {
         }
 
         .add-note-form {
-            /* border-top: 1px solid rgba(0,0,0,0.1); */
             padding-top: 10px;
             margin-top: 10px;
         }
@@ -309,6 +290,7 @@ try {
             gap: 4px;
         }
 
+        /* Status bar styles */
         .status-bar {
             position: sticky;
             top: 0;
@@ -319,12 +301,7 @@ try {
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-        }
-
-        .order-title {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+            box-shadow: var(--shadow);
         }
 
         .status-badge {
@@ -339,24 +316,13 @@ try {
             gap: 0.5rem;
         }
 
-        /* Status badges */
-        .status-badge.não-iniciada { background: #f8f9fa; color: #666; }
+        .status-badge.nao-iniciada { background: #f8f9fa; color: #666; }
         .status-badge.em-andamento { background: #fff3cd; color: #856404; }
-        .status-badge.concluída { background: #d4edda; color: #155724; }
-        .status-badge.pronto-e-avisado { background: #cce5ff; color: #004085; }
+        .status-badge.concluida { background: #d4edda; color: #155724; }
+        .status-badge.pronto { background: #cce5ff; color: #004085; }
         .status-badge.entregue { background: #d1e7dd; color: #0f5132; }
 
-        /* Responsive adjustments */
         @media (max-width: 768px) {
-            .quick-actions {
-                display: none;
-            }
-            
-            .status-bar {
-                flex-direction: column;
-                gap: 1rem;
-                align-items: flex-start;
-            }
             .main-content {
                 flex-direction: column;
             }
@@ -369,30 +335,12 @@ try {
                 min-width: calc(50% - 12px);
             }
         }
-</style>
+    </style>
 </head>
-<body>
+<body class="bg-light">
+    <div id="view-order-root"></div>
     <div class="order-container">
         <!-- Informações do pedido no topo -->
-        <div class="status-bar">
-            <div class="order-title">
-                <h4>OS: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?></h4>
-                <span class="status-badge <?php echo strtolower($order['status']); ?>">
-                    <?php echo $order['status']; ?>
-                </span>
-            </div>
-            <div class="quick-actions">
-                <button class="btn btn-outline-secondary" onclick="showHistory()">
-                    <i class="bi bi-clock-history"></i> Histórico
-                </button>
-                <button class="btn btn-outline-secondary">
-                    <i class="bi bi-share"></i> Compartilhar
-                </button>
-                <button class="btn btn-outline-secondary">
-                    <i class="bi bi-printer"></i> Imprimir
-                </button>
-            </div>
-        </div>
         <div class="order-info">
             <h4 class="mb-3">
                 Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
@@ -407,7 +355,6 @@ try {
                         <div class="info-label">Modelo</div>
                         <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
                     </div>
-
                     <div class="col-md-2">
                         <div class="info-label">Telefone Principal</div>
                         <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
@@ -422,23 +369,11 @@ try {
                     </div>
                     <div class="col-md-2">
                         <div class="info-label">Data de Entrega</div>
-                        <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
+                        <div class="info-value"><?php echo $order['delivery_date'] ? date('d/m/Y', strtotime($order['delivery_date'])) : '-'; ?></div>
                     </div>
                 </div>
             </div>
         </div>
-        <?php
-            $created = new DateTime($order['created_at']);
-            $now = new DateTime();
-            $days = $created->diff($now)->days;
-            if ($days > 3) {
-                echo '<div class="alert alert-warning">
-                        <i class="bi bi-clock"></i>
-                        <strong>Atenção ao prazo:</strong> 
-                        Esta ordem está aberta há ' . $days . ' dias
-                    </div>';
-            }
-        ?>
 
         <!-- Conteúdo principal com duas colunas -->
         <div class="main-content">
@@ -461,23 +396,6 @@ try {
                 <div>
                     <div class="section-title">Laudo Técnico</div>
                     <div class="technical-report">
-                        <?php
-                        $notesQuery = "SELECT tn.*, u.username, DATE_FORMAT(tn.created_at, '%d/%m/%y') as formatted_date
-                                    FROM technical_notes tn 
-                                    JOIN users u ON tn.user_id = u.id 
-                                    WHERE tn.order_id = :order_id 
-                                    ORDER BY tn.created_at ASC";
-                        
-                        $stmt = $db->prepare($notesQuery);
-                        $stmt->execute([':order_id' => $_GET['id']]);
-                        $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        
-                        $textareaContent = '';
-                        foreach ($notes as $note) {
-                            $textareaContent .= "{$note['username']}: {$note['note']} ({$note['formatted_date']})\n";
-                        }
-                        ?>
-                        
                         <div class="technical-notes">
                             <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
                             
@@ -495,9 +413,7 @@ try {
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Coluna da direita -->
+            </div><!-- Coluna da direita -->
             <div class="content-right">
                 <div class="side-panel">
                     <!-- Primeira seção do menu - Status e Ações -->
@@ -552,6 +468,43 @@ try {
             </div>
         </div>
     </div>
+
+    <script type="text/babel">
+        const ViewOrder = () => {
+            const orderData = <?php echo json_encode($order); ?>;
+            const [showHistory, setShowHistory] = React.useState(false);
+            const [notes, setNotes] = React.useState(<?php echo json_encode($notes); ?>);
+
+            return (
+                <div className="status-bar">
+                    <div className="d-flex justify-content-between align-items-center w-100">
+                        <div className="d-flex align-items-center gap-3">
+                            <h4 className="mb-0">OS: {orderData.id}</h4>
+                            <span className={`status-badge ${orderData.status.toLowerCase().replace(' ', '-')}`}>
+                                {orderData.status}
+                            </span>
+                        </div>
+                        <div className="quick-actions">
+                            <button 
+                                className="btn btn-outline-secondary"
+                                onClick={() => setShowHistory(!showHistory)}
+                            >
+                                <i className="bi bi-clock-history"></i> Histórico
+                            </button>
+                            <button className="btn btn-outline-secondary">
+                                <i className="bi bi-printer"></i> Imprimir
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        ReactDOM.render(
+            <ViewOrder />,
+            document.getElementById('view-order-root')
+        );
+    </script>
 
     <script>
         async function addNote() {
@@ -685,10 +638,13 @@ try {
         updateButtonAppearance(statusButton, statusButton.dataset.status);
         updateButtonAppearance(authButton, authButton.dataset.authStatus, 'auth');
 
-        function showHistory() {
-            const technicalNotes = document.getElementById('technicalNotes');
-            technicalNotes.style.height = '400px';
-            technicalNotes.scrollTop = technicalNotes.scrollHeight;
+        // Auto-resize textarea
+        const newNoteTextarea = document.getElementById('newNote');
+        if (newNoteTextarea) {
+            newNoteTextarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
         }
     </script>
 
