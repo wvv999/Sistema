@@ -337,7 +337,6 @@ try {
     <div class="order-container">
     <div class="order-info">
     <h4 class="mb-3">
-        <i class="bi bi-person-circle"></i> 
         Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
     </h4>
     <div class="client-details">
