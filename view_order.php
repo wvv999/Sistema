@@ -352,12 +352,12 @@ try {
                 <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
             </div>
             <div class="col-md-2">
-                <div class="info-label">Data de Abertura</div>
-                <div class="info-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></div>
-            </div>
-            <div class="col-md-2">
                 <div class="info-label">Telefone Secundário</div>
                 <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
+            </div>
+            <div class="col-md-2">
+                <div class="info-label">Data de Abertura</div>
+                <div class="info-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></div>
             </div>
             <div class="col-md-2">
                 <div class="info-label">Data de Entrega</div>
