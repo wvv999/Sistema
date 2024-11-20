@@ -12,8 +12,9 @@ if(!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Inclui o arquivo de configuração do banco de dados
+// Inclui o arquivo de configuração do banco de dados e o arquivo de status
 require_once 'config.php';
+require_once 'orderStatus.php';
 
 // Envolva o código da conexão e consulta em um try-catch para debug
 try {
@@ -26,6 +27,7 @@ try {
                    so.created_at AS opening_date, so.delivery_date, 
                    so.reported_issue, so.accessories, 
                    so.device_password, so.pattern_password,
+                   so.device_model,
                    c.name AS client_name, so.status
             FROM service_orders so
             JOIN clients c ON so.client_id = c.id
@@ -95,13 +97,37 @@ try {
             padding: 2px 8px;
             font-size: 0.875rem;
         }
+
+        /* Status button styles */
+        .status-indicator {
+            min-width: 140px;
+            text-align: center;
+            font-size: 0.85em;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .status-indicator i {
+            font-size: 0.9em;
+        }
+
+        .order-info {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 <body class="bg-light">
     <a href="dashboard.php" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
-
 
     <div class="container">
         <div class="dashboard-container">
@@ -118,48 +144,30 @@ try {
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
+                                <th>OS</th>
                                 <th>Cliente</th>
-                                <th>Número da Ordem</th>
-                                <th>Telefone 1</th>
-                                <th>Telefone 2</th>
+                                <th>Dispositivo</th>
+                                <th>Problema</th>
                                 <th>Data de Abertura</th>
                                 <th>Data de Entrega</th>
                                 <th>Status</th>
-                                <!-- <th>Problema Relatado</th> -->
-                                <!-- <th>Acessórios</th> -->
-                                <!-- <th>Senha do Dispositivo</th> -->
-                                <!-- <th>Senha Padrão</th> -->
                                 <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($serviceOrders as $order): ?>
+                            <?php foreach ($serviceOrders as $order): 
+                                $orderNumber = str_pad($order['id'], STR_PAD_LEFT);
+                                $status = $order['status'] ?? 'não iniciada';
+                                $statusButton = OrderStatus::getStatusButton($status);
+                            ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($order['client_name']) ?></td>
-                                    <td><?= $order['id'] ?></td>
-                                    <td><?= htmlspecialchars($order['phone1']) ?></td>
-                                    <td><?= htmlspecialchars($order['phone2']) ?></td>
+                                    <td><code><?= $orderNumber ?></code></td>
+                                    <td class="order-info"><?= htmlspecialchars($order['client_name']) ?></td>
+                                    <td class="order-info"><?= htmlspecialchars($order['device_model']) ?></td>
+                                    <td class="order-info"><?= htmlspecialchars($order['reported_issue']) ?></td>
                                     <td><?= date('d/m/Y', strtotime($order['opening_date'])) ?></td>
                                     <td><?= $order['delivery_date'] ? date('d/m/Y', strtotime($order['delivery_date'])) : '-' ?></td>
-                                    <td><?= htmlspecialchars($order['status']) ?></td>
-                                    <!-- <td><?= nl2br(htmlspecialchars($order['reported_issue'])) ?></td> -->
-                                    <!-- <td><?= htmlspecialchars($order['accessories']) ?></td> -->
-                                    <!-- <td><?= htmlspecialchars($order['device_password']) ?></td> -->
-                                    <!-- <td><?= htmlspecialchars($order['pattern_password']) ?></td> -->
-                                    <td>
-                                        <a href="view_order.php?id=<?= $order['id'] ?>" class="btn btn-primary view-btn">
-                                            <i class="bi bi-eye"></i> Ver
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><?= htmlspecialchars($order['client_name']) ?></td>
-                                    <td><?= $order['id'] ?></td>
-                                    <td><?= htmlspecialchars($order['phone1']) ?></td>
-                                    <td><?= htmlspecialchars($order['phone2']) ?></td>
-                                    <td><?= date('d/m/Y', strtotime($order['opening_date'])) ?></td>
-                                    <td><?= $order['delivery_date'] ? date('d/m/Y', strtotime($order['delivery_date'])) : '-' ?></td>
-                                    <td><?= OrderStatus::getStatusButton($order['status']) ?></td>
+                                    <td><?= $statusButton ?></td>
                                     <td>
                                         <a href="view_order.php?id=<?= $order['id'] ?>" class="btn btn-primary view-btn">
                                             <i class="bi bi-eye"></i> Ver
