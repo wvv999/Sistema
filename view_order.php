@@ -309,7 +309,54 @@ try {
             gap: 4px;
         }
 
+        .status-bar {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .order-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Status badges */
+        .status-badge.não-iniciada { background: #f8f9fa; color: #666; }
+        .status-badge.em-andamento { background: #fff3cd; color: #856404; }
+        .status-badge.concluída { background: #d4edda; color: #155724; }
+        .status-badge.pronto-e-avisado { background: #cce5ff; color: #004085; }
+        .status-badge.entregue { background: #d1e7dd; color: #0f5132; }
+
+        /* Responsive adjustments */
         @media (max-width: 768px) {
+            .quick-actions {
+                display: none;
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
             .main-content {
                 flex-direction: column;
             }
@@ -327,6 +374,25 @@ try {
 <body>
     <div class="order-container">
         <!-- Informações do pedido no topo -->
+        <div class="status-bar">
+            <div class="order-title">
+                <h4>OS: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?></h4>
+                <span class="status-badge <?php echo strtolower($order['status']); ?>">
+                    <?php echo $order['status']; ?>
+                </span>
+            </div>
+            <div class="quick-actions">
+                <button class="btn btn-outline-secondary" onclick="showHistory()">
+                    <i class="bi bi-clock-history"></i> Histórico
+                </button>
+                <button class="btn btn-outline-secondary">
+                    <i class="bi bi-share"></i> Compartilhar
+                </button>
+                <button class="btn btn-outline-secondary">
+                    <i class="bi bi-printer"></i> Imprimir
+                </button>
+            </div>
+        </div>
         <div class="order-info">
             <h4 class="mb-3">
                 Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
@@ -606,6 +672,12 @@ try {
         // Definir estados iniciais
         updateButtonAppearance(statusButton, statusButton.dataset.status);
         updateButtonAppearance(authButton, authButton.dataset.authStatus, 'auth');
+
+        function showHistory() {
+            const technicalNotes = document.getElementById('technicalNotes');
+            technicalNotes.style.height = '400px';
+            technicalNotes.scrollTop = technicalNotes.scrollHeight;
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
