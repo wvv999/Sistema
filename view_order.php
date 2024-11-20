@@ -536,6 +536,69 @@ try {
             </button>
         </div>
     </div>
+    <script>
+        async function addNote() {
+            const noteText = document.getElementById('newNote').value.trim();
+            if (!noteText) {
+                alert('Por favor, digite uma nota técnica.');
+                return;
+            }
+
+            try {
+                const response = await fetch('save_technical_note.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderId: <?php echo $_GET['id']; ?>,
+                        note: noteText
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Adicionar a nova nota ao histórico sem recarregar a página
+                    const notesHistory = document.querySelector('.technical-notes-history');
+                    
+                    const newNoteHtml = `
+                        <div class="note-item">
+                            <div class="note-header">
+                                <span class="note-author">
+                                    <i class="bi bi-person-circle"></i> ${data.username}
+                                </span>
+                                <span class="note-date">
+                                    <i class="bi bi-clock"></i> ${data.created_at}
+                                </span>
+                            </div>
+                            <div class="note-content">
+                                ${noteText}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Remover mensagem de "nenhuma nota" se existir
+                    const emptyMessage = notesHistory.querySelector('.text-muted');
+                    if (emptyMessage) {
+                        emptyMessage.remove();
+                    }
+                    
+                    // Adicionar nova nota no topo
+                    notesHistory.insertAdjacentHTML('afterbegin', newNoteHtml);
+                    
+                    // Limpar o campo de texto
+                    document.getElementById('newNote').value = '';
+                    
+                } else {
+                    alert('Erro ao salvar nota: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao salvar nota técnica');
+            }
+        }
+        </script>
 
     <script>
         // Status da Ordem
