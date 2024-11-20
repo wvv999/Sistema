@@ -64,7 +64,69 @@ try {
         padding: 20px;
         font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
+    .order-info {
+        background: linear-gradient(145deg, var(--accent-color), #f8f9ff);
+        padding: 20px;
+        border-radius: var(--border-radius);
+        margin-bottom: 24px;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
 
+    .client-details {
+        border-left: 4px solid #0d6efd;
+        padding-left: 15px;
+        margin-top: 10px;
+    }
+
+    .info-label {
+        font-weight: bold;
+        color: #6c757d;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+    }
+
+    .info-value {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 1rem;
+    }
+
+    .row {
+        --bs-gutter-x: 1.5rem;
+        --bs-gutter-y: 0;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: calc(-1 * var(--bs-gutter-y));
+        margin-right: calc(-.5 * var(--bs-gutter-x));
+        margin-left: calc(-.5 * var(--bs-gutter-x));
+    }
+
+    .col-md-6 {
+        flex: 0 0 auto;
+        width: 50%;
+        padding-right: calc(var(--bs-gutter-x) * .5);
+        padding-left: calc(var(--bs-gutter-x) * .5);
+    }
+
+    h4 {
+        color: #333;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    h4 i {
+        font-size: 1.1em;
+        color: #0d6efd;
+    }
+
+    @media (max-width: 768px) {
+        .col-md-6 {
+            width: 100%;
+        }
+    }
     .order-container {
         background-color: #fff;
         border-radius: var(--border-radius);
