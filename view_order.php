@@ -178,7 +178,7 @@ try {
         gap: 16px;
     }
 
-    .reported-issue {
+    .reported-issue, .device-password{
         background-color: #f8f9fa;
         padding: 16px;
         margin-bottom: 16px;
@@ -371,7 +371,7 @@ try {
             <div class="technical-notes">
                 <div class="col-md-6">
                     <div class="info-label">Senha do Dispositivo</div>
-                    <div>
+                    <div class="device-password">
                     <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
                     </div>
                 </div>
