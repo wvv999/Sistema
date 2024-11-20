@@ -98,58 +98,73 @@ require_once 'functions.php';
             $stats = $gestao->getOrderStats();
         ?>
         <!-- Cards de Estatísticas -->
+        <!-- Cards de Estatísticas -->
         <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card stats-card bg-primary text-white">
+            <div class="col">
+                <div class="card stats-card bg-warning text-dark cursor-pointer" data-status="não iniciada">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
                                 <h6 class="card-title">Não Iniciadas</h6>
-                                <h2 class="mb-0"><?php echo $stats['ordensAbertas']; ?></h2>
+                                <h2 class="mb-0"><?php echo $stats['naoIniciadas']; ?></h2>
                             </div>
-                            <i class="bi bi-file-earmark-text stats-icon"></i>
+                            <i class="bi bi-clock stats-icon"></i>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="col-md-3">
-                <div class="card stats-card bg-success text-white">
+            <div class="col">
+                <div class="card stats-card bg-primary text-white cursor-pointer" data-status="em andamento">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
-                                <h6 class="card-title">Finalizadas Hoje</h6>
-                                <h2 class="mb-0"><?php echo $stats['ordensFinalizadasHoje']; ?></h2>
+                                <h6 class="card-title">Em Andamento</h6>
+                                <h2 class="mb-0"><?php echo $stats['emAndamento']; ?></h2>
                             </div>
-                            <i class="bi bi-check-circle stats-icon"></i>
+                            <i class="bi bi-gear stats-icon"></i>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <!-- <div class="col-md-3">
-                <div class="card stats-card bg-warning">
+            <div class="col">
+                <div class="card stats-card bg-info text-white cursor-pointer" data-status="concluída">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
-                                <h6 class="card-title">Tempo Médio (dias)</h6>
-                                <h2 class="mb-0"></h2>
+                                <h6 class="card-title">Concluídas</h6>
+                                <h2 class="mb-0"><?php echo $stats['concluidas']; ?></h2>
                             </div>
-                            <i class="bi bi-clock-history stats-icon"></i>
+                            <i class="bi bi-check2-circle stats-icon"></i>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
             
-            <div class="col-md-3">
-                <div class="card stats-card bg-danger text-white">
+            <div class="col">
+                <div class="card stats-card bg-success text-white cursor-pointer" data-status="pronto e avisado">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
-                                <h6 class="card-title">Ordens Atrasadas</h6>
-                                <h2 class="mb-0"><?php echo $stats['ordensAtrasadas']; ?></h2>
+                                <h6 class="card-title">Pronto e Avisado</h6>
+                                <h2 class="mb-0"><?php echo $stats['prontoAvisado']; ?></h2>
                             </div>
-                            <i class="bi bi-exclamation-triangle stats-icon"></i>
+                            <i class="bi bi-bell stats-icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card stats-card bg-dark text-white cursor-pointer" data-status="entregue">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="card-title">Entregue</h6>
+                                <h2 class="mb-0"><?php echo $stats['entregue']; ?></h2>
+                            </div>
+                            <i class="bi bi-box-seam stats-icon"></i>
                         </div>
                     </div>
                 </div>
