@@ -53,6 +53,7 @@ try {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
 
+        html { scrollbar-width: none; } 
         
         .body{
             padding:50px;
@@ -60,7 +61,6 @@ try {
             margin: 40px;
         }
         
-        .body::-webkit-scrollbar { display: none; }
 
         .container {
             padding-top: 2rem;
