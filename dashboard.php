@@ -85,14 +85,9 @@ if(!isset($_SESSION['user_id'])) {
             color: inherit;
         }
 
-        /* Removido o opacity para manter o botão sempre visível */
         .btn-view-order {
             transition: transform 0.2s ease;
         }
-
-        /* .btn-view-order:hover {
-            transform: scale(1.05);
-        } */
 
         .list-group-item {
             border-left: 4px solid transparent;
@@ -101,6 +96,24 @@ if(!isset($_SESSION['user_id'])) {
 
         .list-group-item:hover {
             border-left-color: #0d6efd;
+        }
+
+        /* Status button styles */
+        .status-indicator {
+            min-width: 140px;
+            text-align: center;
+            font-size: 0.85em;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .status-indicator i {
+            font-size: 0.9em;
         }
     </style>
 </head>
@@ -119,7 +132,6 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
             </div>
 
-            <!-- Nova seção de busca -->
             <div class="search-container">
                 <div class="input-group">
                     <input type="text" class="form-control" id="searchInput" 
@@ -133,8 +145,8 @@ if(!isset($_SESSION['user_id'])) {
             <div class="row">
                 <div class="col-md-6">
                     <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
-                    <i class="bi bi-file-earmark-text"></i>
-                    Nova Ordem de Serviço
+                        <i class="bi bi-file-earmark-text"></i>
+                        Nova Ordem de Serviço
                     </a>
                 </div>
 
@@ -167,7 +179,6 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
             </div>
 
-                
             <div class="mt-4 p-3 bg-light rounded">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="mb-0">
@@ -177,6 +188,7 @@ if(!isset($_SESSION['user_id'])) {
                 <ul class="list-group recent-orders-list">
                     <?php
                     require_once 'recent_orders.php';
+                    require_once 'orderStatus.php';
                     $recentOrders = new RecentOrders();
                     $orders = $recentOrders->getRecentOrders(5);
                     
@@ -186,27 +198,18 @@ if(!isset($_SESSION['user_id'])) {
                         $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
                         $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
                         $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
+                        $statusButton = OrderStatus::getStatusButton($order['status']);
                         
                         echo <<<HTML
                         <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <code>{$orderNumber}</code> - {$device_model} - <small>{$issue}</small>
-                                    
                                     <small class="text-muted d-block">Cliente: {$clientName}</small>
                                 </div>
                                 <div class="d-flex align-items-center gap-3">
                                     <small class="text-muted">{$createdAt}</small>
-                                    
-                                    <!-- Indicador da situação -->
-                                    <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
-                                        <i class="bi bi"></i> Situação
-                                    </button>
-                                    
-
-
-
-                                    <!-- botão de ver -->
+                                    {$statusButton}
                                     <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
                                         <i class="bi bi-eye"></i> Ver
                                     </button>
@@ -226,49 +229,47 @@ if(!isset($_SESSION['user_id'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- ... Resto do código do script permanece igual ... -->
     <script>
     const searchInput = document.getElementById('searchInput');
-const searchButton = document.getElementById('searchButton');
+    const searchButton = document.getElementById('searchButton');
 
-async function searchOrder() {
-    const searchValue = searchInput.value.trim();
-    if (!searchValue) {
-        alert('Por favor, digite um número de OS ou nome do cliente');
-        return;
-    }
-
-    try {
-        searchButton.disabled = true;
-        searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
-
-        const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || 'Erro ao buscar ordem');
+    async function searchOrder() {
+        const searchValue = searchInput.value.trim();
+        if (!searchValue) {
+            alert('Por favor, digite um número de OS ou nome do cliente');
+            return;
         }
 
-        if (data.success && data.data.length > 0) {
-            const order = data.data[0]; // Pega o primeiro resultado
-            window.location.href = `view_order.php?id=${order.id}`;
-        } else {
-            alert('Nenhuma ordem encontrada com os critérios informados');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-        alert('Erro ao buscar ordem: ' + error.message);
-    } finally {
-        searchButton.disabled = false;
-        searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
-    }
-}
+        try {
+            searchButton.disabled = true;
+            searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
 
-// Event listeners
-searchButton.addEventListener('click', searchOrder);
-searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') searchOrder();
-});
+            const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao buscar ordem');
+            }
+
+            if (data.success && data.data.length > 0) {
+                const order = data.data[0];
+                window.location.href = `view_order.php?id=${order.id}`;
+            } else {
+                alert('Nenhuma ordem encontrada com os critérios informados');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao buscar ordem: ' + error.message);
+        } finally {
+            searchButton.disabled = false;
+            searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
+        }
+    }
+
+    searchButton.addEventListener('click', searchOrder);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchOrder();
+    });
     </script>
 </body>
 </html>
