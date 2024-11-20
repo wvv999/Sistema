@@ -72,7 +72,24 @@ require_once 'functions.php';
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             margin-top: 1.5rem;
         }
+        .cursor-pointer {
+            cursor: pointer;
+        }
 
+        .stats-card {
+            transition: all 0.3s ease;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .stats-card.active {
+            border: 3px solid #000;
+        }
+
+        
         @media (max-width: 768px) {
             .stats-card {
                 margin-bottom: 1rem;
