@@ -366,16 +366,17 @@ try {
                 <div class="info-label">Data de Entrega</div>
                 <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
             </div>
-            <div class="col-md-6">
-                <div class="info-label">Senha do Dispositivo</div>
-                <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
-            </div>
+            
         </div>
     </div>
 </div>
 
         <div class="technical-info-container">
             <div class="technical-notes">
+                <div class="col-md-6">
+                    <div class="info-label">Senha do Dispositivo</div>
+                    <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
+                </div>
                 <div>
                     <div class="section-title">Defeito Reclamado</div>
                     <div class="reported-issue"> 
