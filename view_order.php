@@ -71,7 +71,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ordem de Serviço</title>
+    <title>Ordem de Serviço <?php echo $order['id']; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
@@ -107,67 +107,6 @@ try {
             min-height: calc(100vh - 40px);
         }
 
-        /* Timeline styles */
-        .timeline-container {
-            margin: 20px 0;
-            padding: 20px;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-        }
-
-        .timeline {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            margin: 20px 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            height: 2px;
-            background-color: #e9ecef;
-            width: 100%;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1;
-        }
-
-        .timeline-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-            background: white;
-            padding: 0 10px;
-        }
-
-        .timeline-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--secondary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 8px;
-            transition: var(--transition);
-        }
-
-        .timeline-icon.active {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .timeline-label {
-            font-size: 0.85rem;
-            color: #6c757d;
-            text-align: center;
-        }
-
         /* Order info styles */
         .order-info {
             background: linear-gradient(145deg, var(--accent-color), #f8f9ff);
@@ -176,21 +115,20 @@ try {
             margin-bottom: 24px;
             border: 1px solid rgba(0,0,0,0.05);
             position: relative;
-            overflow: hidden;
         }
 
         .order-info::before {
             content: '';
             position: absolute;
-            top: 0;
             left: 0;
-            width: 4px;
+            top: 0;
             height: 100%;
+            width: 4px;
             background: var(--primary-color);
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
         }
 
         .client-details {
-            border-left: 4px solid var(--primary-color);
             padding-left: 15px;
             margin-top: 10px;
             background: rgba(255, 255, 255, 0.5);
@@ -217,6 +155,9 @@ try {
             color: #6c757d;
             margin-bottom: 5px;
             font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .info-value {
@@ -232,8 +173,6 @@ try {
         .info-value:hover {
             background: rgba(255, 255, 255, 0.8);
         }
-
-        /* Device and issue section styles */
         .device-password, .reported-issue {
             background-color: #f8f9fa;
             padding: 16px;
@@ -274,6 +213,8 @@ try {
         .section-title i {
             color: var(--primary-color);
         }
+
+        /* Side panel styles */
         .side-panel {
             display: flex;
             flex-direction: column;
@@ -481,15 +422,6 @@ try {
             .content-right {
                 width: 100%;
             }
-            
-            .timeline {
-                overflow-x: auto;
-                padding-bottom: 10px;
-            }
-            
-            .timeline-step {
-                min-width: 120px;
-            }
         }
 
         @media (max-width: 576px) {
@@ -510,44 +442,7 @@ try {
 </head>
 <body>
     <div class="order-container">
-        <!-- Timeline de Status -->
-        <div class="timeline-container">
-            <div class="timeline">
-                <div class="timeline-step">
-                    <div class="timeline-icon active">
-                        <i class="bi bi-file-earmark-plus"></i>
-                    </div>
-                    <div class="timeline-label">Não iniciada</div>
-                </div>
-                <div class="timeline-step">
-                    <div class="timeline-icon">
-                        <i class="bi bi-gear"></i>
-                    </div>
-                    <div class="timeline-label">Em andamento</div>
-                </div>
-                <div class="timeline-step">
-                    <div class="timeline-icon">
-                        <i class="bi bi-check2-circle"></i>
-                    </div>
-                    <div class="timeline-label">Concluída</div>
-                </div>
-                <div class="timeline-step">
-                    <div class="timeline-icon">
-                        <i class="bi bi-telephone"></i>
-                    </div>
-                    <div class="timeline-label">Pronto e avisado</div>
-                </div>
-                <div class="timeline-step">
-                    <div class="timeline-icon">
-                        <i class="bi bi-box-seam"></i>
-                    </div>
-                    <div class="timeline-label">Entregue</div>
-                </div>
-            </div>
-        </div>
-
         <!-- Informações do pedido -->
-
         <div class="order-info">
             <h4 class="mb-3">
                 Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
@@ -612,7 +507,7 @@ try {
                         <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
                     </div>
                     <div class="reported-issue">
-                        <?php echo htmlspecialchars($order['reported_issue']); ?>
+                    <?php echo htmlspecialchars($order['reported_issue']); ?>
                     </div>
                 </div>
 
@@ -792,7 +687,7 @@ try {
             }
         });
 
-        // Gestão de status
+        // Gestão de status e autorização
         const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
         
@@ -825,7 +720,6 @@ try {
                 if (data.success) {
                     this.dataset.status = nextStatus;
                     updateButtonAppearance(this, nextStatus);
-                    updateTimeline(nextStatus);
                     showToast(`Status atualizado para: ${nextStatus}`);
                 } else {
                     showToast(data.message || 'Erro ao atualizar status', 'error');
@@ -835,21 +729,6 @@ try {
                 showToast('Erro ao atualizar status', 'error');
             }
         });
-
-        // Atualização da timeline
-        function updateTimeline(status) {
-            const steps = document.querySelectorAll('.timeline-step');
-            const currentIndex = statusFlow.indexOf(status);
-            
-            steps.forEach((step, index) => {
-                const icon = step.querySelector('.timeline-icon');
-                if (index <= currentIndex) {
-                    icon.classList.add('active');
-                } else {
-                    icon.classList.remove('active');
-                }
-            });
-        }
 
         // Gestão de autorização
         const authButton = document.getElementById('authButton');
@@ -888,7 +767,6 @@ try {
         // Definir estados iniciais
         updateButtonAppearance(statusButton, statusButton.dataset.status);
         updateButtonAppearance(authButton, authButton.dataset.authStatus, 'auth');
-        updateTimeline(statusButton.dataset.status);
     </script>
 </body>
 </html>
