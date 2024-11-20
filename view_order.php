@@ -297,7 +297,7 @@ try {
 
     <script>
         const statusButton = document.getElementById('statusButton');
-        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída'];
+        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
         
         // Função para atualizar a aparência do botão
         function updateButtonAppearance(status) {
