@@ -681,9 +681,11 @@ try {
         </div>
     </div>
     <script>
-        // Função para buscar e exibir o histórico
+        // Atualizar a função loadOrderHistory
         async function loadOrderHistory() {
             try {
+                console.log('Carregando histórico para ordem:', <?php echo $_GET['id']; ?>);
+                
                 const response = await fetch('get_order_history.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -693,36 +695,46 @@ try {
                 });
 
                 const data = await response.json();
+                console.log('Dados recebidos:', data);
                 
                 if (data.success) {
                     // Atualizar histórico de status
                     const statusContainer = document.querySelector('.status-history-list');
-                    statusContainer.innerHTML = data.statusHistory.map(item => `
-                        <div class="history-item">
-                            <div class="date">${item.formatted_date}</div>
-                            <div class="username">${item.username}</div>
-                            <div class="detail">
-                                <i class="bi bi-arrow-right-circle"></i> 
-                                ${JSON.parse(item.details).new_status}
+                    if (data.statusHistory && data.statusHistory.length > 0) {
+                        statusContainer.innerHTML = data.statusHistory.map(item => `
+                            <div class="history-item">
+                                <div class="date">${item.formatted_date}</div>
+                                <div class="username">${item.username}</div>
+                                <div class="detail">
+                                    <i class="bi bi-arrow-right-circle"></i> 
+                                    Alterou status para: ${JSON.parse(item.details).new_status}
+                                </div>
                             </div>
-                        </div>
-                    `).join('');
+                        `).join('');
+                    } else {
+                        statusContainer.innerHTML = '<div class="p-3 text-muted">Nenhuma alteração de status encontrada.</div>';
+                    }
 
                     // Atualizar histórico de notas
                     const notesContainer = document.querySelector('.notes-history-list');
-                    notesContainer.innerHTML = data.notesHistory.map(item => `
-                        <div class="history-item">
-                            <div class="date">${item.formatted_date}</div>
-                            <div class="username">${item.username}</div>
-                            <div class="detail">${item.note}</div>
-                        </div>
-                    `).join('');
+                    if (data.notesHistory && data.notesHistory.length > 0) {
+                        notesContainer.innerHTML = data.notesHistory.map(item => `
+                            <div class="history-item">
+                                <div class="date">${item.formatted_date}</div>
+                                <div class="username">${item.username}</div>
+                                <div class="detail">${item.note}</div>
+                            </div>
+                        `).join('');
+                    } else {
+                        notesContainer.innerHTML = '<div class="p-3 text-muted">Nenhuma nota técnica encontrada.</div>';
+                    }
                 } else {
-                    showToast('Erro ao carregar histórico', 'error');
+                    console.error('Erro nos dados:', data);
+                    showToast('Erro ao carregar histórico: ' + (data.message || 'Erro desconhecido'), 'error');
                 }
             } catch (error) {
-                console.error('Erro:', error);
-                showToast('Erro ao carregar histórico', 'error');
+                console.error('Erro ao carregar histórico:', error);
+                showToast('Erro ao carregar histórico: ' + error.message, 'error');
             }
         }
 
