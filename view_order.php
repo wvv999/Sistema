@@ -463,7 +463,7 @@ try {
                     </div>
                     <div class="col-md-2">
                         <div class="info-label">
-                            <i class="bi bi-telephone"></i> Telefones
+                            <i class="bi bi-telephone"></i> Contatos
                         </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
                         <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
