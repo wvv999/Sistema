@@ -1,25 +1,25 @@
-<?php
-session_start();
-require_once 'config.php';
+<?php 
+session_start(); 
+require_once 'config.php';  
 
-if(!isset($_SESSION['user_id'])) {
-    header("Location: index.php");
-    exit;
-}
+if(!isset($_SESSION['user_id'])) {     
+    header("Location: index.php");     
+    exit; 
+}  
 
-if(!isset($_GET['id'])) {
-    header("Location: dashboard.php");
-    exit;
-}
+if(!isset($_GET['id'])) {     
+    header("Location: dashboard.php");     
+    exit; 
+}  
 
-$database = new Database();
-$db = $database->getConnection();
+$database = new Database(); 
+$db = $database->getConnection();  
 
 try {
+    // Primeiro, buscar os dados da ordem de serviço
     $query = "SELECT 
             so.*,
             c.name as client_name,
-            so.device_model,
             c.phone1,
             c.phone2,
             so.device_password,
@@ -32,15 +32,39 @@ try {
     $stmt->execute([':id' => $_GET['id']]);
     $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$order) {
-        header("Location: dashboard.php");
-        exit;
+    if (!$order) {         
+        header("Location: dashboard.php");         
+        exit;     
     }
 
-} catch(Exception $e) {
-    header("Location: dashboard.php");
-    exit;
-}
+    // Depois, buscar as notas técnicas
+    $notesQuery = "SELECT tn.*, u.username, 
+                   DATE_FORMAT(tn.created_at, '%d/%m/%y') as formatted_date,
+                   DATE_FORMAT(tn.created_at, '%Y-%m-%d') as note_date
+                   FROM technical_notes tn 
+                   JOIN users u ON tn.user_id = u.id 
+                   WHERE tn.order_id = :order_id 
+                   ORDER BY tn.created_at ASC";  
+
+    $stmt = $db->prepare($notesQuery);     
+    $stmt->execute([':order_id' => $_GET['id']]);     
+    $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);      
+
+    $textareaContent = '';     
+    $currentDate = '';      
+
+    foreach ($notes as $note) {         
+        if ($currentDate != $note['note_date']) {             
+            $textareaContent .= "\n---------------- " . $note['formatted_date'] . " ----------------\n\n";             
+            $currentDate = $note['note_date'];         
+        }         
+        $textareaContent .= "{$note['username']}: {$note['note']}\n";     
+    }      
+
+} catch(Exception $e) {         
+    header("Location: dashboard.php");         
+    exit;     
+} 
 ?>
 
 <!DOCTYPE html>
@@ -475,7 +499,17 @@ try {
                 
                 if (data.success) {
                     const technicalNotes = document.getElementById('technicalNotes');
-                    const newNoteText = `${data.username}: ${noteText} (${data.created_at})\n`;
+                    const notes = technicalNotes.value;
+                    const today = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
+                    
+                    let newNoteText = '';
+                    
+                    // Verifica se já existe entrada para hoje
+                    if (!notes.includes(today)) {
+                        newNoteText = `\n---------------- ${today} ----------------\n\n`;
+                    }
+                    
+                    newNoteText += `${data.username}: ${noteText}\n`;
                     
                     technicalNotes.value += newNoteText;
                     document.getElementById('newNote').value = '';
