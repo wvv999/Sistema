@@ -648,109 +648,81 @@ try {
         });
 
         // Gestão de status e autorização
-        const statusButton = document.getElementById('statusButton');
-        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
+const statusButton = document.getElementById('statusButton');
+const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
 
-        function updateButtonAppearance(button, status, prefix = 'status') {
-            // Remove todas as classes anteriores que começam com o prefixo
-            button.classList.forEach(className => {
-                if (className.startsWith(`${prefix}-`)) {
-                    button.classList.remove(className);
-                }
-            });
-            
-            // Adiciona as novas classes
-            button.classList.add('action-button', `${prefix}-button`);
-            const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, "")
-                .replace(/ /g, '-')}`;
-            button.classList.add(statusClass);
-            button.querySelector('span').textContent = status;
+function updateButtonAppearance(button, status, prefix = 'status') {
+    // Remove todas as classes anteriores que começam com o prefixo
+    button.classList.forEach(className => {
+        if (className.startsWith(`${prefix}-`)) {
+            button.classList.remove(className);
         }
+    });
+    
+    // Adiciona as novas classes
+    button.classList.add('action-button', `${prefix}-button`);
+    const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/ /g, '-')}`;
+    button.classList.add(statusClass);
+    button.querySelector('span').textContent = status;
+}
 
-        async function updateStatus(button, newStatus) {
-            try {
-                const response = await fetch('update_status.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        orderId: button.dataset.orderId,
-                        status: newStatus
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    button.dataset.status = newStatus;
-                    updateButtonAppearance(button, newStatus);
-                    showToast(`Status atualizado para: ${newStatus}`);
-                } else {
-                    showToast(data.message || 'Erro ao atualizar status', 'error');
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                showToast('Erro ao atualizar status', 'error');
-            }
-        }
-
-        statusButton.addEventListener('click', function() {
-            const currentStatus = this.dataset.status;
-            const currentIndex = statusFlow.indexOf(currentStatus);
-            const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
-            updateStatus(this, nextStatus);
+async function updateStatus(button, newStatus) {
+    try {
+        const response = await fetch('update_status.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                orderId: button.dataset.orderId,
+                status: newStatus
+            })
         });
 
-        // Gestão de autorização
-        const authButton = document.getElementById('authButton');
-        const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
-
-        async function updateAuthStatus(button, newStatus) {
-            try {
-                const response = await fetch('update_auth_status.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        orderId: button.dataset.orderId,
-                        authStatus: newStatus
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    button.dataset.authStatus = newStatus;
-                    updateButtonAppearance(button, newStatus, 'auth');
-                    showToast(`Autorização atualizada para: ${nextStatus}`);
-                } else {
-                    showToast(data.message || 'Erro ao atualizar autorização', 'error');
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                showToast('Erro ao atualizar autorização', 'error');
-            }
+        const data = await response.json();
+        
+        if (data.success) {
+            button.dataset.status = newStatus;
+            updateButtonAppearance(button, newStatus);
+            showToast(`Status atualizado para: ${newStatus}`);
+        } else {
+            showToast(data.message || 'Erro ao atualizar status', 'error');
         }
+    } catch (error) {
+        console.error('Erro:', error);
+        showToast('Erro ao atualizar status', 'error');
+    }
+}
 
-        authButton.addEventListener('click', function() {
-            const currentStatus = this.dataset.authStatus;
-            const currentIndex = authFlow.indexOf(currentStatus);
-            const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
-            updateAuthStatus(this, nextStatus);
-        });
+statusButton.addEventListener('click', function() {
+    let currentStatus = this.dataset.status;
+    
+    // Normaliza o status atual para garantir correspondência exata
+    currentStatus = statusFlow.find(status => 
+        status.toLowerCase() === currentStatus.toLowerCase()
+    ) || currentStatus;
+    
+    const currentIndex = statusFlow.indexOf(currentStatus);
+    const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+    updateStatus(this, nextStatus);
+});
 
-        // Definir estados iniciais
-        document.addEventListener('DOMContentLoaded', function() {
-            const initialStatus = statusButton.dataset.status;
-            const initialAuthStatus = authButton.dataset.authStatus;
-            
-            // Configura a estrutura inicial dos botões
-            statusButton.innerHTML = '<i class="bi bi-gear"></i> <span>' + initialStatus + '</span>';
-            authButton.innerHTML = '<i class="bi bi-check-circle"></i> <span>' + initialAuthStatus + '</span>';
-            
-            // Aplica as classes iniciais
-            updateButtonAppearance(statusButton, initialStatus);
-            updateButtonAppearance(authButton, initialAuthStatus, 'auth');
-        });
+// Definir estados iniciais na carga da página
+document.addEventListener('DOMContentLoaded', function() {
+    let initialStatus = statusButton.dataset.status;
+    
+    // Normaliza o status inicial
+    initialStatus = statusFlow.find(status => 
+        status.toLowerCase() === initialStatus.toLowerCase()
+    ) || initialStatus;
+    
+    // Atualiza o dataset com o valor normalizado
+    statusButton.dataset.status = initialStatus;
+    
+    // Configura a aparência inicial do botão
+    statusButton.innerHTML = '<i class="bi bi-gear"></i> <span>' + initialStatus + '</span>';
+    updateButtonAppearance(statusButton, initialStatus);
+});
     </script>
 </body>
 </html>
