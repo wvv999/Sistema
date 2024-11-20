@@ -215,7 +215,35 @@ try {
         white-space: pre-wrap;
         color: #333;
     }
+    .add-note-form {
+    display: flex;
+    gap: 10px;
+    }
 
+    .add-note-form .input-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    #technicalNotes {
+        font-family: 'Consolas', monospace;
+        white-space: pre-wrap;
+        line-height: 1.5;
+        background-color: #f8f9fa;
+    }
+
+    #newNote {
+        resize: none;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .add-note-form button {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        width: auto;
+        white-space: nowrap;
+    }
     .add-note-form button {
         background-color: var(--primary-color);
         border: none;
@@ -437,56 +465,43 @@ try {
                 </div>
 
                 <div>
+                <div>
     <div class="section-title">Laudo Técnico</div>
     
-    <!-- Formulário para adicionar nova nota -->
-    <div class="add-note-form mb-3">
-        <textarea id="newNote" class="form-control" rows="4" 
-                  placeholder="Digite aqui o novo laudo técnico..."></textarea>
-        <button onclick="addNote()" class="btn btn-primary mt-2">
-            <i class="bi bi-plus-circle"></i> Adicionar Nota
-        </button>
-    </div>
-
-    <!-- Histórico de notas -->
-    <div class="technical-notes-history">
         <?php
         // Buscar notas técnicas
-        $notesQuery = "SELECT tn.*, u.username 
-                      FROM technical_notes tn 
-                      JOIN users u ON tn.user_id = u.id 
-                      WHERE tn.order_id = :order_id 
-                      ORDER BY tn.created_at DESC";
+        $notesQuery = "SELECT tn.*, u.username, DATE_FORMAT(tn.created_at, '%d/%m/%y') as formatted_date
+                    FROM technical_notes tn 
+                    JOIN users u ON tn.user_id = u.id 
+                    WHERE tn.order_id = :order_id 
+                    ORDER BY tn.created_at ASC";  // Alterado para ASC para mostrar em ordem cronológica
         
         $stmt = $db->prepare($notesQuery);
         $stmt->execute([':order_id' => $_GET['id']]);
         $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        if (empty($notes)) {
-            echo '<div class="text-muted text-center p-3">Nenhuma nota técnica registrada.</div>';
-        } else {
-            foreach ($notes as $note) {
-                $date = date('d/m/Y H:i', strtotime($note['created_at']));
-                echo <<<HTML
-                <div class="note-item">
-                    <div class="note-header">
-                        <span class="note-author">
-                            <i class="bi bi-person-circle"></i> {$note['username']}
-                        </span>
-                        <span class="note-date">
-                            <i class="bi bi-clock"></i> {$date}
-                        </span>
-                    </div>
-                    <div class="note-content">
-                        {$note['note']}
-                    </div>
-                </div>
-                HTML;
-            }
+        // Preparar o conteúdo do textarea
+        $textareaContent = '';
+        foreach ($notes as $note) {
+            $textareaContent .= "{$note['username']}: {$note['note']} ({$note['formatted_date']})\n";
         }
         ?>
+        
+        <div class="mb-3">
+            <textarea id="technicalNotes" class="form-control" rows="8" readonly><?php echo $textareaContent; ?></textarea>
+        </div>
+        
+        <!-- Formulário para adicionar nova nota -->
+        <div class="add-note-form">
+            <div class="input-group">
+                <textarea id="newNote" class="form-control" rows="2" 
+                        placeholder="Digite sua nota técnica..."></textarea>
+                <button onclick="addNote()" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Adicionar
+                </button>
+            </div>
+        </div>
     </div>
-</div>
                 
 
                 
@@ -537,68 +552,56 @@ try {
         </div>
     </div>
     <script>
-        async function addNote() {
-            const noteText = document.getElementById('newNote').value.trim();
-            if (!noteText) {
-                alert('Por favor, digite uma nota técnica.');
-                return;
-            }
+async function addNote() {
+    const noteText = document.getElementById('newNote').value.trim();
+    if (!noteText) {
+        alert('Por favor, digite uma nota técnica.');
+        return;
+    }
 
-            try {
-                const response = await fetch('save_technical_note.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        orderId: <?php echo $_GET['id']; ?>,
-                        note: noteText
-                    })
-                });
+    try {
+        const response = await fetch('save_technical_note.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                orderId: <?php echo $_GET['id']; ?>,
+                note: noteText
+            })
+        });
 
-                const data = await response.json();
-                
-                if (data.success) {
-                    // Adicionar a nova nota ao histórico sem recarregar a página
-                    const notesHistory = document.querySelector('.technical-notes-history');
-                    
-                    const newNoteHtml = `
-                        <div class="note-item">
-                            <div class="note-header">
-                                <span class="note-author">
-                                    <i class="bi bi-person-circle"></i> ${data.username}
-                                </span>
-                                <span class="note-date">
-                                    <i class="bi bi-clock"></i> ${data.created_at}
-                                </span>
-                            </div>
-                            <div class="note-content">
-                                ${noteText}
-                            </div>
-                        </div>
-                    `;
-                    
-                    // Remover mensagem de "nenhuma nota" se existir
-                    const emptyMessage = notesHistory.querySelector('.text-muted');
-                    if (emptyMessage) {
-                        emptyMessage.remove();
-                    }
-                    
-                    // Adicionar nova nota no topo
-                    notesHistory.insertAdjacentHTML('afterbegin', newNoteHtml);
-                    
-                    // Limpar o campo de texto
-                    document.getElementById('newNote').value = '';
-                    
-                } else {
-                    alert('Erro ao salvar nota: ' + data.message);
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao salvar nota técnica');
-            }
+        const data = await response.json();
+        
+        if (data.success) {
+            // Adicionar a nova nota ao textarea
+            const technicalNotes = document.getElementById('technicalNotes');
+            const newNoteText = `${data.username}: ${noteText} (${data.created_at})\n`;
+            
+            technicalNotes.value += newNoteText;
+            
+            // Limpar o campo de nova nota
+            document.getElementById('newNote').value = '';
+            
+            // Rolar para o final do textarea
+            technicalNotes.scrollTop = technicalNotes.scrollHeight;
+        } else {
+            alert('Erro ao salvar nota: ' + data.message);
         }
-        </script>
+    } catch (error) {
+        console.error('Erro:', error);
+        alert('Erro ao salvar nota técnica');
+    }
+}
+
+// Adicionar evento de tecla para permitir envio com Enter
+document.getElementById('newNote').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        addNote();
+    }
+});
+</script>
 
     <script>
         // Status da Ordem
