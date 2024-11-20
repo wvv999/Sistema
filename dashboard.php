@@ -205,7 +205,7 @@ if(!isset($_SESSION['user_id'])) {
                             echo '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
                         } else {
                             foreach ($orders as $order) {
-                                $orderNumber = str_pad($order['id'], STR_PAD_LEFT);
+                                $orderNumber = htmlspecialchars($order['id'], STR_PAD_LEFT);
                                 $clientName = htmlspecialchars($order['client_name']);
                                 $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
                                 $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
