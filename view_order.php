@@ -388,10 +388,7 @@ try {
                     <textarea class="form-control" rows="8" placeholder="Descreva o diagnóstico técnico e os procedimentos realizados..."></textarea>
                 </div>
 
-                <div>
-                    <div class="section-title">Peças Necessárias</div>
-                    <textarea class="form-control" rows="4" placeholder="Liste as peças necessárias para o reparo..."></textarea>
-                </div>
+                
             </div>
 
             <div class="side-panel">
