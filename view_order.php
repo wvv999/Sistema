@@ -75,6 +75,7 @@ try {
     <title>Ordem de Serviço <?php echo $order['id']; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/status-styles.css">
     <style>
         :root {
             --primary-color: #4a6fff;
@@ -590,9 +591,9 @@ try {
             <div class="content-right">
                 <div class="side-panel">
                     <!-- Status e Ações -->
-                    <div class="menu-section">
-                        <div id="statusButton" 
-                             class="action-button status-button"
+                    <div id="statusButton" 
+                             class="action-button status-button status-${status.toLowerCase()}"
+                             data-status="${status}"
                              data-status="<?php echo $order['status']; ?>"
                              data-order-id="<?php echo $order['id']; ?>"
                              data-bs-toggle="tooltip"

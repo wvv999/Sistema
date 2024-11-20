@@ -1,0 +1,75 @@
+/* Status button styles */
+.status-nao-iniciada, 
+.bg-status-nao-iniciada,
+[data-status="não iniciada"] .card-body {
+    background-color: #ffc107 !important; /* warning */
+    color: #000 !important;
+}
+
+.status-em-andamento,
+.bg-status-em-andamento,
+[data-status="em andamento"] .card-body {
+    background-color: #0d6efd !important; /* primary */
+    color: #fff !important;
+}
+
+.status-concluida,
+.bg-status-concluida,
+[data-status="concluída"] .card-body {
+    background-color: #0dcaf0 !important; /* info */
+    color: #fff !important;
+}
+
+.status-pronto-e-avisado,
+.bg-status-pronto-e-avisado,
+[data-status="pronto e avisado"] .card-body {
+    background-color: #198754 !important; /* success */
+    color: #fff !important;
+}
+
+.status-entregue,
+.bg-status-entregue,
+[data-status="entregue"] .card-body {
+    background-color: #212529 !important; /* dark */
+    color: #fff !important;
+}
+
+/* Status indicator styles */
+.status-indicator {
+    min-width: 140px;
+    text-align: center;
+    font-size: 0.85em;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+/* Badge styles for table view */
+.badge.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.badge.bg-primary {
+    background-color: #0d6efd !important;
+    color: #fff !important;
+}
+
+.badge.bg-info {
+    background-color: #0dcaf0 !important;
+    color: #fff !important;
+}
+
+.badge.bg-success {
+    background-color: #198754 !important;
+    color: #fff !important;
+}
+
+.badge.bg-dark {
+    background-color: #212529 !important;
+    color: #fff !important;
+}
