@@ -373,7 +373,9 @@ try {
             <!-- Coluna da esquerda -->
             <div class="content-left">
                 <div>
-                    <div class="info-label">Senha do Dispositivo</div>
+                    <div class="info-label">
+                        Senha do Dispositivo
+                    </div>
                     <div class="device-password">
                         <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
                     </div>
@@ -387,6 +389,11 @@ try {
                 </div>
 
                 <div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <div class="section-title">Laudo Técnico</div>
     <div class="technical-report">
         <?php
