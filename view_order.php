@@ -177,6 +177,53 @@ try {
         flex-direction: column;
         gap: 16px;
     }
+    .technical-notes-history {
+    margin-top: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+    }
+
+    .note-item {
+        background-color: #f8f9fa;
+        border: 1px solid #e0e0e0;
+        border-left: 4px solid #0d6efd;
+        border-radius: var(--border-radius);
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .note-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #e0e0e0;
+        font-size: 0.9rem;
+    }
+
+    .note-author {
+        font-weight: 500;
+        color: #0d6efd;
+    }
+
+    .note-date {
+        color: #6c757d;
+    }
+
+    .note-content {
+        white-space: pre-wrap;
+        color: #333;
+    }
+
+    .add-note-form button {
+        background-color: var(--primary-color);
+        border: none;
+    }
+
+    .add-note-form button:hover {
+        background-color: #3955d6;
+    }
     .device-password{
         background-color: #f8f9fa;
         padding-left: 16px;
