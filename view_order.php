@@ -514,10 +514,9 @@ try {
                     technicalNotes.value += newNoteText;
                     document.getElementById('newNote').value = '';
                     technicalNotes.scrollTop = technicalNotes.scrollHeight;
+                } else {
+                    alert('Erro ao salvar nota: ' + data.message);
                 }
-                // } else {
-                //     alert('Erro ao salvar nota: ' + data.message);
-                // }
             } catch (error) {
                 console.error('Erro:', error);
                 alert('Erro ao salvar nota técnica');
