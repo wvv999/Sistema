@@ -587,7 +587,7 @@ try {
                             <span>Salvar</span>
                         </button> -->
                         <button class="action-button" style="background-color:var(--success-color)" onclick="javascript:history.go(-1)">
-                            <i class="bi bi-x-lg"></i>
+                            <i class="bi bi-save"></i>
                             <span>Salvar e Voltar</span>
                         </button>
                     </div>
