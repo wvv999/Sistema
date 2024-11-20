@@ -1,78 +1,9 @@
-<?php 
-session_start(); 
-require_once 'config.php';  
-
-if(!isset($_SESSION['user_id'])) {     
-    header("Location: index.php");     
-    exit; 
-}  
-
-if(!isset($_GET['id'])) {     
-    header("Location: dashboard.php");     
-    exit; 
-}  
-
-$database = new Database(); 
-$db = $database->getConnection();  
-
-try {
-    // Primeiro, buscar os dados da ordem de serviço
-    $query = "SELECT 
-            so.*,
-            c.name as client_name,
-            c.phone1,
-            c.phone2,
-            so.device_password,
-            COALESCE(so.status, 'Não iniciada') as status
-          FROM service_orders so 
-          INNER JOIN clients c ON so.client_id = c.id 
-          WHERE so.id = :id";
-
-    $stmt = $db->prepare($query);
-    $stmt->execute([':id' => $_GET['id']]);
-    $order = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$order) {         
-        header("Location: dashboard.php");         
-        exit;     
-    }
-
-    // Depois, buscar as notas técnicas
-    $notesQuery = "SELECT tn.*, u.username, 
-                   DATE_FORMAT(tn.created_at, '%d/%m/%y') as formatted_date,
-                   DATE_FORMAT(tn.created_at, '%Y-%m-%d') as note_date
-                   FROM technical_notes tn 
-                   JOIN users u ON tn.user_id = u.id 
-                   WHERE tn.order_id = :order_id 
-                   ORDER BY tn.created_at ASC";  
-
-    $stmt = $db->prepare($notesQuery);     
-    $stmt->execute([':order_id' => $_GET['id']]);     
-    $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);      
-
-    $textareaContent = '';     
-    $currentDate = '';      
-
-    foreach ($notes as $note) {         
-        if ($currentDate != $note['note_date']) {             
-            $textareaContent .= "\n---------------- " . $note['formatted_date'] . " ----------------\n\n";             
-            $currentDate = $note['note_date'];         
-        }         
-        $textareaContent .= "{$note['username']}: {$note['note']}\n";     
-    }      
-
-} catch(Exception $e) {         
-    header("Location: dashboard.php");         
-    exit;     
-} 
-?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ordem de Serviço <?php echo $order['id']; ?></title>
+    <title>Ordem de Serviço</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
@@ -80,8 +11,12 @@ try {
             --primary-color: #4a6fff;
             --secondary-color: #f8f9fa;
             --accent-color: #e7e9f6;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
             --border-radius: 8px;
             --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
         }
 
         body { 
@@ -104,18 +39,94 @@ try {
             min-height: calc(100vh - 40px);
         }
 
+        /* Timeline styles */
+        .timeline-container {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            height: 2px;
+            background-color: #e9ecef;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            background: white;
+            padding: 0 10px;
+        }
+
+        .timeline-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            transition: var(--transition);
+        }
+
+        .timeline-icon.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .timeline-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+            text-align: center;
+        }
+
+        /* Order info styles */
         .order-info {
             background: linear-gradient(145deg, var(--accent-color), #f8f9ff);
             padding: 20px;
             border-radius: var(--border-radius);
             margin-bottom: 24px;
             border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-color);
         }
 
         .client-details {
-            border-left: 4px solid #0d6efd;
+            border-left: 4px solid var(--primary-color);
             padding-left: 15px;
             margin-top: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
         }
 
         .main-content {
@@ -130,11 +141,11 @@ try {
         }
 
         .content-right {
-            width: 250px;
+            width: 300px;
         }
 
         .info-label {
-            font-weight: bold;
+            font-weight: 600;
             color: #6c757d;
             margin-bottom: 5px;
             font-size: 0.9rem;
@@ -144,34 +155,57 @@ try {
             color: #333;
             margin-bottom: 15px;
             font-size: 1rem;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
         }
 
-        .device-password {
+        .info-value:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Device and issue section styles */
+        .device-password, .reported-issue {
             background-color: #f8f9fa;
             padding: 16px;
             border-radius: var(--border-radius);
-            border: 1px solid rgba(0,0,0,0.05);
-            border-left: 4px solid #0d6efd;
             margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            transition: var(--transition);
         }
 
-        .reported-issue {
-            background-color: #f8f9fa;
-            padding: 16px;
-            margin-bottom: 20px;
-            border-radius: var(--border-radius);
-            min-height: 100px;
-            border: 1px solid rgba(0,0,0,0.05);
-            border-left: 4px solid #0d6efd;
+        .device-password::before,
+        .reported-issue::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--primary-color);
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+        }
+
+        .device-password:hover,
+        .reported-issue:hover {
+            box-shadow: var(--shadow);
         }
 
         .section-title {
-            font-weight: bold;
+            font-weight: 600;
             color: #6c757d;
             margin-bottom: 12px;
             font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
+        .section-title i {
+            color: var(--primary-color);
+        }
         .side-panel {
             display: flex;
             flex-direction: column;
@@ -186,38 +220,59 @@ try {
             border: 1px solid rgba(0,0,0,0.1);
             border-radius: var(--border-radius);
             background-color: #fff;
+            transition: var(--transition);
+        }
+
+        .menu-section:hover {
+            box-shadow: var(--shadow);
         }
 
         .action-button {
             width: 100%;
             padding: 12px;
-            border-radius: 8px;
+            border-radius: var(--border-radius);
             border: 1px solid #dee2e6;
             background: white;
             display: flex;
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: var(--transition);
             font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: rgba(0,0,0,0.05);
+            transition: var(--transition);
+        }
+
+        .action-button:hover::before {
+            width: 100%;
         }
 
         .action-button:hover {
-            transform: translateX(-2px);
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
-        /* Status buttons */
+        /* Status button styles */
         .status-button {
             font-weight: 600;
             letter-spacing: 0.5px;
-            transition: all 0.3s ease;
             justify-content: center;
         }
 
         .status-nao-iniciada { background-color: #6c757d; color: white; }
         .status-em-andamento { background-color: #fd7e14; color: white; }
-        .status-concluida { background-color: #28a745; color: white; }
+        .status-concluida { background-color: var(--success-color); color: white; }
         .status-pronto-e-avisado { background-color: #0dcaf0; color: white; }
         .status-entregue { background-color: #20c997; color: white; }
 
@@ -229,36 +284,33 @@ try {
         }
 
         .auth-autorizacao { background-color: #6c757d; color: white; }
-        .auth-solicitado { background-color: #ffc107; color: black; }
-        .auth-autorizado { background-color: #28a745; color: white; }
+        .auth-solicitado { background-color: var(--warning-color); color: black; }
+        .auth-autorizado { background-color: var(--success-color); color: white; }
 
-        /* Menu buttons */
-        .menu-button {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #dee2e6;
-            background: white;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-weight: 500;
-        }
-
-        .menu-button:hover {
-            transform: translateX(-2px);
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-        }
-
-        /* Technical report section */
+        /* Technical notes section */
         .technical-report {
             background-color: #f8f9fa;
             padding: 16px;
             border-radius: var(--border-radius);
             border: 1px solid rgba(0,0,0,0.05);
-            border-left: 4px solid #0d6efd;
+            position: relative;
+        }
+
+        .technical-report::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--primary-color);
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+        }
+
+        .technical-notes {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 16px;
         }
 
         .technical-notes textarea {
@@ -270,6 +322,7 @@ try {
             margin-bottom: 10px;
             font-size: 0.9rem;
             font-family: inherit;
+            line-height: 1.5;
         }
 
         .technical-notes textarea:focus {
@@ -278,9 +331,9 @@ try {
         }
 
         .add-note-form {
-            /* border-top: 1px solid rgba(0,0,0,0.1); */
-            padding-top: 10px;
-            margin-top: 10px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            padding-top: 16px;
+            margin-top: 16px;
         }
 
         .add-note-form .input-group {
@@ -294,10 +347,16 @@ try {
             min-height: 38px;
             padding: 8px 12px;
             border: 1px solid #dee2e6;
-            border-radius: 4px;
+            border-radius: var(--border-radius);
             background-color: white;
             resize: none;
             line-height: 20px;
+            transition: var(--transition);
+        }
+
+        .add-note-form textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.1);
         }
 
         .add-note-form button {
@@ -307,8 +366,45 @@ try {
             display: flex;
             align-items: center;
             gap: 4px;
+            transition: var(--transition);
         }
 
+        .add-note-form button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .toast {
+            padding: 12px 20px;
+            border-radius: var(--border-radius);
+            background: white;
+            box-shadow: var(--shadow);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive styles */
         @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
@@ -318,15 +414,72 @@ try {
                 width: 100%;
             }
             
-            .menu-button {
-                min-width: calc(50% - 12px);
+            .timeline {
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .timeline-step {
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .order-container {
+                padding: 16px;
+            }
+
+            .client-details .row {
+                flex-direction: column;
+            }
+
+            .client-details .col-md-2 {
+                width: 100%;
+                margin-bottom: 10px;
             }
         }
 </style>
 </head>
 <body>
     <div class="order-container">
-        <!-- Informações do pedido no topo -->
+        <!-- Timeline de Status -->
+        <div class="timeline-container">
+            <div class="timeline">
+                <div class="timeline-step">
+                    <div class="timeline-icon active">
+                        <i class="bi bi-file-earmark-plus"></i>
+                    </div>
+                    <div class="timeline-label">Não iniciada</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-icon">
+                        <i class="bi bi-gear"></i>
+                    </div>
+                    <div class="timeline-label">Em andamento</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-icon">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+                    <div class="timeline-label">Concluída</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-icon">
+                        <i class="bi bi-telephone"></i>
+                    </div>
+                    <div class="timeline-label">Pronto e avisado</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="timeline-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div class="timeline-label">Entregue</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Informações do pedido -->
+
         <div class="order-info">
             <h4 class="mb-3">
                 Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
@@ -334,81 +487,81 @@ try {
             <div class="client-details">
                 <div class="row">
                     <div class="col-md-2">
-                        <div class="info-label">Nome do Cliente</div>
+                        <div class="info-label">
+                            <i class="bi bi-person"></i> Nome do Cliente
+                        </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
                     </div>
                     <div class="col-md-2">
-                        <div class="info-label">Modelo</div>
+                        <div class="info-label">
+                            <i class="bi bi-laptop"></i> Modelo
+                        </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
                     </div>
-
                     <div class="col-md-2">
-                        <div class="info-label">Telefone Principal</div>
+                        <div class="info-label">
+                            <i class="bi bi-telephone"></i> Telefone Principal
+                        </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
                     </div>
                     <div class="col-md-2">
-                        <div class="info-label">Telefone Secundário</div>
+                        <div class="info-label">
+                            <i class="bi bi-telephone-plus"></i> Telefone Secundário
+                        </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
                     </div>
                     <div class="col-md-2">
-                        <div class="info-label">Data de Abertura</div>
+                        <div class="info-label">
+                            <i class="bi bi-calendar-event"></i> Data de Abertura
+                        </div>
                         <div class="info-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></div>
                     </div>
                     <div class="col-md-2">
-                        <div class="info-label">Data de Entrega</div>
+                        <div class="info-label">
+                            <i class="bi bi-calendar-check"></i> Data de Entrega
+                        </div>
                         <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Conteúdo principal com duas colunas -->
+        <!-- Conteúdo principal -->
         <div class="main-content">
             <!-- Coluna da esquerda -->
             <div class="content-left">
                 <div>
-                    <div class="info-label">Senha do Dispositivo</div>
+                    <div class="section-title">
+                        <i class="bi bi-key"></i> Senha do Dispositivo
+                    </div>
                     <div class="device-password">
                         <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
                     </div>
                 </div>
 
                 <div>
-                    <div class="section-title">Defeito Reclamado</div>
+                    <div class="section-title">
+                        <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
+                    </div>
                     <div class="reported-issue">
                         <?php echo htmlspecialchars($order['reported_issue']); ?>
                     </div>
                 </div>
 
                 <div>
-                    <div class="section-title">Laudo Técnico</div>
+                    <div class="section-title">
+                        <i class="bi bi-clipboard-data"></i> Laudo Técnico
+                    </div>
                     <div class="technical-report">
-                        <?php
-                        $notesQuery = "SELECT tn.*, u.username, DATE_FORMAT(tn.created_at, '%d/%m/%y') as formatted_date
-                                    FROM technical_notes tn 
-                                    JOIN users u ON tn.user_id = u.id 
-                                    WHERE tn.order_id = :order_id 
-                                    ORDER BY tn.created_at ASC";
-                        
-                        $stmt = $db->prepare($notesQuery);
-                        $stmt->execute([':order_id' => $_GET['id']]);
-                        $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        
-                        $textareaContent = '';
-                        foreach ($notes as $note) {
-                            $textareaContent .= "{$note['username']}: {$note['note']} ({$note['formatted_date']})\n";
-                        }
-                        ?>
-                        
                         <div class="technical-notes">
                             <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
                             
-                            <!-- Formulário para adicionar nova nota -->
                             <div class="add-note-form">
                                 <div class="input-group">
                                     <textarea id="newNote" 
                                             rows="1"
-                                            placeholder="Digite sua nota técnica..."></textarea>
+                                            placeholder="Digite sua nota técnica..."
+                                            data-autoresize></textarea>
                                     <button onclick="addNote()" class="btn btn-primary">
                                         <i class="bi bi-plus-circle"></i> Adicionar
                                     </button>
@@ -422,12 +575,14 @@ try {
             <!-- Coluna da direita -->
             <div class="content-right">
                 <div class="side-panel">
-                    <!-- Primeira seção do menu - Status e Ações -->
+                    <!-- Status e Ações -->
                     <div class="menu-section">
                         <div id="statusButton" 
                              class="action-button status-button"
                              data-status="<?php echo $order['status']; ?>"
-                             data-order-id="<?php echo $order['id']; ?>">
+                             data-order-id="<?php echo $order['id']; ?>"
+                             data-bs-toggle="tooltip"
+                             title="Clique para alterar o status">
                             <i class="bi bi-gear"></i>
                             <span><?php echo $order['status']; ?></span>
                         </div>
@@ -435,37 +590,39 @@ try {
                         <div id="authButton" 
                              class="action-button auth-button auth-autorizacao"
                              data-auth-status="Autorização"
-                             data-order-id="<?php echo $order['id']; ?>">
+                             data-order-id="<?php echo $order['id']; ?>"
+                             data-bs-toggle="tooltip"
+                             title="Clique para alterar a autorização">
                             <i class="bi bi-check-circle"></i>
                             <span>Autorização</span>
                         </div>
 
-                        <div class="action-button">
+                        <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar negociação">
                             <i class="bi bi-currency-dollar"></i>
                             <span>Negociação</span>
                         </div>
 
-                        <div class="action-button">
+                        <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
                             <i class="bi bi-cart"></i>
                             <span>Compra de Peças</span>
                         </div>
                     </div>
 
-                    <!-- Segunda seção do menu - Ações da OS -->
+                    <!-- Ações da OS -->
                     <div class="menu-section">
-                        <button class="menu-button">
-                            <i class="bi bi-printer"></i>
+                        <button class="action-button" data-bs-toggle="tooltip" title="Ver histórico completo">
+                            <i class="bi bi-clock-history"></i>
                             <span>Histórico</span>
                         </button>
-                        <button class="menu-button">
+                        <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço">
                             <i class="bi bi-printer"></i>
                             <span>Imprimir</span>
                         </button>
-                        <button class="menu-button" style="background-color:#28a745; color: white">
+                        <button class="action-button" style="background-color:var(--success-color); color: white">
                             <i class="bi bi-save"></i>
                             <span>Salvar</span>
                         </button>
-                        <button class="menu-button" onclick="javascript:history.go(-1)">
+                        <button class="action-button" onclick="javascript:history.go(-1)">
                             <i class="bi bi-x-lg"></i>
                             <span>Fechar</span>
                         </button>
@@ -475,11 +632,45 @@ try {
         </div>
     </div>
 
+    <!-- Container para notificações toast -->
+    <div class="toast-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Inicializa todos os tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        // Auto-resize textarea
+        document.querySelectorAll('[data-autoresize]').forEach(function(element) {
+            element.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        });
+
+        // Sistema de notificações toast
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.querySelector('.toast-container').appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Função para adicionar nota técnica
         async function addNote() {
             const noteText = document.getElementById('newNote').value.trim();
             if (!noteText) {
-                alert('Por favor, digite uma nota técnica.');
+                showToast('Por favor, digite uma nota técnica.', 'error');
                 return;
             }
 
@@ -499,30 +690,33 @@ try {
                 
                 if (data.success) {
                     const technicalNotes = document.getElementById('technicalNotes');
-                    const notes = technicalNotes.value;
-                    const today = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
+                    const today = new Date().toLocaleDateString('pt-BR', { 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: '2-digit' 
+                    });
                     
                     let newNoteText = '';
-                    
-                    // Verifica se já existe entrada para hoje
-                    if (!notes.includes(today)) {
+                    if (!technicalNotes.value.includes(today)) {
                         newNoteText = `\n---------------- ${today} ----------------\n\n`;
                     }
                     
                     newNoteText += `${data.username}: ${noteText}\n`;
-                    
                     technicalNotes.value += newNoteText;
                     document.getElementById('newNote').value = '';
                     technicalNotes.scrollTop = technicalNotes.scrollHeight;
+                    
+                    showToast('Nota adicionada com sucesso!');
                 } else {
-                    alert('Erro ao salvar nota: ' + data.message);
+                    showToast(data.message || 'Erro ao salvar nota', 'error');
                 }
             } catch (error) {
                 console.error('Erro:', error);
-                alert('Erro ao salvar nota técnica');
+                showToast('Erro ao salvar nota técnica', 'error');
             }
         }
 
+        // Event listener para tecla Enter no campo de nota
         document.getElementById('newNote').addEventListener('keypress', function(event) {
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
@@ -530,13 +724,15 @@ try {
             }
         });
 
-        // Status da Ordem
+        // Gestão de status
         const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
         
         function updateButtonAppearance(button, status, prefix = 'status') {
             button.className = 'action-button ' + prefix + '-button';
-            const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").replace(/ /g, '-')}`;
+            const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/ /g, '-')}`;
             button.classList.add(statusClass);
             button.innerHTML = `<i class="bi bi-gear"></i> <span>${status}</span>`;
         }
@@ -561,16 +757,33 @@ try {
                 if (data.success) {
                     this.dataset.status = nextStatus;
                     updateButtonAppearance(this, nextStatus);
+                    updateTimeline(nextStatus);
+                    showToast(`Status atualizado para: ${nextStatus}`);
                 } else {
-                    alert('Erro ao atualizar status: ' + data.message);
+                    showToast(data.message || 'Erro ao atualizar status', 'error');
                 }
             } catch (error) {
                 console.error('Erro:', error);
-                alert('Erro ao atualizar status');
+                showToast('Erro ao atualizar status', 'error');
             }
         });
 
-        // Autorização
+        // Atualização da timeline
+        function updateTimeline(status) {
+            const steps = document.querySelectorAll('.timeline-step');
+            const currentIndex = statusFlow.indexOf(status);
+            
+            steps.forEach((step, index) => {
+                const icon = step.querySelector('.timeline-icon');
+                if (index <= currentIndex) {
+                    icon.classList.add('active');
+                } else {
+                    icon.classList.remove('active');
+                }
+            });
+        }
+
+        // Gestão de autorização
         const authButton = document.getElementById('authButton');
         const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
 
@@ -594,111 +807,20 @@ try {
                 if (data.success) {
                     this.dataset.authStatus = nextStatus;
                     updateButtonAppearance(this, nextStatus, 'auth');
+                    showToast(`Autorização atualizada para: ${nextStatus}`);
                 } else {
-                    alert('Erro ao atualizar autorização: ' + data.message);
+                    showToast(data.message || 'Erro ao atualizar autorização', 'error');
                 }
             } catch (error) {
                 console.error('Erro:', error);
-                alert('Erro ao atualizar autorização');
+                showToast('Erro ao atualizar autorização', 'error');
             }
         });
 
         // Definir estados iniciais
         updateButtonAppearance(statusButton, statusButton.dataset.status);
         updateButtonAppearance(authButton, authButton.dataset.authStatus, 'auth');
+        updateTimeline(statusButton.dataset.status);
     </script>
-    <script>
-        import React, { useState } from 'react';
-        import { Clock, AlertCircle, CheckCircle, Phone, Package, Tool } from 'lucide-react';
-
-        // Timeline de Status
-        const StatusTimeline = ({ currentStatus }) => {
-        const statuses = [
-            { id: 'new', label: 'Não iniciada', icon: Clock },
-            { id: 'progress', label: 'Em andamento', icon: Tool },
-            { id: 'complete', label: 'Concluída', icon: CheckCircle },
-            { id: 'ready', label: 'Pronto e avisado', icon: Phone },
-            { id: 'delivered', label: 'Entregue', icon: Package }
-        ];
-
-        const getCurrentIndex = () => statuses.findIndex(s => s.label === currentStatus);
-
-        return (
-            <div className="flex items-center justify-between w-full mb-6 px-4">
-            {statuses.map((status, idx) => {
-                const Icon = status.icon;
-                const isActive = idx <= getCurrentIndex();
-                return (
-                <div key={status.id} className="flex flex-col items-center">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 
-                    ${isActive ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
-                    <Icon size={20} />
-                    </div>
-                    <span className="text-sm text-gray-600">{status.label}</span>
-                    {idx < statuses.length - 1 && (
-                    <div className={`h-0.5 w-24 mt-5 -ml-12 
-                        ${isActive ? 'bg-blue-500' : 'bg-gray-200'}`} />
-                    )}
-                </div>
-                );
-            })}
-            </div>
-        );
-        };
-
-        // Notas Técnicas Melhoradas
-        const TechnicalNotes = ({ notes }) => {
-        const [newNote, setNewNote] = useState('');
-        const [searchTerm, setSearchTerm] = useState('');
-
-        return (
-            <div className="bg-white rounded-lg shadow p-4">
-            <div className="mb-4">
-                <div className="relative">
-                <input
-                    type="text"
-                    placeholder="Pesquisar nas notas..."
-                    className="w-full px-4 py-2 border rounded-lg"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <div className="absolute right-3 top-2.5 text-gray-400">🔍</div>
-                </div>
-            </div>
-            
-            <div className="mb-4 max-h-96 overflow-y-auto">
-                {notes.map((note, idx) => (
-                <div key={idx} className="mb-4 p-3 bg-gray-50 rounded-lg">
-                    <div className="flex justify-between items-center mb-2">
-                    <span className="font-medium text-blue-600">{note.username}</span>
-                    <span className="text-sm text-gray-500">{note.formatted_date}</span>
-                    </div>
-                    <p className="text-gray-700">{note.note}</p>
-                </div>
-                ))}
-            </div>
-
-            <div className="border-t pt-4">
-                <textarea
-                className="w-full p-3 border rounded-lg mb-2"
-                placeholder="Digite sua nota técnica..."
-                rows="3"
-                value={newNote}
-                onChange={(e) => setNewNote(e.target.value)}
-                />
-                <div className="flex gap-2">
-                <button className="px-4 py-2 bg-blue-500 text-white rounded-lg flex items-center gap-2">
-                    <span>Adicionar Nota</span>
-                </button>
-                <button className="px-4 py-2 border rounded-lg text-gray-600">
-                    Usar Template
-                </button>
-                </div>
-            </div>
-            </div>
-        );
-        };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
