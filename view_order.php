@@ -371,7 +371,9 @@ try {
             <div class="technical-notes">
                 <div class="col-md-6">
                     <div class="info-label">Senha do Dispositivo</div>
+                    <div>
                     <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
+                    </div>
                 </div>
                 <div>
                     <div class="section-title">Defeito Reclamado</div>
