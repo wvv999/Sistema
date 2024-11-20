@@ -19,6 +19,7 @@ try {
     $query = "SELECT 
             so.*,
             c.name as client_name,
+            c.device_model,
             c.phone1,
             c.phone2,
             so.device_password,
@@ -311,6 +312,10 @@ try {
                     <div class="col-md-2">
                         <div class="info-label">Nome do Cliente</div>
                         <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="info-label">Modelo</div>
+                        <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
                     </div>
 
                     <div class="col-md-2">
