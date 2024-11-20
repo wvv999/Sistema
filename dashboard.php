@@ -134,13 +134,14 @@ if(!isset($_SESSION['user_id'])) {
 
             <div class="search-container">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="searchInput" 
+                    <input type="text" class="form-control" id="orderSearch" 
                            placeholder="Digite o número da OS ou nome do cliente...">
                     <button class="btn btn-primary" type="button" id="searchButton">
                         <i class="bi bi-search"></i> Buscar
                     </button>
                 </div>
             </div>
+            
 
             <div class="row">
                 <div class="col-md-6">
@@ -237,6 +238,19 @@ if(!isset($_SESSION['user_id'])) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+    const searchInput = document.getElementById('orderSearch');
+    
+    searchInput.addEventListener('keyup', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('.order-row');
+        
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
+    });
+    </script>
+    <!-- <script>
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
 
@@ -277,6 +291,6 @@ if(!isset($_SESSION['user_id'])) {
     searchInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') searchOrder();
     });
-    </script>
+    </script> -->
 </body>
 </html>
