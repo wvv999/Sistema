@@ -226,10 +226,10 @@ try {
         font-weight: 500;
     }
 
-    .action-button:hover {
+    /* .action-button:hover {
         transform: translateX(-2px);
         box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
-    }
+    } */
 
     /* Status buttons */
     .status-button {
@@ -309,10 +309,10 @@ try {
         justify-content: center;
     }
 
-    .bottom-button:hover {
+    /* .bottom-button:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(74, 111, 255, 0.3);
-    }
+    } */
 
     @media (max-width: 768px) {
         .main-content {
