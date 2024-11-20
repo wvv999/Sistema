@@ -65,8 +65,6 @@ try {
         font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         margin: 0;
         min-height: 100vh;
-        position: relative;
-        padding-bottom: 80px;
     }
 
     .order-container {
@@ -76,10 +74,9 @@ try {
         box-shadow: var(--shadow);
         max-width: 1200px;
         margin: 0 auto;
-        position: relative;
         display: flex;
         flex-direction: column;
-        min-height: calc(100vh - 120px);
+        min-height: calc(100vh - 40px);
     }
 
     .order-info {
@@ -100,6 +97,7 @@ try {
         display: flex;
         gap: 24px;
         flex: 1;
+        margin-bottom: 24px;
     }
 
     .content-left {
@@ -237,19 +235,15 @@ try {
         border-radius: var(--border-radius);
     }
 
-    /* Bottom buttons bar */
+    /* Bottom buttons */
     .bottom-buttons {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
         background-color: #fff;
         padding: 15px;
         display: flex;
         justify-content: flex-end;
         gap: 12px;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
+        border-top: 1px solid #dee2e6;
+        margin-top: auto;
     }
 
     .bottom-button {
@@ -411,22 +405,22 @@ try {
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Barra de botões fixa na parte inferior -->
-    <div class="bottom-buttons">
-        <button class="bottom-button">
-            <i class="bi bi-printer"></i> Histórico
-        </button>
-        <button class="bottom-button">
-            <i class="bi bi-printer"></i> Imprimir
-        </button>
-        <button class="bottom-button" style="background-color:#28a745">
-            <i class="bi bi<i class="bi bi-save></i> Salvar
-        </button>
-        <button class="bottom-button" onclick="javascript:history.go(-1)">
-            <i class="bi bi-x-lg"></i> Fechar
-        </button>
+        <!-- Barra de botões dentro do container -->
+        <div class="bottom-buttons">
+            <button class="bottom-button">
+                <i class="bi bi-printer"></i> Histórico
+            </button>
+            <button class="bottom-button">
+                <i class="bi bi-printer"></i> Imprimir
+            </button>
+            <button class="bottom-button" style="background-color:#28a745">
+                <i class="bi bi-save"></i> Salvar
+            </button>
+            <button class="bottom-button" onclick="javascript:history.go(-1)">
+                <i class="bi bi-x-lg"></i> Fechar
+            </button>
+        </div>
     </div>
 
     <script>
