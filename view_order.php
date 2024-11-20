@@ -342,24 +342,24 @@ try {
     </h4>
     <div class="client-details">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="info-label">Nome do Cliente</div>
                 <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="info-label">Telefone Principal</div>
                 <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="info-label">Data de Abertura</div>
                 <div class="info-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="info-label">Telefone Secundário</div>
                 <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-2">
                 <div class="info-label">Data de Entrega</div>
                 <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
             </div>
