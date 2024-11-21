@@ -103,9 +103,19 @@ require_once 'functions.php';
         .não-iniciada{
             background: red;
         }
+        .em-andamento{
+            background: yellow;
+        }
+        .concluída{
+            background: green;
+        }
         .pronto-e-avisado{
             background-color: #20c997;
         }
+        .entregue{
+            background: lightblue;
+        }
+
     </style>
 </head>
 <body class="bg-light">
@@ -139,7 +149,7 @@ require_once 'functions.php';
             </div>
             
             <div class="col">
-                <div class="card stats-card bg-warning text-dark cursor-pointer" data-status="em andamento">
+                <div class="card stats-card em-andamento text-dark cursor-pointer" data-status="em andamento">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
@@ -452,11 +462,11 @@ require_once 'functions.php';
         // Função auxiliar para definir a classe do status
         function getStatusClass(status) {
             const statusClasses = {
-                'não iniciada': 'bg-danger',
-                'em andamento': 'bg-warning',
-                'concluída': 'bg-success',
-                'pronto e avisado': 'entregue',
-                'entregue': 'bg-info'
+                'não iniciada': 'não-iniciada',
+                'em andamento': 'em-andamento',
+                'concluída': 'concluída',
+                'pronto e avisado': 'pronto-e-avisado',
+                'entregue': 'entregue'
             };
             return statusClasses[status] || 'bg-secondary';
         }
