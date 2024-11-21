@@ -99,6 +99,9 @@ require_once 'functions.php';
                 padding: 1rem;
             }
         }
+        .entregue{
+            background-color: #20c997;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -449,7 +452,7 @@ require_once 'functions.php';
                 'em andamento': 'bg-warning',
                 'concluída': 'bg-info',
                 'pronto e avisado': 'bg-success',
-                'entregue': 'bg-dark'
+                'entregue': 'entregue'
             };
             return statusClasses[status] || 'bg-secondary';
         }
