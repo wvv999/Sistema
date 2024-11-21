@@ -445,10 +445,10 @@ require_once 'functions.php';
         // Função auxiliar para definir a classe do status
         function getStatusClass(status) {
             const statusClasses = {
-                'não iniciada': 'bg-warning',
+                'não iniciada': 'bg-danger',
                 'em andamento': 'bg-warning',
-                'concluída': 'bg-success',
-                'pronto e avisado': 'bg-info',
+                'concluída': 'bg-info',
+                'pronto e avisado': 'bg-success',
                 'entregue': 'bg-dark'
             };
             return statusClasses[status] || 'bg-secondary';
