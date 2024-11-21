@@ -626,23 +626,15 @@ try {
 
                     <!-- Ações da OS -->
                     <div class="menu-section">
-                        <button class="action-button" data-bs-toggle="tooltip" title="Ver histórico completo">
-                            <i class="bi bi-clock-history"></i>
-                            <span>Histórico</span>
-                        </button>
-                        <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço">
-                            <i class="bi bi-printer"></i>
-                            <span>Imprimir</span>
-                        </button>
-                        <!-- <button class="action-button" style="background-color:var(--success-color); color: white">
-                            <i class="bi bi-save"></i>
-                            <span>Salvar</span>
-                        </button> -->
-                        <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
-                            <i class="bi bi-box-arrow-right"></i>
-                           
-                            <span>Salvar e Sair</span>
-                        </button>
+                        <div id="statusButton" 
+                            class="action-button status-button"
+                            data-status="<?php echo htmlspecialchars($order['status']); ?>"
+                            data-order-id="<?php echo htmlspecialchars($order['id']); ?>"
+                            data-bs-toggle="tooltip"
+                            title="Clique para alterar o status">
+                            <i class="bi bi-gear"></i>
+                            <span><?php echo htmlspecialchars($order['status']); ?></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -847,23 +839,33 @@ try {
         const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
 
-        function updateButtonAppearance(button, status, prefix = 'status') {
-            // Remove todas as classes exceto 'action-button'
-            const classes = [...button.classList];
-            classes.forEach(className => {
-                if (className !== 'action-button') {
-                    button.classList.remove(className);
-                }
-            });
-            
-            // Adiciona as novas classes
-            button.classList.add(`${prefix}-button`);
-            const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, "")
-                .replace(/ /g, '-')}`;
-            button.classList.add(statusClass);
+        function updateButtonAppearance(button, status) {
+            button.dataset.status = status;
             button.querySelector('span').textContent = status;
         }
+
+
+
+
+
+
+        // function updateButtonAppearance(button, status, prefix = 'status') {
+        //     // Remove todas as classes exceto 'action-button'
+        //     const classes = [...button.classList];
+        //     classes.forEach(className => {
+        //         if (className !== 'action-button') {
+        //             button.classList.remove(className);
+        //         }
+        //     });
+            
+        //     // Adiciona as novas classes
+        //     button.classList.add(`${prefix}-button`);
+        //     const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
+        //         .replace(/[\u0300-\u036f]/g, "")
+        //         .replace(/ /g, '-')}`;
+        //     button.classList.add(statusClass);
+        //     button.querySelector('span').textContent = status;
+        // }
 
         async function updateStatus(button, newStatus) {
             try {
