@@ -118,7 +118,7 @@ require_once 'functions.php';
         <!-- Cards de Estatísticas -->
         <div class="row mb-4">
             <div class="col">
-                <div class="card stats-card bg-warning text-dark cursor-pointer" data-status="não iniciada">
+                <div class="card stats-card bg-secondary text-white cursor-pointer" data-status="não iniciada">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
@@ -132,7 +132,7 @@ require_once 'functions.php';
             </div>
             
             <div class="col">
-                <div class="card stats-card bg-primary text-white cursor-pointer" data-status="em andamento">
+                <div class="card stats-card bg-warning text-dark cursor-pointer" data-status="em andamento">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
@@ -146,7 +146,7 @@ require_once 'functions.php';
             </div>
             
             <div class="col">
-                <div class="card stats-card bg-info text-white cursor-pointer" data-status="concluída">
+                <div class="card stats-card bg-success text-white cursor-pointer" data-status="concluída">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
@@ -160,7 +160,7 @@ require_once 'functions.php';
             </div>
             
             <div class="col">
-                <div class="card stats-card bg-success text-white cursor-pointer" data-status="pronto e avisado">
+                <div class="card stats-card bg-info text-white cursor-pointer" data-status="pronto e avisado">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
@@ -174,7 +174,7 @@ require_once 'functions.php';
             </div>
 
             <div class="col">
-                <div class="card stats-card bg-dark text-white cursor-pointer" data-status="entregue">
+                <div class="card stats-card text-white cursor-pointer" data-status="entregue" style="background-color: #20c997;">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
