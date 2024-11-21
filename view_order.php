@@ -67,7 +67,6 @@ try {
     exit;     
 } 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -76,7 +75,6 @@ try {
     <title>Ordem de Serviço <?php echo $order['id']; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="css/status-styles.css">
     <style>
         :root {
             --primary-color: #4a6fff;
@@ -592,9 +590,9 @@ try {
             <div class="content-right">
                 <div class="side-panel">
                     <!-- Status e Ações -->
-                    <div id="statusButton" 
-                             class="action-button status-button status-${status.toLowerCase()}"
-                             data-status="${status}"
+                    <div class="menu-section">
+                        <div id="statusButton" 
+                             class="action-button status-button"
                              data-status="<?php echo $order['status']; ?>"
                              data-order-id="<?php echo $order['id']; ?>"
                              data-bs-toggle="tooltip"
@@ -626,15 +624,23 @@ try {
 
                     <!-- Ações da OS -->
                     <div class="menu-section">
-                        <div id="statusButton" 
-                            class="action-button status-button"
-                            data-status="<?php echo htmlspecialchars($order['status']); ?>"
-                            data-order-id="<?php echo htmlspecialchars($order['id']); ?>"
-                            data-bs-toggle="tooltip"
-                            title="Clique para alterar o status">
-                            <i class="bi bi-gear"></i>
-                            <span><?php echo htmlspecialchars($order['status']); ?></span>
-                        </div>
+                        <button class="action-button" data-bs-toggle="tooltip" title="Ver histórico completo">
+                            <i class="bi bi-clock-history"></i>
+                            <span>Histórico</span>
+                        </button>
+                        <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço">
+                            <i class="bi bi-printer"></i>
+                            <span>Imprimir</span>
+                        </button>
+                        <!-- <button class="action-button" style="background-color:var(--success-color); color: white">
+                            <i class="bi bi-save"></i>
+                            <span>Salvar</span>
+                        </button> -->
+                        <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
+                            <i class="bi bi-box-arrow-right"></i>
+                           
+                            <span>Salvar e Sair</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -838,16 +844,6 @@ try {
         // Gestão de status e autorização
         const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
-
-        // function updateButtonAppearance(button, status) {
-        //     button.dataset.status = status;
-        //     button.querySelector('span').textContent = status;
-        // }
-
-
-
-
-
 
         function updateButtonAppearance(button, status, prefix = 'status') {
             // Remove todas as classes exceto 'action-button'
