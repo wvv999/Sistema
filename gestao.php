@@ -100,20 +100,24 @@ require_once 'functions.php';
             }
         }
 
-        .não-iniciada{
-            background: red;
+        .não-iniciada {
+    background: #6c757d;    /* Cinza neutro, tom médio */
         }
-        .em-andamento{
-            background: yellow;
+
+        .em-andamento {
+            background: #ffc107;    /* Amarelo/laranja avisando que está em processo */
         }
-        .concluída{
-            background: green;
+
+        .concluída {
+            background: #28a745;    /* Verde suave indicando conclusão */
         }
-        .pronto-e-avisado{
-            background-color: #20c997;
+
+        .pronto-e-avisado {
+            background: #17a2b8;    /* Azul claro informativo */
         }
-        .entregue{
-            background: lightblue;
+
+        .entregue {
+            background: #20c997;    /* Verde-azulado como estava no sistema */
         }
 
     </style>
