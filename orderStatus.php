@@ -26,7 +26,7 @@ class OrderStatus {
         // Estilo customizado para o status 'entregue'
         $customStyle = '';
         if ($status === 'entregue') {
-            $customStyle = 'background: #2c3e50; border-color: #20c997; color: white;';
+            $customStyle = 'background: #2c3e50; color: white;';
         }
         
         return sprintf(
