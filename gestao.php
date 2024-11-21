@@ -451,8 +451,8 @@ require_once 'functions.php';
                 'não iniciada': 'bg-danger',
                 'em andamento': 'bg-warning',
                 'concluída': 'bg-success',
-                'pronto e avisado': 'bg-info',
-                'entregue': 'entregue'
+                'pronto e avisado': 'entregue',
+                'entregue': 'bg-info'
             };
             return statusClasses[status] || 'bg-secondary';
         }
