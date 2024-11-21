@@ -839,33 +839,33 @@ try {
         const statusButton = document.getElementById('statusButton');
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
 
-        function updateButtonAppearance(button, status) {
-            button.dataset.status = status;
-            button.querySelector('span').textContent = status;
-        }
-
-
-
-
-
-
-        // function updateButtonAppearance(button, status, prefix = 'status') {
-        //     // Remove todas as classes exceto 'action-button'
-        //     const classes = [...button.classList];
-        //     classes.forEach(className => {
-        //         if (className !== 'action-button') {
-        //             button.classList.remove(className);
-        //         }
-        //     });
-            
-        //     // Adiciona as novas classes
-        //     button.classList.add(`${prefix}-button`);
-        //     const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
-        //         .replace(/[\u0300-\u036f]/g, "")
-        //         .replace(/ /g, '-')}`;
-        //     button.classList.add(statusClass);
+        // function updateButtonAppearance(button, status) {
+        //     button.dataset.status = status;
         //     button.querySelector('span').textContent = status;
         // }
+
+
+
+
+
+
+        function updateButtonAppearance(button, status, prefix = 'status') {
+            // Remove todas as classes exceto 'action-button'
+            const classes = [...button.classList];
+            classes.forEach(className => {
+                if (className !== 'action-button') {
+                    button.classList.remove(className);
+                }
+            });
+            
+            // Adiciona as novas classes
+            button.classList.add(`${prefix}-button`);
+            const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/ /g, '-')}`;
+            button.classList.add(statusClass);
+            button.querySelector('span').textContent = status;
+        }
 
         async function updateStatus(button, newStatus) {
             try {
