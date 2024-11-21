@@ -283,11 +283,12 @@ try {
             justify-content: center;
         }
 
-        .status-nao-iniciada { background-color: #6c757d; color: white; }
-        .status-em-andamento { background-color: #fd7e14; color: white; }
-        .status-concluida { background-color: var(--success-color); color: white; }
-        .status-pronto-e-avisado { background-color: #0dcaf0; color: white; }
-        .status-entregue { background-color: #20c997; color: white; }
+        /* Status button styles */
+        .status-nao-iniciada { background-color: #e74c3c; color: white; }
+        .status-em-andamento { background-color: #f39c12; color: white; }
+        .status-concluida { background-color: #27ae60; color: white; }
+        .status-pronto-e-avisado { background-color: #3498db; color: white; }
+        .status-entregue { background-color: #2c3e50; color: white; }
 
         /* Auth button styles */
         .auth-button {
