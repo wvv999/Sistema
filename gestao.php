@@ -99,7 +99,11 @@ require_once 'functions.php';
                 padding: 1rem;
             }
         }
-        .entregue{
+
+        .não-iniciada{
+            background: red;
+        }
+        .pronto-e-avisado{
             background-color: #20c997;
         }
     </style>
@@ -163,7 +167,7 @@ require_once 'functions.php';
             </div>
             
             <div class="col">
-                <div class="card stats-card bg-info text-white cursor-pointer" data-status="pronto e avisado">
+                <div class="card stats-card pronto-e-avisado text-white cursor-pointer" data-status="pronto e avisado">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
