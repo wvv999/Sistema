@@ -450,7 +450,7 @@ require_once 'functions.php';
             const statusClasses = {
                 'não iniciada': 'bg-danger',
                 'em andamento': 'bg-warning',
-                'concluída': 'bg-success',
+                'concluída': 'bg-info',
                 'pronto e avisado': 'bg-info',
                 'entregue': 'entregue'
             };
