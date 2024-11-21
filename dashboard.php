@@ -115,6 +115,26 @@ if(!isset($_SESSION['user_id'])) {
         .status-indicator i {
             font-size: 0.9em;
         }
+        
+        .não-iniciada {
+            background: #e74c3c;    /* Vermelho moderno mas não agressivo */
+        }
+
+        .em-andamento {
+            background: #f39c12;    /* Laranja âmbar */
+        }
+
+        .concluída {
+            background: #27ae60;    /* Verde esmeralda */
+        }
+
+        .pronto-e-avisado {
+            background: #3498db;    /* Azul claro vivido */
+        }
+
+        .entregue {
+            background: #2c3e50;    /* Azul escuro elegante */
+        }
     </style>
 </head>
 <body class="bg-light">

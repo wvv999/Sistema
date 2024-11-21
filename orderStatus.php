@@ -2,11 +2,11 @@
 class OrderStatus {
     // Mapeamento de status para classes do Bootstrap
     private static $statusClasses = [
-        'não iniciada' => 'btn-secondary', // cinza
-        'em andamento' => 'btn-warning',   // laranja
-        'concluída' => 'btn-success',      // verde
-        'pronto e avisado' => 'btn-info',  // azul
-        'entregue' => 'btn-teal'          // verde-azulado (tranquilidade)
+        'não iniciada' => 'não-iniciada', // cinza
+        'em andamento' => 'em-andamento',   // laranja
+        'concluída' => 'concluída',      // verde
+        'pronto e avisado' => 'pronto-e-avisado',  // azul
+        'entregue' => 'entregue'          // verde-azulado (tranquilidade)
     ];
 
     // Mapeamento de status para ícones
