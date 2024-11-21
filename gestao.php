@@ -138,8 +138,9 @@ require_once 'functions.php';
         <!-- Cards de Estatísticas -->
         <!-- Cards de Estatísticas -->
         <div class="row mb-4">
+            <!-- CARD -->
             <div class="col">
-                <div class="card stats-card bg-danger text-white cursor-pointer" data-status="não iniciada">
+                <div class="card stats-card text-white não-iniciada cursor-pointer" data-status="não iniciada">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
@@ -151,7 +152,7 @@ require_once 'functions.php';
                     </div>
                 </div>
             </div>
-            
+            <!-- CARD -->
             <div class="col">
                 <div class="card stats-card em-andamento text-dark cursor-pointer" data-status="em andamento">
                     <div class="card-body">
@@ -165,9 +166,9 @@ require_once 'functions.php';
                     </div>
                 </div>
             </div>
-            
+            <!-- CARD -->
             <div class="col">
-                <div class="card stats-card bg-success text-white cursor-pointer" data-status="concluída">
+                <div class="card stats-card concluída text-white cursor-pointer" data-status="concluída">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
@@ -179,7 +180,7 @@ require_once 'functions.php';
                     </div>
                 </div>
             </div>
-            
+            <!-- CARD -->
             <div class="col">
                 <div class="card stats-card pronto-e-avisado text-white cursor-pointer" data-status="pronto e avisado">
                     <div class="card-body">
@@ -193,9 +194,9 @@ require_once 'functions.php';
                     </div>
                 </div>
             </div>
-
+            <!-- CARD -->
             <div class="col">
-                <div class="card stats-card text-white cursor-pointer" data-status="entregue" style="background-color: #20c997;">
+                <div class="card stats-card entregue text-white cursor-pointer" data-status="entregue" >
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
