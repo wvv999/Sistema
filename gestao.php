@@ -118,7 +118,7 @@ require_once 'functions.php';
         <!-- Cards de Estatísticas -->
         <div class="row mb-4">
             <div class="col">
-                <div class="card stats-card bg-warning text-white cursor-pointer" data-status="não iniciada">
+                <div class="card stats-card bg-danger text-white cursor-pointer" data-status="não iniciada">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
