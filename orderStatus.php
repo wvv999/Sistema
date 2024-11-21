@@ -15,7 +15,7 @@ class OrderStatus {
         'em andamento' => 'bi-gear',
         'concluída' => 'bi-check-circle',
         'pronto e avisado' => 'bi-bell',
-        'entregue' => 'bi-bag-check'
+        'entregue' => 'bi bi-box-seam stats-icon'
     ];
 
     public static function getStatusButton($status) {
