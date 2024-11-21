@@ -118,7 +118,7 @@ require_once 'functions.php';
         <!-- Cards de Estatísticas -->
         <div class="row mb-4">
             <div class="col">
-                <div class="card stats-card bg-secondary text-white cursor-pointer" data-status="não iniciada">
+                <div class="card stats-card bg-warning text-white cursor-pointer" data-status="não iniciada">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
@@ -445,7 +445,7 @@ require_once 'functions.php';
         // Função auxiliar para definir a classe do status
         function getStatusClass(status) {
             const statusClasses = {
-                'não iniciada': 'bg-secondary',
+                'não iniciada': 'bg-warning',
                 'em andamento': 'bg-warning',
                 'concluída': 'bg-success',
                 'pronto e avisado': 'bg-info',
