@@ -101,7 +101,7 @@ require_once 'functions.php';
         }
 
         .não-iniciada {
-    background: #6c757d;    /* Cinza neutro, tom médio */
+        background: #6c757d;    /* Cinza neutro, tom médio */
         }
 
         .em-andamento {
