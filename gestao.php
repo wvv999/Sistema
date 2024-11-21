@@ -101,23 +101,23 @@ require_once 'functions.php';
         }
 
         .não-iniciada {
-            background: #ff6b6b;    /* Vermelho suave/coral - início */
+            background: #d35d6e;    /* Vermelho opaco/rosado */
         }
 
         .em-andamento {
-            background: #ffd93d;    /* Amarelo dourado - transição */
+            background: #e6b89c;    /* Terracota/pêssego suave */
         }
 
         .concluída {
-            background: #4ade80;    /* Verde vibrante mas suave - meio */
+            background: #9cc4b2;    /* Verde sage/pastel */
         }
 
         .pronto-e-avisado {
-            background: #60a5fa;    /* Azul claro - quase fim */
+            background: #869daa;    /* Azul acinzentado */
         }
 
         .entregue {
-            background: #2563eb;    /* Azul mais forte - finalizado */
+            background: #4a6670;    /* Azul escuro petróleo */
         }
     </style>
 </head>
