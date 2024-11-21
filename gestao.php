@@ -101,25 +101,24 @@ require_once 'functions.php';
         }
 
         .não-iniciada {
-        background: #6c757d;    /* Cinza neutro, tom médio */
+            background: #ff6b6b;    /* Vermelho suave/coral - início */
         }
 
         .em-andamento {
-            background: #ffc107;    /* Amarelo/laranja avisando que está em processo */
+            background: #ffd93d;    /* Amarelo dourado - transição */
         }
 
         .concluída {
-            background: #28a745;    /* Verde suave indicando conclusão */
+            background: #4ade80;    /* Verde vibrante mas suave - meio */
         }
 
         .pronto-e-avisado {
-            background: #17a2b8;    /* Azul claro informativo */
+            background: #60a5fa;    /* Azul claro - quase fim */
         }
 
         .entregue {
-            background: #20c997;    /* Verde-azulado como estava no sistema */
+            background: #2563eb;    /* Azul mais forte - finalizado */
         }
-
     </style>
 </head>
 <body class="bg-light">
