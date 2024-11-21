@@ -449,7 +449,7 @@ require_once 'functions.php';
                 'em andamento': 'bg-warning',
                 'concluída': 'bg-success',
                 'pronto e avisado': 'bg-info',
-                'entregue': 'bg-teal'
+                'entregue': 'bg-dark'
             };
             return statusClasses[status] || 'bg-secondary';
         }
