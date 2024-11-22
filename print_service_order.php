@@ -231,7 +231,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         </div>
 
         <!-- Termos e Condições -->
-        <div class="section avoid-break" style="font-size: 12px; margin-top: 30px;">
+        <!-- <div class="section avoid-break" style="font-size: 12px; margin-top: 30px;">
             <p><strong>Termos e Condições:</strong></p>
             <ol>
                 <li>O prazo de garantia dos serviços é de 90 dias a partir da data de entrega.</li>
@@ -240,7 +240,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 <li>O cliente declara estar ciente que pode haver perda de dados durante o reparo.</li>
                 <li>Ao deixar o aparelho para manutenção, o cliente concorda com todos os termos acima.</li>
             </ol>
-        </div>
+        </div> -->
 
         <!-- Assinaturas -->
         <div class="signatures avoid-break">
