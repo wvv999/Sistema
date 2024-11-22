@@ -130,7 +130,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             max-height: 80px;
             border: 1px solid #ccc;
             font-size: 11px;
-            box-sizing: border-box;
+            
             padding:3px;
         }
 
