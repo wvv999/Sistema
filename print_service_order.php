@@ -198,7 +198,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             grid-template-columns: repeat(3, 1fr);
             gap: 3px;
             width: 80px;
-            height: 83px;
+            height: 82px;
             aspect-ratio: 1;
             background-color: #f9f9f9;
             position: absolute;
