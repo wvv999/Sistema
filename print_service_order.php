@@ -35,206 +35,179 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     <title>Ordem de Serviço #<?php echo $order['id']; ?></title>
     <link href="https://fonts.cdnjs.com/css2?family=Style+Script" rel="stylesheet">
     <style>
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.3;
-    margin: 0;
-    padding: 0;
-}
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.3;
+            margin: 0;
+            padding: 0;
+        }
 
-.container {
-    width: 21cm;
-    margin: 0 auto;
-    height: 13.85cm;
-    max-height: 13.85cm;
-    overflow: hidden;
-    transform: scale(1.05);
-    transform-origin: top center;
-    position: relative;
-    box-sizing: border-box;
-    padding: 5px 25px;
-}
+        .container {
+            width: 21cm;
+            margin: 0 auto;
+            height: 13.85cm;
+            max-height: 13.85cm;
+            overflow: hidden;
+            transform: scale(1.05);
+            transform-origin: top center;
+            position: relative;
+            box-sizing: border-box;
+            padding: 5px 25px;
+        }
 
-.header {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    margin-bottom: 6px;
-    border-bottom: 1px solid #000;
-    padding-bottom: 5px;
-}
+        .header {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
 
-.header-left {
-    text-align: left;
-}
+        .header-left {
+            text-align: left;
+        }
 
-.header-right {
-    text-align: right;
-    font-size: 14px;
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 3px;
-}
+        .header-right {
+            text-align: right;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
+        }
 
-.delivery-date {
-    font-size: 11px;
-    font-weight: normal;
-}
+        .delivery-date {
+            font-size: 11px;
+            font-weight: normal;
+        }
 
-.company-info {
-    font-size: 11px;
-    margin: 0;
-    line-height: 1.1;
-}
+        .company-info {
+            font-size: 11px;
+            margin: 0;
+            line-height: 1.1;
+        }
 
-.section {
-    margin-bottom: 6px;
-}
+        .section {
+            margin-bottom: 6px;
+        }
 
-.grid {
-    display: grid;
-    gap: 4px;
-    margin-bottom: 4px;
-}
+        .grid {
+            display: grid;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
 
-.field {
-    margin-bottom: 4px;
-}
+        .field {
+            margin-bottom: 4px;
+        }
 
-.field-label {
-    font-weight: bold;
-    font-size: 11px;
-    margin-bottom: 1px;
-}
+        .field-label {
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 1px;
+        }
 
-.field-value {
-    border: 1px solid #ccc;
-    padding: 2px 4px;
-    min-height: 14px;
-    margin-top: 1px;
-    font-size: 11px;
-    position: relative;
-}
+        .field-value {
+            border: 1px solid #ccc;
+            padding: 2px 4px;
+            min-height: 14px;
+            margin-top: 1px;
+            font-size: 11px;
+            position: relative;
+        }
 
-.reported-issue-container {
-    display: flex;
-    gap: 8px;
-    margin-top: 4px;
-}
+        .reported-issue-container {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
 
-.reported-issue {
-    flex: 1;
-    min-height: 80px;
-    max-height: 80px;
-    border: 1px solid #ccc;
-    font-size: 11px;
-    padding: 3px;
-}
+        .reported-issue {
+            flex: 1;
+            min-height: 80px;
+            max-height: 80px;
+            border: 1px solid #ccc;
+            font-size: 11px;
+            padding: 3px;
+        }
 
-.pattern-box {
-    width: 80px;
-    min-width: 80px;
-    min-height: 80px;
-    max-height: 80px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    padding: 3px;
-    gap: 3px;
-}
+        .brush-script {
+            font-family: "Brush Script MT", "Brush Script Std", cursive;
+            font-size: 28px;
+            margin: 0;
+            line-height: 1;
+            display: inline-block;
+            border-bottom: 2px solid #000;
+            padding-bottom: 0;
+        }
 
-.pattern-circle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        .title-container {
+            margin-bottom: 3px;
+        }
 
-.pattern-dot {
-    width: 6px;
-    height: 6px;
-    background: #666;
-    border-radius: 50%;
-}
+        .info-row {
+            display: grid;
+            grid-template-columns: 2fr 2fr 3fr;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
 
-.signatures {
-    margin-top: 20px;
-    text-align: center;
-}
+        .disclaimer {
+            font-size: 9px;
+            margin: 8px 0;
+            text-align: justify;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
 
-.signature-line {
-    border-top: 1px solid #000;
-    padding-top: 2px;
-    text-align: center;
-    font-size: 11px;
-    width: 50%;
-    margin: 0 auto;
-    margin-top: 5px;
-}
+        .signatures {
+            margin-top: 20px;
+            text-align: center;
+        }
 
-.brush-script {
-    font-family: "Brush Script MT", "Brush Script Std", cursive;
-    font-size: 28px;
-    margin: 0;
-    line-height: 1;
-    display: inline-block;
-    border-bottom: 2px solid #000;
-    padding-bottom: 0;
-}
+        .signature-line {
+            border-top: 1px solid #000;
+            padding-top: 2px;
+            text-align: center;
+            font-size: 11px;
+            width: 50%;
+            margin: 0 auto;
+            margin-top: 5px;
+        }
 
-.title-container {
-    margin-bottom: 3px;
-}
+        .cut-line {
+            width: 100%;
+            height: 0;
+            border-bottom: 1px dashed #999;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
 
-.info-row {
-    display: grid;
-    grid-template-columns: 2fr 2fr 3fr;
-    gap: 4px;
-    margin-bottom: 4px;
-}
+        @media print {
+            body {
+                padding: 0;
+                margin: 0;
+            }
 
-.disclaimer {
-    font-size: 9px;
-    margin: 8px 0;
-    text-align: justify;
-    line-height: 1.2;
-    margin-bottom: 12px;
-}
+            .no-print {
+                display: none;
+            }
 
-.cut-line {
-    width: 100%;
-    height: 0;
-    border-bottom: 1px dashed #999;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
+            .container {
+                padding: 5px 25px;
+                page-break-after: always;
+                height: 138.5mm;
+            }
 
-@media print {
-    body {
-        padding: 0;
-        margin: 0;
-    }
-
-    .no-print {
-        display: none;
-    }
-
-    .container {
-        padding: 5px 25px;
-        page-break-after: always;
-        height: 138.5mm;
-    }
-
-    @page {
-        size: A4;
-        margin: 0;
-        padding: 0;
-    }
-}
+            @page {
+                size: A4;
+                margin: 0;
+                padding: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -296,17 +269,18 @@ body {
                     <div class="reported-issue">
                         <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
                     </div>
-                    <div class="pattern-box">
-                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
-                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
-                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
-                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
-                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
-                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
-                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
-                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
-                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
-                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" style="width: 80px; height: 80px;">
+                        <rect width="80" height="80" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
+                        <circle cx="15" cy="15" r="3" fill="#666"/>
+                        <circle cx="40" cy="15" r="3" fill="#666"/>
+                        <circle cx="65" cy="15" r="3" fill="#666"/>
+                        <circle cx="15" cy="40" r="3" fill="#666"/>
+                        <circle cx="40" cy="40" r="3" fill="#666"/>
+                        <circle cx="65" cy="40" r="3" fill="#666"/>
+                        <circle cx="15" cy="65" r="3" fill="#666"/>
+                        <circle cx="40" cy="65" r="3" fill="#666"/>
+                        <circle cx="65" cy="65" r="3" fill="#666"/>
+                    </svg>
                 </div>
             </div>
         </div>
