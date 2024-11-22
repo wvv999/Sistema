@@ -184,7 +184,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
 
         .reported-issue {
-            height: 60px;
+            height: 90px;
             position: relative;
             padding-right: 90px;
         }
@@ -303,7 +303,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                     <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
                 </div>
                 <div class="field">
-                    <div class="field-label">Senhas:</div>
+                    <div class="field-label">Senha:</div>
                     <div class="field-value"><?php echo htmlspecialchars($order['device_password']); ?></div>
                 </div>
             </div>
