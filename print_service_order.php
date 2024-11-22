@@ -236,7 +236,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             border-radius: 50%;
             aspect-ratio: 1;
             position: relative;
-            background-color: white;
+            background-color: black;
         }
 
         .pattern-dot::before {
