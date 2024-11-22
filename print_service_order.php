@@ -153,7 +153,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
 
         .signature-line {
             border-top: 1px solid #000;
-            padding-top: 2px;
+            padding-top: 8px;
             text-align: center;
             font-size: 11px;
             width: 50%;
