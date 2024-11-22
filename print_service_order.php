@@ -187,36 +187,40 @@ body {
 }
 
 .reported-issue {
-    height: 88px;
+    min-height: 75px;
+    padding: 8px;
+    padding-right: 95px; /* Espaço para o pattern box */
+    border: 1px solid #ccc;
     position: relative;
+    font-size: 11px;
+    margin-top: 4px;
 }
 
 .pattern-box {
-    border: 1px solid #ccc;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: 8px;
+    top: 8px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3px;
-    width: 80px;
-    height: 88px;
-    aspect-ratio: 1;
-    background-color: #f9f9f9;
-    position: absolute;
-    right: 3px;
-    top: 3px;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 3px;
 }
 
 .pattern-circle {
-    width: 100%;
-    aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .pattern-dot {
-    width: 4px;
-    height: 4px;
-    border: 2px solid #666;
+    width: 6px;
+    height: 6px;
+    background: #666;
     border-radius: 50%;
 }
 
