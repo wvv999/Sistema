@@ -35,6 +35,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
 <head>
     <meta charset="UTF-8">
     <title>Ordem de Serviço #<?php echo $order['id']; ?></title>
+    <link href="https://fonts.cdnjs.com/css2?family=Style+Script" rel="stylesheet">
     <style>
         /* Estilos gerais */
         body {
@@ -142,6 +143,9 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 page-break-inside: avoid;
             }
         }
+        .brush-script {
+            font-family: "Brush Script MT", "Brush Script Std", cursive;
+        }
     </style>
 </head>
 <body>
@@ -154,7 +158,21 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
 
         <!-- Cabeçalho com dados da empresa -->
         <div class="header avoid-break">
-            <div class="company-name">NOME DA EMPRESA</div>
+            <div class="company-name" style="font-family: brush">NOME DA EMPRESA</div>
+            
+
+            <div class="font-example">
+                <div class="font-name">Brush Script MT</div>
+                <div class="header">Assistência Técnica</div>
+                <h1 class="logo brush-script underline">Tele Dil</h1>
+            </div>
+
+
+
+
+
+
+
             <div class="company-info">Assistência Técnica em Smartphones</div>
             <div class="company-info">Endereço da Empresa, Número - Bairro</div>
             <div class="company-info">Cidade - Estado - CEP</div>
