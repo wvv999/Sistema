@@ -145,7 +145,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
         .brush-script {
             font-family: "Brush Script MT", "Brush Script Std", cursive;
-            font-size: 20px;
+            font-size: 60px;
         }
     </style>
 </head>
