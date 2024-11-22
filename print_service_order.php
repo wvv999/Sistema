@@ -186,22 +186,29 @@ body {
     margin-bottom: 4px;
 }
 
-.reported-issue {
-    min-height: 75px;
-    padding: 8px;
-    padding-right: 95px; /* Espaço para o pattern box */
-    border: 1px solid #ccc;
-    position: relative;
+.field-label {
+    font-weight: bold;
     font-size: 11px;
+    margin-bottom: 1px;
+}
+
+.reported-issue-container {
+    display: flex;
+    gap: 8px;
     margin-top: 4px;
+}
+
+.reported-issue {
+    flex: 1;
+    min-height: 75px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 11px;
 }
 
 .pattern-box {
     width: 80px;
     height: 80px;
-    position: absolute;
-    right: 8px;
-    top: 8px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
@@ -288,6 +295,8 @@ body {
 
         <div class="section avoid-break">
             <div class="grid" style="grid-template-columns: 50% 25% 25%;">
+
+
                 <div class="field">
                     <div class="field-label">Cliente:</div>
                     <div class="field-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
@@ -318,37 +327,19 @@ body {
             </div>
             
             <div class="field">
-                <div class="field-label">Defeito Reclamado:</div>
-                <div class="field-value reported-issue">
-                    <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
+                <div class="field-label">
+                    <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
+                </div>
+                <div class="reported-issue-container">
+                    <div class="reported-issue">
+                        <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
+                    </div>
                     <div class="pattern-box">
-                        <div class="pattern-circle">
-                            <div class="pattern-dot"></div>
-                        </div>
-                        <div class="pattern-circle">
-                            <div class="pattern-dot"></div>
-                        </div>
-                        <div class="pattern-circle">
-                            <div class="pattern-dot"></div>
-                        </div>
-                        <div class="pattern-circle">
-                            <div class="pattern-dot"></div>
-                        </div>
-                        <div class="pattern-circle">
-                            <div class="pattern-dot"></div>
-                        </div>
-                        <div class="pattern-circle">
-                            <div class="pattern-dot"></div>
-                        </div>
-                        <div class="pattern-circle">
-                            <div class="pattern-dot"></div>
-                        </div>
-                        <div class="pattern-circle">
-                            <div class="pattern-dot"></div>
-                        </div>
-                        <div class="pattern-circle">
-                            <div class="pattern-dot"></div>
-                        </div>
+                        <?php for($i = 0; $i < 9; $i++): ?>
+                            <div class="pattern-circle">
+                                <div class="pattern-dot"></div>
+                            </div>
+                        <?php endfor; ?>
                     </div>
                 </div>
             </div>
