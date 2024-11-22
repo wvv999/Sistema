@@ -46,6 +46,11 @@ if(!isset($_SESSION['user_id'])) {
 
         .nav-button i { margin-right: 10px; }
 
+        .nav-button:hover {
+            background-color: #1a237e !important;
+            color: white !important;
+        }
+
         .logout-btn {
             position: absolute;
             top: 20px;
