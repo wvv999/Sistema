@@ -84,7 +84,7 @@ body {
     transform-origin: top center;
     position: relative;
     box-sizing: border-box;
-    padding: 5px 10px;
+    padding: 5px 25px; /* Aumentei o padding lateral */
 }
 
 .header {
@@ -208,14 +208,10 @@ body {
 
 .pattern-box {
     width: 80px;
-    height: 80px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 2px;
-    background: #f9f9f9;
+    min-width: 80px; /* Garante que não encolha */
+    height: 82px;
     border: 1px solid #ccc;
-    padding: 3px;
+    background-color: #f9f9f9;
 }
 
 .pattern-circle {
@@ -259,7 +255,7 @@ body {
     }
 
     .container {
-        padding: 5px 10px;
+        padding: 5px 25px;
         page-break-after: always;
         height: 138.5mm;
     }
@@ -267,6 +263,7 @@ body {
     @page {
         size: A4;
         margin: 0;
+        padding: 0;
     }
 }
     </style>
@@ -327,19 +324,21 @@ body {
             </div>
             
             <div class="field">
-                <div class="field-label">
-                    <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
-                </div>
+                <div class="field-label">Defeito Reclamado:</div>
                 <div class="reported-issue-container">
                     <div class="reported-issue">
                         <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
                     </div>
                     <div class="pattern-box">
-                        <?php for($i = 0; $i < 9; $i++): ?>
-                            <div class="pattern-circle">
-                                <div class="pattern-dot"></div>
-                            </div>
-                        <?php endfor; ?>
+                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
+                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
+                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
+                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
+                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
+                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
+                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
+                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
+                        <div class="pattern-circle"><div class="pattern-dot"></div></div>
                     </div>
                 </div>
             </div>
