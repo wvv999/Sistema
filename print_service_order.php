@@ -252,9 +252,8 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 Assinatura do Funcionário<br>
                 
             </div>
-            <div class="signature-line">
-            Data: ____/____/______<br>
-                
+            <div>
+                Data: ____/____/______<br>    
             </div>
         </div>
     </div>
