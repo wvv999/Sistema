@@ -40,9 +40,8 @@ if(!isset($_SESSION['user_id'])) {
             padding: 15px;
             text-align: left;
             font-size: 1.1em;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            color: black !important;
-            border-color: black !important;
+            color: #2c3e50 !important;
+            border-color: #2c3e50 !important;
         }
 
         .nav-button i { margin-right: 10px; }
