@@ -126,6 +126,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
 
         .reported-issue {
             flex: 1;
+            min-height: 80px;
             max-height: 80px;
             border: 1px solid #ccc;
             font-size: 11px;
@@ -136,7 +137,8 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         .pattern-box {
             width: 80px;
             min-width: 80px;
-            height: 80px;
+            min-height: 80px;
+            max-height: 80px;
             border: 1px solid #ccc;
             background-color: #f9f9f9;
         }
