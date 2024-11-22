@@ -125,23 +125,59 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
 
         .reported-issue {
-            flex: 1;
-            min-height: 80px;
-            max-height: 80px;
-            border: 1px solid #ccc;
-            font-size: 11px;
-            
-            padding:3px;
-        }
+    flex: 1;
+    min-height: 80px;
+    max-height: 80px;
+    border: 1px solid #ccc;
+    font-size: 11px;
+    padding: 3px;
+}
 
-        .pattern-box {
-            width: 80px;
-            min-width: 80px;
-            min-height: 80px;
-            max-height: 80px;
-            border: 1px solid #ccc;
-            background-color: #f9f9f9;
-        }
+.pattern-box {
+    width: 80px;
+    min-width: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    padding: 3px;
+    gap: 3px;
+}
+
+.pattern-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pattern-dot {
+    width: 6px;
+    height: 6px;
+    background: #666;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         .signatures {
             margin-top: 20px;
