@@ -187,7 +187,7 @@ body {
 }
 
 .reported-issue {
-    min-height: 75px;
+    min-height: 85px;
     padding: 8px;
     padding-right: 95px; /* Espaço para o pattern box */
     border: 1px solid #ccc;
