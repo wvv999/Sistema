@@ -194,7 +194,6 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
 
         .pattern-box {
             border: 1px solid #ccc;
-            padding: 3px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 3px;
@@ -320,9 +319,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                     <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
                     <div class="pattern-box">
                         <div class="pattern-circle">
-                            <div class="pattern-dot">
-                                <div class="pattern-dot"></div>
-                            </div>
+                            <div class="pattern-dot"></div>
                         </div>
                         <div class="pattern-circle">
                             <div class="pattern-dot"></div>
