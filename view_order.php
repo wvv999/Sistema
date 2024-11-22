@@ -629,7 +629,8 @@ try {
                             <i class="bi bi-clock-history"></i>
                             <span>Histórico</span>
                         </button>
-                        <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço">
+                        <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço" 
+                                onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
                             <i class="bi bi-printer"></i>
                             <span>Imprimir</span>
                         </button>
