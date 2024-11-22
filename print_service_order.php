@@ -19,7 +19,6 @@
             height: 14.85cm;
         }
 
-        /* Novo estilo para o cabeçalho em grid */
         .header {
             display: grid;
             grid-template-columns: 1fr auto;
@@ -119,16 +118,10 @@
             font-family: "Brush Script MT", "Brush Script Std", cursive;
             font-size: 32px;
             margin: 0;
-        }
-
-        .logo {
-            margin: 0;
+            line-height: 1;
             display: inline-block;
-        }
-
-        .underline {
             border-bottom: 2px solid #000;
-            padding-bottom: 2px;
+            padding-bottom: 0;
         }
 
         .contacts-value {
@@ -137,6 +130,11 @@
             min-height: 16px;
             font-size: 12px;
             margin-top: 2px;
+        }
+
+        /* Novo estilo para o título */
+        .title-container {
+            margin-bottom: 5px;
         }
     </style>
 </head>
@@ -149,7 +147,9 @@
 
         <div class="header">
             <div class="header-left">
-                <h1 class="logo brush-script underline">Tele Dil</h1>
+                <div class="title-container">
+                    <h1 class="brush-script">Tele Dil</h1>
+                </div>
                 <div class="company-info">Assistência Técnica</div>
                 <div class="company-info">Rua José de Quadros, 161</div>
                 <div class="company-info">Telefone: (44) 3561-5145</div>
@@ -184,9 +184,15 @@
                 </div>
             </div>
 
-            <div class="field">
-                <div class="field-label">Modelo do Aparelho:</div>
-                <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
+            <div class="grid">
+                <div class="field">
+                    <div class="field-label">Modelo do Aparelho:</div>
+                    <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Acessórios:</div>
+                    <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
+                </div>
             </div>
             
             <div class="field">
@@ -194,15 +200,9 @@
                 <div class="field-value"><?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?></div>
             </div>
 
-            <div class="grid">
-                <div class="field">
-                    <div class="field-label">Acessórios:</div>
-                    <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
-                </div>
-                <div class="field">
-                    <div class="field-label">Senha do Aparelho:</div>
-                    <div class="field-value"><?php echo htmlspecialchars($order['device_password']); ?></div>
-                </div>
+            <div class="field">
+                <div class="field-label">Senha do Aparelho:</div>
+                <div class="field-value"><?php echo htmlspecialchars($order['device_password']); ?></div>
             </div>
         </div>
 
