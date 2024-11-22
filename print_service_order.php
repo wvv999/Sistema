@@ -14,30 +14,35 @@
         }
 
         .container {
-            max-width: 21cm; /* Largura A4 */
+            max-width: 21cm;
             margin: 0 auto;
-            height: 14.85cm; /* Metade de uma A4 (29.7cm / 2) */
+            height: 14.85cm;
         }
 
-        /* Cabeçalho mais compacto */
+        /* Novo estilo para o cabeçalho em grid */
         .header {
-            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
             margin-bottom: 15px;
             border-bottom: 1px solid #000;
             padding-bottom: 10px;
         }
 
-        .company-info {
-            font-size: 12px;
-            margin-bottom: 2px;
+        .header-left {
+            text-align: left;
         }
 
-        /* Informações da OS */
-        .order-number {
+        .header-right {
+            text-align: right;
             font-size: 16px;
             font-weight: bold;
-            margin-bottom: 15px;
-            text-align: center;
+        }
+
+        .company-info {
+            font-size: 12px;
+            margin: 0;
+            line-height: 1.2;
         }
 
         .section {
@@ -68,7 +73,6 @@
             font-size: 12px;
         }
 
-        /* Seção de assinaturas mais compacta */
         .signatures {
             margin-top: 20px;
             display: grid;
@@ -90,7 +94,6 @@
             font-size: 12px;
         }
 
-        /* Estilos para impressão */
         @media print {
             body {
                 padding: 0;
@@ -106,7 +109,6 @@
                 box-sizing: border-box;
             }
 
-            /* Força duas ordens por página */
             @page {
                 size: A4;
                 margin: 0;
@@ -115,11 +117,8 @@
 
         .brush-script {
             font-family: "Brush Script MT", "Brush Script Std", cursive;
-            font-size: 40px; /* Reduzido de 60px */
-        }
-
-        .font-example {
-            text-align: center;
+            font-size: 32px;
+            margin: 0;
         }
 
         .logo {
@@ -132,7 +131,6 @@
             padding-bottom: 2px;
         }
 
-        /* Novo estilo para contatos combinados */
         .contacts-value {
             border: 1px solid #ccc;
             padding: 3px 5px;
@@ -149,17 +147,16 @@
             <button onclick="window.history.back()">Voltar</button>
         </div>
 
-        <div class="header avoid-break">
-            <div class="font-example">
+        <div class="header">
+            <div class="header-left">
                 <h1 class="logo brush-script underline">Tele Dil</h1>
                 <div class="company-info">Assistência Técnica</div>
+                <div class="company-info">Rua José de Quadros, 161</div>
+                <div class="company-info">Telefone: (44) 3561-5145</div>
             </div>
-            <div class="company-info">Rua José de Quadros, 161</div>
-            <div class="company-info">Telefone: (44) 3561-5145</div>
-        </div>
-
-        <div class="order-number avoid-break">
-            ORDEM DE SERVIÇO Nº <?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?>
+            <div class="header-right">
+                OS Nº <?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?>
+            </div>
         </div>
 
         <div class="section avoid-break">
@@ -174,7 +171,6 @@
                 </div>
             </div>
             
-            <!-- Contatos combinados -->
             <div class="field">
                 <div class="field-label">Contatos:</div>
                 <div class="contacts-value">
