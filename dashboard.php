@@ -47,7 +47,7 @@ if(!isset($_SESSION['user_id'])) {
         .nav-button i { margin-right: 10px; }
 
         .nav-button:hover {
-            background-color: #1a237e !important;
+            background-color: #2c3e50 !important;
             color: white !important;
         }
 
