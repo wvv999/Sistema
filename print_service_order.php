@@ -155,7 +155,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
 
         .disclaimer {
-            font-size: 9px;
+            font-size: 11px;
             margin: 8px 0;
             text-align: justify;
             line-height: 1.2;
