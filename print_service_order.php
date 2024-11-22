@@ -187,7 +187,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
 
         .reported-issue {
-            height: 86px;
+            height: 85px;
             position: relative;
             /* padding-right: 90px; */
         }
