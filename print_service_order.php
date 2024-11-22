@@ -187,7 +187,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
 
         .reported-issue {
-            height: 90px;
+            height: 86px;
             position: relative;
             padding-right: 90px;
         }
@@ -198,8 +198,8 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 3px;
-            aspect-ratio: 1;
             width: 80px;
+            aspect-ratio: 1;
             background-color: #f9f9f9;
             position: absolute;
             right: 3px;
@@ -207,25 +207,23 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
 
         .pattern-dot {
-            aspect-ratio: 1;
             border: 2px solid #666;
             border-radius: 50%;
-            margin: auto;
-            width: 80%;
-            background-color: white;
+            aspect-ratio: 1;
             position: relative;
+            background-color: white;
         }
 
-        .pattern-dot::after {
+        .pattern-dot::before {
             content: '';
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 3px;
-            height: 3px;
+            width: 4px;
+            height: 4px;
             background-color: #666;
             border-radius: 50%;
+            transform: translate(-50%, -50%);
         }
 
         .disclaimer {
@@ -326,9 +324,15 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 <div class="field-value reported-issue">
                     <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
                     <div class="pattern-box">
-                        <?php for($i = 0; $i < 9; $i++): ?>
-                            <div class="pattern-dot"></div>
-                        <?php endfor; ?>
+                        <div class="pattern-dot"></div>
+                        <div class="pattern-dot"></div>
+                        <div class="pattern-dot"></div>
+                        <div class="pattern-dot"></div>
+                        <div class="pattern-dot"></div>
+                        <div class="pattern-dot"></div>
+                        <div class="pattern-dot"></div>
+                        <div class="pattern-dot"></div>
+                        <div class="pattern-dot"></div>
                     </div>
                 </div>
             </div>
