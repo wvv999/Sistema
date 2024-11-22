@@ -124,7 +124,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             margin-top: 4px;
         }
 
-        .reported-issue {
+.reported-issue {
     flex: 1;
     min-height: 80px;
     max-height: 80px;
@@ -139,6 +139,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     min-height: 80px;
     max-height: 80px;
     border: 1px solid #ccc;
+    background-color: #f9f9f9;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
@@ -150,15 +151,12 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     display: flex;
     align-items: center;
     justify-content: center;
-    background: black;
-    width: 10px;
-    height: 10px;
 }
 
 .pattern-dot {
-    width: 10px;
-    height: 10px;
-    background: black;
+    width: 6px;
+    height: 6px;
+    background: #666;
     border-radius: 50%;
 }
 
