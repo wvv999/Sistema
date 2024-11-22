@@ -97,6 +97,15 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             text-align: right;
             font-size: 16px;
             font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+
+        .delivery-date {
+            font-size: 12px;
+            font-weight: normal;
         }
 
         .company-info {
@@ -133,7 +142,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
 
         .signatures {
-            margin-top: 20px;
+            margin-top: 30px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
@@ -143,13 +152,6 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             border-top: 1px solid #000;
             padding-top: 3px;
             text-align: center;
-            font-size: 12px;
-        }
-
-        .date-line {
-            text-align: center;
-            margin-top: 15px;
-            grid-column: 1 / -1;
             font-size: 12px;
         }
 
@@ -213,6 +215,17 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             width: calc(100% - 10px);
         }
 
+        .reported-issue {
+            height: 80px;
+        }
+
+        .disclaimer {
+            font-size: 10px;
+            margin: 15px 0;
+            text-align: justify;
+            line-height: 1.3;
+        }
+
         @media print {
             body {
                 padding: 0;
@@ -252,7 +265,8 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 <div class="company-info">Telefone: (44) 3561-5145</div>
             </div>
             <div class="header-right">
-                OS Nº <?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?>
+                <div>OS Nº <?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?></div>
+                <div class="delivery-date">Previsão de Entrega: <?php echo $delivery_date; ?></div>
             </div>
         </div>
 
@@ -282,11 +296,6 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                     <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
                 </div>
             </div>
-            
-            <div class="field">
-                <div class="field-label">Defeito Reclamado:</div>
-                <div class="field-value"><?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?></div>
-            </div>
 
             <div class="field">
                 <div class="field-label">Senhas:</div>
@@ -301,6 +310,16 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                     </div>
                 </div>
             </div>
+            
+            <div class="field">
+                <div class="field-label">Defeito Reclamado:</div>
+                <div class="field-value reported-issue"><?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?></div>
+            </div>
+        </div>
+
+        <div class="disclaimer">
+            A empresa da garantia de 90 dias para mão de obra e peça usada no conserto, a garantia só é valida para defeito na peça trocada, sendo que por mau uso o cliente perde a garantia do mesmo. Aparelhos molhados não terão garantia.
+            Não nos responsabilizamos por dados contidos nos cartões de memória, chip e no aparelho. a constatação de rompimento do lacre invalidará a garantia. A permanencia do aparelho por mais de 30 dias após a aprovação, poderá sofrer reajuste do preço sem aviso prévio e a partir de 90 dias sem a procura do proprietário será considerada abandono do mesmo, não cabendo reclamação ou indenização. A procedência do aparelho é de responsabilidade do declarante. O aparelho só será entregue mediante esta ordem de serviço.
         </div>
 
         <div class="signatures avoid-break">
@@ -309,9 +328,6 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             </div>
             <div class="signature-line">
                 Assinatura do Funcionário
-            </div>
-            <div class="date-line">
-                Previsão de Entrega: <?php echo $delivery_date; ?>
             </div>
         </div>
     </div>
