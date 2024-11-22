@@ -205,6 +205,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             right: 3px;
             top: 3px;
         }
+
         .pattern-circle {
             width: 100%;
             aspect-ratio: 1;
@@ -213,42 +214,11 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             justify-content: center;
         }
 
-        .pattern-outer {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #666;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: black;
-        }
-
-        .pattern-inner {
-            width: 40px;
-            height: 40px;
-            background-color: black;
-            border-radius: 50%;
-        }
-
         .pattern-dot {
+            width: 14px;
+            height: 14px;
             border: 2px solid #666;
             border-radius: 50%;
-            aspect-ratio: 1;
-            position: relative;
-            background-color: black;
-        }
-
-        .pattern-dot::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 4px;
-            height: 4px;
-            background-color: #666;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
         }
 
         .disclaimer {
@@ -349,52 +319,34 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 <div class="field-value reported-issue">
                     <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
                     <div class="pattern-box">
-        <div class="pattern-circle">
-            <div class="pattern-outer">
-                <div class="pattern-inner"></div>
-            </div>
-        </div>
-        <div class="pattern-circle">
-            <div class="pattern-outer">
-                <div class="pattern-inner"></div>
-            </div>
-        </div>
-        <div class="pattern-circle">
-            <div class="pattern-outer">
-                <div class="pattern-inner"></div>
-            </div>
-        </div>
-        <div class="pattern-circle">
-            <div class="pattern-outer">
-                <div class="pattern-inner"></div>
-            </div>
-        </div>
-        <div class="pattern-circle">
-            <div class="pattern-outer">
-                <div class="pattern-inner"></div>
-            </div>
-        </div>
-        <div class="pattern-circle">
-            <div class="pattern-outer">
-                <div class="pattern-inner"></div>
-            </div>
-        </div>
-        <div class="pattern-circle">
-            <div class="pattern-outer">
-                <div class="pattern-inner"></div>
-            </div>
-        </div>
-        <div class="pattern-circle">
-            <div class="pattern-outer">
-                <div class="pattern-inner"></div>
-            </div>
-        </div>
-        <div class="pattern-circle">
-            <div class="pattern-outer">
-                <div class="pattern-inner"></div>
-            </div>
-        </div>
-    </div>
+                        <div class="pattern-circle">
+                            <div class="pattern-dot"></div>
+                        </div>
+                        <div class="pattern-circle">
+                            <div class="pattern-dot"></div>
+                        </div>
+                        <div class="pattern-circle">
+                            <div class="pattern-dot"></div>
+                        </div>
+                        <div class="pattern-circle">
+                            <div class="pattern-dot"></div>
+                        </div>
+                        <div class="pattern-circle">
+                            <div class="pattern-dot"></div>
+                        </div>
+                        <div class="pattern-circle">
+                            <div class="pattern-dot"></div>
+                        </div>
+                        <div class="pattern-circle">
+                            <div class="pattern-dot"></div>
+                        </div>
+                        <div class="pattern-circle">
+                            <div class="pattern-dot"></div>
+                        </div>
+                        <div class="pattern-circle">
+                            <div class="pattern-dot"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
