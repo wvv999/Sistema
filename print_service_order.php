@@ -11,38 +11,6 @@ $database = new Database();
 $db = $database->getConnection();
 
 try {
-    // Busca os dados da ordem de serviço
-    $query = "SELECT so.*, c.name as client_name, c.phone1, c.phone2 
-              FROM service_orders so 
-              JOIN clients c ON so.client_id = c.id 
-              WHERE so.id = ?";
-    $stmt = $db->prepare($query);
-    $stmt->execute([$_GET['id']]);
-    $order = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$order) {
-        throw new Exception("Ordem de serviço não encontrada");
-    }
-} catch(Exception $e) {
-    die("Erro: " . $e->getMessage());
-}
-
-// Formata a data para o padrão brasileiro
-$delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
-?>
-<?php
-session_start();
-require_once 'config.php';
-
-if(!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
-    header("Location: index.php");
-    exit;
-}
-
-$database = new Database();
-$db = $database->getConnection();
-
-try {
     $query = "SELECT so.*, c.name as client_name, c.phone1, c.phone2 
               FROM service_orders so 
               JOIN clients c ON so.client_id = c.id 
@@ -67,212 +35,193 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     <title>Ordem de Serviço #<?php echo $order['id']; ?></title>
     <link href="https://fonts.cdnjs.com/css2?family=Style+Script" rel="stylesheet">
     <style>
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.3;
-    margin: 0;
-    padding: 0;
-}
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.3;
+            margin: 0;
+            padding: 0;
+        }
 
-.container {
-    width: 21cm;
-    margin: 0 auto;
-    height: 13.85cm;
-    max-height: 13.85cm;
-    overflow: hidden;
-    transform: scale(1.05);
-    transform-origin: top center;
-    position: relative;
-    box-sizing: border-box;
-    padding: 5px 25px; /* Aumentei o padding lateral */
-}
+        .container {
+            width: 21cm;
+            margin: 0 auto;
+            height: 13.85cm;
+            max-height: 13.85cm;
+            overflow: hidden;
+            transform: scale(1.05);
+            transform-origin: top center;
+            position: relative;
+            box-sizing: border-box;
+            padding: 5px 25px;
+        }
 
-.header {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    margin-bottom: 6px;
-    border-bottom: 1px solid #000;
-    padding-bottom: 5px;
-}
+        .header {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
 
-.header-left {
-    text-align: left;
-}
+        .header-left {
+            text-align: left;
+        }
 
-.header-right {
-    text-align: right;
-    font-size: 14px;
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 3px;
-}
+        .header-right {
+            text-align: right;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
+        }
 
-.delivery-date {
-    font-size: 11px;
-    font-weight: normal;
-}
+        .delivery-date {
+            font-size: 11px;
+            font-weight: normal;
+        }
 
-.company-info {
-    font-size: 11px;
-    margin: 0;
-    line-height: 1.1;
-}
+        .company-info {
+            font-size: 11px;
+            margin: 0;
+            line-height: 1.1;
+        }
 
-.section {
-    margin-bottom: 6px;
-}
+        .section {
+            margin-bottom: 6px;
+        }
 
-.grid {
-    display: grid;
-    gap: 4px;
-    margin-bottom: 4px;
-}
+        .grid {
+            display: grid;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
 
-.field {
-    margin-bottom: 4px;
-}
+        .field {
+            margin-bottom: 4px;
+        }
 
-.field-label {
-    font-weight: bold;
-    font-size: 11px;
-    margin-bottom: 1px;
-}
+        .field-label {
+            font-weight: bold;
+            font-size: 11px;
+            margin-bottom: 1px;
+        }
 
-.field-value {
-    border: 1px solid #ccc;
-    padding: 2px 4px;
-    min-height: 14px;
-    margin-top: 1px;
-    font-size: 11px;
-    position: relative;
-}
+        .field-value {
+            border: 1px solid #ccc;
+            padding: 2px 4px;
+            min-height: 14px;
+            margin-top: 1px;
+            font-size: 11px;
+            position: relative;
+        }
 
-.signatures {
-    margin-top: 20px;
-    text-align: center;
-}
+        .reported-issue-container {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
 
-.signature-line {
-    border-top: 1px solid #000;
-    padding-top: 2px;
-    text-align: center;
-    font-size: 11px;
-    width: 50%;
-    margin: 0 auto;
-    margin-top: 5px;
-}
+        .reported-issue {
+            flex: 1;
+            min-height: 75px;
+            border: 1px solid #ccc;
+            padding: 8px;
+            font-size: 11px;
+        }
 
-.brush-script {
-    font-family: "Brush Script MT", "Brush Script Std", cursive;
-    font-size: 28px;
-    margin: 0;
-    line-height: 1;
-    display: inline-block;
-    border-bottom: 2px solid #000;
-    padding-bottom: 0;
-}
+        .pattern-box {
+            width: 80px;
+            min-width: 80px;
+            height: 82px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
 
-.title-container {
-    margin-bottom: 3px;
-}
+        .signatures {
+            margin-top: 20px;
+            text-align: center;
+        }
 
-.info-row {
-    display: grid;
-    grid-template-columns: 2fr 2fr 3fr;
-    gap: 4px;
-    margin-bottom: 4px;
-}
+        .signature-line {
+            border-top: 1px solid #000;
+            padding-top: 2px;
+            text-align: center;
+            font-size: 11px;
+            width: 50%;
+            margin: 0 auto;
+            margin-top: 5px;
+        }
 
-.field-label {
-    font-weight: bold;
-    font-size: 11px;
-    margin-bottom: 1px;
-}
+        .brush-script {
+            font-family: "Brush Script MT", "Brush Script Std", cursive;
+            font-size: 28px;
+            margin: 0;
+            line-height: 1;
+            display: inline-block;
+            border-bottom: 2px solid #000;
+            padding-bottom: 0;
+        }
 
-.reported-issue-container {
-    display: flex;
-    gap: 8px;
-    margin-top: 4px;
-}
+        .title-container {
+            margin-bottom: 3px;
+        }
 
-.reported-issue {
-    flex: 1;
-    min-height: 75px;
-    border: 1px solid #ccc;
-    padding: 8px;
-    font-size: 11px;
-}
+        .info-row {
+            display: grid;
+            grid-template-columns: 2fr 2fr 3fr;
+            gap: 4px;
+            margin-bottom: 4px;
+        }
 
-.pattern-box {
-    width: 80px;
-    min-width: 80px; /* Garante que não encolha */
-    height: 82px;
-    border: 1px solid #ccc;
-    background-color: #f9f9f9;
-}
+        .disclaimer {
+            font-size: 9px;
+            margin: 8px 0;
+            text-align: justify;
+            line-height: 1.2;
+            margin-bottom: 12px;
+        }
 
-.pattern-circle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        .cut-line {
+            width: 100%;
+            height: 0;
+            border-bottom: 1px dashed #999;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
 
-.pattern-dot {
-    width: 6px;
-    height: 6px;
-    background: #666;
-    border-radius: 50%;
-}
+        @media print {
+            body {
+                padding: 0;
+                margin: 0;
+            }
 
-.disclaimer {
-    font-size: 9px;
-    margin: 8px 0;
-    text-align: justify;
-    line-height: 1.2;
-    margin-bottom: 12px;
-}
+            .no-print {
+                display: none;
+            }
 
-.cut-line {
-    width: 100%;
-    height: 0;
-    border-bottom: 1px dashed #999;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
+            .container {
+                padding: 5px 25px;
+                page-break-after: always;
+                height: 138.5mm;
+            }
 
-@media print {
-    body {
-        padding: 0;
-        margin: 0;
-    }
-
-    .no-print {
-        display: none;
-    }
-
-    .container {
-        padding: 5px 25px;
-        page-break-after: always;
-        height: 138.5mm;
-    }
-
-    @page {
-        size: A4;
-        margin: 0;
-        padding: 0;
-    }
-}
+            @page {
+                size: A4;
+                margin: 0;
+                padding: 0;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="no-print" style="text-align: right; margin-bottom: 10px;">
             <button onclick="window.print()">Imprimir</button>
-            <button onclick="window.history.go(-1)">Voltar</button>
+            <button onclick="window.history.back()">Voltar</button>
         </div>
 
         <div class="header">
@@ -290,10 +239,8 @@ body {
             </div>
         </div>
 
-        <div class="section avoid-break">
+        <div class="section">
             <div class="grid" style="grid-template-columns: 50% 25% 25%;">
-
-
                 <div class="field">
                     <div class="field-label">Cliente:</div>
                     <div class="field-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
@@ -349,7 +296,7 @@ body {
             Não nos responsabilizamos por dados contidos nos cartões de memória, chip e no aparelho. a constatação de rompimento do lacre invalidará a garantia. A permanencia do aparelho por mais de 30 dias após a aprovação, poderá sofrer reajuste do preço sem aviso prévio e a partir de 90 dias sem a procura do proprietário será considerada abandono do mesmo, não cabendo reclamação ou indenização. A procedência do aparelho é de responsabilidade do declarante. O aparelho só será entregue mediante esta ordem de serviço.
         </div>
 
-        <div class="signatures avoid-break">
+        <div class="signatures">
             <div class="signature-line">
                 Assinatura do Cliente
             </div>
