@@ -187,7 +187,7 @@ body {
 }
 
 .reported-issue {
-    height: 84px;
+    height: 88px;
     position: relative;
 }
 
