@@ -161,8 +161,6 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             
     
             <div class="font-example">
-                <div class="font-name">Brush Script MT</div>
-                <div class="header">Assistência Técnica</div>
                 <h1 class="logo brush-script underline">Tele Dil</h1>
             </div>
 
