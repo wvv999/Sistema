@@ -1,35 +1,3 @@
-<?php
-session_start();
-require_once 'config.php';
-
-if(!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
-    header("Location: index.php");
-    exit;
-}
-
-$database = new Database();
-$db = $database->getConnection();
-
-try {
-    // Busca os dados da ordem de serviço
-    $query = "SELECT so.*, c.name as client_name, c.phone1, c.phone2 
-              FROM service_orders so 
-              JOIN clients c ON so.client_id = c.id 
-              WHERE so.id = ?";
-    $stmt = $db->prepare($query);
-    $stmt->execute([$_GET['id']]);
-    $order = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$order) {
-        throw new Exception("Ordem de serviço não encontrada");
-    }
-} catch(Exception $e) {
-    die("Erro: " . $e->getMessage());
-}
-
-// Formata a data para o padrão brasileiro
-$delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
-?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -37,146 +5,163 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     <title>Ordem de Serviço #<?php echo $order['id']; ?></title>
     <link href="https://fonts.cdnjs.com/css2?family=Style+Script" rel="stylesheet">
     <style>
-        /* Estilos gerais */
+        /* Estilos gerais com tamanhos reduzidos */
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
+            line-height: 1.4;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 21cm; /* Largura A4 */
             margin: 0 auto;
+            height: 14.85cm; /* Metade de uma A4 (29.7cm / 2) */
         }
 
-        /* Cabeçalho */
+        /* Cabeçalho mais compacto */
         .header {
             text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #000;
-            padding-bottom: 20px;
-        }
-
-        .company-name {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 10px;
         }
 
         .company-info {
-            font-size: 14px;
-            margin-bottom: 5px;
+            font-size: 12px;
+            margin-bottom: 2px;
         }
 
         /* Informações da OS */
         .order-number {
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
         }
 
         .section {
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 15px;
         }
 
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
         .field {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .field-label {
             font-weight: bold;
-            font-size: 14px;
+            font-size: 12px;
         }
 
         .field-value {
             border: 1px solid #ccc;
-            padding: 5px;
-            min-height: 20px;
-            margin-top: 3px;
+            padding: 3px 5px;
+            min-height: 16px;
+            margin-top: 2px;
+            font-size: 12px;
         }
 
-        /* Seção de assinaturas */
+        /* Seção de assinaturas mais compacta */
         .signatures {
-            margin-top: 50px;
+            margin-top: 20px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 20px;
         }
 
         .signature-line {
             border-top: 1px solid #000;
-            padding-top: 5px;
+            padding-top: 3px;
             text-align: center;
-            font-size: 14px;
+            font-size: 12px;
         }
 
-        /* Estilos específicos para impressão */
+        .date-line {
+            text-align: center;
+            margin-top: 15px;
+            grid-column: 1 / -1;
+            font-size: 12px;
+        }
+
+        /* Estilos para impressão */
         @media print {
             body {
                 padding: 0;
+                margin: 0;
             }
 
             .no-print {
                 display: none;
             }
 
-            /* Força quebra de página e evita divisão de elementos */
-            .page-break {
-                page-break-after: always;
+            .container {
+                padding: 10px;
+                box-sizing: border-box;
             }
 
-            .avoid-break {
-                page-break-inside: avoid;
+            /* Força duas ordens por página */
+            @page {
+                size: A4;
+                margin: 0;
             }
         }
+
         .brush-script {
             font-family: "Brush Script MT", "Brush Script Std", cursive;
-            font-size: 60px;
+            font-size: 40px; /* Reduzido de 60px */
+        }
+
+        .font-example {
+            text-align: center;
+        }
+
+        .logo {
+            margin: 0;
+            display: inline-block;
+        }
+
+        .underline {
+            border-bottom: 2px solid #000;
+            padding-bottom: 2px;
+        }
+
+        /* Novo estilo para contatos combinados */
+        .contacts-value {
+            border: 1px solid #ccc;
+            padding: 3px 5px;
+            min-height: 16px;
+            font-size: 12px;
+            margin-top: 2px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Botão de impressão - só aparece na tela -->
-        <div class="no-print" style="text-align: right; margin-bottom: 20px;">
+        <div class="no-print" style="text-align: right; margin-bottom: 10px;">
             <button onclick="window.print()">Imprimir</button>
             <button onclick="window.history.back()">Voltar</button>
         </div>
 
-        <!-- Cabeçalho com dados da empresa -->
         <div class="header avoid-break">
-            
-    
             <div class="font-example">
                 <h1 class="logo brush-script underline">Tele Dil</h1>
-                
                 <div class="company-info">Assistência Técnica</div>
             </div>
-            <div class="company-info">Endereço da Empresa, Número - Bairro</div>
-            <div class="company-info">Cidade - Estado - CEP</div>
-            <div class="company-info">Telefone: (XX) XXXX-XXXX</div>
+            <div class="company-info">Rua José de Quadros, 161</div>
+            <div class="company-info">Telefone: (44) 3561-5145</div>
         </div>
 
-        <!-- Número da OS -->
         <div class="order-number avoid-break">
             ORDEM DE SERVIÇO Nº <?php echo str_pad($order['id'], 6, '0', STR_PAD_LEFT); ?>
         </div>
 
-        <!-- Informações do Cliente -->
         <div class="section avoid-break">
             <div class="grid">
                 <div class="field">
@@ -184,76 +169,56 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                     <div class="field-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
                 </div>
                 <div class="field">
-                    <div class="field-label">Data de Entrega Prevista:</div>
+                    <div class="field-label">Data de Entrega:</div>
                     <div class="field-value"><?php echo $delivery_date; ?></div>
                 </div>
             </div>
-            <div class="grid">
-                <div class="field">
-                    <div class="field-label">Telefone 1:</div>
-                    <div class="field-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
-                </div>
-                <div class="field">
-                    <div class="field-label">Telefone 2:</div>
-                    <div class="field-value"><?php echo htmlspecialchars($order['phone2']); ?></div>
+            
+            <!-- Contatos combinados -->
+            <div class="field">
+                <div class="field-label">Contatos:</div>
+                <div class="contacts-value">
+                    <?php 
+                    $contacts = array_filter([
+                        htmlspecialchars($order['phone1']),
+                        htmlspecialchars($order['phone2'])
+                    ]);
+                    echo implode(' / ', $contacts);
+                    ?>
                 </div>
             </div>
-        </div>
 
-        <!-- Informações do Aparelho -->
-        <div class="section avoid-break">
             <div class="field">
                 <div class="field-label">Modelo do Aparelho:</div>
                 <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
             </div>
+            
             <div class="field">
                 <div class="field-label">Defeito Reclamado:</div>
                 <div class="field-value"><?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?></div>
             </div>
-            <div class="field">
-                <div class="field-label">Acessórios:</div>
-                <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
-            </div>
-        </div>
 
-        <!-- Senhas -->
-        <div class="section avoid-break">
             <div class="grid">
+                <div class="field">
+                    <div class="field-label">Acessórios:</div>
+                    <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
+                </div>
                 <div class="field">
                     <div class="field-label">Senha do Aparelho:</div>
                     <div class="field-value"><?php echo htmlspecialchars($order['device_password']); ?></div>
                 </div>
-                <!-- <div class="field">
-                    <div class="field-label">Padrão:</div>
-                    <div class="field-value"><?php echo htmlspecialchars($order['pattern_password']); ?></div>
-                </div> -->
             </div>
         </div>
 
-        <!-- Termos e Condições -->
-        <!-- <div class="section avoid-break" style="font-size: 12px; margin-top: 30px;">
-            <p><strong>Termos e Condições:</strong></p>
-            <ol>
-                <li>O prazo de garantia dos serviços é de 90 dias a partir da data de entrega.</li>
-                <li>Aparelhos não retirados em 90 dias serão considerados abandonados.</li>
-                <li>A empresa não se responsabiliza por dados armazenados no dispositivo.</li>
-                <li>O cliente declara estar ciente que pode haver perda de dados durante o reparo.</li>
-                <li>Ao deixar o aparelho para manutenção, o cliente concorda com todos os termos acima.</li>
-            </ol>
-        </div> -->
-
-        <!-- Assinaturas -->
         <div class="signatures avoid-break">
             <div class="signature-line">
-                Assinatura do Cliente<br>
-                
+                Assinatura do Cliente
             </div>
             <div class="signature-line">
-                Assinatura do Funcionário<br>
-                
+                Assinatura do Funcionário
             </div>
-            <div>
-                Data: ____/____/______<br>    
+            <div class="date-line">
+                Data: ____/____/______
             </div>
         </div>
     </div>
