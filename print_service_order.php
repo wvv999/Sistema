@@ -35,94 +35,94 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     <title>Ordem de Serviço #<?php echo $order['id']; ?></title>
     <link href="https://fonts.cdnjs.com/css2?family=Style+Script" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.3;
-            margin: 0;
-            padding: 0;
-        }
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.3;
+    margin: 0;
+    padding: 0;
+}
 
-        .container {
-            width: 21cm;
-            margin: 0 auto;
-            height: 13.85cm;
-            max-height: 13.85cm;
-            overflow: hidden;
-            transform: scale(1.05);
-            transform-origin: top center;
-            position: relative;
-            box-sizing: border-box;
-            padding: 5px 25px;
-        }
+.container {
+    width: 21cm;
+    margin: 0 auto;
+    height: 13.85cm;
+    max-height: 13.85cm;
+    overflow: hidden;
+    transform: scale(1.05);
+    transform-origin: top center;
+    position: relative;
+    box-sizing: border-box;
+    padding: 5px 25px;
+}
 
-        .header {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            align-items: center;
-            margin-bottom: 6px;
-            border-bottom: 1px solid #000;
-            padding-bottom: 5px;
-        }
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+}
 
-        .header-left {
-            text-align: left;
-        }
+.header-left {
+    text-align: left;
+}
 
-        .header-right {
-            text-align: right;
-            font-size: 14px;
-            font-weight: bold;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 3px;
-        }
+.header-right {
+    text-align: right;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+}
 
-        .delivery-date {
-            font-size: 11px;
-            font-weight: normal;
-        }
+.delivery-date {
+    font-size: 11px;
+    font-weight: normal;
+}
 
-        .company-info {
-            font-size: 11px;
-            margin: 0;
-            line-height: 1.1;
-        }
+.company-info {
+    font-size: 11px;
+    margin: 0;
+    line-height: 1.1;
+}
 
-        .section {
-            margin-bottom: 6px;
-        }
+.section {
+    margin-bottom: 6px;
+}
 
-        .grid {
-            display: grid;
-            gap: 4px;
-            margin-bottom: 4px;
-        }
+.grid {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 4px;
+}
 
-        .field {
-            margin-bottom: 4px;
-        }
+.field {
+    margin-bottom: 4px;
+}
 
-        .field-label {
-            font-weight: bold;
-            font-size: 11px;
-            margin-bottom: 1px;
-        }
+.field-label {
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 1px;
+}
 
-        .field-value {
-            border: 1px solid #ccc;
-            padding: 2px 4px;
-            min-height: 14px;
-            margin-top: 1px;
-            font-size: 11px;
-            position: relative;
-        }
+.field-value {
+    border: 1px solid #ccc;
+    padding: 2px 4px;
+    min-height: 14px;
+    margin-top: 1px;
+    font-size: 11px;
+    position: relative;
+}
 
-        .reported-issue-container {
-            display: flex;
-            gap: 8px;
-            margin-top: 4px;
-        }
+.reported-issue-container {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
 
 .reported-issue {
     flex: 1;
@@ -160,100 +160,81 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     border-radius: 50%;
 }
 
+.signatures {
+    margin-top: 20px;
+    text-align: center;
+}
 
+.signature-line {
+    border-top: 1px solid #000;
+    padding-top: 2px;
+    text-align: center;
+    font-size: 11px;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 5px;
+}
 
+.brush-script {
+    font-family: "Brush Script MT", "Brush Script Std", cursive;
+    font-size: 28px;
+    margin: 0;
+    line-height: 1;
+    display: inline-block;
+    border-bottom: 2px solid #000;
+    padding-bottom: 0;
+}
 
+.title-container {
+    margin-bottom: 3px;
+}
 
+.info-row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 3fr;
+    gap: 4px;
+    margin-bottom: 4px;
+}
 
+.disclaimer {
+    font-size: 9px;
+    margin: 8px 0;
+    text-align: justify;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
 
+.cut-line {
+    width: 100%;
+    height: 0;
+    border-bottom: 1px dashed #999;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
 
+@media print {
+    body {
+        padding: 0;
+        margin: 0;
+    }
 
+    .no-print {
+        display: none;
+    }
 
+    .container {
+        padding: 5px 25px;
+        page-break-after: always;
+        height: 138.5mm;
+    }
 
-
-
-
-
-
-
-
-
-
-        .signatures {
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .signature-line {
-            border-top: 1px solid #000;
-            padding-top: 2px;
-            text-align: center;
-            font-size: 11px;
-            width: 50%;
-            margin: 0 auto;
-            margin-top: 5px;
-        }
-
-        .brush-script {
-            font-family: "Brush Script MT", "Brush Script Std", cursive;
-            font-size: 28px;
-            margin: 0;
-            line-height: 1;
-            display: inline-block;
-            border-bottom: 2px solid #000;
-            padding-bottom: 0;
-        }
-
-        .title-container {
-            margin-bottom: 3px;
-        }
-
-        .info-row {
-            display: grid;
-            grid-template-columns: 2fr 2fr 3fr;
-            gap: 4px;
-            margin-bottom: 4px;
-        }
-
-        .disclaimer {
-            font-size: 9px;
-            margin: 8px 0;
-            text-align: justify;
-            line-height: 1.2;
-            margin-bottom: 12px;
-        }
-
-        .cut-line {
-            width: 100%;
-            height: 0;
-            border-bottom: 1px dashed #999;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-        }
-
-        @media print {
-            body {
-                padding: 0;
-                margin: 0;
-            }
-
-            .no-print {
-                display: none;
-            }
-
-            .container {
-                padding: 5px 25px;
-                page-break-after: always;
-                height: 138.5mm;
-            }
-
-            @page {
-                size: A4;
-                margin: 0;
-                padding: 0;
-            }
-        }
+    @page {
+        size: A4;
+        margin: 0;
+        padding: 0;
+    }
+}
     </style>
 </head>
 <body>
