@@ -223,10 +223,10 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                     <div class="field-label">Senha do Aparelho:</div>
                     <div class="field-value"><?php echo htmlspecialchars($order['device_password']); ?></div>
                 </div>
-                <div class="field">
+                <!-- <div class="field">
                     <div class="field-label">Padrão:</div>
                     <div class="field-value"><?php echo htmlspecialchars($order['pattern_password']); ?></div>
-                </div>
+                </div> -->
             </div>
         </div>
 
