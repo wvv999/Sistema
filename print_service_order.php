@@ -147,7 +147,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
 
         .signatures {
-            margin-top: 15px;
+            margin-top: 25px;
             text-align: center;
         }
 
