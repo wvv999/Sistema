@@ -265,7 +265,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                     <div class="reported-issue">
                         <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
                     </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" style="width: 80px; height: 80px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" style="width: 83px; height: 83px;">
                         <rect width="80" height="80" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
                         <circle cx="15" cy="15" r="3" fill="#666"/>
                         <circle cx="40" cy="15" r="3" fill="#666"/>
