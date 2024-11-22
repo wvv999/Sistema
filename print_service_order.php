@@ -265,7 +265,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     <div class="container">
         <div class="no-print" style="text-align: right; margin-bottom: 10px;">
             <button onclick="window.print()">Imprimir</button>
-            <button onclick="window.history.back()">Voltar</button>
+            <button onclick="window.history.go(-1)">Voltar</button>
         </div>
 
         <div class="header">
