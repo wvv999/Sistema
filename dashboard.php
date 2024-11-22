@@ -40,6 +40,9 @@ if(!isset($_SESSION['user_id'])) {
             padding: 15px;
             text-align: left;
             font-size: 1.1em;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            color: black !important;
+            border-color: black !important;
         }
 
         .nav-button i { margin-right: 10px; }
@@ -62,6 +65,7 @@ if(!isset($_SESSION['user_id'])) {
             padding: 15px;
             background-color: #f8f9fa;
             border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
         .recent-orders-list .list-group-item {
