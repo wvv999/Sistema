@@ -144,6 +144,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             min-height: 14px;
             margin-top: 1px;
             font-size: 11px;
+            position: relative;
         }
 
         .signatures {
@@ -175,11 +176,17 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             margin-bottom: 3px;
         }
 
-        .password-container {
+        .info-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 2fr 2fr 3fr;
             gap: 5px;
             margin-bottom: 5px;
+        }
+
+        .reported-issue {
+            height: 60px;
+            position: relative;
+            padding-right: 90px;
         }
 
         .pattern-box {
@@ -189,10 +196,11 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             grid-template-columns: repeat(3, 1fr);
             gap: 3px;
             aspect-ratio: 1;
-            width: 100%;
-            max-width: 80px;
-            margin-left: auto;
+            width: 80px;
             background-color: #f9f9f9;
+            position: absolute;
+            right: 3px;
+            top: 3px;
         }
 
         .pattern-dot {
@@ -215,14 +223,6 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             height: 3px;
             background-color: #666;
             border-radius: 50%;
-        }
-
-        .half-width {
-            width: calc(100% - 10px);
-        }
-
-        .reported-issue {
-            height: 60px;
         }
 
         .disclaimer {
@@ -293,7 +293,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 </div>
             </div>
             
-            <div class="grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="info-row">
                 <div class="field">
                     <div class="field-label">Modelo do Aparelho:</div>
                     <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
@@ -302,25 +302,22 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                     <div class="field-label">Acessórios:</div>
                     <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
                 </div>
+                <div class="field">
+                    <div class="field-label">Senhas:</div>
+                    <div class="field-value"><?php echo htmlspecialchars($order['device_password']); ?></div>
+                </div>
             </div>
-
+            
             <div class="field">
-                <div class="field-label">Senhas:</div>
-                <div class="password-container">
-                    <div class="field-value half-width">
-                        <?php echo htmlspecialchars($order['device_password']); ?>
-                    </div>
+                <div class="field-label">Defeito Reclamado:</div>
+                <div class="field-value reported-issue">
+                    <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
                     <div class="pattern-box">
                         <?php for($i = 0; $i < 9; $i++): ?>
                             <div class="pattern-dot"></div>
                         <?php endfor; ?>
                     </div>
                 </div>
-            </div>
-            
-            <div class="field">
-                <div class="field-label">Defeito Reclamado:</div>
-                <div class="field-value reported-issue"><?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?></div>
             </div>
         </div>
 
