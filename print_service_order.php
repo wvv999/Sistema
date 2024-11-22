@@ -221,7 +221,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: white;
+            background-color: black;
         }
 
         .pattern-inner {
