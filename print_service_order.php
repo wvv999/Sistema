@@ -69,24 +69,28 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     <style>
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.4;
+            line-height: 1.3;
             margin: 0;
-            padding: 10px;
+            padding: 5px;
         }
 
         .container {
             max-width: 21cm;
             margin: 0 auto;
             height: 14.85cm;
+            max-height: 14.85cm;
+            overflow: hidden;
+            transform: scale(0.95);
+            transform-origin: top center;
         }
 
         .header {
             display: grid;
             grid-template-columns: 1fr auto;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             border-bottom: 1px solid #000;
-            padding-bottom: 10px;
+            padding-bottom: 5px;
         }
 
         .header-left {
@@ -95,69 +99,70 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
 
         .header-right {
             text-align: right;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            gap: 5px;
+            gap: 3px;
         }
 
         .delivery-date {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: normal;
         }
 
         .company-info {
-            font-size: 12px;
+            font-size: 11px;
             margin: 0;
-            line-height: 1.2;
+            line-height: 1.1;
         }
 
         .section {
-            margin-bottom: 15px;
+            margin-bottom: 8px;
         }
 
         .grid {
             display: grid;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 5px;
+            margin-bottom: 5px;
         }
 
         .field {
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
         .field-label {
             font-weight: bold;
-            font-size: 12px;
+            font-size: 11px;
+            margin-bottom: 1px;
         }
 
         .field-value {
             border: 1px solid #ccc;
-            padding: 3px 5px;
-            min-height: 16px;
-            margin-top: 2px;
-            font-size: 12px;
+            padding: 2px 4px;
+            min-height: 14px;
+            margin-top: 1px;
+            font-size: 11px;
         }
 
         .signatures {
-            margin-top: 30px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            margin-top: 15px;
+            text-align: center;
         }
 
         .signature-line {
             border-top: 1px solid #000;
-            padding-top: 3px;
+            padding-top: 2px;
             text-align: center;
-            font-size: 12px;
+            font-size: 11px;
+            width: 50%;
+            margin: 0 auto;
         }
 
         .brush-script {
             font-family: "Brush Script MT", "Brush Script Std", cursive;
-            font-size: 32px;
+            font-size: 28px;
             margin: 0;
             line-height: 1;
             display: inline-block;
@@ -166,25 +171,25 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
 
         .title-container {
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .password-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 8px;
+            gap: 5px;
+            margin-bottom: 5px;
         }
 
         .pattern-box {
             border: 1px solid #ccc;
-            padding: 5px;
+            padding: 3px;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
+            gap: 3px;
             aspect-ratio: 1;
             width: 100%;
-            max-width: 100px;
+            max-width: 80px;
             margin-left: auto;
             background-color: #f9f9f9;
         }
@@ -205,8 +210,8 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 4px;
-            height: 4px;
+            width: 3px;
+            height: 3px;
             background-color: #666;
             border-radius: 50%;
         }
@@ -216,14 +221,14 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
 
         .reported-issue {
-            height: 80px;
+            height: 60px;
         }
 
         .disclaimer {
-            font-size: 10px;
-            margin: 15px 0;
+            font-size: 9px;
+            margin: 10px 0;
             text-align: justify;
-            line-height: 1.3;
+            line-height: 1.2;
         }
 
         @media print {
@@ -237,8 +242,9 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             }
 
             .container {
-                padding: 10px;
+                padding: 5px;
                 box-sizing: border-box;
+                page-break-after: always;
             }
 
             @page {
@@ -325,9 +331,6 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         <div class="signatures avoid-break">
             <div class="signature-line">
                 Assinatura do Cliente
-            </div>
-            <div class="signature-line">
-                Assinatura do Funcionário
             </div>
         </div>
     </div>
