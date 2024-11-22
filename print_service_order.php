@@ -67,198 +67,197 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     <title>Ordem de Serviço #<?php echo $order['id']; ?></title>
     <link href="https://fonts.cdnjs.com/css2?family=Style+Script" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.3;
-            margin: 0;
-            padding: 0;
-        }
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.3;
+    margin: 0;
+    padding: 0;
+}
 
-        .container {
-            width: 21cm;
-            margin: 0 auto;
-            height: 14.85cm;
-            max-height: 14.85cm;
-            overflow: hidden;
-            transform: scale(1);
-            transform-origin: top center;
-            position: relative;
-            box-sizing: border-box;
-            padding: 5px 10px;
-        }
+.container {
+    width: 21cm;
+    margin: 0 auto;
+    height: 13.85cm;
+    max-height: 13.85cm;
+    overflow: hidden;
+    transform: scale(1.05);
+    transform-origin: top center;
+    position: relative;
+    box-sizing: border-box;
+    padding: 5px 10px;
+}
 
-        .header {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            align-items: center;
-            margin-bottom: 8px;
-            border-bottom: 1px solid #000;
-            padding-bottom: 5px;
-        }
+.header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+}
 
-        .header-left {
-            text-align: left;
-        }
+.header-left {
+    text-align: left;
+}
 
-        .header-right {
-            text-align: right;
-            font-size: 14px;
-            font-weight: bold;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 3px;
-        }
+.header-right {
+    text-align: right;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 3px;
+}
 
-        .delivery-date {
-            font-size: 11px;
-            font-weight: normal;
-        }
+.delivery-date {
+    font-size: 11px;
+    font-weight: normal;
+}
 
-        .company-info {
-            font-size: 11px;
-            margin: 0;
-            line-height: 1.1;
-        }
+.company-info {
+    font-size: 11px;
+    margin: 0;
+    line-height: 1.1;
+}
 
-        .section {
-            margin-bottom: 8px;
-        }
+.section {
+    margin-bottom: 6px;
+}
 
-        .grid {
-            display: grid;
-            gap: 5px;
-            margin-bottom: 5px;
-        }
+.grid {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 4px;
+}
 
-        .field {
-            margin-bottom: 5px;
-        }
+.field {
+    margin-bottom: 4px;
+}
 
-        .field-label {
-            font-weight: bold;
-            font-size: 11px;
-            margin-bottom: 1px;
-        }
+.field-label {
+    font-weight: bold;
+    font-size: 11px;
+    margin-bottom: 1px;
+}
 
-        .field-value {
-            border: 1px solid #ccc;
-            padding: 2px 4px;
-            min-height: 14px;
-            margin-top: 1px;
-            font-size: 11px;
-            position: relative;
-        }
+.field-value {
+    border: 1px solid #ccc;
+    padding: 2px 4px;
+    min-height: 14px;
+    margin-top: 1px;
+    font-size: 11px;
+    position: relative;
+}
 
-        .signatures {
-            margin-top: 25px;
-            text-align: center;
-        }
+.signatures {
+    margin-top: 20px;
+    text-align: center;
+}
 
-        .signature-line {
-            border-top: 1px solid #000;
-            padding-top: 2px;
-            text-align: center;
-            font-size: 11px;
-            width: 50%;
-            margin: 0 auto;
-            margin-top: 5px;
-        }
+.signature-line {
+    border-top: 1px solid #000;
+    padding-top: 2px;
+    text-align: center;
+    font-size: 11px;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 5px;
+}
 
-        .brush-script {
-            font-family: "Brush Script MT", "Brush Script Std", cursive;
-            font-size: 28px;
-            margin: 0;
-            line-height: 1;
-            display: inline-block;
-            border-bottom: 2px solid #000;
-            padding-bottom: 0;
-        }
+.brush-script {
+    font-family: "Brush Script MT", "Brush Script Std", cursive;
+    font-size: 28px;
+    margin: 0;
+    line-height: 1;
+    display: inline-block;
+    border-bottom: 2px solid #000;
+    padding-bottom: 0;
+}
 
-        .title-container {
-            margin-bottom: 3px;
-        }
+.title-container {
+    margin-bottom: 3px;
+}
 
-        .info-row {
-            display: grid;
-            grid-template-columns: 2fr 2fr 3fr;
-            gap: 5px;
-            margin-bottom: 5px;
-        }
+.info-row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 3fr;
+    gap: 4px;
+    margin-bottom: 4px;
+}
 
-        .reported-issue {
-            height: 85px;
-            position: relative;
-            /* padding-right: 90px; */
-        }
+.reported-issue {
+    height: 75px;
+    position: relative;
+}
 
-        .pattern-box {
-            border: 1px solid #ccc;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3px;
-            width: 80px;
-            height: 82px;
-            aspect-ratio: 1;
-            background-color: #f9f9f9;
-            position: absolute;
-            right: 3px;
-            top: 3px;
-        }
+.pattern-box {
+    border: 1px solid #ccc;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    width: 80px;
+    height: 82px;
+    aspect-ratio: 1;
+    background-color: #f9f9f9;
+    position: absolute;
+    right: 3px;
+    top: 3px;
+}
 
-        .pattern-circle {
-            width: 100%;
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.pattern-circle {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .pattern-dot {
-            width: 4px;
-            height: 4px;
-            border: 2px solid #666;
-            border-radius: 50%;
-        }
+.pattern-dot {
+    width: 4px;
+    height: 4px;
+    border: 2px solid #666;
+    border-radius: 50%;
+}
 
-        .disclaimer {
-            font-size: 9px;
-            margin: 10px 0;
-            text-align: justify;
-            line-height: 1.2;
-            margin-bottom: 15px;
-        }
+.disclaimer {
+    font-size: 9px;
+    margin: 8px 0;
+    text-align: justify;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
 
-        .cut-line {
-            width: 100%;
-            height: 0;
-            border-bottom: 1px dashed #999;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-        }
+.cut-line {
+    width: 100%;
+    height: 0;
+    border-bottom: 1px dashed #999;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
 
-        @media print {
-            body {
-                padding: 0;
-                margin: 0;
-            }
+@media print {
+    body {
+        padding: 0;
+        margin: 0;
+    }
 
-            .no-print {
-                display: none;
-            }
+    .no-print {
+        display: none;
+    }
 
-            .container {
-                padding: 5px 10px;
-                page-break-after: always;
-                height: 148.5mm;
-            }
+    .container {
+        padding: 5px 10px;
+        page-break-after: always;
+        height: 138.5mm;
+    }
 
-            @page {
-                size: A4;
-                margin: 0;
-            }
-        }
+    @page {
+        size: A4;
+        margin: 0;
+    }
+}
     </style>
 </head>
 <body>
