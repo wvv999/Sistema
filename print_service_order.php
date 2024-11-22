@@ -151,12 +151,15 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     display: flex;
     align-items: center;
     justify-content: center;
+    background: black;
+    width: 10px;
+    height: 10px;
 }
 
 .pattern-dot {
-    width: 6px;
-    height: 6px;
-    background: #666;
+    width: 10px;
+    height: 10px;
+    background: black;
     border-radius: 50%;
 }
 
