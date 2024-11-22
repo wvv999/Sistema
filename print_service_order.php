@@ -187,7 +187,7 @@ body {
 }
 
 .reported-issue {
-    height: 75px;
+    height: 84px;
     position: relative;
 }
 
@@ -197,7 +197,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 3px;
     width: 80px;
-    height: 82px;
+    height: 88px;
     aspect-ratio: 1;
     background-color: #f9f9f9;
     position: absolute;
