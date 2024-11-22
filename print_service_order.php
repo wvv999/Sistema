@@ -163,9 +163,9 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
     
             <div class="font-example">
                 <h1 class="logo brush-script underline">Tele Dil</h1>
+                
+                <div class="company-info">Assistência Técnica</div>
             </div>
-
-            <div class="company-info">Assistência Técnica</div>
             <div class="company-info">Endereço da Empresa, Número - Bairro</div>
             <div class="company-info">Cidade - Estado - CEP</div>
             <div class="company-info">Telefone: (XX) XXXX-XXXX</div>
