@@ -220,7 +220,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 </div>
                 <div class="company-info">Assistência Técnica</div>
                 <div class="company-info">Rua José de Quadros, 161</div>
-                <div class="company-info">Telefone: (44) 3561-5145</div>
+                <div class="company-info">Telefone: (4444) 3561-5145</div>
             </div>
             <div class="header-right">
                 <div>OS Nº <?php echo str_pad($order['id'], STR_PAD_LEFT); ?></div>
