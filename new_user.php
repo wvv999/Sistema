@@ -59,9 +59,16 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        
         .container {
             padding-top: 2rem;
             padding-bottom: 2rem;
+            display: flex;
+            justify-content: center;
         }
         
         .content-container {
@@ -69,12 +76,13 @@ try {
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             padding: 20px;
-            margin-top: 20px;
+            width: 100%;
+            max-width: 500px;
         }
 
         .register-form {
-            max-width: 400px;
-            margin: 0 auto 2rem auto;
+            width: 100%;
+            margin-bottom: 2rem;
         }
 
         .header-container {
@@ -82,28 +90,50 @@ try {
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .header-container h2 {
+            font-size: 1.5rem;
+            margin: 0;
         }
 
         .user-count {
             background-color: #f8f9fa;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 5px;
             font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .table {
+            font-size: 0.9rem;
         }
 
         .table > tbody > tr > td {
             vertical-align: middle;
-        }
-
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+            padding: 8px;
         }
 
         .divider {
             margin: 2rem 0;
             border-top: 2px solid #eee;
+        }
+
+        .badge {
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .content-container {
+                margin: 20px;
+            }
         }
     </style>
 </head>
@@ -157,7 +187,7 @@ try {
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Usuário</th>
-                            <th scope="col">Data de Cadastro</th>
+                            <th scope="col">Data</th>
                             <th scope="col">Status</th>
                         </tr>
                     </thead>
