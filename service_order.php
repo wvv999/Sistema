@@ -125,9 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
     
-    <a href="logout.php" class="btn btn-outline-danger" style="position: absolute; top: 20px; right: 20px;">
-        <i class="bi bi-box-arrow-right"></i> Sair
-    </a>
+
 
     <div class="container">
         <div class="content-container">
