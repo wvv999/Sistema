@@ -75,9 +75,10 @@ try {
         }
 
         .back-button {
-            position: absolute;
+            position: fixed;
             top: 20px;
             left: 20px;
+            z-index: 1000;
         }
 
         /* Status colors */
