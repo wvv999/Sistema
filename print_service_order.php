@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>Ordem de Serviço #<?php echo $order['id']; ?></title>
@@ -9,7 +11,7 @@
             font-family: Arial, sans-serif;
             line-height: 1.3;
             margin: 0;
-            padding: 0;
+            padding: 1cm;  /* Added 1cm padding */
         }
 
         .page {
@@ -17,6 +19,8 @@
             height: 29.7cm;
             margin: 0 auto;
             position: relative;
+            transform: scale(1.05);  /* Increased scale by 5% */
+            transform-origin: top center;
         }
 
         .container {
@@ -158,8 +162,7 @@
 
         @media print {
             body {
-                padding: 0;
-                margin: 0;
+                padding: 1cm;  /* Maintain padding when printing */
             }
 
             .no-print {
@@ -173,11 +176,11 @@
             @page {
                 size: A4;
                 margin: 0;
-                padding: 0;
             }
         }
     </style>
 </head>
+<!-- Rest of the HTML remains the same -->
 <body>
     <div class="page">
         <!-- First copy -->
