@@ -16,13 +16,16 @@ if(!isset($_SESSION['user_id'])) {
 require_once 'config.php';
 require_once 'orderStatus.php';
 
+// Pegar o termo de busca da URL se existir
+$searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+
 // Envolva o código da conexão e consulta em um try-catch para debug
 try {
     // Cria uma nova instância da classe Database e obtém a conexão
     $db = new Database();
     $conn = $db->getConnection();
 
-    // Consulta para buscar todas as ordens de serviço
+    // Prepara a consulta base
     $sql = "SELECT so.id, so.client_id, so.phone1, so.phone2, 
                    so.created_at AS opening_date, so.delivery_date, 
                    so.reported_issue, so.accessories, 
@@ -30,16 +33,40 @@ try {
                    so.device_model,
                    c.name AS client_name, so.status
             FROM service_orders so
-            JOIN clients c ON so.client_id = c.id
-            ORDER BY so.created_at DESC";
+            JOIN clients c ON so.client_id = c.id";
+
+    $params = [];
+    
+    // Adiciona condição de busca se houver termo de busca
+    if (!empty($searchTerm)) {
+        $sql .= " WHERE (c.name LIKE ? OR so.id LIKE ? OR so.device_model LIKE ? OR so.reported_issue LIKE ?)";
+        $searchPattern = "%$searchTerm%";
+        $params = [$searchPattern, $searchPattern, $searchPattern, $searchPattern];
+    }
+    
+    // Adiciona ordenação
+    $sql .= " ORDER BY so.created_at DESC";
 
     $stmt = $conn->prepare($sql);
-    $stmt->execute();
+    $stmt->execute($params);
     $serviceOrders = $stmt->fetchAll();
 
 } catch (Exception $e) {
     echo "Erro: " . $e->getMessage();
     die();
+}
+
+// Se houver um termo de busca, prepara o script para preencher o campo de pesquisa
+if (!empty($searchTerm)) {
+    echo "<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('orderSearch');
+            if (searchInput) {
+                searchInput.value = '" . htmlspecialchars($searchTerm) . "';
+                searchInput.dispatchEvent(new Event('input'));
+            }
+        });
+    </script>";
 }
 ?>
 
