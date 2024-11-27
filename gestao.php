@@ -277,9 +277,17 @@ require_once 'functions.php';
 
         <!-- Atividades Recentes -->
         <div class="activities-section">
-            <h5 class="mb-3">Atividades Recentes</h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">
+                    <i class="bi bi-activity"></i> Atividades Recentes
+                </h5>
+                <div class="badge bg-secondary" id="activities-count">
+                    Carregando...
+                </div>
+            </div>
+            
             <div class="list-group" id="activities-list">
-                <div class="text-center">
+                <div class="text-center py-4">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Carregando...</span>
                     </div>
