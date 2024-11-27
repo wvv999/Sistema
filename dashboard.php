@@ -168,7 +168,7 @@ if(!isset($_SESSION['user_id'])) {
                 <div class="col-md-6">
                     <a href="new_user.php" class="btn btn-outline-info w-100 nav-button">
                         <i class="bi bi-person-plus"></i>
-                        Cadastrar Novo Usuário
+                        Usuários
                     </a>
                 </div>
                 
