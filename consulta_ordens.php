@@ -79,7 +79,6 @@ if (!empty($searchTerm)) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
-
         html { scrollbar-width: none; } 
         
         .body{
@@ -87,7 +86,6 @@ if (!empty($searchTerm)) {
             box-sizing: border-box;
             margin: 40px;
         }
-        
 
         .container {
             padding-top: 2rem;
@@ -131,7 +129,7 @@ if (!empty($searchTerm)) {
             font-size: 0.875rem;
         }
 
-        /* Status button styles */
+        /* Status styles */
         .status-indicator {
             min-width: 140px;
             text-align: center;
@@ -149,12 +147,19 @@ if (!empty($searchTerm)) {
             font-size: 0.9em;
         }
 
+        .não-iniciada {background: #e74c3c; color: white;}
+        .em-andamento {background: #f39c12; color: white;}
+        .concluída {background: #27ae60; color: white;}
+        .pronto-e-avisado {background: #3498db; color: white;}
+        .entregue {background: #2c3e50; color: white;}
+
         .order-info {
             max-width: 200px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .order-row {
             cursor: pointer;
             transition: all 0.2s ease;
@@ -203,6 +208,56 @@ if (!empty($searchTerm)) {
             border-radius: 4px;
             font-size: 0.85em;
             color: #666;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .date-badge i {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        /* Layout responsivo */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .welcome-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .status-indicator {
+                min-width: 120px;
+                font-size: 0.8em;
+            }
+
+            .device-info {
+                max-width: 200px;
+            }
+
+            .issue-text {
+                max-width: 150px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .container {
+                padding-top: 1rem;
+            }
+
+            .date-badge {
+                padding: 2px 6px;
+                font-size: 0.8em;
+            }
+
+            .order-info, .device-info, .issue-text {
+                max-width: 120px;
+            }
         }
     </style>
 </head>
