@@ -225,7 +225,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                     <div class="company-info">Assistência Técnica</div>
                     <div class="company-info">Rua José de Quadros, 161</div>
                     <div class="company-info">Telefone: (51) 3561-5145</div>
-                    <div class="company-info">WhatsApp: (51) 995384838</div>
+                    <div class="company-info">WhatsApp: (51) 99538-4838</div>
                 </div>
                 <div class="header-right">
                     <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
@@ -307,7 +307,8 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                     </div>
                     <div class="company-info">Assistência Técnica</div>
                     <div class="company-info">Rua José de Quadros, 161</div>
-                    <div class="company-info">Telefone: (4444) 3561-5145</div>
+                    <div class="company-info">Telefone: (51) 3561-5145</div>
+                    <div class="company-info">WhatsApp: (51) 99538-4838</div>
                 </div>
                 <div class="header-right">
                     <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
@@ -368,7 +369,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 </div>
             </div>
 
-            <div class="disclaimer" style="font-size:10px">
+            <div class="disclaimer">
                 A empresa da garantia de 90 dias para mão de obra e peça usada no conserto, a garantia só é valida para defeito na peça trocada, sendo que por mau uso o cliente perde a garantia do mesmo. Aparelhos molhados não terão garantia.
                 Não nos responsabilizamos por dados contidos nos cartões de memória, chip e no aparelho. a constatação de rompimento do lacre invalidará a garantia. A permanencia do aparelho por mais de 30 dias após a aprovação, poderá sofrer reajuste do preço sem aviso prévio e a partir de 90 dias sem a procura do proprietário será considerada abandono do mesmo, não cabendo reclamação ou indenização. A procedência do aparelho é de responsabilidade do declarante. O aparelho só será entregue mediante esta ordem de serviço.
             </div>
