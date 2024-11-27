@@ -181,7 +181,7 @@ try {
                 <table class="table table-hover">
                     <thead class="table-light">
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col">ID</th>
                             <th scope="col">Usuário</th>
                             <th scope="col">Data</th>
                         </tr>
