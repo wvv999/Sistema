@@ -78,7 +78,7 @@
 
         .grid {
             display: grid;
-            gap: 12%;
+            gap: 18%;
             margin-bottom: 4px;
         }
 
