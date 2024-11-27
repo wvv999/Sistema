@@ -134,34 +134,38 @@ try {
 
             <!-- Formulário de Cadastro -->
             <form method="POST" class="mb-4">
-                <div class="row">
-                    <div class="col-12 mb-3">
-                        <label for="name" class="form-label">Nome Completo</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    
-                    <div class="col-12 mb-3">
-                        <label for="cpf" class="form-label">CPF</label>
-                        <input type="text" class="form-control" id="cpf" name="cpf" 
-                            maxlength="14" placeholder="000.000.000-00">
-                    </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nome Completo</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="cpf" class="form-label">CPF</label>
+                            <input type="text" class="form-control" id="cpf" name="cpf" 
+                                maxlength="14" placeholder="000.000.000-00">
+                        </div>
 
-                    <div class="col-12 mb-3">
-                        <label for="phone1" class="form-label">Telefone Principal</label>
-                        <input type="text" class="form-control" id="phone1" name="phone1" 
-                            maxlength="15" placeholder="(00) 00000-0000" required>
-                    </div>
+                        <div class="mb-3">
+                            <label for="phone1" class="form-label">Telefone Principal</label>
+                            <input type="text" class="form-control" id="phone1" name="phone1" 
+                                maxlength="15" placeholder="(00) 00000-0000" required>
+                        </div>
 
-                    <div class="col-12 mb-3">
-                        <label for="phone2" class="form-label">Telefone Secundário</label>
-                        <input type="text" class="form-control" id="phone2" name="phone2" 
-                            maxlength="15" placeholder="(00) 00000-0000">
+                        <div class="mb-3">
+                            <label for="phone2" class="form-label">Telefone Secundário</label>
+                            <input type="text" class="form-control" id="phone2" name="phone2" 
+                                maxlength="15" placeholder="(00) 00000-0000">
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-person-plus"></i> Cadastrar Cliente
+                            </button>
+                        </div>
                     </div>
                 </div>
-
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-person-plus"></i> Cadastrar Cliente
-                </button>
             </form>
 
             <!-- Tabela de Clientes -->
