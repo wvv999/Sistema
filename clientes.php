@@ -111,9 +111,7 @@ try {
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
     
-    <a href="logout.php" class="btn btn-outline-danger logout-btn">
-        <i class="bi bi-box-arrow-right"></i> Sair
-    </a>
+
 
     <div class="container">
         <div class="content-container">
