@@ -231,56 +231,50 @@ if (!empty($searchTerm)) {
                 </div>
                 
                 <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th>OS</th>
-                                <th>Cliente</th>
-                                <th>Dispositivo / Problema</th>
-                                <th>Entrada / Saída</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($serviceOrders as $order): 
-                                $orderNumber = str_pad($order['id'], STR_PAD_LEFT);
-                                $status = $order['status'] ?? 'não iniciada';
-                                $statusButton = OrderStatus::getStatusButton($status);
-                            ?>
-                                <tr class="order-row" onclick="window.location='view_order.php?id=<?= $order['id'] ?>'">
-                                    <td><code class="fs-6"><?= $orderNumber ?></code></td>
-                                    <td class="order-info"><?= htmlspecialchars($order['client_name']) ?></td>
-                                    <td>
-                                        <div class="device-info">
-                                            <span class="device-model"><?= htmlspecialchars($order['device_model']) ?></span>
-                                            <span class="issue-text"><?= htmlspecialchars($order['reported_issue']) ?></span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column gap-1">
+                <table class="table table-hover">
+                    <thead class="table-light">
+                        <tr>
+                            <th>OS</th>
+                            <th>Cliente</th>
+                            <th>Dispositivo / Problema</th>
+                            <th>Entrada / Saída</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($serviceOrders as $order): 
+                            $orderNumber = str_pad($order['id'], STR_PAD_LEFT);
+                            $status = $order['status'] ?? 'não iniciada';
+                            $statusButton = OrderStatus::getStatusButton($status);
+                        ?>
+                            <tr class="order-row" onclick="window.location='view_order.php?id=<?= $order['id'] ?>'">
+                                <td><code class="fs-6"><?= $orderNumber ?></code></td>
+                                <td class="order-info"><?= htmlspecialchars($order['client_name']) ?></td>
+                                <td>
+                                    <div class="device-info">
+                                        <span class="device-model"><?= htmlspecialchars($order['device_model']) ?></span>
+                                        <span class="issue-text"><?= htmlspecialchars($order['reported_issue']) ?></span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column gap-1">
+                                        <span class="date-badge">
+                                            <i class="bi bi-calendar-check"></i>
+                                            <?= date('d/m/Y', strtotime($order['opening_date'])) ?>
+                                        </span>
+                                        <?php if ($order['delivery_date']): ?>
                                             <span class="date-badge">
-                                                <i class="bi bi-calendar-check"></i>
-                                                <?= date('d/m/Y', strtotime($order['opening_date'])) ?>
+                                                <i class="bi bi-calendar2-check"></i>
+                                                <?= date('d/m/Y', strtotime($order['delivery_date'])) ?>
                                             </span>
-                                            <?php if ($order['delivery_date']): ?>
-                                                <span class="date-badge">
-                                                    <i class="bi bi-calendar2-check"></i>
-                                                    <?= date('d/m/Y', strtotime($order['delivery_date'])) ?>
-                                                </span>
-                                            <?php endif; ?>
-                                        </div>
-                                    </td>
-                                    <td class="status-cell"><?= $statusButton ?></td>
-                                    <td>
-                                        <button class="btn btn-primary view-btn" onclick="event.stopPropagation(); window.location='view_order.php?id=<?= $order['id'] ?>'">
-                                            <i class="bi bi-eye"></i> Ver
-                                        </button>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                                <td class="status-cell"><?= $statusButton ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
                 </div>
             <?php else: ?>
                 <div class="alert alert-warning" role="alert">
