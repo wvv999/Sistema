@@ -2,6 +2,10 @@
 session_start();
 require_once 'config.php';
 
+function generateRememberToken() {
+    return bin2hex(random_bytes(32));
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -19,15 +23,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if($stmt->rowCount() == 1) {
             $row = $stmt->fetch();
             
-            // Verifica se a senha está correta
             if(password_verify($password, $row['password'])) {
-                // Login bem sucedido
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['username'] = $row['username'];
                 
-                // Se "lembrar-me" estiver marcado
                 if($remember) {
-                    setcookie("remember_user", $username, time() + (86400 * 30), "/");
+                    // Gera token único para "lembrar-me"
+                    $remember_token = generateRememberToken();
+                    
+                    // Salva o token no banco de dados
+                    $update_query = "UPDATE users SET remember_token = :token WHERE id = :id";
+                    $update_stmt = $db->prepare($update_query);
+                    $update_stmt->bindParam(":token", $remember_token);
+                    $update_stmt->bindParam(":id", $row['id']);
+                    $update_stmt->execute();
+                    
+                    // Cria cookies seguros para o token e user_id
+                    setcookie(
+                        "remember_token",
+                        $remember_token,
+                        [
+                            'expires' => time() + (86400 * 30),
+                            'path' => '/',
+                            'secure' => true,
+                            'httponly' => true,
+                            'samesite' => 'Strict'
+                        ]
+                    );
+                    setcookie(
+                        "remember_user_id",
+                        $row['id'],
+                        [
+                            'expires' => time() + (86400 * 30),
+                            'path' => '/',
+                            'secure' => true,
+                            'httponly' => true,
+                            'samesite' => 'Strict'
+                        ]
+                    );
                 }
                 
                 header("Location: dashboard.php");
@@ -40,6 +73,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } catch(PDOException $e) {
         $login_err = "Erro no login. Tente novamente.";
+    }
+} else {
+    // Verifica se existe um token de "lembrar-me" válido
+    if(!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token']) && isset($_COOKIE['remember_user_id'])) {
+        try {
+            $database = new Database();
+            $db = $database->getConnection();
+            
+            $query = "SELECT id, username FROM users WHERE id = :id AND remember_token = :token";
+            $stmt = $db->prepare($query);
+            $stmt->bindParam(":id", $_COOKIE['remember_user_id']);
+            $stmt->bindParam(":token", $_COOKIE['remember_token']);
+            $stmt->execute();
+            
+            if($stmt->rowCount() == 1) {
+                $row = $stmt->fetch();
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['username'] = $row['username'];
+                
+                header("Location: dashboard.php");
+                exit();
+            }
+        } catch(PDOException $e) {
+            // Silenciosamente falha e continua para o formulário de login
+        }
     }
 }
 
