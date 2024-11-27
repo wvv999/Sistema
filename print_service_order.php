@@ -51,6 +51,8 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             position: relative;
             transform: scale(1.05);  /* Increased scale by 5% */
             transform-origin: top center;
+            position: relative;
+            left: -2.5%;
         }
 
         .container {
