@@ -22,7 +22,7 @@ $db = $database->getConnection();
 
 // Busca todos os clientes para o select
 try {
-    $query = "SELECT id, name, phone1, phone2 FROM clients ORDER BY name";
+    $query = "SELECT id, name FROM clients ORDER BY name";
     $stmt = $db->prepare($query);
     $stmt->execute();
     $clients = $stmt->fetchAll();
@@ -37,12 +37,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $client_id = $_POST['client_id'];
         $device_model = $_POST['device_model'];
-        $phone1 = $_POST['phone1'];
-        $phone2 = $_POST['phone2'];
         $delivery_date = $_POST['delivery_date'];
         $reported_issue = $_POST['reported_issue'];
         $accessories = $_POST['accessories'];
         $device_password = $_POST['device_password'];
+
+        // Busca os telefones do cliente
+        $stmt = $db->prepare("SELECT phone1, phone2 FROM clients WHERE id = ?");
+        $stmt->execute([$client_id]);
+        $client = $stmt->fetch();
+        $phone1 = $client['phone1'];
+        $phone2 = $client['phone2'];
 
         // Encontra o menor ID disponível
         $stmt = $db->query("
@@ -98,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .container { 
             padding-top: 2rem; 
             padding-bottom: 2rem; 
-            max-width: 900px; 
+            max-width: 800px; 
         }
         .content-container {
             background-color: white;
@@ -138,35 +143,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <form method="POST" id="serviceOrderForm">
                 <div class="row g-3">
-                    <!-- Cliente e Telefones -->
-                    <div class="col-md-6">
+                    <!-- Cliente e Data -->
+                    <div class="col-md-8">
                         <label for="client_id" class="form-label">Cliente</label>
                         <select class="form-select form-select-sm" id="client_id" name="client_id" required>
                             <option value="">Selecione um cliente</option>
                             <?php foreach ($clients as $client): ?>
-                                <option value="<?php echo $client['id']; ?>" 
-                                        data-phone1="<?php echo $client['phone1']; ?>"
-                                        data-phone2="<?php echo $client['phone2']; ?>">
+                                <option value="<?php echo $client['id']; ?>">
                                     <?php echo htmlspecialchars($client['name']); ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="phone1" class="form-label">Telefone 1</label>
-                        <input type="text" class="form-control form-control-sm" id="phone1" name="phone1" readonly>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="phone2" class="form-label">Telefone 2</label>
-                        <input type="text" class="form-control form-control-sm" id="phone2" name="phone2" readonly>
-                    </div>
-
-                    <!-- Modelo e Data -->
-                    <div class="col-md-8">
-                        <label for="device_model" class="form-label">Modelo do Aparelho</label>
-                        <input type="text" class="form-control form-control-sm" id="device_model" name="device_model" required>
                     </div>
 
                     <div class="col-md-4">
@@ -174,10 +161,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="date" class="form-control form-control-sm" id="delivery_date" name="delivery_date" required>
                     </div>
 
-                    <!-- Defeito e Senha -->
+                    <!-- Modelo e Senha -->
                     <div class="col-md-9">
-                        <label for="reported_issue" class="form-label">Defeito Reclamado</label>
-                        <input type="text" class="form-control form-control-sm" id="reported_issue" name="reported_issue" required>
+                        <label for="device_model" class="form-label">Modelo do Aparelho</label>
+                        <input type="text" class="form-control form-control-sm" id="device_model" name="device_model" required>
                     </div>
 
                     <div class="col-md-3">
@@ -185,7 +172,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" class="form-control form-control-sm" id="device_password" name="device_password">
                     </div>
 
-                    <!-- Acessórios -->
+                    <!-- Defeito e Acessórios -->
+                    <div class="col-12">
+                        <label for="reported_issue" class="form-label">Defeito Reclamado</label>
+                        <input type="text" class="form-control form-control-sm" id="reported_issue" name="reported_issue" required>
+                    </div>
+
                     <div class="col-12">
                         <label for="accessories" class="form-label">Acessórios</label>
                         <input type="text" class="form-control form-control-sm" id="accessories" name="accessories">
@@ -204,13 +196,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Atualiza os telefones quando um cliente é selecionado
-        document.getElementById('client_id').addEventListener('change', function() {
-            const selectedOption = this.options[this.selectedIndex];
-            document.getElementById('phone1').value = selectedOption.dataset.phone1 || '';
-            document.getElementById('phone2').value = selectedOption.dataset.phone2 || '';
-        });
-
         // Define a data mínima como hoje
         document.getElementById('delivery_date').min = new Date().toISOString().split('T')[0];
     </script>
