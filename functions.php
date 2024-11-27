@@ -22,6 +22,4 @@ function registerActivity($userId, $description, $orderId = null, $actionType = 
     }
 }
 
-// Exemplo de uso:
-// registerActivity($_SESSION['user_id'], 'Criou nova ordem de serviço #123', 123, 'ordem_servico');
 ?>
