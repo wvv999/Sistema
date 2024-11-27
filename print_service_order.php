@@ -1,3 +1,33 @@
+<?php
+session_start();
+require_once 'config.php';
+
+if(!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
+    header("Location: index.php");
+    exit;
+}
+
+$database = new Database();
+$db = $database->getConnection();
+
+try {
+    $query = "SELECT so.*, c.name as client_name, c.phone1, c.phone2 
+              FROM service_orders so 
+              JOIN clients c ON so.client_id = c.id 
+              WHERE so.id = ?";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$_GET['id']]);
+    $order = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$order) {
+        throw new Exception("Ordem de serviço não encontrada");
+    }
+} catch(Exception $e) {
+    die("Erro: " . $e->getMessage());
+}
+
+$delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <!DOCTYPE html>
