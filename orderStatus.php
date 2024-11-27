@@ -1,40 +1,31 @@
 <?php
 class OrderStatus {
-    // Mapeamento de status para classes do Bootstrap
     private static $statusClasses = [
-        'não iniciada' => 'não-iniciada', // cinza
-        'em andamento' => 'em-andamento',   // laranja
-        'concluída' => 'concluída',      // verde
-        'pronto e avisado' => 'pronto-e-avisado',  // azul
-        'entregue' => 'entregue'          // verde-azulado (tranquilidade)
+        'não iniciada' => 'não-iniciada',
+        'em andamento' => 'em-andamento',
+        'concluída' => 'concluída',
+        'pronto e avisado' => 'pronto-e-avisado',
+        'entregue' => 'entregue'
     ];
 
-    // Mapeamento de status para ícones
     private static $statusIcons = [
         'não iniciada' => 'bi-clock',
         'em andamento' => 'bi-gear',
         'concluída' => 'bi-check-circle',
         'pronto e avisado' => 'bi-bell',
-        'entregue' => 'bi bi-box-seam stats-icon'
+        'entregue' => 'bi-box-seam'
     ];
 
     public static function getStatusButton($status) {
         $status = strtolower($status ?? 'não iniciada');
-        $buttonClass = self::$statusClasses[$status] ?? 'btn-secondary';
+        $buttonClass = self::$statusClasses[$status] ?? 'não-iniciada';
         $icon = self::$statusIcons[$status] ?? 'bi-clock';
         
-        // Estilo customizado para o status 'entregue'
-        $customStyle = '';
-        if ($status === 'entregue') {
-            $customStyle = 'background: #2c3e50; color: white;';
-        }
-        
         return sprintf(
-            '<button class="btn btn-sm %s" style="min-width: 140px; %s">
+            '<div class="status-indicator %s">
                 <i class="bi %s"></i> %s
-            </button>',
+            </div>',
             $buttonClass,
-            $customStyle,
             $icon,
             ucfirst($status)
         );
