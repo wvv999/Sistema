@@ -77,6 +77,8 @@ try {
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
         }
 
         .order-count {
@@ -86,11 +88,100 @@ try {
             font-weight: bold;
         }
 
-        .reported-issue {
-            max-width: 300px;
+        /* Status styles */
+        .status-indicator {
+            min-width: 140px;
+            text-align: center;
+            font-size: 0.85em;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .status-indicator i {
+            font-size: 0.9em;
+        }
+
+        .não-iniciada {background: #e74c3c; color: white;}
+        .em-andamento {background: #f39c12; color: white;}
+        .concluída {background: #27ae60; color: white;}
+        .pronto-e-avisado {background: #3498db; color: white;}
+        .entregue {background: #2c3e50; color: white;}
+
+        .device-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .device-model {
+            font-weight: 500;
+        }
+
+        .issue-text {
+            font-size: 0.85em;
+            color: #666;
+            max-width: 250px;
+            white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
+        }
+
+        .date-badge {
+            background-color: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #666;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .order-row {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .order-row:hover {
+            background-color: #f8f9fa !important;
+        }
+
+        .status-cell {
+            min-width: 160px;
+        }
+
+        .phone-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .phone-badge {
+            background-color: #f8f9fa;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            color: #666;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .issue-text {
+                max-width: 150px;
+            }
         }
     </style>
 </head>
@@ -124,42 +215,54 @@ try {
                     <table class="table table-hover">
                         <thead class="table-light">
                             <tr>
-                                <th>Nº da Ordem</th>
-                                <th>Modelo do Dispositivo</th>
-                                <th>Problema Relatado</th>
-                                <th>Data de Entrega</th>
+                                <th>OS</th>
+                                <th>Dispositivo / Problema</th>
                                 <th>Telefones</th>
-                                <th>Data de Criação</th>
-                                <th>Ações</th>
+                                <th>Data Entrada</th>
+                                <th>Data Entrega</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($orders as $order): ?>
-                                <tr>
-                                    <td><?php echo str_pad($order['id'], STR_PAD_LEFT); ?></td>
-                                    <td><?php echo htmlspecialchars($order['device_model']); ?></td>
-                                    <td class="reported-issue" title="<?php echo htmlspecialchars($order['reported_issue']); ?>">
-                                        <?php echo htmlspecialchars($order['reported_issue']); ?>
+                            <?php foreach ($orders as $order): 
+                                $status = $order['status'] ?? 'não iniciada';
+                                $statusButton = OrderStatus::getStatusButton($status);
+                            ?>
+                                <tr class="order-row" onclick="window.location='view_order.php?id=<?= $order['id'] ?>'">
+                                    <td><code class="fs-6"><?= str_pad($order['id'], STR_PAD_LEFT) ?></code></td>
+                                    <td>
+                                        <div class="device-info">
+                                            <span class="device-model"><?= htmlspecialchars($order['device_model']) ?></span>
+                                            <span class="issue-text"><?= htmlspecialchars($order['reported_issue']) ?></span>
+                                        </div>
                                     </td>
                                     <td>
-                                        <i class="bi bi-calendar-event me-2"></i>
-                                        <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?>
+                                        <div class="phone-info">
+                                            <span class="phone-badge">
+                                                <i class="bi bi-telephone"></i>
+                                                <?= htmlspecialchars($order['phone1']) ?>
+                                            </span>
+                                            <?php if ($order['phone2']): ?>
+                                            <span class="phone-badge">
+                                                <i class="bi bi-telephone"></i>
+                                                <?= htmlspecialchars($order['phone2']) ?>
+                                            </span>
+                                            <?php endif; ?>
+                                        </div>
                                     </td>
                                     <td>
-                                        <div><?php echo htmlspecialchars($order['phone1']); ?></div>
-                                        <?php if ($order['phone2']): ?>
-                                            <div><?php echo htmlspecialchars($order['phone2']); ?></div>
-                                        <?php endif; ?>
+                                        <span class="date-badge">
+                                            <i class="bi bi-calendar-check"></i>
+                                            <?= date('d/m/Y', strtotime($order['created_at'])) ?>
+                                        </span>
                                     </td>
                                     <td>
-                                        <?php echo date('d/m/Y', strtotime($order['created_at'])); ?>
+                                        <span class="date-badge">
+                                            <i class="bi bi-calendar-event"></i>
+                                            <?= date('d/m/Y', strtotime($order['delivery_date'])) ?>
+                                        </span>
                                     </td>
-                                    <td>
-                                        <a href="ver_ordem.php?id=<?php echo $order['id']; ?>" 
-                                           class="btn btn-sm btn-primary">
-                                            <i class="bi bi-eye"></i> Ver Detalhes
-                                        </a>
-                                    </td>
+                                    <td class="status-cell"><?= $statusButton ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
