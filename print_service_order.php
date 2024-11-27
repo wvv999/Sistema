@@ -365,16 +365,11 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 </div>
             </div>
 
-            <div class="disclaimer">
+            <div class="disclaimer" style="font-size:10px">
                 A empresa da garantia de 90 dias para mão de obra e peça usada no conserto, a garantia só é valida para defeito na peça trocada, sendo que por mau uso o cliente perde a garantia do mesmo. Aparelhos molhados não terão garantia.
                 Não nos responsabilizamos por dados contidos nos cartões de memória, chip e no aparelho. a constatação de rompimento do lacre invalidará a garantia. A permanencia do aparelho por mais de 30 dias após a aprovação, poderá sofrer reajuste do preço sem aviso prévio e a partir de 90 dias sem a procura do proprietário será considerada abandono do mesmo, não cabendo reclamação ou indenização. A procedência do aparelho é de responsabilidade do declarante. O aparelho só será entregue mediante esta ordem de serviço.
             </div>
 
-            <div class="signatures">
-                <div class="signature-line">
-                    Assinatura do Cliente
-                </div>
-            </div>
         </div>
     </div>
 </body>
