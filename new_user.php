@@ -65,10 +65,11 @@ try {
         }
         
         .container {
-            padding-top: 2rem;
+            padding-top: 6rem; /* Aumentado o padding superior */
             padding-bottom: 2rem;
             display: flex;
             justify-content: center;
+            align-items: flex-start; /* Garante alinhamento correto */
         }
         
         .content-container {
@@ -116,6 +117,13 @@ try {
             padding: 8px;
         }
 
+        /* Alinhamento da coluna de data */
+        .table th.date-column,
+        .table td.date-column {
+            text-align: right;
+            padding-right: 15px;
+        }
+
         .divider {
             margin: 2rem 0;
             border-top: 2px solid #eee;
@@ -129,6 +137,10 @@ try {
             
             .content-container {
                 margin: 20px;
+            }
+
+            .container {
+                padding-top: 4rem; /* Menor padding no mobile */
             }
         }
     </style>
@@ -183,7 +195,7 @@ try {
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Usuário</th>
-                            <th scope="col">Data</th>
+                            <th scope="col" class="date-column">Data</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -194,7 +206,7 @@ try {
                                     <i class="bi bi-person-circle me-2"></i>
                                     <?php echo htmlspecialchars($user['username']); ?>
                                 </td>
-                                <td>
+                                <td class="date-column">
                                     <i class="bi bi-calendar-event me-2"></i>
                                     <?php echo date('d/m/Y', strtotime($user['created_at'])); ?>
                                 </td>
