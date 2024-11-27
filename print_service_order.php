@@ -78,7 +78,7 @@
 
         .grid {
             display: grid;
-            gap: 4%;
+            justify-content: space-between;
             margin-bottom: 4px;
         }
 
