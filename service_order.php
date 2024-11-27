@@ -117,6 +117,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         textarea.form-control {
             resize: none;
+            height: 80px; /* Aumenta a altura do textarea */
         }
     </style>
 </head>
@@ -125,7 +126,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
     
-
+    <a href="logout.php" class="btn btn-outline-danger" style="position: absolute; top: 20px; right: 20px;">
+        <i class="bi bi-box-arrow-right"></i> Sair
+    </a>
 
     <div class="container">
         <div class="content-container">
@@ -159,8 +162,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="date" class="form-control form-control-sm" id="delivery_date" name="delivery_date" required>
                     </div>
 
-                    <!-- Modelo e Senha -->
-                    <div class="col-md-9">
+                    <!-- Modelo, Senha e Acessórios na mesma linha -->
+                    <div class="col-md-5">
                         <label for="device_model" class="form-label">Modelo do Aparelho</label>
                         <input type="text" class="form-control form-control-sm" id="device_model" name="device_model" required>
                     </div>
@@ -170,15 +173,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="text" class="form-control form-control-sm" id="device_password" name="device_password">
                     </div>
 
-                    <!-- Defeito e Acessórios -->
-                    <div class="col-12">
-                        <label for="reported_issue" class="form-label">Defeito Reclamado</label>
-                        <input type="text" class="form-control form-control-sm" id="reported_issue" name="reported_issue" required>
-                    </div>
-
-                    <div class="col-12">
+                    <div class="col-md-4">
                         <label for="accessories" class="form-label">Acessórios</label>
                         <input type="text" class="form-control form-control-sm" id="accessories" name="accessories">
+                    </div>
+
+                    <!-- Defeito em linha separada -->
+                    <div class="col-12">
+                        <label for="reported_issue" class="form-label">Defeito Reclamado</label>
+                        <textarea class="form-control form-control-sm" id="reported_issue" name="reported_issue" required></textarea>
                     </div>
                 </div>
 
