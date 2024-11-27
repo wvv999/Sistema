@@ -134,7 +134,7 @@ try {
     </style>
 </head>
 <body class="bg-light">
-    <a href="dashboard.php" class="btn btn-outline-primary back-button">
+    <a href="dashboard.php" class="btn btn-outline-primary mb-4">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
 
