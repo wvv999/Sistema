@@ -101,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <style>
         * { user-select: none; }
         .container { 
-            padding-top: 600px; 
+            padding-top: 60px; 
             padding-bottom: 2rem; 
             max-width: 800px; 
         }
