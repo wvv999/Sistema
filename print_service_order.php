@@ -283,7 +283,7 @@
             </div>
 
             <div class="section">
-                <div class="grid" style="grid-template-columns: 50% 25% 25%;">
+                <div class="grid" style="grid-template-columns: 48% 24% 24%;">
                     <div class="field">
                         <div class="field-label">Cliente:</div>
                         <div class="field-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
