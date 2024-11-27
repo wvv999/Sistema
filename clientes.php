@@ -138,24 +138,24 @@ try {
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="name" class="form-label">Nome Completo</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control bg-light" id="name" name="name" required>
                         </div>
                         
                         <div class="mb-3">
                             <label for="cpf" class="form-label">CPF</label>
-                            <input type="text" class="form-control" id="cpf" name="cpf" 
+                            <input type="text" class="form-control bg-light" id="cpf" name="cpf" 
                                 maxlength="14" placeholder="000.000.000-00">
                         </div>
 
                         <div class="mb-3">
                             <label for="phone1" class="form-label">Telefone Principal</label>
-                            <input type="text" class="form-control" id="phone1" name="phone1" 
+                            <input type="text" class="form-control bg-light" id="phone1" name="phone1" 
                                 maxlength="15" placeholder="(00) 00000-0000" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="phone2" class="form-label">Telefone Secundário</label>
-                            <input type="text" class="form-control" id="phone2" name="phone2" 
+                            <input type="text" class="form-control bg-light" id="phone2" name="phone2" 
                                 maxlength="15" placeholder="(00) 00000-0000">
                         </div>
 
