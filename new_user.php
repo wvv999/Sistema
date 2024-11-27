@@ -108,8 +108,8 @@ try {
     </style>
 </head>
 <body class="bg-light">
-    <a href="javascript:history.back();" class="btn btn-outline-danger logout-btn">
-        <i class="bi bi-box-arrow-right"></i> Sair
+    <a href="dashboard.php" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
+        <i class="bi bi-arrow-left"></i> Voltar
     </a>
 
     <div class="container">
