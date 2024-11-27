@@ -188,7 +188,7 @@ if(!isset($_SESSION['user_id'])) {
 
                 <div class="col-md-6">
                     <a href="gestao.php" class="btn btn-outline-info w-100 nav-button">
-                        <i class="bi bi-people"></i>
+                        <i class="bi bi-gear stats-icon"></i>
                         Gestão
                     </a>
                 </div>
