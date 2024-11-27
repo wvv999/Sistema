@@ -171,7 +171,7 @@ try {
                                 </td>
                                 <td>
                                     <i class="bi bi-calendar-event me-2"></i>
-                                    <?php echo date('d/m/Y H:i', strtotime($user['created_at'])); ?>
+                                    <?php echo date('d/m/Y', strtotime($user['created_at'])); ?>
                                 </td>
                                 <td>
                                     <?php if ($user['id'] == $_SESSION['user_id']): ?>
