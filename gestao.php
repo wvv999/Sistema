@@ -119,6 +119,56 @@ require_once 'functions.php';
         .entregue {
             background: #2c3e50;    /* Azul escuro elegante */
         }
+        .activities-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 1.5rem;
+        }
+
+        .activity-item {
+            border: none;
+            border-left: 3px solid transparent;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .activity-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-time {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .activity-user {
+            font-size: 0.9rem;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .activity-description {
+            color: #212529;
+            margin-top: 0.25rem;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -294,6 +344,69 @@ require_once 'functions.php';
                 </div>
             </div>
         </div>
+        <script>
+            function loadActivities() {
+                const activitiesList = document.getElementById('activities-list');
+                
+                fetch('get_recent_activities.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.activities.length > 0) {
+                            // Atualiza o contador
+                            document.getElementById('activities-count').textContent = 
+                                `${data.activities.length} atividade(s)`;
+                            
+                            // Renderiza as atividades
+                            activitiesList.innerHTML = data.activities.map(activity => `
+                                <div class="list-group-item activity-item" 
+                                    onclick="activity.order_id ? window.location.href='view_order.php?id=${activity.order_id}' : null"
+                                    style="border-left-color: var(--bs-${activity.color})">
+                                    <div class="d-flex align-items-start">
+                                        <div class="activity-icon bg-${activity.color} text-white">
+                                            <i class="bi ${activity.icon}"></i>
+                                        </div>
+                                        <div class="activity-info">
+                                            <div class="d-flex justify-content-between">
+                                                <span class="activity-user">
+                                                    <i class="bi bi-person-circle"></i> ${activity.user_name}
+                                                </span>
+                                                <small class="activity-time">
+                                                    <i class="bi bi-clock"></i> ${activity.formatted_date}
+                                                </small>
+                                            </div>
+                                            <div class="activity-description">
+                                                ${activity.description}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('');
+                        } else {
+                            activitiesList.innerHTML = `
+                                <div class="text-center py-4 text-muted">
+                                    <i class="bi bi-inbox-fill fs-2"></i>
+                                    <p class="mt-2">Nenhuma atividade recente encontrada</p>
+                                </div>
+                            `;
+                            document.getElementById('activities-count').textContent = '0 atividades';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro:', error);
+                        activitiesList.innerHTML = `
+                            <div class="alert alert-danger">
+                                Erro ao carregar atividades: ${error.message}
+                            </div>
+                        `;
+                    });
+            }
+
+            // Carrega as atividades inicialmente
+            loadActivities();
+
+            // Atualiza as atividades a cada 30 segundos
+            setInterval(loadActivities, 30000);
+            </script>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
