@@ -121,10 +121,6 @@ try {
             border-top: 2px solid #eee;
         }
 
-        .badge {
-            font-size: 0.8rem;
-        }
-
         @media (max-width: 576px) {
             .header-container {
                 flex-direction: column;
@@ -188,7 +184,6 @@ try {
                             <th scope="col">#</th>
                             <th scope="col">Usuário</th>
                             <th scope="col">Data</th>
-                            <th scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -202,13 +197,6 @@ try {
                                 <td>
                                     <i class="bi bi-calendar-event me-2"></i>
                                     <?php echo date('d/m/Y', strtotime($user['created_at'])); ?>
-                                </td>
-                                <td>
-                                    <?php if ($user['id'] == $_SESSION['user_id']): ?>
-                                        <span class="badge bg-success">Online</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-secondary">Offline</span>
-                                    <?php endif; ?>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
