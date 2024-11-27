@@ -344,8 +344,14 @@ require_once 'functions.php';
                 </div>
             </div>
         </div>
-        <script>
-            function loadActivities() {
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+    <script>
+                    function loadActivities() {
                 const activitiesList = document.getElementById('activities-list');
                 
                 fetch('get_recent_activities.php')
@@ -406,13 +412,6 @@ require_once 'functions.php';
 
             // Atualiza as atividades a cada 30 segundos
             setInterval(loadActivities, 30000);
-            </script>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
-    <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Inicializa o seletor de data
         flatpickr("#date-range", {
