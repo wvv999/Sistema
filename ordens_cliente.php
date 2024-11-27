@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'config.php';
+require_once 'orderStatus.php';
 
 // Verifica se está logado
 if(!isset($_SESSION['user_id'])) {
@@ -34,8 +35,9 @@ try {
     
     $client_name = $client['name'];
     
-    // Busca todas as ordens de serviço do cliente
-    $query = "SELECT so.*, c.name as client_name 
+    // Busca todas as ordens de serviço do cliente com status
+    $query = "SELECT so.*, c.name as client_name, 
+              COALESCE(so.status, 'não iniciada') as status
               FROM service_orders so
               INNER JOIN clients c ON so.client_id = c.id
               WHERE so.client_id = ? 
