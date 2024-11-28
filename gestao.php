@@ -253,7 +253,7 @@ try {
 
         <!-- Lista de Ordens -->
         <div class="order-list">
-            <h5 class="mb-4">Ordens de Serviço</h5>
+            <h5 class="mb-3">Ordens de Serviço</h5>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -354,20 +354,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Adiciona as ordens
             tableBody.innerHTML = data.orders.map(order => `
-                <tr>
-                    <td>${order.id}</td>
-                    <td>${order.client_name}</td>
-                    <td>
-                        <span class="badge ${getStatusClass(order.status)}">
-                            ${order.status}
-                        </span>
-                    </td>
-                    <td>${formatDate(order.created_at)}</td>
-                    <td>
-
-                    </td>
-                </tr>
-            `).join('');
+            <tr>
+                <td>${order.id}</td>
+                <td>${order.client_name}</td>
+                <td>
+                    <span class="badge ${getStatusClass(order.status)}">
+                        ${order.status}
+                    </span>
+                </td>
+                <td>${formatDate(order.created_at)}</td>
+            </tr>
+        `).join('');
         } catch (error) {
             console.error('Erro:', error);
             tableBody.innerHTML = `
