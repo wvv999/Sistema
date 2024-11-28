@@ -364,12 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         </span>
                     </td>
                     <td>${formatDate(order.created_at)}</td>
-                    <td>
-                        <button class="btn btn-sm btn-outline-primary" 
-                                onclick="window.location.href='view_order.php?id=${order.id}'">
-                            <i class="bi bi-eye"></i> Ver
-                        </button>
-                    </td>
+
                 </tr>
             `).join('');
         } catch (error) {
