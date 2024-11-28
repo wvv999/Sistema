@@ -612,10 +612,10 @@ try {
                             <span>Autorização</span>
                         </div>
 
-                        <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar negociação">
+                        <!-- <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar negociação">
                             <i class="bi bi-currency-dollar"></i>
                             <span>Negociação</span>
-                        </div>
+                        </div> -->
 
                         <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
                             <i class="bi bi-cart"></i>
