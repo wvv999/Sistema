@@ -253,7 +253,7 @@ try {
 
         <!-- Lista de Ordens -->
         <div class="order-list">
-            <h5 class="mb-3">Ordens de Serviço</h5>
+            <h5 class="mb-4">Ordens de Serviço</h5>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
