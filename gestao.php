@@ -364,7 +364,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         </span>
                     </td>
                     <td>${formatDate(order.created_at)}</td>
+                    <td>
 
+                    </td>
                 </tr>
             `).join('');
         } catch (error) {
