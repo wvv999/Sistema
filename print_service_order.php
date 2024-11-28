@@ -41,33 +41,23 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             font-family: Arial, sans-serif;
             line-height: 1.3;
             margin: 0;
-            padding: 1cm;  /* Added 1cm padding */
+            padding: 0;
+            height: 100%;
         }
 
         .page {
             width: 21cm;
-            height: 29.7cm;
+            min-height: 29.7cm;
             margin: 0 auto;
+            background: white;
             position: relative;
-            transform: scale(1.05);  /* Increased scale by 5% */
-            transform-origin: top center;
-            position: relative;
-            left: -2.5%;
+            page-break-after: avoid; /* Evita quebra de página após a div */
         }
 
         .container {
-            width: 21cm;
-            height: 14.85cm;
-            max-height: 14.85cm;
-            overflow: hidden;
-            position: relative;
+            width: 100%;
+            padding: 1cm;
             box-sizing: border-box;
-            padding: 5px 25px;
-        }
-
-        /* First copy at the top */
-        .container:first-child {
-            border-bottom: 1px dashed #999;
         }
 
         .header {
@@ -130,7 +120,6 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             min-height: 14px;
             margin-top: 1px;
             font-size: 11px;
-            position: relative;
         }
 
         .reported-issue-container {
@@ -193,21 +182,29 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
 
         @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
             body {
-                padding: 1cm;  /* Maintain padding when printing */
+                margin: 0;
+                padding: 0;
+            }
+
+            .page {
+                margin: 0;
+                border: none;
+                width: 100%;
+                height: 100%;
+            }
+
+            .container {
+                page-break-inside: avoid;
             }
 
             .no-print {
                 display: none;
-            }
-
-            .page {
-                page-break-after: always;
-            }
-
-            @page {
-                size: A4;
-                margin: 0;
             }
         }
     </style>
