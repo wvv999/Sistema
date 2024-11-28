@@ -262,7 +262,6 @@ try {
                             <th>Cliente</th>
                             <th>Status</th>
                             <th>Data</th>
-                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody id="orders-table-body">
