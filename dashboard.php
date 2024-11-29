@@ -485,6 +485,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Função modificada para mostrar notificação persistente
+// Função modificada para mostrar notificação persistente
 function showNotificationToast(notification) {
     // Se for notificação de status, usa o formato persistente
     if (notification.type === 'auth_status') {
