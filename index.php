@@ -10,6 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $remember = isset($_POST['remember']) ? true : false;
+    $_SESSION['current_sector'] = $row['current_sector'];
 
     try {
         $database = new Database();

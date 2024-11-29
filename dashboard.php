@@ -167,16 +167,16 @@ if(!isset($_SESSION['user_id'])) {
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="sector-selection">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sector" id="atendimento" value="atendimento">
+                                <input class="form-check-input" type="radio" name="userSector" id="atendimento" value="atendimento" <?php echo $_SESSION['current_sector'] === 'atendimento' ? 'checked' : ''; ?>>
                                 <label class="form-check-label" for="atendimento">Atendimento</label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sector" id="tecnica" value="tecnica">
+                                <input class="form-check-input" type="radio" name="userSector" id="tecnica" value="tecnica" <?php echo $_SESSION['current_sector'] === 'tecnica' ? 'checked' : ''; ?>>
                                 <label class="form-check-label" for="tecnica">Técnica</label>
                             </div>
                         </div>
-                        <button id="notifyButton" class="btn btn-warning" disabled>
-                            <i class="bi bi-bell"></i> Chamar Setor
+                        <button id="notifyButton" class="btn btn-warning">
+                            <i class="bi bi-bell"></i> Chamar Outro Setor
                         </button>
                     </div>
                 </div>
