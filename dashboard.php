@@ -57,12 +57,6 @@ if(!isset($_SESSION['user_id'])) {
             right: 20px;
         }
 
-        .user-info {
-            background-color: #f8f9fa;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: inline-block;
-        }
 
         .search-container {
             margin-bottom: 20px;
@@ -137,25 +131,12 @@ if(!isset($_SESSION['user_id'])) {
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .sector-selection {
-            font-size: 1.1em;
-        }
 
         .form-check-input:checked {
             background-color: #0d6efd;
             border-color: #0d6efd;
         }
-        .user-info {
-            background-color: #f8f9fa;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
 
-        .user-info:hover {
-            background-color: #e9ecef;
-        }
 
         .dropdown-header {
             font-weight: bold;
@@ -186,6 +167,26 @@ if(!isset($_SESSION['user_id'])) {
         .notification-persistent .btn {
             width: 100%;
         }
+        .user-info {
+            background-color: #f8f9fa;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .user-info:hover {
+            background-color: #e9ecef;
+        }
+
+        .dropdown-menu {
+            padding: 0.5rem;
+            min-width: 200px;
+        }
+
+        .sector-selection {
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -204,22 +205,20 @@ if(!isset($_SESSION['user_id'])) {
                     <i class="bi bi-chevron-down ms-1"></i>
                 </div>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li class="dropdown-header">Definir Setor</li>
-                    <li>
-                        <div class="dropdown-item">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="userSector" id="atendimento" value="atendimento" <?php echo $_SESSION['current_sector'] === 'atendimento' ? 'checked' : ''; ?>>
+                    <li class="px-3 py-2">
+                        <div class="sector-selection">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sector" id="atendimento" value="atendimento">
                                 <label class="form-check-label" for="atendimento">Atendimento</label>
                             </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="dropdown-item">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="userSector" id="tecnica" value="tecnica" <?php echo $_SESSION['current_sector'] === 'tecnica' ? 'checked' : ''; ?>>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sector" id="tecnica" value="tecnica">
                                 <label class="form-check-label" for="tecnica">Técnica</label>
                             </div>
                         </div>
+                        <button id="notifyButton" class="btn btn-warning btn-sm w-100 mt-2">
+                            <i class="bi bi-bell"></i> Chamar Setor
+                        </button>
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
