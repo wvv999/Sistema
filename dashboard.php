@@ -309,6 +309,7 @@ if(!isset($_SESSION['user_id'])) {
                 const selectedSector = document.querySelector('input[name="sector"]:checked').value;
                 
                 try {
+                    console.log('Enviando notificação para:', selectedSector);
                     const response = await fetch('send_notification.php', {
                         method: 'POST',
                         headers: {
@@ -319,7 +320,7 @@ if(!isset($_SESSION['user_id'])) {
                             from_user: <?php echo $_SESSION['user_id']; ?>
                         })
                     });
-
+                    console.log('Resposta:', response);
                     const data = await response.json();
                     
                     if (data.success) {
