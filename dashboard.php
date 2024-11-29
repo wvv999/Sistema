@@ -205,45 +205,29 @@ if(!isset($_SESSION['user_id'])) {
                     <i class="bi bi-chevron-down ms-1"></i>
                 </div>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li class="px-3 py-2">
-                        <div class="sector-selection">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sector" id="atendimento" value="atendimento">
-                                <label class="form-check-label" for="atendimento">Atendimento</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sector" id="tecnica" value="tecnica">
-                                <label class="form-check-label" for="tecnica">Técnica</label>
-                            </div>
-                        </div>
-                        <button id="notifyButton" class="btn btn-warning btn-sm w-100 mt-2">
-                            <i class="bi bi-bell"></i> Chamar Setor
-                        </button>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
                 </ul>
             </div>
         </div>
-            <!-- <div class="notification-section mb-4">
-                <div class="alert alert-info">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="sector-selection">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="userSector" id="atendimento" value="atendimento" <?php echo $_SESSION['current_sector'] === 'atendimento' ? 'checked' : ''; ?>>
-                                <label class="form-check-label" for="atendimento">Atendimento</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="userSector" id="tecnica" value="tecnica" <?php echo $_SESSION['current_sector'] === 'tecnica' ? 'checked' : ''; ?>>
-                                <label class="form-check-label" for="tecnica">Técnica</label>
-                            </div>
+        <div class="notification-section mb-4">
+            <div class="alert alert-info">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="sector-selection">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sector" id="atendimento" value="atendimento">
+                            <label class="form-check-label" for="atendimento">Atendimento</label>
                         </div>
-                        <button id="notifyButton" class="btn btn-warning">
-                            <i class="bi bi-bell"></i> Chamar Outro Setor
-                        </button>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sector" id="tecnica" value="tecnica">
+                            <label class="form-check-label" for="tecnica">Técnica</label>
+                        </div>
                     </div>
+                    <button id="notifyButton" class="btn btn-warning" disabled>
+                        <i class="bi bi-bell"></i> Chamar Setor
+                    </button>
                 </div>
-            </div> -->
+            </div>
+        </div>
 
             <div class="search-container">
                 <div class="input-group">
