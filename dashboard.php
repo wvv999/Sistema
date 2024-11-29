@@ -129,6 +129,22 @@ if(!isset($_SESSION['user_id'])) {
         .concluída {background: #27ae60;}
         .pronto-e-avisado {background: #3498db;}
         .entregue {background: #2c3e50;}
+
+        .notification-section {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .sector-selection {
+            font-size: 1.1em;
+        }
+
+        .form-check-input:checked {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
         
     </style>
 </head>
@@ -144,6 +160,25 @@ if(!isset($_SESSION['user_id'])) {
                 <div class="user-info">
                     <i class="bi bi-person-circle"></i>
                     Bem-vindo, <?php echo htmlspecialchars($_SESSION['username']); ?>
+                </div>
+            </div>
+            <div class="notification-section mb-4">
+                <div class="alert alert-info">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="sector-selection">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sector" id="atendimento" value="atendimento">
+                                <label class="form-check-label" for="atendimento">Atendimento</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="sector" id="tecnica" value="tecnica">
+                                <label class="form-check-label" for="tecnica">Técnica</label>
+                            </div>
+                        </div>
+                        <button id="notifyButton" class="btn btn-warning" disabled>
+                            <i class="bi bi-bell"></i> Chamar Setor
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -299,6 +334,86 @@ if(!isset($_SESSION['user_id'])) {
         searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') searchOrder();
         });
+        // Gerenciamento de notificações
+        document.addEventListener('DOMContentLoaded', function() {
+            const sectorInputs = document.querySelectorAll('input[name="sector"]');
+            const notifyButton = document.getElementById('notifyButton');
+            
+            // Ativa/desativa o botão baseado na seleção do setor
+            sectorInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    notifyButton.disabled = !this.checked;
+                });
+            });
+
+            // Configuração do áudio de notificação
+            const notificationSound = new Audio("assets/som.mp3");
+
+            // Gerenciamento de notificações
+            notifyButton.addEventListener('click', async function() {
+                const selectedSector = document.querySelector('input[name="sector"]:checked').value;
+                
+                try {
+                    const response = await fetch('send_notification.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            sector: selectedSector,
+                            from_user: <?php echo $_SESSION['user_id']; ?>
+                        })
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        alert('Notificação enviada com sucesso!');
+                    } else {
+                        alert('Erro ao enviar notificação: ' + data.message);
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                    alert('Erro ao enviar notificação');
+                }
+            });
+
+            // Verificar notificações a cada 5 segundos
+            setInterval(async function() {
+                try {
+                    const response = await fetch('check_notifications.php');
+                    const data = await response.json();
+                    
+                    if (data.success && data.hasNotification) {
+                        notificationSound.play();
+                        // Mostrar notificação na tela
+                        showNotification(data.notification);
+                    }
+                } catch (error) {
+                    console.error('Erro ao verificar notificações:', error);
+                }
+            }, 5000);
+        });
+
+        function showNotification(notification) {
+            const toast = document.createElement('div');
+            toast.className = 'toast show';
+            toast.innerHTML = `
+                <div class="toast-header">
+                    <strong class="me-auto">Nova Chamada</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                    Você tem uma nova chamada do setor ${notification.type}
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 5000);
+        }
     </script>
 </body>
 </html>
