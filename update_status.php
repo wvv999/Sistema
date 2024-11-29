@@ -2,13 +2,22 @@
     session_start();
     header('Content-Type: application/json');
     require_once 'config.php';
-
+    
+    $query = "UPDATE service_orders 
+    SET status = ?, 
+        auth_status = ?,
+        last_modified_by = ?,
+        notification_sent = 0
+    WHERE id = ?";
+    $stmt = $db->prepare($query);
+    $stmt->execute([$newStatus, $authStatus, $_SESSION['user_id'], $orderId]);
+    
     // Verificar se é uma requisição POST
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         echo json_encode(['success' => false, 'message' => 'Método não permitido']);
         exit;
     }
-
+    // Dentro do seu update_status.php
     // Obter os dados enviados
     $data = json_decode(file_get_contents('php://input'), true);
 
