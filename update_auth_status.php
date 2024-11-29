@@ -38,13 +38,13 @@ try {
     error_log('Status atual: ' . $currentStatus);
     
     // Atualiza o status
-    $query = "UPDATE service_orders 
-              SET auth_status = :auth_status,
+    $query = "UPDATE service_orders
+               SET auth_status = :auth_status,
                   last_modified_by = :user_id,
                   notification_sent = 0,
                   last_modified = NOW()
               WHERE id = :id";
-              
+               
     $stmt = $db->prepare($query);
     
     $params = [
