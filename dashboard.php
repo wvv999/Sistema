@@ -289,45 +289,62 @@ if(!isset($_SESSION['user_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        // Elementos do DOM
-        const sectorInputs = document.querySelectorAll('input[name="sector"]');
-        const notifyButton = document.getElementById('notifyButton');
-        
-        // Configuração do som de notificação
-        let notificationSound = new Audio('assets/som.mp3');
-        notificationSound.load(); // Pré-carrega o som
-        
-        // Ativa/desativa o botão baseado na seleção do setor
-        sectorInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                notifyButton.disabled = !this.checked;
-            });
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializa tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
 
-        // Gerenciamento de notificações
-        notifyButton.addEventListener('click', async function() {
-    const selectedSector = document.querySelector('input[name="sector"]:checked').value;
-    
+    // Configuração do som e elementos de notificação
+    let notificationSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+    notificationSound.load();
+    const sectorInputs = document.querySelectorAll('input[name="userSector"]');
+    const notifyButton = document.getElementById('notifyButton');
+
+    // Atualiza setor do usuário
+    sectorInputs.forEach(input => {
+        input.addEventListener('change', async function() {
+            try {
+                const response = await fetch('update_user_sector.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        sector: this.value
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showToast('Setor atualizado com sucesso!', 'success');
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar setor:', error);
+                showToast('Erro ao atualizar setor', 'error');
+            }
+        });
+    });
+
+    // Notificar outro setor
+    notifyButton.addEventListener('click', async function() {
+        const currentSector = document.querySelector('input[name="userSector"]:checked').value;
+        const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
+        
         try {
-            console.log('Enviando notificação:', {
-                sector: selectedSector,
-                from_user: <?php echo $_SESSION['user_id']; ?>
-            });
-            
             const response = await fetch('send_notification.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    sector: selectedSector,
+                    sector: targetSector,
                     from_user: <?php echo $_SESSION['user_id']; ?>
                 })
             });
 
             const data = await response.json();
-            console.log('Resposta do envio:', data);
             
             if (data.success) {
                 showToast('Notificação enviada com sucesso!', 'success');
@@ -336,105 +353,126 @@ if(!isset($_SESSION['user_id'])) {
             }
         } catch (error) {
             console.error('Erro ao enviar notificação:', error);
-            showToast('Erro ao enviar notificação: ' + error.message, 'error');
+            showToast('Erro ao enviar notificação', 'error');
         }
     });
 
-        // Sistema de notificações toast
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `toast show position-fixed bottom-0 end-0 m-3`;
-            toast.style.zIndex = '1050';
-            
-            toast.innerHTML = `
-                <div class="toast-header bg-${type === 'success' ? 'success' : 'danger'} text-white">
-                    <strong class="me-auto">${type === 'success' ? 'Sucesso' : 'Erro'}</strong>
-                    <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
-                </div>
-                <div class="toast-body">
-                    ${message}
-                </div>
-            `;
-            
-            document.body.appendChild(toast);
+    // Sistema de busca
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
 
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
+    async function searchOrder() {
+        const searchValue = searchInput.value.trim();
+        if (!searchValue) {
+            alert('Por favor, digite um número de OS ou nome do cliente');
+            return;
         }
 
-        function showNotificationToast(notification) {
-            const toast = document.createElement('div');
-            toast.className = 'toast show position-fixed bottom-0 end-0 m-3';
-            toast.style.zIndex = '1050';
-            
-            toast.innerHTML = `
-                <div class="toast-header bg-primary text-white">
-                    <strong class="me-auto">Nova Chamada</strong>
-                    <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
-                </div>
-                <div class="toast-body">
-                    <div class="d-flex align-items-center">
-                        <i class="bi bi-bell me-2"></i>
-                        <span>Chamada do setor ${notification.type}</span>
-                    </div>
-                    <small class="text-muted">De: ${notification.from_username}</small>
-                </div>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.remove();
-            }, 5000);
-        }
+        try {
+            searchButton.disabled = true;
+            searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
 
-        // Verificar notificações a cada 5 segundos
-        setInterval(async function checkNotifications() {
-            try {
-                const response = await fetch('check_notifications.php');
-                const data = await response.json();
-                
-                console.log('Verificação de notificações:', data); // Debug
-                
-                if (data.success && data.hasNotification) {
-                    console.log('Nova notificação encontrada!'); // Debug
-                    
-                    // Tenta tocar o som
-                    try {
-                        notificationSound.currentTime = 0; // Reinicia o som
-                        const playPromise = notificationSound.play();
-                        
-                        if (playPromise !== undefined) {
-                            playPromise.then(() => {
-                                console.log('Som reproduzido com sucesso!');
-                            }).catch(error => {
-                                console.error('Erro ao tocar som:', error);
-                            });
-                        }
-                    } catch (audioError) {
-                        console.error('Erro ao manipular áudio:', audioError);
-                    }
-                    
-                    // Mostrar notificação na tela
-                    showNotificationToast(data.notification);
-                }
-            } catch (error) {
-                console.error('Erro ao verificar notificações:', error);
+            const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao buscar ordem');
             }
-        }, 5000);
 
-        // Botão de teste de som (opcional - remova se não quiser)
-        const testButton = document.createElement('button');
-        testButton.className = 'btn btn-sm btn-outline-secondary position-fixed';
-        testButton.style.bottom = '20px';
-        testButton.style.left = '20px';
-        testButton.innerHTML = '<i class="bi bi-volume-up"></i> Testar Som';
-        testButton.onclick = () => {
-            notificationSound.play().catch(e => console.error('Erro ao testar som:', e));
-        };
-        document.body.appendChild(testButton);
+            if (data.success && data.data.length > 0) {
+                const order = data.data[0];
+                window.location.href = `view_order.php?id=${order.id}`;
+            } else {
+                alert('Nenhuma ordem encontrada com os critérios informados');
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            alert('Erro ao buscar ordem: ' + error.message);
+        } finally {
+            searchButton.disabled = false;
+            searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
+        }
+    }
+
+    // Event listeners para busca
+    searchButton.addEventListener('click', searchOrder);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchOrder();
     });
+
+    // Sistema de notificações toast
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `toast show position-fixed bottom-0 end-0 m-3`;
+        toast.style.zIndex = '1050';
+        
+        toast.innerHTML = `
+            <div class="toast-header bg-${type === 'success' ? 'success' : 'danger'} text-white">
+                <strong class="me-auto">${type === 'success' ? 'Sucesso' : 'Erro'}</strong>
+                <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+            </div>
+            <div class="toast-body">
+                ${message}
+            </div>
+        `;
+        
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    }
+
+    function showNotificationToast(notification) {
+        const toast = document.createElement('div');
+        toast.className = 'toast show position-fixed bottom-0 end-0 m-3';
+        toast.style.zIndex = '1050';
+        
+        toast.innerHTML = `
+            <div class="toast-header bg-primary text-white">
+                <strong class="me-auto">Nova Chamada</strong>
+                <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+            </div>
+            <div class="toast-body">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-bell me-2"></i>
+                    <span>Chamada do setor ${notification.type}</span>
+                </div>
+                <small class="text-muted">De: ${notification.from_username}</small>
+            </div>
+        `;
+        
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 5000);
+    }
+
+    // Verificar notificações a cada 5 segundos
+    setInterval(async function checkNotifications() {
+        const currentSector = document.querySelector('input[name="userSector"]:checked')?.value;
+        if (!currentSector) return;
+        
+        try {
+            const response = await fetch('check_notifications.php');
+            const data = await response.json();
+            
+            if (data.success && data.hasNotification && data.notification.type === currentSector) {
+                notificationSound.currentTime = 0;
+                notificationSound.play().catch(console.error);
+                showNotificationToast(data.notification);
+            }
+        } catch (error) {
+            console.error('Erro ao verificar notificações:', error);
+        }
+    }, 5000);
+
+    // Botão de teste de som (opcional - pode remover se quiser)
+    const testButton = document.createElement('button');
+    testButton.className = 'btn btn-sm btn-outline-secondary position-fixed';
+    testButton.style.bottom = '20px';
+    testButton.style.left = '20px';
+    testButton.innerHTML = '<i class="bi bi-volume-up"></i> Testar Som';
+    testButton.onclick = () => {
+        notificationSound.play().catch(e => console.error('Erro ao testar som:', e));
+    };
+    document.body.appendChild(testButton);
+});
     </script>
 </body>
 </html>
