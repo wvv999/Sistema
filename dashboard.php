@@ -145,7 +145,47 @@ if(!isset($_SESSION['user_id'])) {
             background-color: #0d6efd;
             border-color: #0d6efd;
         }
-        
+        .user-info {
+            background-color: #f8f9fa;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .user-info:hover {
+            background-color: #e9ecef;
+        }
+
+        .dropdown-header {
+            font-weight: bold;
+            color: #6c757d;
+        }
+
+        .notification-persistent {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            z-index: 1060;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .notification-persistent .toast-header {
+            border-radius: 8px 8px 0 0;
+            padding: 12px;
+        }
+
+        .notification-persistent .toast-body {
+            padding: 15px;
+        }
+
+        .notification-persistent .btn {
+            width: 100%;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -155,13 +195,37 @@ if(!isset($_SESSION['user_id'])) {
 
     <div class="container">
         <div class="dashboard-container">
-            <div class="welcome-header">
-                <h2><i class="bi bi-grid-1x2"></i> Sistema Interno Tele Dil</h2>
-                <div class="user-info">
+        <div class="welcome-header">
+            <h2><i class="bi bi-grid-1x2"></i> Sistema Interno Tele Dil</h2>
+            <div class="dropdown">
+                <div class="user-info" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i>
-                    Bem-vindo, <?php echo htmlspecialchars($_SESSION['username']); ?>
+                    <?php echo htmlspecialchars($_SESSION['username']); ?>
+                    <i class="bi bi-chevron-down ms-1"></i>
                 </div>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li class="dropdown-header">Definir Setor</li>
+                    <li>
+                        <div class="dropdown-item">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="userSector" id="atendimento" value="atendimento" <?php echo $_SESSION['current_sector'] === 'atendimento' ? 'checked' : ''; ?>>
+                                <label class="form-check-label" for="atendimento">Atendimento</label>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="dropdown-item">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="userSector" id="tecnica" value="tecnica" <?php echo $_SESSION['current_sector'] === 'tecnica' ? 'checked' : ''; ?>>
+                                <label class="form-check-label" for="tecnica">Técnica</label>
+                            </div>
+                        </div>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+                </ul>
             </div>
+        </div>
             <div class="notification-section mb-4">
                 <div class="alert alert-info">
                     <div class="d-flex align-items-center justify-content-between">
@@ -420,7 +484,46 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => toast.remove(), 3000);
     }
 
-    function showNotificationToast(notification) {
+    // Função modificada para mostrar notificação persistente
+function showNotificationToast(notification) {
+    // Se for notificação de status, usa o formato persistente
+    if (notification.type === 'auth_status') {
+        const toast = document.createElement('div');
+        toast.className = 'notification-persistent';
+        toast.innerHTML = `
+            <div class="toast-header bg-warning">
+                <strong class="me-auto">Solicitação de Autorização</strong>
+            </div>
+            <div class="toast-body">
+                <p>Ordem número ${notification.order_id} necessita solicitação</p>
+                <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
+                        class="btn btn-primary mt-2">
+                    <i class="bi bi-eye"></i> Abrir Ordem
+                </button>
+            </div>
+        `;
+        document.body.appendChild(toast);
+    } 
+    // Se for notificação de autorização concedida
+    else if (notification.type === 'auth_approved') {
+        const toast = document.createElement('div');
+        toast.className = 'notification-persistent';
+        toast.innerHTML = `
+            <div class="toast-header bg-success text-white">
+                <strong class="me-auto">Autorização Concedida</strong>
+            </div>
+            <div class="toast-body">
+                <p>Ordem número ${notification.order_id} foi autorizada</p>
+                <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
+                        class="btn btn-primary mt-2">
+                    <i class="bi bi-eye"></i> Abrir Ordem
+                </button>
+            </div>
+        `;
+        document.body.appendChild(toast);
+    }
+    // Para outros tipos de notificação, usa o formato normal
+    else {
         const toast = document.createElement('div');
         toast.className = 'toast show position-fixed bottom-0 end-0 m-3';
         toast.style.zIndex = '1050';
@@ -442,25 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 5000);
     }
-
-    // Verificar notificações a cada 5 segundos
-    setInterval(async function checkNotifications() {
-        const currentSector = document.querySelector('input[name="userSector"]:checked')?.value;
-        if (!currentSector) return;
-        
-        try {
-            const response = await fetch('check_notifications.php');
-            const data = await response.json();
-            
-            if (data.success && data.hasNotification && data.notification.type === currentSector) {
-                notificationSound.currentTime = 0;
-                notificationSound.play().catch(console.error);
-                showNotificationToast(data.notification);
-            }
-        } catch (error) {
-            console.error('Erro ao verificar notificações:', error);
-        }
-    }, 5000);
+}
 
     // Botão de teste de som (opcional - pode remover se quiser)
     const testButton = document.createElement('button');
