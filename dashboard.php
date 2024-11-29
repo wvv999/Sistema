@@ -225,25 +225,7 @@ if(!isset($_SESSION['user_id'])) {
                 </ul>
             </div>
         </div>
-        <div class="notification-section mb-4">
-            <div class="alert alert-info">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="sector-selection">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="sector" id="atendimento" value="atendimento">
-                            <label class="form-check-label" for="atendimento">Atendimento</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="sector" id="tecnica" value="tecnica">
-                            <label class="form-check-label" for="tecnica">Técnica</label>
-                        </div>
-                    </div>
-                    <button id="notifyButton" class="btn btn-warning" disabled>
-                        <i class="bi bi-bell"></i> Chamar Setor
-                    </button>
-                </div>
-            </div>
-        </div>
+
 
             <div class="search-container">
                 <div class="input-group">
