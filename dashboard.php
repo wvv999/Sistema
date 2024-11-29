@@ -225,7 +225,7 @@ if(!isset($_SESSION['user_id'])) {
                 </ul>
             </div>
         </div>
-            <div class="notification-section mb-4">
+            <!-- <div class="notification-section mb-4">
                 <div class="alert alert-info">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="sector-selection">
@@ -243,7 +243,7 @@ if(!isset($_SESSION['user_id'])) {
                         </button>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="search-container">
                 <div class="input-group">
