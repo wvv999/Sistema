@@ -44,6 +44,23 @@ try {
         $updateStmt = $db->prepare("UPDATE service_orders SET notification_sent = 1 WHERE id = ?");
         $updateStmt->execute([$row['order_id']]);
     }
+
+    // Verifica também notificações gerais entre setores
+    $query = "SELECT n.*, u.username as from_username 
+              FROM notifications n
+              JOIN users u ON n.from_user_id = u.id 
+              WHERE n.created_at > NOW() - INTERVAL 10 SECOND
+              AND n.from_user_id != ?
+              ORDER BY n.created_at DESC
+              LIMIT 1";
+              
+    $stmt = $db->prepare($query);
+    $stmt->execute([$_SESSION['user_id']]);
+    $notification = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($notification) {
+        $notifications[] = $notification;
+    }
     
     echo json_encode([
         'success' => true,
