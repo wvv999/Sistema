@@ -206,16 +206,21 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li class="px-3 py-2">
+
                         <div class="sector-selection">
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sector" id="atendimento" value="atendimento">
-                                <label class="form-check-label" for="atendimento">Atendimento</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="sector" id="tecnica" value="tecnica">
-                                <label class="form-check-label" for="tecnica">Técnica</label>
-                            </div>
+
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sector" id="atendimento" value="atendimento">
+                            <label class="form-check-label" for="atendimento">Atendimento</label>
                         </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="sector" id="tecnica" value="tecnica">
+                            <label class="form-check-label" for="tecnica">Técnica</label>
+                        </div>
+                        </div>
+
+
                         <button id="notifyButton" class="btn btn-warning btn-sm w-100 mt-2">
                             <i class="bi bi-bell"></i> Chamar Setor
                         </button>
@@ -344,9 +349,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Configuração do som e elementos de notificação
     let notificationSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
     notificationSound.load();
-    const sectorInputs = document.querySelectorAll('input[name="userSector"]');
-    const notifyButton = document.getElementById('notifyButton');
 
+    const sectorInputs = document.querySelectorAll('input[name="sector"]');
+
+    const currentSector = document.querySelector('input[name="sector"]:checked').value;
+
+    // Atualiza setor do usuário
     // Atualiza setor do usuário
     sectorInputs.forEach(input => {
         input.addEventListener('change', async function() {
@@ -359,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     body: JSON.stringify({
                         sector: this.value
                     })
-                });
+            });
                 
                 const data = await response.json();
                 if (data.success) {
@@ -373,10 +381,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Notificar outro setor
+// Notificar outro setor
     notifyButton.addEventListener('click', async function() {
-        const currentSector = document.querySelector('input[name="userSector"]:checked').value;
+        const currentSector = document.querySelector('input[name="sector"]:checked').value;
         const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
-        
+    
         try {
             const response = await fetch('send_notification.php', {
                 method: 'POST',
