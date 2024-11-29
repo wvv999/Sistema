@@ -302,7 +302,7 @@ if(!isset($_SESSION['user_id'])) {
             });
 
             // Configuração do áudio de notificação
-            const notificationSound = new Audio("./assets/som.mp3");
+            const notificationSound = new Audio("assets/som.mp3");
 
             // Gerenciamento de notificações
             notifyButton.addEventListener('click', async function() {
