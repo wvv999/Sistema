@@ -307,38 +307,38 @@ if(!isset($_SESSION['user_id'])) {
 
         // Gerenciamento de notificações
         notifyButton.addEventListener('click', async function() {
-            const selectedSector = document.querySelector('input[name="sector"]:checked').value;
+    const selectedSector = document.querySelector('input[name="sector"]:checked').value;
+    
+        try {
+            console.log('Enviando notificação:', {
+                sector: selectedSector,
+                from_user: <?php echo $_SESSION['user_id']; ?>
+            });
             
-            try {
-                console.log('Enviando notificação:', {
+            const response = await fetch('send_notification.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
                     sector: selectedSector,
                     from_user: <?php echo $_SESSION['user_id']; ?>
-                });
-                
-                const response = await fetch('send_notification.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        sector: selectedSector,
-                        from_user: <?php echo $_SESSION['user_id']; ?>
-                    })
-                });
+                })
+            });
 
-                const data = await response.json();
-                console.log('Resposta do envio:', data);
-                
-                if (data.success) {
-                    showToast('Notificação enviada com sucesso!', 'success');
-                } else {
-                    showToast('Erro ao enviar notificação: ' + data.message, 'error');
-                }
-            } catch (error) {
-                console.error('Erro ao enviar notificação:', error);
-                showToast('Erro ao enviar notificação: ' + error.message, 'error');
+            const data = await response.json();
+            console.log('Resposta do envio:', data);
+            
+            if (data.success) {
+                showToast('Notificação enviada com sucesso!', 'success');
+            } else {
+                showToast('Erro ao enviar notificação: ' + data.message, 'error');
             }
-        });
+        } catch (error) {
+            console.error('Erro ao enviar notificação:', error);
+            showToast('Erro ao enviar notificação: ' + error.message, 'error');
+        }
+    });
 
         // Sistema de notificações toast
         function showToast(message, type = 'success') {
