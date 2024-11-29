@@ -302,7 +302,7 @@ if(!isset($_SESSION['user_id'])) {
             });
 
             // Configuração do áudio de notificação
-            const notificationSound = new Audio("assets/som.mp3");
+            const notificationSound = new Audio("/assets/som.mp3");
 
             // Gerenciamento de notificações
             notifyButton.addEventListener('click', async function() {
@@ -335,20 +335,54 @@ if(!isset($_SESSION['user_id'])) {
             });
 
             // Verificar notificações a cada 5 segundos
-            setInterval(async function() {
-                try {
-                    const response = await fetch('check_notifications.php');
-                    const data = await response.json();
-                    
-                    if (data.success && data.hasNotification) {
-                        notificationSound.play();
-                        // Mostrar notificação na tela
-                        showNotification(data.notification);
-                    }
-                } catch (error) {
-                    console.error('Erro ao verificar notificações:', error);
-                }
+            // Verificar notificações a cada 5 segundos
+setInterval(async function checkNotifications() {
+    try {
+        const response = await fetch('check_notifications.php');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        
+        if (data.success && data.hasNotification) {
+            const notification = data.notification;
+            // Tocar o som de notificação
+            const audio = new Audio('/assets/notification.mp3');
+            audio.play();
+            
+            // Mostrar notificação na tela
+            const toast = document.createElement('div');
+            toast.className = 'toast show';
+            toast.style.position = 'fixed';
+            toast.style.bottom = '20px';
+            toast.style.right = '20px';
+            toast.style.backgroundColor = '#fff';
+            toast.style.boxShadow = '0 0.5rem 1rem rgba(0, 0, 0, 0.15)';
+            toast.style.minWidth = '250px';
+            toast.style.padding = '15px';
+            toast.style.borderRadius = '4px';
+            toast.style.marginBottom = '10px';
+            
+            toast.innerHTML = `
+                <div class="toast-header">
+                    <strong class="me-auto">Nova Chamada</strong>
+                    <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
+                </div>
+                <div class="toast-body">
+                    Você tem uma nova chamada do setor ${notification.type}
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
             }, 5000);
+        }
+    } catch (error) {
+        console.error('Erro ao verificar notificações:', error);
+    }
+}, 5000);
         });
 
         function showNotification(notification) {
