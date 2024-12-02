@@ -91,8 +91,7 @@ try {
         body { 
             background-color: #f5f6fa;
             padding: 20px;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;margin: 0;
             min-height: 100vh;
             
         }
@@ -486,10 +485,10 @@ try {
                 margin-bottom: 10px;
             }
         }
-</style>
+    </style>
 </head>
 <body>
-    <a href="dashboard.php" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
+    <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
     <div class="order-container">
@@ -519,12 +518,6 @@ try {
                         <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
                         <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
                     </div>
-                    <!-- <div class="col-md-2">
-                        <div class="info-label">
-                            <i class="bi bi-telephone-plus"></i> Telefone Secundário
-                        </div>
-                        <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
-                    </div> -->
                     <div class="col-md-2">
                         <div class="info-label">
                             <i class="bi bi-calendar-event"></i> Data de Abertura
@@ -577,44 +570,36 @@ try {
                                             rows="1"
                                             placeholder="Digite sua nota técnica..."
                                             data-autoresize></textarea>
-                                    <button onclick="addNote()" class="btn btn-primary">
-                                        <i class="bi bi-plus-circle"></i> Adicionar
-                                    </button>
+                                    <button onclick="addNote()" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Adicionar</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- Coluna da direita -->
             <div class="content-right">
                 <div class="side-panel">
                     <!-- Status e Ações -->
                     <div class="menu-section">
                         <div id="statusButton" 
-                             class="action-button status-button"
-                             data-status="<?php echo $order['status']; ?>"
-                             data-order-id="<?php echo $order['id']; ?>"
-                             data-bs-toggle="tooltip"
-                             title="Clique para alterar o status">
+                            class="action-button status-button"
+                            data-status="<?php echo $order['status']; ?>"
+                            data-order-id="<?php echo $order['id']; ?>"
+                            data-bs-toggle="tooltip"
+                            title="Clique para alterar o status">
                             <i class="bi bi-gear"></i>
                             <span><?php echo $order['status']; ?></span>
                         </div>
 
                         <div id="authButton" 
-                             class="action-button auth-button auth-autorizacao"
-                             data-auth-status="Autorização"
-                             data-order-id="<?php echo $order['id']; ?>"
-                             data-bs-toggle="tooltip"
-                             title="Clique para alterar a autorização">
+                            class="action-button auth-button auth-autorizacao"
+                            data-auth-status="Autorização"
+                            data-order-id="<?php echo $order['id']; ?>"
+                            data-bs-toggle="tooltip"
+                            title="Clique para alterar a autorização">
                             <i class="bi bi-check-circle"></i>
                             <span>Autorização</span>
-                        </div>
-
-                        <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar negociação">
-                            <i class="bi bi-currency-dollar"></i>
-                            <span>Negociação</span>
                         </div>
 
                         <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
@@ -634,13 +619,9 @@ try {
                             <i class="bi bi-printer"></i>
                             <span>Imprimir</span>
                         </button>
-                        <!-- <button class="action-button" style="background-color:var(--success-color); color: white">
-                            <i class="bi bi-save"></i>
-                            <span>Salvar</span>
-                        </button> -->
                         <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
                             <i class="bi bi-box-arrow-right"></i>
-                           
+                        
                             <span>Salvar e Sair</span>
                         </button>
                     </div>
@@ -845,10 +826,13 @@ try {
 
         // Gestão de status e autorização
         const statusButton = document.getElementById('statusButton');
+        const authButton = document.getElementById('authButton');
+
+        // Arrays de status possíveis
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
+        const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
 
         function updateButtonAppearance(button, status, prefix = 'status') {
-            // Remove todas as classes exceto 'action-button'
             const classes = [...button.classList];
             classes.forEach(className => {
                 if (className !== 'action-button') {
@@ -856,7 +840,6 @@ try {
                 }
             });
             
-            // Adiciona as novas classes
             button.classList.add(`${prefix}-button`);
             const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, "")
@@ -867,16 +850,25 @@ try {
 
         async function updateStatus(button, newStatus) {
             try {
+                console.log('Enviando atualização de status:', {
+                    orderId: button.dataset.orderId,
+                    status: newStatus
+                });
+
                 const response = await fetch('update_status.php', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         orderId: button.dataset.orderId,
                         status: newStatus
                     })
                 });
 
+                console.log('Resposta recebida:', response);
                 const data = await response.json();
+                console.log('Dados da resposta:', data);
                 
                 if (data.success) {
                     button.dataset.status = newStatus;
@@ -886,40 +878,54 @@ try {
                     showToast(data.message || 'Erro ao atualizar status', 'error');
                 }
             } catch (error) {
-                console.error('Erro:', error);
+                console.error('Erro ao atualizar status:', error);
                 showToast('Erro ao atualizar status', 'error');
             }
         }
 
-        statusButton.addEventListener('click', function() {
-            let currentStatus = this.dataset.status;
-            
-            // Normaliza o status atual para garantir correspondência exata
-            currentStatus = statusFlow.find(status => 
-                status.toLowerCase() === currentStatus.toLowerCase()
-            ) || currentStatus;
-            
-            const currentIndex = statusFlow.indexOf(currentStatus);
-            const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
-            updateStatus(this, nextStatus);
-        });
+        // Atualiza o botão de autorização com o status atual ao carregar a página
+        async function updateAuthButtonOnLoad() {
+            try {
+                const response = await fetch('get_auth_status.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        orderId: authButton.dataset.orderId
+                    })
+                });
 
-        // Gestão de autorização
-        const authButton = document.getElementById('authButton');
-        const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
+                const data = await response.json();
+                
+                if (data.success) {
+                    authButton.dataset.authStatus = data.authStatus;
+                    updateButtonAppearance(authButton, data.authStatus, 'auth');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        }
 
         async function updateAuthStatus(button, newStatus) {
             try {
+                console.log('Enviando atualização de autorização:', {
+                    orderId: button.dataset.orderId,
+                    authStatus: newStatus
+                });
+
                 const response = await fetch('update_auth_status.php', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         orderId: button.dataset.orderId,
                         authStatus: newStatus
                     })
                 });
 
+                console.log('Resposta recebida:', response);
                 const data = await response.json();
+                console.log('Dados da resposta:', data);
                 
                 if (data.success) {
                     button.dataset.authStatus = newStatus;
@@ -929,34 +935,67 @@ try {
                     showToast(data.message || 'Erro ao atualizar autorização', 'error');
                 }
             } catch (error) {
-                console.error('Erro:', error);
-                showToast('Erro ao atualizar autorização', 'error');
+                console.error('Erro ao atualizar autorização:', error);showToast('Erro ao atualizar autorização', 'error');
             }
-        }
+        }// Event listeners
+        statusButton.addEventListener('click', function() {
+                let currentStatus = this.dataset.status;
+                currentStatus = statusFlow.find(status => 
+                    status.toLowerCase() === currentStatus.toLowerCase()
+                ) || currentStatus;
+                
+                const currentIndex = statusFlow.indexOf(currentStatus);
+                const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+                updateStatus(this, nextStatus);
+            });
 
-        authButton.addEventListener('click', function() {
-            const currentStatus = this.dataset.authStatus;
-            const currentIndex = authFlow.indexOf(currentStatus);
-            const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
-            updateAuthStatus(this, nextStatus);
-        });
+            authButton.addEventListener('click', function() {
+                const currentStatus = this.dataset.authStatus;
+                const currentIndex = authFlow.indexOf(currentStatus);
+                const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
+                updateAuthStatus(this, nextStatus);
+            });
 
-        // Definir estados iniciais na carga da página
-        document.addEventListener('DOMContentLoaded', function() {
-            // Status inicial
-            let initialStatus = statusButton.dataset.status;
-            initialStatus = statusFlow.find(status => 
-                status.toLowerCase() === initialStatus.toLowerCase()
-            ) || initialStatus;
-            statusButton.dataset.status = initialStatus;
-            statusButton.innerHTML = '<i class="bi bi-gear"></i> <span>' + initialStatus + '</span>';
-            updateButtonAppearance(statusButton, initialStatus);
+            // Inicialização dos botões
+            document.addEventListener('DOMContentLoaded', function() {
+                // Status inicial
+                let initialStatus = statusButton.dataset.status;
+                initialStatus = statusFlow.find(status => 
+                    status.toLowerCase() === initialStatus.toLowerCase()
+                ) || initialStatus;
+                statusButton.dataset.status = initialStatus;
+                statusButton.innerHTML = '<i class="bi bi-gear"></i> <span>' + initialStatus + '</span>';
+                updateButtonAppearance(statusButton, initialStatus);
 
-            // Auth inicial
-            const initialAuthStatus = authButton.dataset.authStatus;
-            authButton.innerHTML = '<i class="bi bi-check-circle"></i> <span>' + initialAuthStatus + '</span>';
-            updateButtonAppearance(authButton, initialAuthStatus, 'auth');
-        });
-    </script>
+                // Auth inicial
+                updateAuthButtonOnLoad();
+            });
+
+            // Verificação periódica de novas notificações
+            function checkNotifications() {
+                fetch('check_notifications.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.hasNotification) {
+                            const notification = data.notification;
+                            
+                            if (notification.type === 'auth_status') {
+                                showToast(`Autorização solicitada para a OS #${notification.order_id} por ${notification.from_username}`);
+                            } else if (notification.type === 'auth_approved') {
+                                showToast(`Autorização aprovada para a OS #${notification.order_id} por ${notification.from_username}`);
+                                
+                                // Atualiza o botão de autorização
+                                authButton.dataset.authStatus = 'Autorizado';
+                                updateButtonAppearance(authButton, 'Autorizado', 'auth');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao verificar notificações:', error);
+                    });
+            }
+
+            // Chama a função checkNotifications a cada 5 segundos
+            setInterval(checkNotifications, 5000);
+        </script>
 </body>
-</html>
