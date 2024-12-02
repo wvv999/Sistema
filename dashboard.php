@@ -339,289 +339,256 @@ if(!isset($_SESSION['user_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Inicializa tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializa tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
 
-    // Configuração do som e elementos de notificação
-    let notificationSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
-    notificationSound.load();
+            // Configuração do som e elementos de notificação
+            let notificationSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+            notificationSound.load();
 
-    // Elementos do setor
-    const sectorInputs = document.querySelectorAll('input[name="sector"]');
-    const notifyButton = document.getElementById('notifyButton');
-    
-    // Carrega o setor atual do usuário da sessão PHP
-    const currentSector = '<?php echo $_SESSION["current_sector"] ?? ""; ?>';
-    
-    // Marca o radio button correto baseado no setor atual
-    if (currentSector) {
-        const radioToCheck = document.querySelector(`input[name="sector"][value="${currentSector}"]`);
-        if (radioToCheck) {
-            radioToCheck.checked = true;
-        }
-    }
+            // Elementos do setor
+            const sectorInputs = document.querySelectorAll('input[name="sector"]');
+            const notifyButton = document.getElementById('notifyButton');
 
-    // Atualiza setor do usuário
-    sectorInputs.forEach(input => {
-        input.addEventListener('change', async function() {
-            try {
-                const response = await fetch('update_user_sector.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        sector: this.value
-                    })
+            // Atualiza setor do usuário
+            sectorInputs.forEach(input => {
+                input.addEventListener('change', async function() {
+                    try {
+                        const response = await fetch('update_user_sector.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                sector: this.value
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        if (data.success) {
+                            showToast('Setor atualizado com sucesso!', 'success');
+                        }
+                    } catch (error) {
+                        console.error('Erro ao atualizar setor:', error);
+                        showToast('Erro ao atualizar setor', 'error');
+                    }
                 });
+            });
+
+            // Notificar outro setor
+            notifyButton.addEventListener('click', async function() {
+                const selectedInput = document.querySelector('input[name="sector"]:checked');
                 
-                const data = await response.json();
-                if (data.success) {
-                    showToast('Setor atualizado com sucesso!', 'success');
-                    // Atualiza o texto do botão
-                    notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${this.value === 'atendimento' ? 'Técnica' : 'Atendimento'}`;
-                    notifyButton.disabled = false;
+                if (!selectedInput) {
+                    showToast('Selecione um setor primeiro', 'error');
+                    return;
                 }
-            } catch (error) {
-                console.error('Erro ao atualizar setor:', error);
-                showToast('Erro ao atualizar setor', 'error');
-            }
-        });
-    });
 
-    // Notificar outro setor
-    notifyButton.addEventListener('click', async function() {
-    const selectedInput = document.querySelector('input[name="sector"]:checked');
-    
-    if (!selectedInput) {
-        showToast('Selecione um setor primeiro', 'error');
-        return;
-    }
-
-    const currentSector = selectedInput.value;
-    const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
-
-    try {
-        const response = await fetch('send_notification.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                sector: targetSector,
-                from_user: <?php echo $_SESSION['user_id']; ?>
-            })
-        });
-
-        const data = await response.json();
-        
-        if (data.success) {
-            // Apenas mostra um toast discreto de confirmação
-            showToast('Chamada enviada', 'success');
-        } else {
-            showToast('Erro ao enviar notificação: ' + data.message, 'error');
-        }
-    } catch (error) {
-        console.error('Erro ao enviar notificação:', error);
-        showToast('Erro ao enviar notificação', 'error');
-    }
-});
-
-    // Sistema de busca
-    const searchInput = document.getElementById('searchInput');
-    const searchButton = document.getElementById('searchButton');
-
-    async function searchOrder() {
-        const searchValue = searchInput.value.trim();
-        if (!searchValue) {
-            alert('Por favor, digite um número de OS ou nome do cliente');
-            return;
-        }
-
-        try {
-            searchButton.disabled = true;
-            searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
-
-            const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Erro ao buscar ordem');
-            }
-
-            if (data.success && data.data.length > 0) {
-                const order = data.data[0];
-                window.location.href = `view_order.php?id=${order.id}`;
-            } else {
-                alert('Nenhuma ordem encontrada com os critérios informados');
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-            alert('Erro ao buscar ordem: ' + error.message);
-        } finally {
-            searchButton.disabled = false;
-            searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
-        }
-    }
-
-    // Event listeners para busca
-    searchButton.addEventListener('click', searchOrder);
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') searchOrder();
-    });
-
-    // Sistema de notificações toast
-    function showToast(message, type = 'success') {
-        const toast = document.createElement('div');
-        toast.className = `toast show position-fixed bottom-0 end-0 m-3`;
-        toast.style.zIndex = '1050';
-        
-        toast.innerHTML = `
-            <div class="toast-header bg-${type === 'success' ? 'success' : 'danger'} text-white">
-                <strong class="me-auto">${type === 'success' ? 'Sucesso' : 'Erro'}</strong>
-                <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
-            </div>
-            <div class="toast-body">
-                ${message}
-            </div>
-        `;
-        
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
-
-    function showNotificationToast(notification) {
-        if (notification.type === 'auth_status') {
-            const toast = document.createElement('div');
-            toast.className = 'notification-persistent';
-            toast.innerHTML = `
-                <div class="toast-header bg-warning">
-                    <strong class="me-auto">Solicitação de Autorização</strong>
-                </div>
-                <div class="toast-body">
-                    <p>Ordem número ${notification.order_id} necessita solicitação</p>
-                    <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
-                            class="btn btn-primary mt-2">
-                        <i class="bi bi-eye"></i> Abrir Ordem
-                    </button>
-                </div>
-            `;
-            document.body.appendChild(toast);
-        } 
-        else if (notification.type === 'auth_approved') {
-            const toast = document.createElement('div');
-            toast.className = 'notification-persistent';
-            toast.innerHTML = `
-                <div class="toast-header bg-success text-white">
-                    <strong class="me-auto">Autorização Concedida</strong>
-                </div>
-                <div class="toast-body">
-                    <p>Ordem número ${notification.order_id} foi autorizada</p>
-                    <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
-                            class="btn btn-primary mt-2">
-                        <i class="bi bi-eye"></i> Abrir Ordem
-                    </button>
-                </div>
-            `;
-            document.body.appendChild(toast);
-        }
-        else {
-            const toast = document.createElement('div');
-            toast.className = 'toast show position-fixed bottom-0 end-0 m-3';
-            toast.style.zIndex = '1050';
+                const currentSector = selectedInput.value;
+                const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
             
-            toast.innerHTML = `
-                <div class="toast-header bg-primary text-white">
-                    <strong class="me-auto">Nova Chamada</strong>
-                    <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
-                </div>
-                <div class="toast-body">
-                    <div class="d-flex align-items-center">
-                        <i class="bi bi-bell me-2"></i>
-                        <span>Chamada do setor ${notification.type}</span>
-                    </div>
-                    <small class="text-muted">De: ${notification.from_username}</small>
-                </div>
-            `;
-            
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 5000);
-        }
-    }
+                try {
+                    const response = await fetch('send_notification.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            sector: targetSector,
+                            from_user: <?php echo $_SESSION['user_id']; ?>
+                        })
+                    });
 
-    // Verificar notificações a cada 5 segundos
-    setInterval(async function checkNotifications() {
-    const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
-    if (!currentSector) return;
-    
-    try {
-        const response = await fetch('check_notifications.php');
-        const data = await response.json();
-        
-        if (data.success && data.hasNotification) {
-            const notification = data.notification;
-            
-            // Verifica se a notificação é para o setor atual
-            if (notification.type === currentSector) {
-                // Toca o som apenas quando recebe a notificação
-                notificationSound.currentTime = 0;
-                notificationSound.play().catch(console.error);
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showToast('Notificação enviada com sucesso!', 'success');
+                    } else {
+                        showToast('Erro ao enviar notificação: ' + data.message, 'error');
+                    }
+                } catch (error) {
+                    console.error('Erro ao enviar notificação:', error);
+                    showToast('Erro ao enviar notificação', 'error');
+                }
+            });
+
+            // Sistema de busca
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+
+            async function searchOrder() {
+                const searchValue = searchInput.value.trim();
+                if (!searchValue) {
+                    alert('Por favor, digite um número de OS ou nome do cliente');
+                    return;
+                }
+
+                try {
+                    searchButton.disabled = true;
+                    searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
+
+                    const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Erro ao buscar ordem');
+                    }
+
+                    if (data.success && data.data.length > 0) {
+                        const order = data.data[0];
+                        window.location.href = `view_order.php?id=${order.id}`;
+                    } else {
+                        alert('Nenhuma ordem encontrada com os critérios informados');
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                    alert('Erro ao buscar ordem: ' + error.message);
+                } finally {
+                    searchButton.disabled = false;
+                    searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
+                }
+            }
+
+            // Event listeners para busca
+            searchButton.addEventListener('click', searchOrder);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') searchOrder();
+            });
+
+            // Sistema de notificações toast
+            function showToast(message, type = 'success') {
+                const toast = document.createElement('div');
+                toast.className = `toast show position-fixed bottom-0 end-0 m-3`;
+                toast.style.zIndex = '1050';
                 
-                showNotificationToast({
-                    type: notification.type,
-                    from_username: notification.from_username
-                });
+                toast.innerHTML = `
+                    <div class="toast-header bg-${type === 'success' ? 'success' : 'danger'} text-white">
+                        <strong class="me-auto">${type === 'success' ? 'Sucesso' : 'Erro'}</strong>
+                        <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+                    </div>
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                `;
+                
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
             }
-            // Verifica notificações de status
-            else if (notification.type === 'auth_status' && currentSector === 'atendimento') {
-                notificationSound.currentTime = 0;
-                notificationSound.play().catch(console.error);
-                showNotificationToast({
-                    type: 'auth_status',
-                    order_id: notification.order_id
-                });
+
+            function showNotificationToast(notification) {
+                if (notification.type === 'auth_status') {
+                    const toast = document.createElement('div');
+                    toast.className = 'notification-persistent';
+                    toast.innerHTML = `
+                        <div class="toast-header bg-warning">
+                            <strong class="me-auto">Solicitação de Autorização</strong>
+                        </div>
+                        <div class="toast-body">
+                            <p>Ordem número ${notification.order_id} necessita solicitação</p>
+                            <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
+                                    class="btn btn-primary mt-2">
+                                <i class="bi bi-eye"></i> Abrir Ordem
+                            </button>
+                        </div>
+                    `;
+                    document.body.appendChild(toast);
+                } 
+                else if (notification.type === 'auth_approved') {
+                    const toast = document.createElement('div');
+                    toast.className = 'notification-persistent';
+                    toast.innerHTML = `
+                        <div class="toast-header bg-success text-white">
+                            <strong class="me-auto">Autorização Concedida</strong>
+                        </div>
+                        <div class="toast-body">
+                            <p>Ordem número ${notification.order_id} foi autorizada</p>
+                            <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
+                                    class="btn btn-primary mt-2">
+                                <i class="bi bi-eye"></i> Abrir Ordem
+                            </button>
+                        </div>
+                    `;
+                    document.body.appendChild(toast);
+                }
+                else {
+                    const toast = document.createElement('div');
+                    toast.className = 'toast show position-fixed bottom-0 end-0 m-3';
+                    toast.style.zIndex = '1050';
+                    
+                    toast.innerHTML = `
+                        <div class="toast-header bg-primary text-white">
+                            <strong class="me-auto">Nova Chamada</strong>
+                            <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+                        </div>
+                        <div class="toast-body">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-bell me-2"></i>
+                                <span>Chamada do setor ${notification.type}</span>
+                            </div>
+                            <small class="text-muted">De: ${notification.from_username}</small>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(toast);
+                    setTimeout(() => toast.remove(), 5000);
+                }
             }
-            // Verifica notificações de autorização
-            else if (notification.type === 'auth_approved' && currentSector === 'tecnica') {
-                notificationSound.currentTime = 0;
-                notificationSound.play().catch(console.error);
-                showNotificationToast({
-                    type: 'auth_approved',
-                    order_id: notification.order_id
-                });
-            }
-        }
-    } catch (error) {
-        console.error('Erro ao verificar notificações:', error);
-    }
-}, 5000);
 
-    // Desabilita o botão de notificar se nenhum setor estiver selecionado
-    if (!document.querySelector('input[name="sector"]:checked')) {
-        notifyButton.disabled = true;
-    }
+            // Verificar notificações a cada 5 segundos
+            setInterval(async function checkNotifications() {
+                const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
+                if (!currentSector) return;
+                
+                try {
+                    const response = await fetch('check_notifications.php');
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Verifica notificações de status
+                        if (data.hasNotification && data.notification.type === 'auth_status' && currentSector === 'atendimento') {
+                            notificationSound.currentTime = 0;
+                            notificationSound.play().catch(console.error);
+                            showNotificationToast({
+                                type: 'auth_status',
+                                order_id: data.notification.order_id
+                            });
+                        }
+                        // Verifica notificações de autorização
+                        else if (data.hasNotification && data.notification.type === 'auth_approved' && currentSector === 'tecnica') {
+                            notificationSound.currentTime = 0;
+                            notificationSound.play().catch(console.error);
+                            showNotificationToast({
+                                type: 'auth_approved',
+                                order_id: data.notification.order_id
+                            });
+                        }
+                        // Verifica outras notificações
+                        else if (data.hasNotification && data.notification.type === currentSector) {
+                            notificationSound.currentTime = 0;
+                            notificationSound.play().catch(console.error);
+                            showNotificationToast(data.notification);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Erro ao verificar notificações:', error);
+                }
+            }, 5000);
 
-    // Atualiza o texto do botão baseado no setor atual
-    if (currentSector) {
-        const targetSector = currentSector === 'atendimento' ? 'Técnica' : 'Atendimento';
-        notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
-    }
-
-    // Botão de teste de som
-    const testButton = document.createElement('button');
-    testButton.className = 'btn btn-sm btn-outline-secondary position-fixed';
-    testButton.style.bottom = '20px';
-    testButton.style.left = '20px';
-    testButton.innerHTML = '<i class="bi bi-volume-up"></i> Testar Som';
-    testButton.onclick = () => {
-        notificationSound.play().catch(e => console.error('Erro ao testar som:', e));
-    };
-    document.body.appendChild(testButton);
-});
-</script>
+            // Botão de teste de som
+            const testButton = document.createElement('button');
+            testButton.className = 'btn btn-sm btn-outline-secondary position-fixed';
+            testButton.style.bottom = '20px';
+            testButton.style.left = '20px';
+            testButton.innerHTML = '<i class="bi bi-volume-up"></i> Testar Som';
+            testButton.onclick = () => {
+                notificationSound.play().catch(e => console.error('Erro ao testar som:', e));
+            };
+            document.body.appendChild(testButton);
+        });
+        </script>
 </body>
 </html>
