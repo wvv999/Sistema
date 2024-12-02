@@ -395,42 +395,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Notificar outro setor
     notifyButton.addEventListener('click', async function() {
-        const selectedInput = document.querySelector('input[name="sector"]:checked');
-        
-        if (!selectedInput) {
-            showToast('Selecione um setor primeiro', 'error');
-            return;
-        }
-
-        const currentSector = selectedInput.value;
-        const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
+    const selectedInput = document.querySelector('input[name="sector"]:checked');
     
-        try {
-            const response = await fetch('send_notification.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    sector: targetSector,
-                    from_user: <?php echo $_SESSION['user_id']; ?>
-                })
-            });
+    if (!selectedInput) {
+        showToast('Selecione um setor primeiro', 'error');
+        return;
+    }
 
-            const data = await response.json();
-            
-            if (data.success) {
-                showToast('Notificação enviada com sucesso!', 'success');
-                notificationSound.currentTime = 0;
-                notificationSound.play().catch(console.error);
-            } else {
-                showToast('Erro ao enviar notificação: ' + data.message, 'error');
-            }
-        } catch (error) {
-            console.error('Erro ao enviar notificação:', error);
-            showToast('Erro ao enviar notificação', 'error');
+    const currentSector = selectedInput.value;
+    const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
+
+    try {
+        const response = await fetch('send_notification.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                sector: targetSector,
+                from_user: <?php echo $_SESSION['user_id']; ?>
+            })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+            // Apenas mostra um toast discreto de confirmação
+            showToast('Chamada enviada', 'success');
+        } else {
+            showToast('Erro ao enviar notificação: ' + data.message, 'error');
         }
-    });
+    } catch (error) {
+        console.error('Erro ao enviar notificação:', error);
+        showToast('Erro ao enviar notificação', 'error');
+    }
+});
 
     // Sistema de busca
     const searchInput = document.getElementById('searchInput');
@@ -556,43 +555,50 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Verificar notificações a cada 5 segundos
     setInterval(async function checkNotifications() {
-        const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
-        if (!currentSector) return;
+    const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
+    if (!currentSector) return;
+    
+    try {
+        const response = await fetch('check_notifications.php');
+        const data = await response.json();
         
-        try {
-            const response = await fetch('check_notifications.php');
-            const data = await response.json();
+        if (data.success && data.hasNotification) {
+            const notification = data.notification;
             
-            if (data.success) {
-                // Verifica notificações de status
-                if (data.hasNotification && data.notification.type === 'auth_status' && currentSector === 'atendimento') {
-                    notificationSound.currentTime = 0;
-                    notificationSound.play().catch(console.error);
-                    showNotificationToast({
-                        type: 'auth_status',
-                        order_id: data.notification.order_id
-                    });
-                }
-                // Verifica notificações de autorização
-                else if (data.hasNotification && data.notification.type === 'auth_approved' && currentSector === 'tecnica') {
-                    notificationSound.currentTime = 0;
-                    notificationSound.play().catch(console.error);
-                    showNotificationToast({
-                        type: 'auth_approved',
-                        order_id: data.notification.order_id
-                    });
-                }
-                // Verifica outras notificações
-                else if (data.hasNotification && data.notification.type === currentSector) {
-                    notificationSound.currentTime = 0;
-                    notificationSound.play().catch(console.error);
-                    showNotificationToast(data.notification);
-                }
+            // Verifica se a notificação é para o setor atual
+            if (notification.type === currentSector) {
+                // Toca o som apenas quando recebe a notificação
+                notificationSound.currentTime = 0;
+                notificationSound.play().catch(console.error);
+                
+                showNotificationToast({
+                    type: notification.type,
+                    from_username: notification.from_username
+                });
             }
-        } catch (error) {
-            console.error('Erro ao verificar notificações:', error);
+            // Verifica notificações de status
+            else if (notification.type === 'auth_status' && currentSector === 'atendimento') {
+                notificationSound.currentTime = 0;
+                notificationSound.play().catch(console.error);
+                showNotificationToast({
+                    type: 'auth_status',
+                    order_id: notification.order_id
+                });
+            }
+            // Verifica notificações de autorização
+            else if (notification.type === 'auth_approved' && currentSector === 'tecnica') {
+                notificationSound.currentTime = 0;
+                notificationSound.play().catch(console.error);
+                showNotificationToast({
+                    type: 'auth_approved',
+                    order_id: notification.order_id
+                });
+            }
         }
-    }, 5000);
+    } catch (error) {
+        console.error('Erro ao verificar notificações:', error);
+    }
+}, 5000);
 
     // Desabilita o botão de notificar se nenhum setor estiver selecionado
     if (!document.querySelector('input[name="sector"]:checked')) {
