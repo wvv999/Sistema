@@ -350,71 +350,104 @@ if(!isset($_SESSION['user_id'])) {
             let notificationSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
             notificationSound.load();
 
-            // Elementos do setor
-            const sectorInputs = document.querySelectorAll('input[name="sector"]');
-            const notifyButton = document.getElementById('notifyButton');
+            document.addEventListener('DOMContentLoaded', function() {
+    // Elementos do setor
+    const sectorInputs = document.querySelectorAll('input[name="sector"]');
+    const notifyButton = document.getElementById('notifyButton');
+    
+    // Carrega o setor atual do usuário da sessão PHP
+    const currentSector = '<?php echo $_SESSION["current_sector"] ?? ""; ?>';
+    
+    // Marca o radio button correto baseado no setor atual
+    if (currentSector) {
+        const radioToCheck = document.querySelector(`input[name="sector"][value="${currentSector}"]`);
+        if (radioToCheck) {
+            radioToCheck.checked = true;
+        }
+    }
 
-            // Atualiza setor do usuário
-            sectorInputs.forEach(input => {
-                input.addEventListener('change', async function() {
-                    try {
-                        const response = await fetch('update_user_sector.php', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                sector: this.value
-                            })
-                        });
-                        
-                        const data = await response.json();
-                        if (data.success) {
-                            showToast('Setor atualizado com sucesso!', 'success');
-                        }
-                    } catch (error) {
-                        console.error('Erro ao atualizar setor:', error);
-                        showToast('Erro ao atualizar setor', 'error');
-                    }
+    // Atualiza setor do usuário
+    sectorInputs.forEach(input => {
+        input.addEventListener('change', async function() {
+            try {
+                const response = await fetch('update_user_sector.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        sector: this.value
+                    })
                 });
-            });
-
-            // Notificar outro setor
-            notifyButton.addEventListener('click', async function() {
-                const selectedInput = document.querySelector('input[name="sector"]:checked');
                 
-                if (!selectedInput) {
-                    showToast('Selecione um setor primeiro', 'error');
-                    return;
+                const data = await response.json();
+                if (data.success) {
+                    showToast('Setor atualizado com sucesso!', 'success');
+                    // Atualiza o texto do botão
+                    notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${this.value === 'atendimento' ? 'Técnica' : 'Atendimento'}`;
+                    notifyButton.disabled = false;
                 }
+            } catch (error) {
+                console.error('Erro ao atualizar setor:', error);
+                showToast('Erro ao atualizar setor', 'error');
+            }
+        });
+    });
 
-                const currentSector = selectedInput.value;
-                const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
-            
-                try {
-                    const response = await fetch('send_notification.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            sector: targetSector,
-                            from_user: <?php echo $_SESSION['user_id']; ?>
-                        })
-                    });
+    // Configuração do som de notificação
+    let notificationSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+    notificationSound.load();
 
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        showToast('Notificação enviada com sucesso!', 'success');
-                    } else {
-                        showToast('Erro ao enviar notificação: ' + data.message, 'error');
-                    }
-                } catch (error) {
-                    console.error('Erro ao enviar notificação:', error);
-                    showToast('Erro ao enviar notificação', 'error');
-                }
+    // Notificar outro setor
+    notifyButton.addEventListener('click', async function() {
+        const selectedInput = document.querySelector('input[name="sector"]:checked');
+        
+        if (!selectedInput) {
+            showToast('Selecione um setor primeiro', 'error');
+            return;
+        }
+
+        const currentSector = selectedInput.value;
+        const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
+    
+        try {
+            const response = await fetch('send_notification.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sector: targetSector,
+                    from_user: <?php echo $_SESSION['user_id']; ?>
+                })
             });
+
+            const data = await response.json();
+            
+            if (data.success) {
+                showToast('Notificação enviada com sucesso!', 'success');
+                notificationSound.currentTime = 0;
+                notificationSound.play().catch(console.error);
+            } else {
+                showToast('Erro ao enviar notificação: ' + data.message, 'error');
+            }
+        } catch (error) {
+            console.error('Erro ao enviar notificação:', error);
+            showToast('Erro ao enviar notificação', 'error');
+        }
+    });
+
+    // Desabilita o botão de notificar se nenhum setor estiver selecionado
+    if (!document.querySelector('input[name="sector"]:checked')) {
+        notifyButton.disabled = true;
+    }
+
+    // Atualiza o texto do botão baseado no setor atual
+    if (currentSector) {
+        const targetSector = currentSector === 'atendimento' ? 'Técnica' : 'Atendimento';
+        notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
+    }
+});
 
             // Sistema de busca
             const searchInput = document.getElementById('searchInput');

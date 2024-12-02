@@ -18,14 +18,18 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    // Atualiza o setor do usuário
+    // Atualiza o setor do usuário no banco de dados
     $query = "UPDATE users SET current_sector = ? WHERE id = ?";
     $stmt = $db->prepare($query);
     $result = $stmt->execute([$data['sector'], $_SESSION['user_id']]);
     
     if ($result) {
+        // Atualiza a sessão
         $_SESSION['current_sector'] = $data['sector'];
-        echo json_encode(['success' => true]);
+        echo json_encode([
+            'success' => true,
+            'current_sector' => $data['sector']
+        ]);
     } else {
         throw new Exception('Erro ao atualizar setor');
     }
