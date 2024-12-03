@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function() {
         notificationSound.play().catch(console.error);
         
         // Remove a notificação após 5 segundos
-        setTimeout(() => toast.remove(), 5000);
+        setTimeout(() => toast.remove(), 1000);
     }
 
     // Função para verificar notificações
@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Verifica notificações a cada 5 segundos
-    setInterval(checkNotifications, 5000);
+    setInterval(checkNotifications, 1000);
 });
 </script>
 
@@ -658,7 +658,7 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
             
             document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 5000);
+            setTimeout(() => toast.remove(), 1000);
         }
     }
 
@@ -707,7 +707,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error('Erro ao verificar notificações:', error);
         }
-    }, 5000);
+    }, 1000);
 
     // Desabilita o botão de notificar se nenhum setor estiver selecionado
     if (!document.querySelector('input[name="sector"]:checked')) {
