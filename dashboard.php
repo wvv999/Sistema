@@ -1,13 +1,11 @@
 <?php
 session_start();
-require_once 'config.php';
 
 if(!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit;
 }
 
-// Se não existir na sessão, busca do banco o setor atual
 if(!isset($_SESSION['current_sector'])) {
     $database = new Database();
     $db = $database->getConnection();
@@ -241,22 +239,29 @@ if(!isset($_SESSION['current_sector'])) {
             <div class="row">
                 <div class="col-md-6">
                     <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
-                        <i class="bi bi-file-earmark-text"></i> Nova Ordem de Serviço
+                        <i class="bi bi-file-earmark-text"></i>
+                        Nova Ordem de Serviço
                     </a>
                 </div>
+
+                <div class="col-md-6">
+                    <a href="users.php" class="btn btn-outline-info w-100 nav-button">
+                        <i class="bi bi-person-plus"></i>
+                        Usuários
+                    </a>
+                </div>
+                
                 <div class="col-md-6">
                     <a href="clientes.php" class="btn btn-outline-success w-100 nav-button">
-                        <i class="bi bi-person-lines-fill"></i> Cadastro de Clientes
+                        <i class="bi bi-person-lines-fill"></i>
+                        Cadastro de Clientes
                     </a>
                 </div>
-                <div class="col-md-6">
-                    <a href="consulta_ordens.php" class="btn btn-outline-info w-100 nav-button">
-                        <i class="bi bi-search"></i> Consultar Ordens
-                    </a>
-                </div>
+
                 <div class="col-md-6">
                     <a href="gestao.php" class="btn btn-outline-info w-100 nav-button">
-                        <i class="bi bi-gear"></i> Gestão
+                        <i class="bi bi-gear stats-icon"></i>
+                        Gestão
                     </a>
                 </div>
             </div>
@@ -320,11 +325,11 @@ if(!isset($_SESSION['current_sector'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Configuração do som de notificação
-        const notificationSound = new Audio('assets/notification.mp3');
-        notificationSound.load();
-
-        // Função para criar e mostrar notificação
+        // Sons para diferentes tipos de notificação
+        const notificationSound = new Audio('assets/som.mp3'); // Som para chamar setor
+        const authNotificationSound = new Audio('assets/notification.mp3'); // Som para notificações de autorização
+        
+        // Função para criar notificação de autorização
         function createNotification(notification) {
             const container = document.getElementById('notificationContainer');
             const toast = document.createElement('div');
@@ -334,6 +339,10 @@ if(!isset($_SESSION['current_sector'])) {
             const icon = isAuthStatus ? 'exclamation-triangle' : 'check-circle';
             const title = isAuthStatus ? 'Autorização pendente' : 'Autorizado!';
             const bgClass = isAuthStatus ? 'bg-warning' : 'bg-success';
+            
+            // Tocar som específico para notificações de autorização
+            authNotificationSound.currentTime = 0;
+            authNotificationSound.play().catch(e => console.log('Erro ao tocar som:', e));
             
             toast.className = `notification-toast ${statusClass} card shadow`;
             toast.innerHTML = `
@@ -354,12 +363,7 @@ if(!isset($_SESSION['current_sector'])) {
 
             container.appendChild(toast);
             requestAnimationFrame(() => toast.classList.add('show'));
-
-            // Remove a notificação após 10 segundos
             setTimeout(() => closeNotification(toast), 10000);
-
-            // Toca o somnotificationSound.currentTime = 0;
-            notificationSound.play().catch(e => console.log('Erro ao tocar som:', e));
         }
 
         function closeNotification(toast) {
@@ -367,28 +371,37 @@ if(!isset($_SESSION['current_sector'])) {
             setTimeout(() => toast.remove(), 300);
         }
 
-        // Elementos do setor
+        // Função para mostrar toast
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `notification-toast ${type === 'success' ? 'border-success' : 'border-danger'} show`;
+            toast.innerHTML = `
+                <div class="card-header bg-${type} bg-opacity-10">
+                    <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
+                    ${message}
+                </div>
+            `;
+            
+            document.getElementById('notificationContainer').appendChild(toast);
+            setTimeout(() => closeNotification(toast), 3000);
+        }
+
+        // Atualização do setor
         const sectorInputs = document.querySelectorAll('input[name="sector"]');
         const notifyButton = document.getElementById('notifyButton');
         
-        // Atualiza setor do usuário
         sectorInputs.forEach(input => {
             input.addEventListener('change', async function() {
                 try {
                     const response = await fetch('update_user_sector.php', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            sector: this.value
-                        })
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ sector: this.value })
                     });
                     
                     const data = await response.json();
                     if (data.success) {
                         showToast('Setor atualizado com sucesso!', 'success');
-                        // Atualiza o texto do botão
                         const targetSector = this.value === 'atendimento' ? 'Técnica' : 'Atendimento';
                         notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
                         notifyButton.disabled = false;
@@ -400,7 +413,7 @@ if(!isset($_SESSION['current_sector'])) {
             });
         });
 
-        // Notificar outro setor
+        // Chamar setor (função original)
         notifyButton.addEventListener('click', async function() {
             const selectedInput = document.querySelector('input[name="sector"]:checked');
             
@@ -415,9 +428,7 @@ if(!isset($_SESSION['current_sector'])) {
             try {
                 const response = await fetch('send_notification.php', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         sector: targetSector,
                         from_user: <?php echo $_SESSION['user_id']; ?>
@@ -425,11 +436,10 @@ if(!isset($_SESSION['current_sector'])) {
                 });
 
                 const data = await response.json();
-                
                 if (data.success) {
+                    notificationSound.currentTime = 0;
+                    notificationSound.play().catch(console.error);
                     showToast('Chamada enviada', 'success');
-                } else {
-                    showToast('Erro ao enviar notificação: ' + data.message, 'error');
                 }
             } catch (error) {
                 console.error('Erro ao enviar notificação:', error);
@@ -480,29 +490,25 @@ if(!isset($_SESSION['current_sector'])) {
             if (e.key === 'Enter') searchOrder();
         });
 
-        // Sistema de notificações toast
-        function showToast(message, type = 'success') {
-            const toast = document.createElement('div');
-            toast.className = `notification-toast ${type === 'success' ? 'border-success' : 'border-danger'} show`;
-            toast.innerHTML = `
-                <div class="card-header bg-${type} bg-opacity-10">
-                    <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
-                    ${message}
-                </div>
-            `;
-            
-            document.getElementById('notificationContainer').appendChild(toast);
-            setTimeout(() => closeNotification(toast), 3000);
-        }
-
-        // Verifica notificações a cada 5 segundos
+        // Verificar notificações a cada 5 segundos
         setInterval(async function checkNotifications() {
             try {
                 const response = await fetch('check_notifications.php');
                 const data = await response.json();
                 
                 if (data.success && data.hasNotification) {
-                    createNotification(data.notification);
+                    const notification = data.notification;
+                    
+                    // Verifica o tipo de notificação
+                    if (notification.type === 'auth_status' || notification.type === 'auth_approved') {
+                        // Notificações de autorização
+                        createNotification(notification);
+                    } else if (notification.type === document.querySelector('input[name="sector"]:checked')?.value) {
+                        // Chamada de setor (sistema original)
+                        notificationSound.currentTime = 0;
+                        notificationSound.play().catch(console.error);
+                        showToast(`Chamada do setor ${notification.from_username}`, 'info');
+                    }
                 }
             } catch (error) {
                 console.error('Erro ao verificar notificações:', error);
