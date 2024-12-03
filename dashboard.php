@@ -513,7 +513,7 @@ if(!isset($_SESSION['current_sector'])) {
             } catch (error) {
                 console.error('Erro ao verificar notificações:', error);
             }
-        }, 5000);
+        }, 1000);
 
         // Inicialização
         const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
