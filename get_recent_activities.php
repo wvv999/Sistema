@@ -61,6 +61,15 @@ try {
                 $icon = 'bi-plus-circle';
                 $color = 'success';
                 break;
+            
+            case 'new_status':
+                $description = sprintf(
+                    'Alterou o status da OS #%d',
+                    $activity['auth_status'],
+                );
+                $icon = 'bi-plus-circle';
+                $color = 'success';
+                break;
 
             default:
                 $description = $activity['description'];
