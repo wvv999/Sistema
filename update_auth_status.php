@@ -19,7 +19,13 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    // Primeiro, buscar o status atual de autorização
+    // Buscar o setor atual do usuário
+    $sectorQuery = "SELECT current_sector FROM users WHERE id = ?";
+    $stmt = $db->prepare($sectorQuery);
+    $stmt->execute([$_SESSION['user_id']]);
+    $currentSector = $stmt->fetchColumn();
+    
+    // Buscar o status atual de autorização
     $currentStatusQuery = "SELECT auth_status FROM service_orders WHERE id = :id";
     $stmt = $db->prepare($currentStatusQuery);
     $stmt->execute([':id' => $data['orderId']]);
@@ -39,8 +45,8 @@ try {
     
     if ($result) {
         // Registrar a mudança na tabela activities
-        $activityQuery = "INSERT INTO activities (order_id, user_id, action_type, details) 
-                         VALUES (:order_id, :user_id, 'auth_status_change', :details)";
+        $activityQuery = "INSERT INTO activities (order_id, user_id, action_type, details, created_at) 
+                         VALUES (:order_id, :user_id, 'auth_status_change', :details, NOW())";
         $stmt = $db->prepare($activityQuery);
         
         $activityResult = $stmt->execute([
@@ -51,6 +57,26 @@ try {
                 'new_status' => $data['authStatus']
             ])
         ]);
+
+        // Criar notificação baseada no novo status
+        if ($data['authStatus'] === 'Solicitado' || $data['authStatus'] === 'Autorizado') {
+            // Define o tipo de notificação baseado no status
+            $notificationType = $data['authStatus'] === 'Solicitado' ? 'auth_status' : 'auth_approved';
+            
+            // Insere a notificação
+            $notificationQuery = "INSERT INTO notifications (type, order_id, from_user_id, created_at, viewed) 
+                                VALUES (:type, :order_id, :user_id, NOW(), 0)";
+            $stmt = $db->prepare($notificationQuery);
+            $notificationResult = $stmt->execute([
+                ':type' => $notificationType,
+                ':order_id' => $data['orderId'],
+                ':user_id' => $_SESSION['user_id']
+            ]);
+            
+            if (!$notificationResult) {
+                throw new Exception('Erro ao criar notificação');
+            }
+        }
         
         if ($activityResult) {
             $db->commit();

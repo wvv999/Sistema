@@ -437,8 +437,7 @@ if(!isset($_SESSION['current_sector'])) {
 
                 const data = await response.json();
                 if (data.success) {
-                    notificationSound.currentTime = 0;
-                    notificationSound.play().catch(console.error);
+  
                     showToast('Chamada enviada', 'success');
                 }
             } catch (error) {
@@ -499,9 +498,10 @@ if(!isset($_SESSION['current_sector'])) {
                 if (data.success && data.hasNotification) {
                     const notification = data.notification;
                     
-                    // Verifica o tipo de notificação
                     if (notification.type === 'auth_status' || notification.type === 'auth_approved') {
-                        // Notificações de autorização
+                        // Som e notificação apenas quando recebe
+                        authNotificationSound.currentTime = 0;
+                        authNotificationSound.play().catch(e => console.log('Erro ao tocar som:', e));
                         createNotification(notification);
                     } else if (notification.type === document.querySelector('input[name="sector"]:checked')?.value) {
                         // Chamada de setor (sistema original)
