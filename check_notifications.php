@@ -18,25 +18,18 @@ try {
     $currentSector = $stmt->fetchColumn();
     
     // Busca notificações não visualizadas
-    $query = "SELECT n.*, n.order_id, u.username as from_username
-              FROM notifications n
-              JOIN users u ON n.from_user_id = u.id
-              WHERE n.created_at > NOW() - INTERVAL 10 SECOND
-              AND n.from_user_id != ?
-              AND (
-                  (n.type = 'auth_status' AND :current_sector = 'atendimento')
-                  OR 
-                  (n.type = 'auth_approved' AND :current_sector = 'tecnica')
-              )
-              AND n.viewed = 0
-              ORDER BY n.created_at DESC
-              LIMIT 1";
+    $query = "SELECT n.*, u.username as from_username
+             FROM notifications n
+             JOIN users u ON n.from_user_id = u.id
+             WHERE n.created_at > NOW() - INTERVAL 10 SECOND
+             AND n.from_user_id != ?
+             AND n.type = ?
+             AND n.viewed = 0
+             ORDER BY n.created_at DESC
+             LIMIT 1";
              
     $stmt = $db->prepare($query);
-    $stmt->execute([
-        $_SESSION['user_id'],
-        ':current_sector' => $currentSector
-    ]);
+    $stmt->execute([$_SESSION['user_id'], $currentSector]);
     $notification = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if ($notification) {
@@ -65,3 +58,4 @@ try {
         'message' => $e->getMessage()
     ]);
 }
+?>
