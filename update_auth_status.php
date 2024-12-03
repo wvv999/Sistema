@@ -19,12 +19,6 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    // Buscar o setor atual do usuário
-    $sectorQuery = "SELECT current_sector FROM users WHERE id = ?";
-    $stmt = $db->prepare($sectorQuery);
-    $stmt->execute([$_SESSION['user_id']]);
-    $currentSector = $stmt->fetchColumn();
-    
     // Buscar o status atual de autorização
     $currentStatusQuery = "SELECT auth_status FROM service_orders WHERE id = :id";
     $stmt = $db->prepare($currentStatusQuery);
@@ -59,11 +53,14 @@ try {
         ]);
 
         // Criar notificação baseada no novo status
-        if ($data['authStatus'] === 'Solicitado' || $data['authStatus'] === 'Autorizado') {
-            // Define o tipo de notificação baseado no status
-            $notificationType = $data['authStatus'] === 'Solicitado' ? 'auth_status' : 'auth_approved';
-            
-            // Insere a notificação
+        $notificationType = '';
+        if ($data['authStatus'] === 'Solicitado') {
+            $notificationType = 'auth_status'; // Para atendimento
+        } else if ($data['authStatus'] === 'Autorizado') {
+            $notificationType = 'auth_approved'; // Para técnica
+        }
+
+        if ($notificationType) {
             $notificationQuery = "INSERT INTO notifications (type, order_id, from_user_id, created_at, viewed) 
                                 VALUES (:type, :order_id, :user_id, NOW(), 0)";
             $stmt = $db->prepare($notificationQuery);
@@ -78,13 +75,8 @@ try {
             }
         }
         
-        if ($activityResult) {
-            $db->commit();
-            echo json_encode(['success' => true]);
-        } else {
-            $db->rollBack();
-            echo json_encode(['success' => false, 'message' => 'Erro ao registrar atividade']);
-        }
+        $db->commit();
+        echo json_encode(['success' => true]);
     } else {
         $db->rollBack();
         echo json_encode(['success' => false, 'message' => 'Erro ao atualizar status de autorização']);
@@ -97,3 +89,4 @@ try {
     error_log('Erro ao atualizar status de autorização: ' . $e->getMessage());
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
+?>
