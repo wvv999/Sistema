@@ -39,8 +39,8 @@ try {
     
     if ($result) {
         // Registrar a mudança na tabela activities
-        $activityQuery = "INSERT INTO activities (order_id, user_id, action_type, details) 
-                         VALUES (:order_id, :user_id, 'auth_status_change', :details)";
+        $activityQuery = "INSERT INTO activities (order_id, user_id, action_type, details, created_at) 
+                         VALUES (:order_id, :user_id, 'auth_status_change', :details, NOW())";
         $stmt = $db->prepare($activityQuery);
         
         $activityResult = $stmt->execute([
@@ -51,6 +51,25 @@ try {
                 'new_status' => $data['authStatus']
             ])
         ]);
+
+        // Criar notificação baseada no novo status
+        if ($data['authStatus'] === 'Solicitado' || $data['authStatus'] === 'Autorizado') {
+            $notificationType = $data['authStatus'] === 'Solicitado' ? 'auth_status' : 'auth_approved';
+            $targetSector = $data['authStatus'] === 'Solicitado' ? 'atendimento' : 'tecnica';
+
+            $notificationQuery = "INSERT INTO notifications (type, order_id, from_user_id, created_at, viewed) 
+                                VALUES (:type, :order_id, :user_id, NOW(), 0)";
+            $stmt = $db->prepare($notificationQuery);
+            $notificationResult = $stmt->execute([
+                ':type' => $notificationType,
+                ':order_id' => $data['orderId'],
+                ':user_id' => $_SESSION['user_id']
+            ]);
+            
+            if (!$notificationResult) {
+                throw new Exception('Erro ao criar notificação');
+            }
+        }
         
         if ($activityResult) {
             $db->commit();
@@ -71,3 +90,4 @@ try {
     error_log('Erro ao atualizar status de autorização: ' . $e->getMessage());
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
+?>

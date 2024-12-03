@@ -231,7 +231,53 @@ if(!isset($_SESSION['user_id'])) {
                 opacity: 1;
             }
         }
-    </style>
+        .notification-toast {
+            min-width: 300px;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .notification-toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .notification-toast.hiding {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        .auth-status {
+            border-left: 4px solid #ffc107;
+        }
+
+        .auth-approved {
+            border-left: 4px solid #198754;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+            </style>
 </head>
 <body class="bg-light">
     <a href="logout.php" class="btn btn-outline-danger logout-btn">
@@ -380,6 +426,73 @@ if(!isset($_SESSION['user_id'])) {
         </div>
     </div>
     <!-- Antes do fechamento do </body> no dashboard.php -->
+    <div id="notificationContainer" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050;"></div>
+
+    <script>
+function createNotification(notification) {
+    const container = document.getElementById('notificationContainer');
+    const toast = document.createElement('div');
+    
+    const isAuthStatus = notification.type === 'auth_status';
+    const statusClass = isAuthStatus ? 'auth-status' : 'auth-approved';
+    const icon = isAuthStatus ? 'exclamation-triangle' : 'check-circle';
+    const title = isAuthStatus ? 'Autorização pendente' : 'Autorizado!';
+    const bgClass = isAuthStatus ? 'bg-warning' : 'bg-success';
+    
+    toast.className = `notification-toast ${statusClass} card shadow`;
+    toast.innerHTML = `
+        <div class="card-header ${bgClass} bg-opacity-10 d-flex justify-content-between align-items-center">
+            <div>
+                <i class="bi bi-${icon} me-2"></i>
+                <strong>Ordem #${notification.order_id}</strong>
+            </div>
+            <button type="button" class="btn-close btn-sm" onclick="closeNotification(this.parentElement.parentElement)"></button>
+        </div>
+        <div class="card-body">
+            <p class="mb-2">${title}</p>
+            <button class="btn btn-primary btn-sm w-100" onclick="window.location.href='view_order.php?id=${notification.order_id}'">
+                <i class="bi bi-eye me-2"></i>Ver Ordem
+            </button>
+        </div>
+    `;
+
+    container.appendChild(toast);
+    
+    // Força um reflow para iniciar a animação
+    toast.offsetHeight;
+    toast.classList.add('show');
+
+    // Remove a notificação após 10 segundos
+    setTimeout(() => closeNotification(toast), 10000);
+}
+
+function closeNotification(toast) {
+    toast.classList.add('hiding');
+    setTimeout(() => toast.remove(), 300);
+}
+
+// Verifica notificações a cada 5 segundos
+setInterval(async function checkNotifications() {
+    try {
+        const response = await fetch('check_notifications.php');
+        const data = await response.json();
+        
+        if (data.success && data.hasNotification) {
+            createNotification(data.notification);
+            
+            // Toca um som de notificação (opcional)
+            const audio = new Audio('assets/notification.mp3');
+            audio.play().catch(e => console.log('Erro ao tocar som:', e));
+        }
+    } catch (error) {
+        console.error('Erro ao verificar notificações:', error);
+    }
+}, 5000);
+</script>
+
+
+
+
 <div id="notification-container"></div>
 
 <script type="text/javascript">
