@@ -2,6 +2,18 @@
 session_start();
 require_once 'config.php';
 
+if(password_verify($password, $row['password'])) {
+    $_SESSION['user_id'] = $row['id'];
+    $_SESSION['username'] = $row['username'];
+    
+    // Busca e define o setor atual do usuário
+    $sectorQuery = "SELECT current_sector FROM users WHERE id = :id";
+    $sectorStmt = $db->prepare($sectorQuery);
+    $sectorStmt->execute([':id' => $row['id']]);
+    $_SESSION['current_sector'] = $sectorStmt->fetchColumn() ?? 'atendimento'; // Define atendimento como padrão
+    
+    // ... resto do código do login ...
+}
 function generateRememberToken() {
     return bin2hex(random_bytes(32));
 }

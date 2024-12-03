@@ -24,15 +24,14 @@ try {
     $result = $stmt->execute([$data['sector'], $_SESSION['user_id']]);
     
     if ($result) {
-        // Atualiza a sessão
-        $_SESSION['current_sector'] = $data['sector'];
-        echo json_encode([
-            'success' => true,
-            'current_sector' => $data['sector']
-        ]);
-    } else {
-        throw new Exception('Erro ao atualizar setor');
-    }
+    $_SESSION['current_sector'] = $data['sector'];
+    echo json_encode([
+        'success' => true,
+        'current_sector' => $data['sector']
+    ]);
+} else {
+    throw new Exception('Erro ao atualizar setor');
+}
     
 } catch (Exception $e) {
     echo json_encode([
