@@ -18,22 +18,11 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    // Insere a notificação geral
+    // Insere a notificação
     $query = "INSERT INTO notifications (type, from_user_id, created_at, viewed) 
               VALUES (?, ?, NOW(), 0)";
     $stmt = $db->prepare($query);
     $result = $stmt->execute([$data['sector'], $_SESSION['user_id']]);
-
-    // Insere a notificação específica de atualização de status ou de autorização
-    if ($data['sector'] === 'atendimento') {
-        $notificationQuery = "INSERT INTO notifications (type, from_user_id, order_id, created_at, viewed) 
-                              VALUES ('auth_status', ?, NULL, NOW(), 0)";
-    } else {
-        $notificationQuery = "INSERT INTO notifications (type, from_user_id, order_id, created_at, viewed) 
-                              VALUES ('auth_approved', ?, NULL, NOW(), 0)";
-    }
-    $notificationStmt = $db->prepare($notificationQuery);
-    $notificationStmt->execute([$_SESSION['user_id']]);
     
     if ($result) {
         echo json_encode(['success' => true]);
@@ -48,3 +37,4 @@ try {
         'message' => $e->getMessage()
     ]);
 }
+?>
