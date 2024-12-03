@@ -385,7 +385,7 @@ if(!isset($_SESSION['user_id'])) {
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', function() {
     // Configuração do som de notificação
-    let notificationSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+    let notificationSound = new Audio('/assets/som.mp3');
     notificationSound.load();
 
     // Função para mostrar notificação
