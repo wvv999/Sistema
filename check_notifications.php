@@ -22,13 +22,13 @@ try {
               FROM notifications n
               JOIN users u ON n.from_user_id = u.id
               WHERE n.created_at > NOW() - INTERVAL 10 SECOND
-              AND n.from_user_id != ?
+              AND n.from_user_id != :user_id
               AND (
-                  (n.type = ? AND n.type = 'auth_status') -- Para atendimento receber solicitação
+                  (n.type = 'auth_status' AND :current_sector = 'atendimento')
                   OR 
-                  (n.type = ? AND n.type = 'auth_approved') -- Para técnica receber aprovação
+                  (n.type = 'auth_approved' AND :current_sector = 'tecnica')
                   OR 
-                  n.type = ? -- Para chamadas de setor normais
+                  n.type = :sector_type
               )
               AND n.viewed = 0
               ORDER BY n.created_at DESC
@@ -36,11 +36,11 @@ try {
              
     $stmt = $db->prepare($query);
     $stmt->execute([
-        $_SESSION['user_id'],
-        'atendimento',
-        'tecnica',
-        $currentSector
+        ':user_id' => $_SESSION['user_id'],
+        ':current_sector' => $currentSector,
+        ':sector_type' => $currentSector
     ]);
+    
     $notification = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if ($notification) {
