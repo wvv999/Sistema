@@ -62,10 +62,12 @@ try {
                 $color = 'success';
                 break;
             
-            case 'new_status':
+            case 'new_auth_change':
                 $description = sprintf(
-                    'Alterou o status da OS #%d',
-                    $activity['auth_status'],
+                    'Alterou a solicitação da OS #%d',
+                    $activity['order_id'],
+                    $activity['client_name'],
+                    $activity['auth_status']
                 );
                 $icon = 'bi-plus-circle';
                 $color = 'success';
@@ -78,6 +80,7 @@ try {
         }
 
         $formattedActivities[] = [
+            'auth_status' => ['auth_status'],
             'id' => $activity['id'],
             'description' => $description,
             'user_name' => $activity['user_name'],
