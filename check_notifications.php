@@ -11,42 +11,45 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    // Atualiza última atividade do usuário
-    $updateActivity = "UPDATE users SET last_activity = NOW() WHERE id = ?";
-    $stmt = $db->prepare($updateActivity);
+    // Busca o setor atual do usuário
+    $sectorQuery = "SELECT current_sector FROM users WHERE id = ?";
+    $stmt = $db->prepare($sectorQuery);
     $stmt->execute([$_SESSION['user_id']]);
+    $currentSector = $stmt->fetchColumn();
     
-    $notifications = [];
-    
-    // Busca notificações manuais entre setores que não foram visualizadas
+    // Busca notificações não visualizadas
     $query = "SELECT n.*, u.username as from_username
              FROM notifications n
              JOIN users u ON n.from_user_id = u.id
              WHERE n.created_at > NOW() - INTERVAL 10 SECOND
              AND n.from_user_id != ?
-             AND n.type != ?
+             AND n.type = ?
              AND n.viewed = 0
              ORDER BY n.created_at DESC
              LIMIT 1";
              
     $stmt = $db->prepare($query);
-    $stmt->execute([$_SESSION['user_id'], $_SESSION['current_sector']]);
+    $stmt->execute([$_SESSION['user_id'], $currentSector]);
     $notification = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if ($notification) {
-        // Marca notificação como visualizada
+        // Marca como visualizada
         $updateQuery = "UPDATE notifications SET viewed = 1 WHERE id = ?";
         $updateStmt = $db->prepare($updateQuery);
         $updateStmt->execute([$notification['id']]);
         
-        $notifications[] = $notification;
+        echo json_encode([
+            'success' => true,
+            'hasNotification' => true,
+            'notification' => $notification
+        ]);
+    } else {
+        echo json_encode([
+            'success' => true,
+            'hasNotification' => false,
+            'notification' => null
+        ]);
     }
-    
-    echo json_encode([
-        'success' => true,
-        'hasNotification' => !empty($notifications),
-        'notification' => !empty($notifications) ? $notifications[0] : null
-    ]);
 
 } catch (Exception $e) {
     error_log('Erro em check_notifications.php: ' . $e->getMessage());
@@ -55,3 +58,4 @@ try {
         'message' => $e->getMessage()
     ]);
 }
+?>

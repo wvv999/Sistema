@@ -200,6 +200,37 @@ if(!isset($_SESSION['user_id'])) {
         .sector-selection {
             white-space: nowrap;
         }
+        .notification-persistent {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            min-width: 300px;
+            z-index: 1060;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification-persistent .toast-header {
+            padding: 12px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .notification-persistent .toast-body {
+            padding: 15px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -348,6 +379,64 @@ if(!isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
+    <!-- Antes do fechamento do </body> no dashboard.php -->
+<div id="notification-container"></div>
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function() {
+    // Configuração do som de notificação
+    let notificationSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3');
+    notificationSound.load();
+
+    // Função para mostrar notificação
+    function showNotification(notification) {
+        const toast = document.createElement('div');
+        toast.className = 'notification-persistent';
+        
+        // Define o conteúdo do toast baseado no tipo de notificação
+        toast.innerHTML = `
+            <div class="toast-header bg-primary text-white">
+                <strong class="me-auto">Nova Chamada</strong>
+                <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+            </div>
+            <div class="toast-body">
+                <div class="d-flex align-items-center">
+                    <i class="bi bi-bell me-2"></i>
+                    <span>Chamada do setor ${notification.type === 'tecnica' ? 'Técnico' : 'Atendimento'}</span>
+                </div>
+                <small class="text-muted">De: ${notification.from_username}</small>
+            </div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Toca o som
+        notificationSound.currentTime = 0;
+        notificationSound.play().catch(console.error);
+        
+        // Remove a notificação após 5 segundos
+        setTimeout(() => toast.remove(), 5000);
+    }
+
+    // Função para verificar notificações
+    async function checkNotifications() {
+        try {
+            const response = await fetch('check_notifications.php');
+            const data = await response.json();
+            
+            if (data.success && data.hasNotification) {
+                const notification = data.notification;
+                showNotification(notification);
+            }
+        } catch (error) {
+            console.error('Erro ao verificar notificações:', error);
+        }
+    }
+
+    // Verifica notificações a cada 5 segundos
+    setInterval(checkNotifications, 5000);
+});
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
