@@ -359,7 +359,7 @@ if(!isset($_SESSION['user_id'])) {
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-3">
-                                            <small class="text-muted">{$createdAt}</small>
+                                            <small class="text-muted">{$createdAt}</small style="color:white">
                                             {$statusButton}
                                             <!-- <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
                                                 <i class="bi bi-eye"></i> Ver
@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Verifica notificações a cada 5 segundos
+    // Verifica notificações a cada segundo
     setInterval(checkNotifications, 1000);
 });
 </script>
