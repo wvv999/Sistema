@@ -345,7 +345,7 @@ if(!isset($_SESSION['user_id'])) {
                         } else {
                             foreach ($orders as $order) {
                                 $orderNumber = htmlspecialchars($order['id'], STR_PAD_LEFT);
-                                $auth_status = auth_Status::getAuthStatus($order['$auth_status']);
+                                $auth_status = $order['$auth_status'];
                                 $clientName = htmlspecialchars($order['client_name']);
                                 $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
                                 $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
