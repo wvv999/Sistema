@@ -358,8 +358,8 @@ if(!isset($_SESSION['user_id'])) {
                                             <code>{$orderNumber}</code> - {$device_model} - <small>{$issue}</small>
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
-                                        <div class="d-flex align-items-center gap-3">
-                                            <small class="text-muted">{$createdAt}</small style="color:white">
+                                        <div class="d-flex align-items-center gap-3" style="color:white;">
+                                            <small class="text-muted">{$createdAt}</small>
                                             {$statusButton}
                                             <!-- <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
                                                 <i class="bi bi-eye"></i> Ver
