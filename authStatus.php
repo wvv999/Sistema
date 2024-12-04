@@ -12,7 +12,7 @@ class auth_Status {
         'Autorizada' => 'bi-check-circle'
     ];
 
-    public static function getAuthButton($auth_status) {
+    public static function getAuthStatus($auth_status) {
         $auth_status = strtolower($auth_status ?? 'Autorização');
         $buttonClass = self::$auth_status_Classes[$auth_status] ?? 'Autorização';
         $icon = self::$statusIcons[$auth_status] ?? 'bi-clock';
