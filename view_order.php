@@ -43,7 +43,7 @@ try {
                    DATE_FORMAT(tn.created_at, '%Y-%m-%d') as note_date
                    FROM technical_notes tn 
                    JOIN users u ON tn.user_id = u.id 
-                   WHERE tn.order_id = :order_id 
+                   WHERE tn.id = :id 
                    ORDER BY tn.created_at ASC";  
 
     $stmt = $db->prepare($notesQuery);     
