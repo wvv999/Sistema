@@ -334,7 +334,6 @@ if(!isset($_SESSION['user_id'])) {
                     <?php
                     require_once 'recent_orders.php';
                     require_once 'orderStatus.php';
-                    require_once 'authStatus.php';
                     
                     try {
                         $recentOrders = new RecentOrders();
@@ -345,11 +344,10 @@ if(!isset($_SESSION['user_id'])) {
                         } else {
                             foreach ($orders as $order) {
                                 $orderNumber = htmlspecialchars($order['id'], STR_PAD_LEFT);
-                                $auth_status = $order['$auth_status'];
                                 $clientName = htmlspecialchars($order['client_name']);
                                 $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
                                 $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
-                                // $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
+                                $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
                                 $status = $order['status'] ?? 'não iniciada';
                                 $statusButton = OrderStatus::getStatusButton($status);
                                 
@@ -360,19 +358,13 @@ if(!isset($_SESSION['user_id'])) {
                                             <code>{$orderNumber}</code> - {$device_model} - <small>{$issue}</small>
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
-                                        <div class="d-flex align-items-center gap-3" style="color:white;">
+                                        <div class="d-flex align-items-center gap-3">
                                             <small class="text-muted">{$createdAt}</small>
                                             {$statusButton}
-                                        
                                             <!-- <button class="btn btn-sm btn-outline-primary btn-view-order" onclick="event.stopPropagation(); window.location='view_order.php?id={$order['id']}'">
                                                 <i class="bi bi-eye"></i> Ver
                                             </button> -->
                                         </div>
-                                        <div class="d-flex align-items-center gap-3" style="color:black;">
-                                            
-                                            {$auth_status}
-                                        </div>
-                                        
                                     </div>
                                 </li>
                                 HTML;
@@ -441,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Verifica notificações a cada segundo
+    // Verifica notificações a cada 5 segundos
     setInterval(checkNotifications, 1000);
 });
 </script>

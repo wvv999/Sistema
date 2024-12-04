@@ -22,8 +22,7 @@ class RecentOrders {
                         so.reported_issue,
                         so.created_at,
                         COALESCE(so.status, 'não iniciada') as status,
-                        c.name as client_name,
-                        COALESCE(so.auth_status, 'Autorização') as auth_status
+                        c.name as client_name
                     FROM service_orders so
                     LEFT JOIN clients c ON so.client_id = c.id
                     ORDER BY so.created_at DESC
