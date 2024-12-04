@@ -334,6 +334,7 @@ if(!isset($_SESSION['user_id'])) {
                     <?php
                     require_once 'recent_orders.php';
                     require_once 'orderStatus.php';
+                    require_once 'authStatus.php';
                     
                     try {
                         $recentOrders = new RecentOrders();
