@@ -2,6 +2,7 @@
 session_start(); 
 require_once 'config.php';  
 
+
 if(!isset($_SESSION['user_id'])) {     
     header("Location: index.php");     
     exit; 
@@ -23,7 +24,7 @@ try {
             c.phone1,
             c.phone2,
             so.device_password,
-            COALESCE(so.status, 'não iniciada') as status
+            COALESCE(so.status, 'Não iniciada') as status
           FROM service_orders so 
           INNER JOIN clients c ON so.client_id = c.id 
           WHERE so.id = :id";
@@ -71,7 +72,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ordem de Serviço #<?php echo $order['id']; ?></title>
+    <title>Ordem de Serviço <?php echo $order['id']; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
@@ -490,8 +491,7 @@ try {
     <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
-
-    <div class="container">
+    <div class="order-container">
         <!-- Informações do pedido -->
         <div class="order-info">
             <h4 class="mb-3">
@@ -570,9 +570,7 @@ try {
                                             rows="1"
                                             placeholder="Digite sua nota técnica..."
                                             data-autoresize></textarea>
-                                    <button onclick="addNote()" class="btn btn-primary">
-                                        <i class="bi bi-plus-circle"></i> Adicionar
-                                    </button>
+                                    <button onclick="addNote()" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Adicionar</button>
                                 </div>
                             </div>
                         </div>
@@ -603,6 +601,11 @@ try {
                             <i class="bi bi-check-circle"></i>
                             <span>Autorização</span>
                         </div>
+
+                        <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
+                            <i class="bi bi-cart"></i>
+                            <span>Compra de Peças</span>
+                        </div>
                     </div>
 
                     <!-- Ações da OS -->
@@ -611,15 +614,14 @@ try {
                             <i class="bi bi-clock-history"></i>
                             <span>Histórico</span>
                         </button>
-                        <button class="action-button" data-bs-toggle="tooltip" 
-                                title="Imprimir ordem de serviço" 
+                        <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço" 
                                 onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
                             <i class="bi bi-printer"></i>
                             <span>Imprimir</span>
                         </button>
-                        <button class="action-button" style="background-color:var(--success-color); color: white" 
-                                onclick="javascript:history.go(-1)">
+                        <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
                             <i class="bi bi-box-arrow-right"></i>
+                        
                             <span>Salvar e Sair</span>
                         </button>
                     </div>
@@ -627,7 +629,6 @@ try {
             </div>
         </div>
     </div>
-
     <!-- Modal de Histórico -->
     <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -639,14 +640,12 @@ try {
                 <div class="modal-body">
                     <ul class="nav nav-tabs" id="historyTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="status-tab" data-bs-toggle="tab" 
-                                    data-bs-target="#status" type="button" role="tab">
+                            <button class="nav-link active" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button" role="tab">
                                 <i class="bi bi-clock-history"></i> Status
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="notes-tab" data-bs-toggle="tab" 
-                                    data-bs-target="#notes" type="button" role="tab">
+                            <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab">
                                 <i class="bi bi-card-text"></i> Notas Técnicas
                             </button>
                         </li>
@@ -667,181 +666,12 @@ try {
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Event listeners para os botões de status e autorização
-        const statusButton = document.getElementById('statusButton');
-        const authButton = document.getElementById('authButton');
-
-        // Arrays de status possíveis
-        const statusFlow = ['não iniciada', 'em andamento', 'concluída', 'pronto e avisado', 'entregue'];
-        const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
-
-        function updateButtonAppearance(button, status, prefix = 'status') {
-            // Remove classes antigas
-            button.className = 'action-button';
-            button.classList.add(`${prefix}-button`);
-            
-            // Adiciona a classe específica do status
-            const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, "")
-                .replace(/ /g, '-')}`;
-            button.classList.add(statusClass);
-            
-            // Atualiza o texto do botão
-            button.querySelector('span').textContent = status;
-        }
-
-        async function updateStatus(button, newStatus) {
-            try {
-                console.log('Enviando atualização de status:', {
-                    orderId: button.dataset.orderId,
-                    status: newStatus
-                });
-
-                const response = await fetch('update_status.php', {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        orderId: button.dataset.orderId,
-                        status: newStatus
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    button.dataset.status = newStatus;
-                    updateButtonAppearance(button, newStatus);
-                } else {
-                    alert('Erro ao atualizar status: ' + (data.message || 'Erro desconhecido'));
-                }
-            } catch (error) {
-                console.error('Erro ao atualizar status:', error);
-                alert('Erro ao atualizar status');
-            }
-        }
-
-        async function updateAuthStatus(button, newStatus) {
-            try {
-                const response = await fetch('update_auth_status.php', {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        orderId: button.dataset.orderId,
-                        authStatus: newStatus
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    button.dataset.authStatus = newStatus;
-                    updateButtonAppearance(button, newStatus, 'auth');
-                } else {
-                    alert('Erro ao atualizar autorização: ' + (data.message || 'Erro desconhecido'));
-                }
-            } catch (error) {
-                console.error('Erro ao atualizar autorização:', error);
-                alert('Erro ao atualizar autorização');
-            }
-        }
-
-        // Event listeners
-        if (statusButton) {
-            statusButton.addEventListener('click', function() {
-                let currentStatus = this.dataset.status;
-                currentStatus = statusFlow.find(status => 
-                    status.toLowerCase() === currentStatus.toLowerCase()
-                ) || currentStatus;
-                
-                const currentIndex = statusFlow.indexOf(currentStatus);
-                const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
-                updateStatus(this, nextStatus);
-            });
-        }
-
-        if (authButton) {
-            authButton.addEventListener('click', function() {
-                const currentStatus = this.dataset.authStatus;
-                const currentIndex = authFlow.indexOf(currentStatus);
-                const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
-                updateAuthStatus(this, nextStatus);
-            });
-        }
-
-        // Inicialização: atualiza a aparência inicial dos botões
-        document.addEventListener('DOMContentLoaded', function() {
-            if (statusButton) {
-                let initialStatus = statusButton.dataset.status;
-                initialStatus = statusFlow.find(status => 
-                    status.toLowerCase() === initialStatus.toLowerCase()
-                ) || initialStatus;
-                updateButtonAppearance(statusButton, initialStatus);
-            }
-            
-            if (authButton) {
-                const currentAuthStatus = authButton.dataset.authStatus || 'Autorização';
-                updateButtonAppearance(authButton, currentAuthStatus, 'auth');
-            }
-        });
-
-        // Funções para o sistema de notas técnicas
-        async function addNote() {
-            const noteText = document.getElementById('newNote').value.trim();
-            if (!noteText) {
-                alert('Por favor, digite uma nota técnica.');
-                return;
-            }
-
-            try {
-                const response = await fetch('save_technical_note.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        orderId: <?php echo $_GET['id']; ?>,
-                        note: noteText
-                    })
-                });
-
-                const data = await response.json();
-                
-                if (data.success) {
-                    const technicalNotes = document.getElementById('technicalNotes');
-                    const today = new Date().toLocaleDateString('pt-BR', { 
-                        day: '2-digit', 
-                        month: '2-digit', 
-                        year: '2-digit' 
-                    });
-                    
-                    let newNoteText = '';
-                    if (!technicalNotes.value.includes(today)) {
-                        newNoteText = `\n---------------- ${today} ----------------\n\n`;
-                    }
-                    
-                    newNoteText += `${data.username}: ${noteText}\n`;
-                    technicalNotes.value += newNoteText;
-                    document.getElementById('newNote').value = '';
-                    technicalNotes.scrollTop = technicalNotes.scrollHeight;
-                } else {
-                    alert(data.message || 'Erro ao salvar nota');
-                }
-            } catch (error) {
-                console.error('Erro:', error);
-                alert('Erro ao salvar nota técnica');
-            }
-        }
-
-        // Histórico
+        // Atualizar a função loadOrderHistory
         async function loadOrderHistory() {
             try {
+                console.log('Carregando histórico para ordem:', <?php echo $_GET['id']; ?>);
+                
                 const response = await fetch('get_order_history.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -851,6 +681,7 @@ try {
                 });
 
                 const data = await response.json();
+                console.log('Dados recebidos:', data);
                 
                 if (data.success) {
                     // Atualizar histórico de status
@@ -885,11 +716,103 @@ try {
                     }
                 } else {
                     console.error('Erro nos dados:', data);
-                    alert('Erro ao carregar histórico: ' + (data.message || 'Erro desconhecido'));
+                    showToast('Erro ao carregar histórico: ' + (data.message || 'Erro desconhecido'), 'error');
                 }
             } catch (error) {
                 console.error('Erro ao carregar histórico:', error);
-                alert('Erro ao carregar histórico: ' + error.message);
+                showToast('Erro ao carregar histórico: ' + error.message, 'error');
+            }
+        }
+
+        // Adicionar evento ao botão de histórico
+        document.querySelector('button[title="Ver histórico completo"]').addEventListener('click', function() {
+            const historyModal = new bootstrap.Modal(document.getElementById('historyModal'));
+            loadOrderHistory(); // Carrega o histórico
+            historyModal.show(); // Mostra o modal
+        });
+    </script>
+
+    <!-- Container para notificações toast -->
+    <div class="toast-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Inicializa todos os tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+        // Auto-resize textarea
+        document.querySelectorAll('[data-autoresize]').forEach(function(element) {
+            element.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        });
+
+        // Sistema de notificações toast
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.querySelector('.toast-container').appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Função para adicionar nota técnica
+        async function addNote() {
+            const noteText = document.getElementById('newNote').value.trim();
+            if (!noteText) {
+                showToast('Por favor, digite uma nota técnica.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('save_technical_note.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderId: <?php echo $_GET['id']; ?>,
+                        note: noteText
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    const technicalNotes = document.getElementById('technicalNotes');
+                    const today = new Date().toLocaleDateString('pt-BR', { 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: '2-digit' 
+                    });
+                    
+                    let newNoteText = '';
+                    if (!technicalNotes.value.includes(today)) {
+                        newNoteText = `\n---------------- ${today} ----------------\n\n`;
+                    }
+                    
+                    newNoteText += `${data.username}: ${noteText}\n`;
+                    technicalNotes.value += newNoteText;
+                    document.getElementById('newNote').value = '';
+                    technicalNotes.scrollTop = technicalNotes.scrollHeight;
+                    
+                    showToast('Nota adicionada com sucesso!');
+                } else {
+                    showToast(data.message || 'Erro ao salvar nota', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao salvar nota técnica', 'error');
             }
         }
 
@@ -901,18 +824,178 @@ try {
             }
         });
 
-        // Event listener para o botão de histórico
-        document.querySelector('button[title="Ver histórico completo"]').addEventListener('click', function() {
-            const historyModal = new bootstrap.Modal(document.getElementById('historyModal'));
-            loadOrderHistory();
-            historyModal.show();
-        });
+        // Gestão de status e autorização
+        const statusButton = document.getElementById('statusButton');
+        const authButton = document.getElementById('authButton');
 
-        // Tooltips initialization
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
-        });
-    </script>
+        // Arrays de status possíveis
+        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
+        const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
+
+        function updateButtonAppearance(button, status, prefix = 'status') {
+            const classes = [...button.classList];
+            classes.forEach(className => {
+                if (className !== 'action-button') {
+                    button.classList.remove(className);
+                }
+            });
+            
+            button.classList.add(`${prefix}-button`);
+            const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/ /g, '-')}`;
+            button.classList.add(statusClass);
+            button.querySelector('span').textContent = status;
+        }
+
+        async function updateStatus(button, newStatus) {
+            try {
+                console.log('Enviando atualização de status:', {
+                    orderId: button.dataset.orderId,
+                    status: newStatus
+                });
+
+                const response = await fetch('update_status.php', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: button.dataset.orderId,
+                        status: newStatus
+                    })
+                });
+
+                console.log('Resposta recebida:', response);
+                const data = await response.json();
+                console.log('Dados da resposta:', data);
+                
+                if (data.success) {
+                    button.dataset.status = newStatus;
+                    updateButtonAppearance(button, newStatus);
+                    showToast(`Status atualizado para: ${newStatus}`);
+                } else {
+                    showToast(data.message || 'Erro ao atualizar status', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar status:', error);
+                showToast('Erro ao atualizar status', 'error');
+            }
+        }
+
+        // Atualiza o botão de autorização com o status atual ao carregar a página
+        async function updateAuthButtonOnLoad() {
+            try {
+                const response = await fetch('get_auth_status.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        orderId: authButton.dataset.orderId
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    authButton.dataset.authStatus = data.authStatus;
+                    updateButtonAppearance(authButton, data.authStatus, 'auth');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        }
+
+        async function updateAuthStatus(button, newStatus) {
+            try {
+                console.log('Enviando atualização de autorização:', {
+                    orderId: button.dataset.orderId,
+                    authStatus: newStatus
+                });
+
+                const response = await fetch('update_auth_status.php', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: button.dataset.orderId,
+                        authStatus: newStatus
+                    })
+                });
+
+                console.log('Resposta recebida:', response);
+                const data = await response.json();
+                console.log('Dados da resposta:', data);
+                
+                if (data.success) {
+                    button.dataset.authStatus = newStatus;
+                    updateButtonAppearance(button, newStatus, 'auth');
+                    showToast(`Autorização atualizada para: ${newStatus}`);
+                } else {
+                    showToast(data.message || 'Erro ao atualizar autorização', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar autorização:', error);showToast('Erro ao atualizar autorização', 'error');
+            }
+        }// Event listeners
+        statusButton.addEventListener('click', function() {
+                let currentStatus = this.dataset.status;
+                currentStatus = statusFlow.find(status => 
+                    status.toLowerCase() === currentStatus.toLowerCase()
+                ) || currentStatus;
+                
+                const currentIndex = statusFlow.indexOf(currentStatus);
+                const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+                updateStatus(this, nextStatus);
+            });
+
+            authButton.addEventListener('click', function() {
+                const currentStatus = this.dataset.authStatus;
+                const currentIndex = authFlow.indexOf(currentStatus);
+                const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
+                updateAuthStatus(this, nextStatus);
+            });
+
+            // Inicialização dos botões
+            document.addEventListener('DOMContentLoaded', function() {
+                // Status inicial
+                let initialStatus = statusButton.dataset.status;
+                initialStatus = statusFlow.find(status => 
+                    status.toLowerCase() === initialStatus.toLowerCase()
+                ) || initialStatus;
+                statusButton.dataset.status = initialStatus;
+                statusButton.innerHTML = '<i class="bi bi-gear"></i> <span>' + initialStatus + '</span>';
+                updateButtonAppearance(statusButton, initialStatus);
+
+                // Auth inicial
+                updateAuthButtonOnLoad();
+            });
+
+            // Verificação periódica de novas notificações
+            function checkNotifications() {
+                fetch('check_notifications.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.hasNotification) {
+                            const notification = data.notification;
+                            
+                            if (notification.type === 'auth_status') {
+                                showToast(`Autorização solicitada para a OS #${notification.order_id} por ${notification.from_username}`);
+                            } else if (notification.type === 'auth_approved') {
+                                showToast(`Autorização aprovada para a OS #${notification.order_id} por ${notification.from_username}`);
+                                
+                                // Atualiza o botão de autorização
+                                authButton.dataset.authStatus = 'Autorizado';
+                                updateButtonAppearance(authButton, 'Autorizado', 'auth');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao verificar notificações:', error);
+                    });
+            }
+
+            // Chama a função checkNotifications a cada 5 segundos
+            setInterval(checkNotifications, 5000);
+        </script>
 </body>
-</html>
