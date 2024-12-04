@@ -13,8 +13,8 @@ class auth_Status {
     ];
 
     public static function getAuthStatus($auth_status) {
-        $auth_status = strtolower($auth_status ?? 'AutorizaçãoTESTE1');
-        $buttonClass = self::$auth_status_Classes[$auth_status] ?? 'AutorizaçãoTESTE2';
+        $auth_status = strtolower($auth_status ?? '');
+        $buttonClass = self::$auth_status_Classes['Solicitada'] ?? 'Solicitada';
         $icon = self::$statusIcons[$auth_status] ?? 'bi-clock';
         
         return sprintf(
