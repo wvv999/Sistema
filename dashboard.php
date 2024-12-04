@@ -359,7 +359,7 @@ if(!isset($_SESSION['user_id'])) {
                                             <code>{$orderNumber}</code> - {$device_model} - <small>{$issue}</small>
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
-                                        <div class="d-flex align-items-center gap-3" style="color:white;">
+                                        <div class="d-flex align-items-center gap-3" style="color:black;">
                                             <small class="text-muted">{$createdAt}</small>
                                             {$statusButton}
                                         
