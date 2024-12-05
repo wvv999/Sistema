@@ -49,25 +49,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $phone1 = $client['phone1'];
         $phone2 = $client['phone2'];
 
-        // Encontra o menor ID disponível
-        $stmt = $db->query("
-            SELECT COALESCE(
-                (SELECT t1.id + 1
-                FROM service_orders t1
-                LEFT JOIN service_orders t2 ON t1.id + 1 = t2.id
-                WHERE t2.id IS NULL
-                ORDER BY t1.id
-                LIMIT 1), 1) as next_id
-            FOR UPDATE");
+        // // Encontra o menor ID disponível
+        // $stmt = $db->query("
+        //     SELECT COALESCE(
+        //         (SELECT t1.id + 1
+        //         FROM service_orders t1
+        //         LEFT JOIN service_orders t2 ON t1.id + 1 = t2.id
+        //         WHERE t2.id IS NULL
+        //         ORDER BY t1.id
+        //         LIMIT 1), 1) as next_id
+        //     FOR UPDATE");
         
+        // $next_id = $stmt->fetch(PDO::FETCH_ASSOC)['next_id'];
+
+        // // Verifica se o ID já não foi usado
+        // $check = $db->prepare("SELECT id FROM service_orders WHERE id = ? LIMIT 1");
+        // $check->execute([$next_id]);
+        // if ($check->fetch()) {
+        //     throw new Exception("Erro de concorrência ao gerar ID. Por favor, tente novamente.");
+        // }
+        // Encontra o próximo ID (começando de 16000)
+        $stmt = $db->query("
+            SELECT COALESCE(MAX(id) + 1, 16000) as next_id 
+            FROM service_orders 
+            FOR UPDATE");
+
         $next_id = $stmt->fetch(PDO::FETCH_ASSOC)['next_id'];
 
-        // Verifica se o ID já não foi usado
+        // Verifica se o ID já não foi usado (mantendo a verificação de segurança)
         $check = $db->prepare("SELECT id FROM service_orders WHERE id = ? LIMIT 1");
         $check->execute([$next_id]);
         if ($check->fetch()) {
             throw new Exception("Erro de concorrência ao gerar ID. Por favor, tente novamente.");
-        }
+            }
 
         $stmt = $db->prepare("
             INSERT INTO service_orders (id, client_id, device_model, phone1, phone2, 
