@@ -10,10 +10,10 @@ if(!isset($_SESSION['user_id'])) {
 }
 
 // Verifica se o ID do cliente foi fornecido
-if(!isset($_GET['id'])) {
-    header("Location: clientes.php");
-    exit;
-}
+// if(!isset($_GET['id'])) {
+//     header("Location: clientes.php");
+//     exit;
+// }
 
 $client_id = $_GET['id'];
 $client_name = '';
