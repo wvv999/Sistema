@@ -111,6 +111,7 @@ try {
             display: flex;
             flex-direction: column;
             min-height: calc(100vh - 40px);
+            scale: 95%;
         }
 
         /* Order info styles */
