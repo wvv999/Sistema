@@ -390,9 +390,6 @@ if(!isset($_SESSION['user_id'])) {
     const notificationSound = new Audio('assets/som.mp3');
     notificationSound.load();
 
-    // Estado das notificações
-    const processedNotifications = new Set();
-
     // Inicialização dos tooltips
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
     tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -407,15 +404,12 @@ if(!isset($_SESSION['user_id'])) {
 
     // Sistema de notificações toast
     function showToast(message, type = 'success', title = null, orderId = null, permanent = false) {
-        const toastId = `toast-${Date.now()}`;
         const toast = document.createElement('div');
         toast.className = 'notification-persistent';
-        toast.id = toastId;
 
         let buttonHtml = '';
         if (orderId) {
             buttonHtml = `
-
                 <button onclick="this.closest('.notification-persistent').remove(); window.location.href='view_order.php?id=${orderId}';" 
                         class="btn btn-primary btn-sm mt-2 w-100">
                     <i class="bi bi-eye"></i> Visualizar OS
@@ -427,7 +421,7 @@ if(!isset($_SESSION['user_id'])) {
             <div class="toast-header bg-${type} text-white">
                 <strong class="me-auto">${title || (type === 'success' ? 'Sucesso' : 'Notificação')}</strong>
                 <button type="button" class="btn-close btn-close-white" 
-                        onclick="document.getElementById('${toastId}').remove()"></button>
+                        onclick="this.closest('.notification-persistent').remove()"></button>
             </div>
             <div class="toast-body">
                 ${message}
@@ -439,12 +433,7 @@ if(!isset($_SESSION['user_id'])) {
         playSound();
 
         if (!permanent) {
-            setTimeout(() => {
-                const toastElement = document.getElementById(toastId);
-                if (toastElement) {
-                    toastElement.remove();
-                }
-            }, 5000);
+            setTimeout(() => toast.remove(), 5000);
         }
     }
 
@@ -511,31 +500,26 @@ if(!isset($_SESSION['user_id'])) {
             
             if (data.success && data.hasNotification) {
                 const notification = data.notification;
-                const notificationId = `${notification.type}-${notification.id || Date.now()}`;
-
-                if (!processedNotifications.has(notificationId)) {
-                    processedNotifications.add(notificationId);
-
-                    if ((notification.type === 'tecnica' || notification.type === 'atendimento') && 
-                        notification.type === currentSector) {
-                        showToast(
-                            `<div class="d-flex align-items-center">
-                                <i class="bi bi-bell me-2"></i>
-                                <span>Chamada do setor ${notification.type === 'tecnica' ? 'Técnico' : 'Atendimento'}</span>
-                            </div>
-                            <small class="text-muted">De: ${notification.from_username}</small>`,
-                            'primary',
-                            'Nova Chamada'
-                        );
-                    } else if (notification.type === 'auth_status_change') {
-                        showToast(
-                            `OS #${notification.order_id}: ${notification.message}`,
-                            'warning',
-                            'Alteração de Autorização',
-                            notification.order_id,
-                            true
-                        );
-                    }
+                
+                if ((notification.type === 'tecnica' || notification.type === 'atendimento') && 
+                    notification.type === currentSector) {
+                    showToast(
+                        `<div class="d-flex align-items-center">
+                            <i class="bi bi-bell me-2"></i>
+                            <span>Chamada do setor ${notification.type === 'tecnica' ? 'Técnico' : 'Atendimento'}</span>
+                        </div>
+                        <small class="text-muted">De: ${notification.from_username}</small>`,
+                        'primary',
+                        'Nova Chamada'
+                    );
+                } else if (notification.type === 'auth_status_change') {
+                    showToast(
+                        `OS #${notification.order_id}: ${notification.message}`,
+                        'warning',
+                        'Alteração de Autorização',
+                        notification.order_id,
+                        true
+                    );
                 }
             }
 
@@ -545,19 +529,13 @@ if(!isset($_SESSION['user_id'])) {
             
             if (authData.success && authData.hasNotification) {
                 authData.notifications.forEach(notification => {
-                    const notificationId = `auth-${notification.id || Date.now()}`;
-                    
-                    if (!processedNotifications.has(notificationId)) {
-                        processedNotifications.add(notificationId);
-                        
-                        showToast(
-                            `OS #${notification.order_id}: ${notification.message}`,
-                            'warning',
-                            'Alteração de Autorização',
-                            notification.order_id,
-                            true
-                        );
-                    }
+                    showToast(
+                        `OS #${notification.order_id}: ${notification.message}`,
+                        'warning',
+                        'Alteração de Autorização',
+                        notification.order_id,
+                        true
+                    );
                 });
             }
         } catch (error) {
