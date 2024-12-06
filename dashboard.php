@@ -544,37 +544,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
 
-    async function searchOrder() {
+    function searchOrder() {
         const searchValue = searchInput.value.trim();
         if (!searchValue) {
             alert('Por favor, digite um número de OS ou nome do cliente');
             return;
         }
 
-        try {
-            searchButton.disabled = true;
-            searchButton.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Buscando...';
-
-            const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || 'Erro ao buscar ordem');
-            }
-
-            if (data.success && data.data.length > 0) {
-                const order = data.data[0];
-                window.location.href = `view_order.php?id=${order.id}`;
-            } else {
-                alert('Nenhuma ordem encontrada com os critérios informados');
-            }
-        } catch (error) {
-            console.error('Erro:', error);
-            alert('Erro ao buscar ordem: ' + error.message);
-        } finally {
-            searchButton.disabled = false;
-            searchButton.innerHTML = '<i class="bi bi-search"></i> Buscar';
-        }
+        // Redirect to consulta_ordens.php with search parameter
+        window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
     }
 
     // Event listeners para busca
