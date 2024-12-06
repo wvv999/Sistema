@@ -26,7 +26,7 @@ try {
     die("Erro: " . $e->getMessage());
 }
 
-$delivery_date = date("d/m/", strtotime($order['delivery_date']));
+$delivery_date = date("d/m", strtotime($order['delivery_date']));
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
