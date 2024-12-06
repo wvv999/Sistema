@@ -434,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Verifica notificações a cada 5 segundos
-    setInterval(checkNotifications, 1000);
+    setInterval(checkNotifications, 500);
 });
 </script>
 
