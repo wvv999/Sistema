@@ -91,6 +91,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
         }
 
         .header-segunda {
+            font-weight: bold;
             display: grid;
             grid-template-columns: 1fr auto;
             align-items: center;
