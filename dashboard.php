@@ -391,9 +391,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const notificationSound = new Audio('assets/som.mp3');
     notificationSound.load();
 
-    // Cache de notificações para evitar duplicatas
-    const notificationCache = new Set();
-    const NOTIFICATION_TIMEOUT = 50000;
+    // Gerenciamento de estado das notificações
+    const notificationState = {
+        processedIds: new Set(),
+        activeNotifications: new Map(),
+        lastCheck: null
+    };
+
+    // Configurações
+    const NOTIFICATION_TIMEOUT = 5000;
+    const CHECK_INTERVAL = 1000;
 
     // Inicialização
     function initialize() {
@@ -411,54 +418,73 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Sistema de notificações toast
-    function showToast(message, type = 'success', title = null, orderId = null, permanent = false) {
-        const notificationId = `${message}-${orderId || ''}`;
-        
-        if (notificationCache.has(notificationId)) {
+    function showToast({ message, type = 'success', title = null, orderId = null, notificationId = null, permanent = false }) {
+        // Cria um ID único para a notificação
+        const toastId = notificationId || `${Date.now()}-${Math.random()}`;
+
+        // Verifica se já existe uma notificação ativa com este ID
+        if (notificationState.activeNotifications.has(toastId)) {
             return;
         }
 
-        notificationCache.add(notificationId);
-
         const toast = document.createElement('div');
         toast.className = 'notification-persistent';
-        
-        let buttonHtml = '';
-        if (orderId) {
-            buttonHtml = `
-                <button onclick="window.location.href='view_order.php?id=${orderId}'" 
-                        class="btn btn-primary btn-sm mt-2 w-100">
-                    <i class="bi bi-eye"></i> Visualizar OS
-                </button>
-            `;
-        }
+        toast.id = `toast-${toastId}`;
+
+        const buttonHtml = orderId ? `
+            <button onclick="window.location.href='view_order.php?id=${orderId}'" 
+                    class="btn btn-primary btn-sm mt-2 w-100">
+                <i class="bi bi-eye"></i> Visualizar OS
+            </button>
+        ` : '';
 
         toast.innerHTML = `
             <div class="toast-header bg-${type} text-white">
                 <strong class="me-auto">${title || (type === 'success' ? 'Sucesso' : 'Notificação')}</strong>
-                <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+                <button type="button" class="btn-close btn-close-white" 
+                        onclick="this.closest('.notification-persistent').remove()"></button>
             </div>
             <div class="toast-body">
                 ${message}
                 ${buttonHtml}
             </div>
         `;
-        
+
+        // Adiciona ao gerenciamento de estado
+        notificationState.activeNotifications.set(toastId, {
+            element: toast,
+            timestamp: Date.now()
+        });
+
         document.body.appendChild(toast);
-        
         playNotificationSound();
-        
+
         if (!permanent) {
             setTimeout(() => {
-                toast.remove();
-                notificationCache.delete(notificationId);
+                removeToast(toastId);
             }, NOTIFICATION_TIMEOUT);
+        }
+
+        return toastId;
+    }
+
+    function removeToast(toastId) {
+        const notification = notificationState.activeNotifications.get(toastId);
+        if (notification) {
+            notification.element.remove();
+            notificationState.activeNotifications.delete(toastId);
         }
     }
 
     function playNotificationSound() {
-        notificationSound.currentTime = 0;
-        notificationSound.play().catch(console.error);
+        try {
+            notificationSound.currentTime = 0;
+            notificationSound.play().catch(error => {
+                console.error('Erro ao reproduzir som:', error);
+            });
+        } catch (error) {
+            console.error('Erro ao manipular áudio:', error);
+        }
     }
 
     // Sistema de Setor
@@ -472,8 +498,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateNotifyButtonText(currentSector);
                 elements.notifyButton.disabled = false;
             }
-        } else {
-            elements.notifyButton.disabled = true;
         }
 
         elements.sectorInputs.forEach(input => {
@@ -493,13 +517,19 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const data = await response.json();
             if (data.success) {
-                showToast('Setor atualizado com sucesso!', 'success');
+                showToast({
+                    message: 'Setor atualizado com sucesso!',
+                    type: 'success'
+                });
                 updateNotifyButtonText(this.value);
                 elements.notifyButton.disabled = false;
             }
         } catch (error) {
             console.error('Erro ao atualizar setor:', error);
-            showToast('Erro ao atualizar setor', 'danger');
+            showToast({
+                message: 'Erro ao atualizar setor',
+                type: 'danger'
+            });
         }
     }
 
@@ -508,11 +538,122 @@ document.addEventListener('DOMContentLoaded', function() {
         elements.notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
     }
 
+    // Sistema de Busca
+    function initializeSearchSystem() {
+        elements.searchButton.addEventListener('click', handleSearch);
+        elements.searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSearch();
+        });
+    }
+
+    function handleSearch() {
+        const searchValue = elements.searchInput.value.trim();
+        if (!searchValue) {
+            showToast({
+                message: 'Por favor, digite um número de OS ou nome do cliente',
+                type: 'warning'
+            });
+            return;
+        }
+        window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
+    }
+
+    // Sistema de Notificações
+    function initializeNotificationSystem() {
+        setInterval(checkAllNotifications, CHECK_INTERVAL);
+    }
+
+    async function checkAllNotifications() {
+        const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
+        if (!currentSector) return;
+
+        try {
+            const [notificationsResponse, authResponse] = await Promise.all([
+                fetch('check_notifications.php'),
+                fetch('check_auth_notifications.php')
+            ]);
+
+            const [notificationsData, authData] = await Promise.all([
+                notificationsResponse.json(),
+                authResponse.json()
+            ]);
+
+            processNotifications(notificationsData, currentSector);
+            processAuthNotifications(authData);
+
+        } catch (error) {
+            console.error('Erro ao verificar notificações:', error);
+        }
+    }
+
+    function processNotifications(data, currentSector) {
+        if (!data.success || !data.hasNotification) return;
+
+        const notification = data.notification;
+        const notificationId = `${notification.type}-${notification.id || Date.now()}`;
+
+        // Verifica se esta notificação já foi processada
+        if (notificationState.processedIds.has(notificationId)) return;
+
+        // Adiciona ao conjunto de notificações processadas
+        notificationState.processedIds.add(notificationId);
+
+        if (notification.type === currentSector) {
+            showToast({
+                message: `
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-bell me-2"></i>
+                        <span>Chamada do setor ${notification.type === 'tecnica' ? 'Técnico' : 'Atendimento'}</span>
+                    </div>
+                    <small class="text-muted">De: ${notification.from_username}</small>
+                `,
+                type: 'primary',
+                title: 'Nova Chamada',
+                notificationId
+            });
+        } else if (notification.type === 'auth_status_change') {
+            showToast({
+                message: `OS #${notification.order_id}: ${notification.message}`,
+                type: 'warning',
+                title: 'Alteração de Autorização',
+                orderId: notification.order_id,
+                notificationId,
+                permanent: true
+            });
+        }
+    }
+
+    function processAuthNotifications(data) {
+        if (!data.success || !data.hasNotification) return;
+
+        data.notifications.forEach(notification => {
+            const notificationId = `auth-${notification.id || Date.now()}`;
+
+            // Verifica se esta notificação já foi processada
+            if (notificationState.processedIds.has(notificationId)) return;
+
+            // Adiciona ao conjunto de notificações processadas
+            notificationState.processedIds.add(notificationId);
+
+            showToast({
+                message: `OS #${notification.order_id}: ${notification.message}`,
+                type: 'warning',
+                title: 'Alteração de Autorização',
+                orderId: notification.order_id,
+                notificationId,
+                permanent: true
+            });
+        });
+    }
+
     // Notificar setor
     async function handleSectorNotification() {
         const selectedInput = document.querySelector('input[name="sector"]:checked');
         if (!selectedInput) {
-            showToast('Selecione um setor primeiro', 'danger');
+            showToast({
+                message: 'Selecione um setor primeiro',
+                type: 'danger'
+            });
             return;
         }
 
@@ -531,99 +672,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const data = await response.json();
             if (data.success) {
-                showToast('Chamada enviada', 'success');
+                showToast({
+                    message: 'Chamada enviada',
+                    type: 'success'
+                });
             } else {
-                showToast('Erro ao enviar notificação: ' + data.message, 'danger');
+                showToast({
+                    message: 'Erro ao enviar notificação: ' + data.message,
+                    type: 'danger'
+                });
             }
         } catch (error) {
             console.error('Erro ao enviar notificação:', error);
-            showToast('Erro ao enviar notificação', 'danger');
-        }
-    }
-
-    // Sistema de Busca
-    function initializeSearchSystem() {
-        elements.searchButton.addEventListener('click', handleSearch);
-        elements.searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleSearch();
-        });
-    }
-
-    function handleSearch() {
-        const searchValue = elements.searchInput.value.trim();
-        if (!searchValue) {
-            showToast('Por favor, digite um número de OS ou nome do cliente', 'warning');
-            return;
-        }
-        window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
-    }
-
-    // Sistema de Notificações
-    function initializeNotificationSystem() {
-        // Verifica notificações a cada segundo
-        setInterval(checkAllNotifications, 1000);
-    }
-
-    async function checkAllNotifications() {
-        const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
-        if (!currentSector) return;
-
-        try {
-            // Verifica todos os tipos de notificações
-            const [notificationsResponse, authResponse] = await Promise.all([
-                fetch('check_notifications.php'),
-                fetch('check_auth_notifications.php')
-            ]);
-
-            const [notificationsData, authData] = await Promise.all([
-                notificationsResponse.json(),
-                authResponse.json()
-            ]);
-
-            // Processa notificações gerais
-            if (notificationsData.success && notificationsData.hasNotification) {
-                const notification = notificationsData.notification;
-
-                // Notificação de setor
-                if ((notification.type === 'tecnica' || notification.type === 'atendimento') && 
-                    notification.type === currentSector) {
-                    showToast(
-                        `<div class="d-flex align-items-center">
-                            <i class="bi bi-bell me-2"></i>
-                            <span>Chamada do setor ${notification.type === 'tecnica' ? 'Técnico' : 'Atendimento'}</span>
-                        </div>
-                        <small class="text-muted">De: ${notification.from_username}</small>`,
-                        'primary',
-                        'Nova Chamada'
-                    );
-                }
-                // Notificação de autorização
-                else if (notification.type === 'auth_status_change') {
-                    showToast(
-                        `OS #${notification.order_id}: ${notification.message}`,
-                        'warning',
-                        'Alteração de Autorização',
-                        notification.order_id,
-                        true
-                    );
-                }
-            }
-
-            // Processa notificações de autorização
-            if (authData.success && authData.hasNotification) {
-                authData.notifications.forEach(notification => {
-                    showToast(
-                        `OS #${notification.order_id}: ${notification.message}`,
-                        'warning',
-                        'Alteração de Autorização',
-                        notification.order_id,
-                        true
-                    );
-                });
-            }
-
-        } catch (error) {
-            console.error('Erro ao verificar notificações:', error);
+            showToast({
+                message: 'Erro ao enviar notificação',
+                type: 'danger'
+            });
         }
     }
 
@@ -637,6 +701,16 @@ document.addEventListener('DOMContentLoaded', function() {
         testButton.onclick = playNotificationSound;
         document.body.appendChild(testButton);
     }
+
+    // Limpa notificações antigas periodicamente
+    setInterval(() => {
+        const now = Date.now();
+        notificationState.activeNotifications.forEach((notification, id) => {
+            if (now - notification.timestamp > NOTIFICATION_TIMEOUT) {
+                removeToast(id);
+            }
+        });
+    }, NOTIFICATION_TIMEOUT);
 
     // Inicializa a aplicação
     initialize();
