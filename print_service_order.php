@@ -268,7 +268,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                         
                         <div class="info-row">
                             <div class="field">
-                                <div class="field-label">Modelo do Aparelho:</div>
+                                <div class="field-label">Modelo:</div>
                                 <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
                             </div>
                             <div class="field">
@@ -345,7 +345,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                         
                         <div class="info-row">
                             <div class="field">
-                                <div class="field-label">Modelo do Aparelho:</div>
+                                <div class="field-label">Modelo:</div>
                                 <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
                             </div>
                             <div class="field">
@@ -490,7 +490,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                     
                     <div class="info-row">
                         <div class="field">
-                            <div class="field-label">Modelo do Aparelho:</div>
+                            <div class="field-label">Modelo:</div>
                             <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
                         </div>
                         <div class="field">
