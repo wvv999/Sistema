@@ -79,7 +79,10 @@ if (!empty($searchTerm)) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
-        html { scrollbar-width: none; } 
+
+        body::-webkit-scrollbar{
+            display: none;
+        }
         
         .body{
             padding:50px;
@@ -265,7 +268,7 @@ if (!empty($searchTerm)) {
     <a href="dashboard.php" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
-
+        
     <div class="container">
         <div class="dashboard-container">
             <div class="welcome-header">

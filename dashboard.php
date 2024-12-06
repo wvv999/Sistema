@@ -290,7 +290,9 @@ if(!isset($_SESSION['user_id'])) {
                 <div class="col-md-6">
                     <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
                         <i class="bi bi-file-earmark-text"></i>
-                        Nova Ordem de Serviço
+                        Nova Ordem de Serviço         body::-webkit-scrollbar{
+            display: none;
+        }
                     </a>
                 </div>
 
