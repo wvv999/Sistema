@@ -320,7 +320,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             
             <div class="container-half">
                 <div class="container">
-                    <div class="header">
+                    <div>
 
                         <div class="header-right">
                             <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
