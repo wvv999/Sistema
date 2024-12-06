@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Busca todos os usuários
 try {
-    $query = "SELECT id, username FROM users ORDER BY created_at DESC";
+    $query = "SELECT id, username FROM users ";
     $stmt = $db->prepare($query);
     $stmt->execute();
     $users = $stmt->fetchAll();
