@@ -180,10 +180,11 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             margin: 0 auto;
             margin-top: 5px;
         }
-
+        .quatro{
+            display: flex;
+        }
         .quatro > *{
             scale: 50%;
-            display:flex;
         }
         @media print {
             @page {
