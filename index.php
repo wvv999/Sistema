@@ -1,145 +1,149 @@
 <?php
-// Habilita exibição de erros para debug (remova em produção)
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
+// Início do arquivo
 session_start();
 require_once 'config.php';
+
+// Função para debug - você pode remover depois
+function debug_log($message) {
+    error_log("[DEBUG] " . $message);
+}
 
 function generateRememberToken() {
     return bin2hex(random_bytes(32));
 }
 
-// Função para limpar cookies de remember-me
 function clearRememberCookies() {
-    setcookie("remember_token", "", time() - 3600, "/");
-    setcookie("remember_user_id", "", time() - 3600, "/");
-    setcookie("remember_user", "", time() - 3600, "/");
+    $cookie_options = [
+        'expires' => time() - 3600,
+        'path' => '/',
+        'secure' => true,
+        'httponly' => true,
+        'samesite' => 'Strict'
+    ];
+    
+    setcookie("remember_token", "", $cookie_options);
+    setcookie("remember_user_id", "", $cookie_options);
+    setcookie("remember_user", "", $cookie_options);
 }
 
+debug_log("Iniciando verificação");
+
+// Verifica autologin primeiro
+if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token']) && isset($_COOKIE['remember_user_id'])) {
+    debug_log("Cookies encontrados - Token: " . substr($_COOKIE['remember_token'], 0, 10) . "... ID: " . $_COOKIE['remember_user_id']);
+    
+    try {
+        $database = new Database();
+        $db = $database->getConnection();
+        
+        $query = "SELECT * FROM users WHERE id = :id AND remember_token = :token";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(":id", $_COOKIE['remember_user_id']);
+        $stmt->bindParam(":token", $_COOKIE['remember_token']);
+        $stmt->execute();
+        
+        debug_log("Consulta executada - Rows: " . $stmt->rowCount());
+        
+        if ($stmt->rowCount() > 0) {
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            debug_log("Usuário encontrado - Iniciando sessão");
+            
+            // Configura a sessão
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['current_sector'] = $user['current_sector'] ?? 'atendimento';
+            
+            // Renova os cookies
+            $cookie_options = [
+                'expires' => time() + (86400 * 30),
+                'path' => '/',
+                'secure' => true,
+                'httponly' => true,
+                'samesite' => 'Strict'
+            ];
+            
+            setcookie('remember_token', $_COOKIE['remember_token'], $cookie_options);
+            setcookie('remember_user_id', $_COOKIE['remember_user_id'], $cookie_options);
+            setcookie('remember_user', $user['username'], $cookie_options);
+            
+            debug_log("Cookies renovados - Redirecionando");
+            header("Location: dashboard.php");
+            exit();
+        } else {
+            debug_log("Usuário/token não encontrado - Limpando cookies");
+            clearRememberCookies();
+        }
+    } catch(PDOException $e) {
+        debug_log("Erro no banco: " . $e->getMessage());
+        clearRememberCookies();
+    }
+}
+
+// Processa o login normal via POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $remember = isset($_POST['remember']) ? true : false;
 
+    debug_log("Tentativa de login para usuário: " . $username);
+
     try {
         $database = new Database();
         $db = $database->getConnection();
         
-        $query = "SELECT id, username, password, current_sector FROM users WHERE username = :username";
+        $query = "SELECT * FROM users WHERE username = :username";
         $stmt = $db->prepare($query);
         $stmt->bindParam(":username", $username);
         $stmt->execute();
         
         if($stmt->rowCount() == 1) {
-            $row = $stmt->fetch();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
             
             if(password_verify($password, $row['password'])) {
+                debug_log("Login bem sucedido para: " . $username);
+                
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['username'] = $row['username'];
                 $_SESSION['current_sector'] = $row['current_sector'] ?? 'atendimento';
                 
                 if($remember) {
+                    debug_log("Remember-me ativado");
                     $remember_token = generateRememberToken();
                     
-                    $update_query = "UPDATE users SET remember_token = :token, token_created_at = CURRENT_TIMESTAMP WHERE id = :id";
+                    $update_query = "UPDATE users SET remember_token = :token WHERE id = :id";
                     $update_stmt = $db->prepare($update_query);
                     $update_stmt->bindParam(":token", $remember_token);
                     $update_stmt->bindParam(":id", $row['id']);
                     $update_stmt->execute();
                     
-                    setcookie(
-                        "remember_token",
-                        $remember_token,
-                        [
-                            'expires' => time() + (86400 * 30),
-                            'path' => '/',
-                            'secure' => true,
-                            'httponly' => true,
-                            'samesite' => 'Strict'
-                        ]
-                    );
-                    setcookie(
-                        "remember_user_id",
-                        $row['id'],
-                        [
-                            'expires' => time() + (86400 * 30),
-                            'path' => '/',
-                            'secure' => true,
-                            'httponly' => true,
-                            'samesite' => 'Strict'
-                        ]
-                    );
-                    setcookie(
-                        "remember_user",
-                        $row['username'],
-                        [
-                            'expires' => time() + (86400 * 30),
-                            'path' => '/',
-                            'secure' => true,
-                            'httponly' => true,
-                            'samesite' => 'Strict'
-                        ]
-                    );
+                    $cookie_options = [
+                        'expires' => time() + (86400 * 30),
+                        'path' => '/',
+                        'secure' => true,
+                        'httponly' => true,
+                        'samesite' => 'Strict'
+                    ];
+                    
+                    setcookie('remember_token', $remember_token, $cookie_options);
+                    setcookie('remember_user_id', $row['id'], $cookie_options);
+                    setcookie('remember_user', $row['username'], $cookie_options);
+                    
+                    debug_log("Cookies de remember-me configurados");
                 }
                 
                 header("Location: dashboard.php");
                 exit();
             } else {
+                debug_log("Senha inválida para: " . $username);
                 $login_err = "Senha inválida.";
             }
         } else {
+            debug_log("Usuário não encontrado: " . $username);
             $login_err = "Usuário não encontrado.";
         }
     } catch(PDOException $e) {
-        error_log("Erro no login: " . $e->getMessage());
+        debug_log("Erro no login: " . $e->getMessage());
         $login_err = "Erro no login. Tente novamente.";
-    }
-} else {
-    // Verifica se existe um token de "lembrar-me" válido
-    if(!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token']) && isset($_COOKIE['remember_user_id'])) {
-        try {
-            $database = new Database();
-            $db = $database->getConnection();
-            
-            $query = "SELECT id, username, current_sector, UNIX_TIMESTAMP(token_created_at) as token_time 
-                     FROM users WHERE id = :id AND remember_token = :token AND remember_token IS NOT NULL";
-            $stmt = $db->prepare($query);
-            $stmt->bindParam(":id", $_COOKIE['remember_user_id']);
-            $stmt->bindParam(":token", $_COOKIE['remember_token']);
-            $stmt->execute();
-            
-            if($stmt->rowCount() == 1) {
-                $row = $stmt->fetch();
-                $token_age = time() - $row['token_time'];
-                
-                // Se o token tiver mais de 30 dias ou for inválido, limpa tudo
-                if($token_age > (86400 * 30)) {
-                    clearRememberCookies();
-                    
-                    // Limpa o token no banco
-                    $update_query = "UPDATE users SET remember_token = NULL WHERE id = :id";
-                    $update_stmt = $db->prepare($update_query);
-                    $update_stmt->bindParam(":id", $row['id']);
-                    $update_stmt->execute();
-                } else {
-                    $_SESSION['user_id'] = $row['id'];
-                    $_SESSION['username'] = $row['username'];
-                    $_SESSION['current_sector'] = $row['current_sector'] ?? 'atendimento';
-                    
-                    header("Location: dashboard.php");
-                    exit();
-                }
-            } else {
-                // Se não encontrou o token válido, limpa os cookies
-                clearRememberCookies();
-            }
-        } catch(PDOException $e) {
-            error_log("Erro no remember-me: " . $e->getMessage());
-            // Em caso de erro, limpa os cookies para evitar loops
-            clearRememberCookies();
-        }
     }
 }
 
