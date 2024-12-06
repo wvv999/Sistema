@@ -377,218 +377,216 @@ if(!isset($_SESSION['user_id'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-        // Cache de elementos DOM
-        const elements = {
-            searchInput: document.getElementById('searchInput'),
-            searchButton: document.getElementById('searchButton'),
-            sectorInputs: document.querySelectorAll('input[name="sector"]'),
-            notifyButton: document.getElementById('notifyButton'),
-            notificationContainer: document.getElementById('notification-container')
-        };
+document.addEventListener('DOMContentLoaded', function() {
+    // Cache de elementos DOM
+    const elements = {
+        searchInput: document.getElementById('searchInput'),
+        searchButton: document.getElementById('searchButton'),
+        sectorInputs: document.querySelectorAll('input[name="sector"]'),
+        notifyButton: document.getElementById('notifyButton'),
+        notificationContainer: document.getElementById('notification-container')
+    };
 
-        // Configuração do som
-        const notificationSound = new Audio('assets/som.mp3');
-        notificationSound.load();
+    // Configuração do som
+    const notificationSound = new Audio('assets/som.mp3');
+    notificationSound.load();
 
-        // Cache de notificações para evitar duplicatas
-        const notificationCache = new Set();
-        const NOTIFICATION_TIMEOUT = 5000; // 5 segundos
+    // Cache de notificações para evitar duplicatas
+    const notificationCache = new Set();
+    const NOTIFICATION_TIMEOUT = 5000;
 
-        // Inicialização
-        function initialize() {
-            initializeTooltips();
-            initializeSectorSelection();
-            initializeSearchSystem();
-            initializeNotificationSystem();
-            addSoundTestButton();
-        }
+    // Inicialização
+    function initialize() {
+        initializeTooltips();
+        initializeSectorSelection();
+        initializeSearchSystem();
+        initializeNotificationSystem();
+        addSoundTestButton();
+    }
 
-        // Inicializa tooltips do Bootstrap
-        function initializeTooltips() {
-            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-        }
+    // Inicializa tooltips do Bootstrap
+    function initializeTooltips() {
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    }
 
-        // Sistema de notificações toast
-        function showToast(message, type = 'success', title = null, orderId = null, permanent = false) {
-            // Cria um ID único para a notificação baseado na mensagem e ordem
-            const notificationId = `${message}-${orderId || ''}`;
-            
-            // Verifica se esta notificação específica já está sendo exibida
-            if (notificationCache.has(notificationId)) {
-                return;
-            }
-
-            // Adiciona ao cache
-            notificationCache.add(notificationId);
-
-            const toast = document.createElement('div');
-            toast.className = 'notification-persistent';
-            
-            let buttonHtml = '';
-            if (orderId) {
-                buttonHtml = `
-                    <button onclick="window.location.href='view_order.php?id=${orderId}'" 
-                            class="btn btn-primary btn-sm mt-2 w-100">
-                        <i class="bi bi-eye"></i> Visualizar OS
-                    </button>
-                `;
-            }
-
-            toast.innerHTML = `
-                <div class="toast-header bg-${type} text-white">
-                    <strong class="me-auto">${title || (type === 'success' ? 'Sucesso' : 'Notificação')}</strong>
-                    <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
-                </div>
-                <div class="toast-body">
-                    ${message}
-                    ${buttonHtml}
-                </div>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            // Toca o som apenas uma vez por notificação
-            notificationSound.currentTime = 0;
-            notificationSound.play().catch(console.error);
-            
-            // Remove após o timeout, a menos que seja marcada como permanente
-            if (!permanent) {
-                setTimeout(() => {
-                    toast.remove();
-                    notificationCache.delete(notificationId);
-                }, NOTIFICATION_TIMEOUT);
-            }
-        }
-
-        // Sistema de Setor
-        function initializeSectorSelection() {
-            const currentSector = <?php echo json_encode($_SESSION['current_sector'] ?? ''); ?>;
-            
-            if (currentSector) {
-                const radioToCheck = document.querySelector(`input[name="sector"][value="${currentSector}"]`);
-                if (radioToCheck) {
-                    radioToCheck.checked = true;
-                    updateNotifyButtonText(currentSector);
-                    elements.notifyButton.disabled = false;
-                }
-            } else {
-                elements.notifyButton.disabled = true;
-            }
-
-            // Event listeners para mudança de setor
-            elements.sectorInputs.forEach(input => {
-                input.addEventListener('change', handleSectorChange);
-            });
-
-            elements.notifyButton.addEventListener('click', handleSectorNotification);
-        }
-
-        async function handleSectorChange() {
-            try {
-                const response = await fetch('update_user_sector.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ sector: this.value })
-                });
-                
-                const data = await response.json();
-                if (data.success) {
-                    showToast('Setor atualizado com sucesso!', 'success');
-                    updateNotifyButtonText(this.value);
-                    elements.notifyButton.disabled = false;
-                }
-            } catch (error) {
-                console.error('Erro ao atualizar setor:', error);
-                showToast('Erro ao atualizar setor', 'danger');
-            }
-        }
-
-        function updateNotifyButtonText(sector) {
-            const targetSector = sector === 'atendimento' ? 'Técnica' : 'Atendimento';
-            elements.notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
-        }
-
-        async function handleSectorNotification() {
-            const selectedInput = document.querySelector('input[name="sector"]:checked');
-            
-            if (!selectedInput) {
-                showToast('Selecione um setor primeiro', 'danger');
-                return;
-            }
-
-            const currentSector = selectedInput.value;
-            const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
+    // Sistema de notificações toast
+    function showToast(message, type = 'success', title = null, orderId = null, permanent = false) {
+        const notificationId = `${message}-${orderId || ''}`;
         
-            try {
-                const response = await fetch('send_notification.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        sector: targetSector,
-                        from_user: <?php echo $_SESSION['user_id']; ?>
-                    })
-                });
-
-                const data = await response.json();
-                if (data.success) {
-                    showToast('Chamada enviada', 'success');
-                } else {
-                    showToast('Erro ao enviar notificação: ' + data.message, 'danger');
-                }
-            } catch (error) {
-                console.error('Erro ao enviar notificação:', error);
-                showToast('Erro ao enviar notificação', 'danger');
-            }
+        if (notificationCache.has(notificationId)) {
+            return;
         }
 
-        // Sistema de Busca
-        function initializeSearchSystem() {
-            elements.searchButton.addEventListener('click', handleSearch);
-            elements.searchInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') handleSearch();
+        notificationCache.add(notificationId);
+
+        const toast = document.createElement('div');
+        toast.className = 'notification-persistent';
+        
+        let buttonHtml = '';
+        if (orderId) {
+            buttonHtml = `
+                <button onclick="window.location.href='view_order.php?id=${orderId}'" 
+                        class="btn btn-primary btn-sm mt-2 w-100">
+                    <i class="bi bi-eye"></i> Visualizar OS
+                </button>
+            `;
+        }
+
+        toast.innerHTML = `
+            <div class="toast-header bg-${type} text-white">
+                <strong class="me-auto">${title || (type === 'success' ? 'Sucesso' : 'Notificação')}</strong>
+                <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+            </div>
+            <div class="toast-body">
+                ${message}
+                ${buttonHtml}
+            </div>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        playNotificationSound();
+        
+        if (!permanent) {
+            setTimeout(() => {
+                toast.remove();
+                notificationCache.delete(notificationId);
+            }, NOTIFICATION_TIMEOUT);
+        }
+    }
+
+    function playNotificationSound() {
+        notificationSound.currentTime = 0;
+        notificationSound.play().catch(console.error);
+    }
+
+    // Sistema de Setor
+    function initializeSectorSelection() {
+        const currentSector = <?php echo json_encode($_SESSION['current_sector'] ?? ''); ?>;
+        
+        if (currentSector) {
+            const radioToCheck = document.querySelector(`input[name="sector"][value="${currentSector}"]`);
+            if (radioToCheck) {
+                radioToCheck.checked = true;
+                updateNotifyButtonText(currentSector);
+                elements.notifyButton.disabled = false;
+            }
+        } else {
+            elements.notifyButton.disabled = true;
+        }
+
+        elements.sectorInputs.forEach(input => {
+            input.addEventListener('change', handleSectorChange);
+        });
+
+        elements.notifyButton.addEventListener('click', handleSectorNotification);
+    }
+
+    async function handleSectorChange() {
+        try {
+            const response = await fetch('update_user_sector.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ sector: this.value })
             });
-        }
-
-        function handleSearch() {
-            const searchValue = elements.searchInput.value.trim();
-            if (!searchValue) {
-                showToast('Por favor, digite um número de OS ou nome do cliente', 'warning');
-                return;
+            
+            const data = await response.json();
+            if (data.success) {
+                showToast('Setor atualizado com sucesso!', 'success');
+                updateNotifyButtonText(this.value);
+                elements.notifyButton.disabled = false;
             }
-            window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
+        } catch (error) {
+            console.error('Erro ao atualizar setor:', error);
+            showToast('Erro ao atualizar setor', 'danger');
+        }
+    }
+
+    function updateNotifyButtonText(sector) {
+        const targetSector = sector === 'atendimento' ? 'Técnica' : 'Atendimento';
+        elements.notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
+    }
+
+    // Notificar setor
+    async function handleSectorNotification() {
+        const selectedInput = document.querySelector('input[name="sector"]:checked');
+        if (!selectedInput) {
+            showToast('Selecione um setor primeiro', 'danger');
+            return;
         }
 
-        // Sistema de Notificações
-        function initializeNotificationSystem() {
-            setInterval(checkNotifications, 1000);
-        }
+        const currentSector = selectedInput.value;
+        const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
+    
+        try {
+            const response = await fetch('send_notification.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    sector: targetSector,
+                    from_user: <?php echo $_SESSION['user_id']; ?>
+                })
+            });
 
-        async function checkNotifications() {
-            try {
-                const [notificationsResponse, authResponse] = await Promise.all([
-                    fetch('check_notifications.php'),
-                    fetch('check_auth_notifications.php')
-                ]);
-
-                const [notificationsData, authData] = await Promise.all([
-                    notificationsResponse.json(),
-                    authResponse.json()
-                ]);
-
-                handleGeneralNotifications(notificationsData);
-                handleAuthNotifications(authData);
-            } catch (error) {
-                console.error('Erro ao verificar notificações:', error);
+            const data = await response.json();
+            if (data.success) {
+                showToast('Chamada enviada', 'success');
+            } else {
+                showToast('Erro ao enviar notificação: ' + data.message, 'danger');
             }
+        } catch (error) {
+            console.error('Erro ao enviar notificação:', error);
+            showToast('Erro ao enviar notificação', 'danger');
         }
+    }
 
-        function handleGeneralNotifications(data) {
-            if (data.success && data.hasNotification) {
-                const notification = data.notification;
-                
-                if (notification.type === 'tecnica' || notification.type === 'atendimento') {
+    // Sistema de Busca
+    function initializeSearchSystem() {
+        elements.searchButton.addEventListener('click', handleSearch);
+        elements.searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSearch();
+        });
+    }
+
+    function handleSearch() {
+        const searchValue = elements.searchInput.value.trim();
+        if (!searchValue) {
+            showToast('Por favor, digite um número de OS ou nome do cliente', 'warning');
+            return;
+        }
+        window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
+    }
+
+    // Sistema de Notificações
+    function initializeNotificationSystem() {
+        // Verifica notificações a cada segundo
+        setInterval(checkAllNotifications, 1000);
+    }
+
+    async function checkAllNotifications() {
+        const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
+        if (!currentSector) return;
+
+        try {
+            // Verifica todos os tipos de notificações
+            const [notificationsResponse, authResponse] = await Promise.all([
+                fetch('check_notifications.php'),
+                fetch('check_auth_notifications.php')
+            ]);
+
+            const [notificationsData, authData] = await Promise.all([
+                notificationsResponse.json(),
+                authResponse.json()
+            ]);
+
+            // Processa notificações gerais
+            if (notificationsData.success && notificationsData.hasNotification) {
+                const notification = notificationsData.notification;
+
+                // Notificação de setor
+                if ((notification.type === 'tecnica' || notification.type === 'atendimento') && 
+                    notification.type === currentSector) {
                     showToast(
                         `<div class="d-flex align-items-center">
                             <i class="bi bi-bell me-2"></i>
@@ -599,39 +597,50 @@ if(!isset($_SESSION['user_id'])) {
                         'Nova Chamada'
                     );
                 }
-            }
-        }
-
-        function handleAuthNotifications(data) {
-            if (data.success && data.hasNotification) {
-                data.notifications.forEach(notification => {
+                // Notificação de autorização
+                else if (notification.type === 'auth_status_change') {
                     showToast(
                         `OS #${notification.order_id}: ${notification.message}`,
                         'warning',
                         'Alteração de Autorização',
-                        notification.order_id
+                        notification.order_id,
+                        true
+                    );
+                }
+            }
+
+            // Processa notificações de autorização
+            if (authData.success && authData.hasNotification) {
+                authData.notifications.forEach(notification => {
+                    showToast(
+                        `OS #${notification.order_id}: ${notification.message}`,
+                        'warning',
+                        'Alteração de Autorização',
+                        notification.order_id,
+                        true
                     );
                 });
             }
-        }
 
-        // Botão de teste de som
-        function addSoundTestButton() {
-            const testButton = document.createElement('button');
-            testButton.className = 'btn btn-sm btn-outline-secondary position-fixed';
-            testButton.style.bottom = '20px';
-            testButton.style.left = '20px';
-            testButton.innerHTML = '<i class="bi bi-volume-up"></i> Testar Som';
-            testButton.onclick = () => {
-                notificationSound.currentTime = 0;
-                notificationSound.play().catch(e => console.error('Erro ao testar som:', e));
-            };
-            document.body.appendChild(testButton);
+        } catch (error) {
+            console.error('Erro ao verificar notificações:', error);
         }
+    }
 
-        // Inicializa a aplicação
-        initialize();
-    });
+    // Botão de teste de som
+    function addSoundTestButton() {
+        const testButton = document.createElement('button');
+        testButton.className = 'btn btn-sm btn-outline-secondary position-fixed';
+        testButton.style.bottom = '20px';
+        testButton.style.left = '20px';
+        testButton.innerHTML = '<i class="bi bi-volume-up"></i> Testar Som';
+        testButton.onclick = playNotificationSound;
+        document.body.appendChild(testButton);
+    }
+
+    // Inicializa a aplicação
+    initialize();
+});
     </script>
 </body>
 </html>
