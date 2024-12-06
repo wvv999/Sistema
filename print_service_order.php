@@ -268,7 +268,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                         </div>
                         <div class="header-right">
                             <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
-                            <div class="delivery-date">Previsão de Entrega: <?php echo $delivery_date; ?></div>
+                            <div class="delivery-date">Entrega: <?php echo $delivery_date; ?></div>
                         </div>
                     </div>
         
@@ -349,7 +349,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                         </div>
                         <div class="header-right-segunda">
                             
-                            <div class="delivery-date">Previsão de Entrega: <?php echo $delivery_date; ?></div>
+                            <div class="delivery-date">Entrega: <?php echo $delivery_date; ?></div>
                         </div>
                     </div>
         
@@ -491,7 +491,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                     </div>
                     <div class="header-right">
                         <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
-                        <div class="delivery-date">Previsão de Entrega: <?php echo $delivery_date; ?></div>
+                        <div class="delivery-date">Entrega: <?php echo $delivery_date; ?></div>
                     </div>
                 </div>
     
