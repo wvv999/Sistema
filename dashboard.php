@@ -429,6 +429,50 @@ document.addEventListener('DOMContentLoaded', function() {
     // Verifica notificações a cada 5 segundos
     setInterval(checkNotifications, 500);
 });
+function checkAuthNotifications() {
+    fetch('check_auth_notifications.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success && data.hasNotification) {
+                data.notifications.forEach(notification => {
+                    // Verifica se a notificação é de autorização
+                    if (notification.type === 'auth_status_change') {
+                        // Toca o som
+                        notificationSound.currentTime = 0;
+                        notificationSound.play().catch(console.error);
+                        
+                        // Mostra o toast de notificação
+                        const toast = document.createElement('div');
+                        toast.className = 'notification-persistent';
+                        toast.innerHTML = `
+                            <div class="toast-header bg-warning">
+                                <strong class="me-auto">Alteração de Autorização</strong>
+                                <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
+                            </div>
+                            <div class="toast-body">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-shield-check me-2"></i>
+                                    <span>OS #${notification.order_id}: ${notification.message}</span>
+                                </div>
+                                <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
+                                        class="btn btn-primary btn-sm mt-2 w-100">
+                                    <i class="bi bi-eye"></i> Visualizar OS
+                                </button>
+                            </div>
+                        `;
+                        document.body.appendChild(toast);
+                        
+                        // Remove a notificação após 10 segundos
+                        setTimeout(() => toast.remove(), 10000);
+                    }
+                });
+            }
+        })
+        .catch(error => console.error('Erro ao verificar notificações:', error));
+}
+
+// Adiciona a verificação de autorizações ao seu intervalo existente
+setInterval(checkAuthNotifications, 1000);
 </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
