@@ -387,26 +387,12 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                                 <div class="reported-issue">
                                     <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
                                 </div>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" style="width: 86px; height: 86px;">
-                                    <rect width="80" height="80" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
-                                    <circle cx="15" cy="15" r="3" fill="#666"/>
-                                    <circle cx="40" cy="15" r="3" fill="#666"/>
-                                    <circle cx="65" cy="15" r="3" fill="#666"/>
-                                    <circle cx="15" cy="40" r="3" fill="#666"/>
-                                    <circle cx="40" cy="40" r="3" fill="#666"/>
-                                    <circle cx="65" cy="40" r="3" fill="#666"/>
-                                    <circle cx="15" cy="65" r="3" fill="#666"/>
-                                    <circle cx="40" cy="65" r="3" fill="#666"/>
-                                    <circle cx="65" cy="65" r="3" fill="#666"/>
-                                </svg>
+
                             </div>
                         </div>
                     </div>
         
-                    <div class="disclaimer">
-                        A empresa da garantia de 90 dias para mão de obra e peça usada no conserto, a garantia só é valida para defeito na peça trocada, sendo que por mau uso o cliente perde a garantia do mesmo. Aparelhos molhados não terão garantia.
-                        Não nos responsabilizamos por dados contidos nos cartões de memória, chip e no aparelho. a constatação de rompimento do lacre invalidará a garantia. A permanencia do aparelho por mais de 30 dias após a aprovação, poderá sofrer reajuste do preço sem aviso prévio e a partir de 90 dias sem a procura do proprietário será considerada abandono do mesmo, não cabendo reclamação ou indenização. A procedência do aparelho é de responsabilidade do declarante. O aparelho só será entregue mediante esta ordem de serviço.
-                    </div>
+
                 </div>
             </div>
         </div>
