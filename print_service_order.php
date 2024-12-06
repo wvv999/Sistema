@@ -30,11 +30,9 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
-<!DOCTYPE html>
-<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Ordem de Serviço #<?php echo $order['id']; ?></title>
+    <title>Ordem de Serviço</title>
     <link href="https://fonts.cdnjs.com/css2?family=Style+Script" rel="stylesheet">
     <style>
         body {
@@ -51,13 +49,34 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             margin: 0 auto;
             background: white;
             position: relative;
-            page-break-after: avoid; /* Evita quebra de página após a div */
+            display: flex;
+            flex-direction: column;
         }
 
-        .container {
+        .top-section {
+            display: flex;
+            flex-direction: row;
+            border-bottom: 1px dashed #000;
+        }
+
+        .container-half {
+            width: 50%;
+            padding: 0.5cm;
+            box-sizing: border-box;
+            border-right: 1px dashed #000;
+            transform: scale(0.9);
+            transform-origin: top center;
+        }
+
+        .container-half:last-child {
+            border-right: none;
+        }
+
+        .container-full {
             width: 100%;
             padding: 1cm;
             box-sizing: border-box;
+            margin-top: 0.5cm;
         }
 
         .header {
@@ -199,7 +218,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 height: 100%;
             }
 
-            .container {
+            .container-half, .container-full {
                 page-break-inside: avoid;
             }
 
@@ -209,168 +228,263 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
     </style>
 </head>
-<!-- Rest of the HTML remains the same -->
 <body>
     <div class="page">
-        <!-- First copy -->
-        <div class="container">
-            <div class="header">
-                <div class="header-left">
-                    <div class="title-container">
-                        <h1 class="brush-script">Tele Dil</h1>
-                    </div>
-                    <div class="company-info">Assistência Técnica</div>
-                    <div class="company-info">Rua José de Quadros, 161</div>
-                    <div class="company-info">Telefone: (51) 3561-5145</div>
-                    <div class="company-info">WhatsApp: (51) 99538-4838</div>
-                </div>
-                <div class="header-right">
-                    <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
-                    <div class="delivery-date">Previsão de Entrega: <?php echo $delivery_date; ?></div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="grid" style="grid-template-columns: 48% 24% 24%;">
-                    <div class="field">
-                        <div class="field-label">Cliente:</div>
-                        <div class="field-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
-                    </div>
-                    <div class="field">
-                        <div class="field-label">Celular:</div>
-                        <div class="field-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
-                    </div>
-                    <div class="field">
-                        <div class="field-label">Data de Emissão:</div>
-                        <div class="field-value"><?php echo date('d/m/Y'); ?></div>
-                    </div>
-                </div>
-                
-                <div class="info-row">
-                    <div class="field">
-                        <div class="field-label">Modelo do Aparelho:</div>
-                        <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
-                    </div>
-                    <div class="field">
-                        <div class="field-label">Acessórios:</div>
-                        <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
-                    </div>
-                    <div class="field">
-                        <div class="field-label">Senha:</div>
-                        <div class="field-value"><?php echo htmlspecialchars($order['device_password']); ?></div>
-                    </div>
-                </div>
-                
-                <div class="field">
-                    <div class="field-label">Defeito Reclamado:</div>
-                    <div class="reported-issue-container">
-                        <div class="reported-issue">
-                            <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
+        <div class="top-section">
+            <!-- First half-width copy -->
+            <div class="container-half">
+                <div class="container">
+                    <div class="header">
+                        <div class="header-left">
+                            <div class="title-container">
+                                <h1 class="brush-script">Tele Dil</h1>
+                            </div>
+                            <div class="company-info">Assistência Técnica</div>
+                            <div class="company-info">Rua José de Quadros, 161</div>
+                            <div class="company-info">Telefone: (51) 3561-5145</div>
+                            <div class="company-info">WhatsApp: (51) 99538-4838</div>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" style="width: 86px; height: 86px;">
-                            <rect width="80" height="80" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
-                            <circle cx="15" cy="15" r="3" fill="#666"/>
-                            <circle cx="40" cy="15" r="3" fill="#666"/>
-                            <circle cx="65" cy="15" r="3" fill="#666"/>
-                            <circle cx="15" cy="40" r="3" fill="#666"/>
-                            <circle cx="40" cy="40" r="3" fill="#666"/>
-                            <circle cx="65" cy="40" r="3" fill="#666"/>
-                            <circle cx="15" cy="65" r="3" fill="#666"/>
-                            <circle cx="40" cy="65" r="3" fill="#666"/>
-                            <circle cx="65" cy="65" r="3" fill="#666"/>
-                        </svg>
+                        <div class="header-right">
+                            <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
+                            <div class="delivery-date">Previsão de Entrega: <?php echo $delivery_date; ?></div>
+                        </div>
+                    </div>
+        
+                    <div class="section">
+                        <div class="grid" style="grid-template-columns: 48% 24% 24%;">
+                            <div class="field">
+                                <div class="field-label">Cliente:</div>
+                                <div class="field-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Celular:</div>
+                                <div class="field-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Data de Emissão:</div>
+                                <div class="field-value"><?php echo date('d/m/Y'); ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="field">
+                                <div class="field-label">Modelo do Aparelho:</div>
+                                <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Acessórios:</div>
+                                <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Senha:</div>
+                                <div class="field-value"><?php echo htmlspecialchars($order['device_password']); ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <div class="field-label">Defeito Reclamado:</div>
+                            <div class="reported-issue-container">
+                                <div class="reported-issue">
+                                    <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" style="width: 86px; height: 86px;">
+                                    <rect width="80" height="80" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
+                                    <circle cx="15" cy="15" r="3" fill="#666"/>
+                                    <circle cx="40" cy="15" r="3" fill="#666"/>
+                                    <circle cx="65" cy="15" r="3" fill="#666"/>
+                                    <circle cx="15" cy="40" r="3" fill="#666"/>
+                                    <circle cx="40" cy="40" r="3" fill="#666"/>
+                                    <circle cx="65" cy="40" r="3" fill="#666"/>
+                                    <circle cx="15" cy="65" r="3" fill="#666"/>
+                                    <circle cx="40" cy="65" r="3" fill="#666"/>
+                                    <circle cx="65" cy="65" r="3" fill="#666"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="disclaimer">
+                        A empresa da garantia de 90 dias para mão de obra e peça usada no conserto, a garantia só é valida para defeito na peça trocada, sendo que por mau uso o cliente perde a garantia do mesmo. Aparelhos molhados não terão garantia.
+                        Não nos responsabilizamos por dados contidos nos cartões de memória, chip e no aparelho. a constatação de rompimento do lacre invalidará a garantia. A permanencia do aparelho por mais de 30 dias após a aprovação, poderá sofrer reajuste do preço sem aviso prévio e a partir de 90 dias sem a procura do proprietário será considerada abandono do mesmo, não cabendo reclamação ou indenização. A procedência do aparelho é de responsabilidade do declarante. O aparelho só será entregue mediante esta ordem de serviço.
+                    </div>
+        
+                    <div class="signatures">
+                        <div class="signature-line">
+                            Assinatura do Cliente
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="disclaimer">
-                A empresa da garantia de 90 dias para mão de obra e peça usada no conserto, a garantia só é valida para defeito na peça trocada, sendo que por mau uso o cliente perde a garantia do mesmo. Aparelhos molhados não terão garantia.
-                Não nos responsabilizamos por dados contidos nos cartões de memória, chip e no aparelho. a constatação de rompimento do lacre invalidará a garantia. A permanencia do aparelho por mais de 30 dias após a aprovação, poderá sofrer reajuste do preço sem aviso prévio e a partir de 90 dias sem a procura do proprietário será considerada abandono do mesmo, não cabendo reclamação ou indenização. A procedência do aparelho é de responsabilidade do declarante. O aparelho só será entregue mediante esta ordem de serviço.
-            </div>
-
-            <div class="signatures">
-                <div class="signature-line">
-                    Assinatura do Cliente
+            <!-- Second half-width copy -->
+            <div class="container-half">
+                <div class="container">
+                    <div class="header">
+                        <div class="header-left">
+                            <div class="title-container">
+                                <h1 class="brush-script">Tele Dil</h1>
+                            </div>
+                            <div class="company-info">Assistência Técnica</div>
+                            <div class="company-info">Rua José de Quadros, 161</div>
+                            <div class="company-info">Telefone: (51) 3561-5145</div>
+                            <div class="company-info">WhatsApp: (51) 99538-4838</div>
+                        </div>
+                        <div class="header-right">
+                            <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
+                            <div class="delivery-date">Previsão de Entrega: <?php echo $delivery_date; ?></div>
+                        </div>
+                    </div>
+        
+                    <div class="section">
+                        <div class="grid" style="grid-template-columns: 48% 24% 24%;">
+                            <div class="field">
+                                <div class="field-label">Cliente:</div>
+                                <div class="field-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Celular:</div>
+                                <div class="field-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Data de Emissão:</div>
+                                <div class="field-value"><?php echo date('d/m/Y'); ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="info-row">
+                            <div class="field">
+                                <div class="field-label">Modelo do Aparelho:</div>
+                                <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Acessórios:</div>
+                                <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
+                            </div>
+                            <div class="field">
+                                <div class="field-label">Senha:</div>
+                                <div class="field-value"><?php echo htmlspecialchars($order['device_password']); ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="field">
+                            <div class="field-label">Defeito Reclamado:</div>
+                            <div class="reported-issue-container">
+                                <div class="reported-issue">
+                                    <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" style="width: 86px; height: 86px;">
+                                    <rect width="80" height="80" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
+                                    <circle cx="15" cy="15" r="3" fill="#666"/>
+                                    <circle cx="40" cy="15" r="3" fill="#666"/>
+                                    <circle cx="65" cy="15" r="3" fill="#666"/>
+                                    <circle cx="15" cy="40" r="3" fill="#666"/>
+                                    <circle cx="40" cy="40" r="3" fill="#666"/>
+                                    <circle cx="65" cy="40" r="3" fill="#666"/>
+                                    <circle cx="15" cy="65" r="3" fill="#666"/>
+                                    <circle cx="40" cy="65" r="3" fill="#666"/>
+                                    <circle cx="65" cy="65" r="3" fill="#666"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="disclaimer">
+                        A empresa da garantia de 90 dias para mão de obra e peça usada no conserto, a garantia só é valida para defeito na peça trocada, sendo que por mau uso o cliente perde a garantia do mesmo. Aparelhos molhados não terão garantia.
+                        Não nos responsabilizamos por dados contidos nos cartões de memória, chip e no aparelho. a constatação de rompimento do lacre invalidará a garantia. A permanencia do aparelho por mais de 30 dias após a aprovação, poderá sofrer reajuste do preço sem aviso prévio e a partir de 90 dias sem a procura do proprietário será considerada abandono do mesmo, não cabendo reclamação ou indenização. A procedência do aparelho é de responsabilidade do declarante. O aparelho só será entregue mediante esta ordem de serviço.
+                    </div>
+        
+                    <div class="signatures">
+                        <div class="signature-line">
+                            Assinatura do Cliente
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Second copy (identical to the first) -->
-        <div class="container">
-            <div class="header">
-                <div class="header-left">
-                    <div class="title-container">
-                        <h1 class="brush-script">Tele Dil</h1>
-                    </div>
-                    <div class="company-info">Assistência Técnica</div>
-                    <div class="company-info">Rua José de Quadros, 161</div>
-                    <div class="company-info">Telefone: (51) 3561-5145</div>
-                    <div class="company-info">WhatsApp: (51) 99538-4838</div>
-                </div>
-                <div class="header-right">
-                    <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
-                    <div class="delivery-date">Previsão de Entrega: <?php echo $delivery_date; ?></div>
-                </div>
-            </div>
-
-            <div class="section">
-                <div class="grid" style="grid-template-columns: 48% 24% 24%;">
-                    <div class="field">
-                        <div class="field-label">Cliente:</div>
-                        <div class="field-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
-                    </div>
-                    <div class="field">
-                        <div class="field-label">Celular:</div>
-                        <div class="field-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
-                    </div>
-                    <div class="field">
-                        <div class="field-label">Data de Emissão:</div>
-                        <div class="field-value"><?php echo date('d/m/Y'); ?></div>
-                    </div>
-                </div>
-                
-                <div class="info-row">
-                    <div class="field">
-                        <div class="field-label">Modelo do Aparelho:</div>
-                        <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
-                    </div>
-                    <div class="field">
-                        <div class="field-label">Acessórios:</div>
-                        <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
-                    </div>
-                    <div class="field">
-                        <div class="field-label">Senha:</div>
-                        <div class="field-value"><?php echo htmlspecialchars($order['device_password']); ?></div>
-                    </div>
-                </div>
-                
-                <div class="field">
-                    <div class="field-label">Defeito Reclamado:</div>
-                    <div class="reported-issue-container">
-                        <div class="reported-issue">
-                            <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
+        <!-- Full-width copy at bottom -->
+        <div class="container-full">
+            <div class="container">
+                <div class="header">
+                    <div class="header-left">
+                        <div class="title-container">
+                            <h1 class="brush-script">Tele Dil</h1>
                         </div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" style="width: 86px; height: 86px;">
-                            <rect width="80" height="80" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
-                            <circle cx="15" cy="15" r="3" fill="#666"/>
-                            <circle cx="40" cy="15" r="3" fill="#666"/>
-                            <circle cx="65" cy="15" r="3" fill="#666"/>
-                            <circle cx="15" cy="40" r="3" fill="#666"/>
-                            <circle cx="40" cy="40" r="3" fill="#666"/>
-                            <circle cx="65" cy="40" r="3" fill="#666"/>
-                            <circle cx="15" cy="65" r="3" fill="#666"/>
-                            <circle cx="40" cy="65" r="3" fill="#666"/>
-                            <circle cx="65" cy="65" r="3" fill="#666"/>
-                        </svg>
+                        <div class="company-info">Assistência Técnica</div>
+                        <div class="company-info">Rua José de Quadros, 161</div>
+                        <div class="company-info">Telefone: (51) 3561-5145</div>
+                        <div class="company-info">WhatsApp: (51) 99538-4838</div>
+                    </div>
+                    <div class="header-right">
+                        <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
+                        <div class="delivery-date">Previsão de Entrega: <?php echo $delivery_date; ?></div>
+                    </div>
+                </div>
+    
+                <div class="section">
+                    <div class="grid" style="grid-template-columns: 48% 24% 24%;">
+                        <div class="field">
+                            <div class="field-label">Cliente:</div>
+                            <div class="field-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
+                        </div>
+                        <div class="field">
+                            <div class="field-label">Celular:</div>
+                            <div class="field-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
+                        </div>
+                        <div class="field">
+                            <div class="field-label">Data de Emissão:</div>
+                            <div class="field-value"><?php echo date('d/m/Y'); ?></div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-row">
+                        <div class="field">
+                            <div class="field-label">Modelo do Aparelho:</div>
+                            <div class="field-value"><?php echo nl2br(htmlspecialchars($order['device_model'])); ?></div>
+                        </div>
+                        <div class="field">
+                            <div class="field-label">Acessórios:</div>
+                            <div class="field-value"><?php echo nl2br(htmlspecialchars($order['accessories'])); ?></div>
+                        </div>
+                        <div class="field">
+                            <div class="field-label">Senha:</div>
+                            <div class="field-value"><?php echo htmlspecialchars($order['device_password']); ?></div>
+                        </div>
+                    </div>
+                    
+                    <div class="field">
+                        <div class="field-label">Defeito Reclamado:</div>
+                        <div class="reported-issue-container">
+                            <div class="reported-issue">
+                                <?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?>
+                            </div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" style="width: 86px; height: 86px;">
+                                <rect width="80" height="80" fill="#f9f9f9" stroke="#ccc" stroke-width="1"/>
+                                <circle cx="15" cy="15" r="3" fill="#666"/>
+                                <circle cx="40" cy="15" r="3" fill="#666"/>
+                                <circle cx="65" cy="15" r="3" fill="#666"/>
+                                <circle cx="15" cy="40" r="3" fill="#666"/>
+                                <circle cx="40" cy="40" r="3" fill="#666"/>
+                                <circle cx="65" cy="40" r="3" fill="#666"/>
+                                <circle cx="15" cy="65" r="3" fill="#666"/>
+                                <circle cx="40" cy="65" r="3" fill="#666"/>
+                                <circle cx="65" cy="65" r="3" fill="#666"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="disclaimer">
+                    A empresa da garantia de 90 dias para mão de obra e peça usada no conserto, a garantia só é valida para defeito na peça trocada, sendo que por mau uso o cliente perde a garantia do mesmo. Aparelhos molhados não terão garantia.
+                    Não nos responsabilizamos por dados contidos nos cartões de memória, chip e no aparelho. a constatação de rompimento do lacre invalidará a garantia. A permanencia do aparelho por mais de 30 dias após a aprovação, poderá sofrer reajuste do preço sem aviso prévio e a partir de 90 dias sem a procura do proprietário será considerada abandono do mesmo, não cabendo reclamação ou indenização. A procedência do aparelho é de responsabilidade do declarante. O aparelho só será entregue mediante esta ordem de serviço.
+                </div>
+    
+                <div class="signatures">
+                    <div class="signature-line">
+                        Assinatura do Cliente
                     </div>
                 </div>
             </div>
-
-            <div class="disclaimer">
-                A empresa da garantia de 90 dias para mão de obra e peça usada no conserto, a garantia só é valida para defeito na peça trocada, sendo que por mau uso o cliente perde a garantia do mesmo. Aparelhos molhados não terão garantia.
-                Não nos responsabilizamos por dados contidos nos cartões de memória, chip e no aparelho. a constatação de rompimento do lacre invalidará a garantia. A permanencia do aparelho por mais de 30 dias após a aprovação, poderá sofrer reajuste do preço sem aviso prévio e a partir de 90 dias sem a procura do proprietário será considerada abandono do mesmo, não cabendo reclamação ou indenização. A procedência do aparelho é de responsabilidade do declarante. O aparelho só será entregue mediante esta ordem de serviço.
-            </div>
-
         </div>
     </div>
 </body>
