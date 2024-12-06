@@ -285,7 +285,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                                 <div class="field-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
                             </div>
                             <div class="field">
-                                <div class="field-label">Data de Emissão:</div>
+                                <div class="field-label">Emissão:</div>
                                 <div class="field-value"><?php echo date('d/m/Y'); ?></div>
                             </div>
                         </div>
