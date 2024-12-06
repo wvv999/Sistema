@@ -136,8 +136,6 @@ try {
         }
 
         .client-details {
-            display: flex;
-            flex-direction: row;
             padding-left: 15px;
             margin-top: 10px;
             background: rgba(255, 255, 255, 0.5);
@@ -538,7 +536,7 @@ try {
                         </div>
                         <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
                     </div>
-
+                    
                 </div>
             </div>
         </div>
