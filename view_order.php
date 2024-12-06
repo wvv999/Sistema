@@ -98,7 +98,7 @@ try {
             padding: 20px;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;margin: 0;
             min-height: 100vh;
-            scale: 95%;
+            
         }
 
         .order-container {
