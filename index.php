@@ -8,6 +8,14 @@ function debug_log($message) {
     error_log("[DEBUG] " . $message);
 }
 
+// Log do domínio atual
+debug_log("Domain: " . $_SERVER['HTTP_HOST']);
+
+// Log do estado atual dos cookies
+debug_log("Cookie remember_token: " . (isset($_COOKIE['remember_token']) ? 'presente' : 'ausente'));
+debug_log("Cookie remember_user_id: " . (isset($_COOKIE['remember_user_id']) ? 'presente' : 'ausente'));
+debug_log("Cookie remember_user: " . (isset($_COOKIE['remember_user']) ? 'presente' : 'ausente'));
+
 function generateRememberToken() {
     return bin2hex(random_bytes(32));
 }
@@ -16,7 +24,7 @@ function clearRememberCookies() {
     $cookie_options = [
         'expires' => time() - 3600,
         'path' => '/',
-        'secure' => true,
+        'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
         'httponly' => true,
         'samesite' => 'Strict'
     ];
@@ -24,6 +32,8 @@ function clearRememberCookies() {
     setcookie("remember_token", "", $cookie_options);
     setcookie("remember_user_id", "", $cookie_options);
     setcookie("remember_user", "", $cookie_options);
+    
+    debug_log("Cookies removidos");
 }
 
 debug_log("Iniciando verificação");
@@ -36,7 +46,10 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token']) && isset($
         $database = new Database();
         $db = $database->getConnection();
         
-        $query = "SELECT * FROM users WHERE id = :id AND remember_token = :token";
+        $query = "SELECT * FROM users 
+                  WHERE id = :id 
+                  AND remember_token = :token 
+                  AND remember_token_expires > NOW()";
         $stmt = $db->prepare($query);
         $stmt->bindParam(":id", $_COOKIE['remember_user_id']);
         $stmt->bindParam(":token", $_COOKIE['remember_token']);
@@ -53,24 +66,37 @@ if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token']) && isset($
             $_SESSION['username'] = $user['username'];
             $_SESSION['current_sector'] = $user['current_sector'] ?? 'atendimento';
             
-            // Renova os cookies
+            // Renova os cookies e o token
+            $new_token = generateRememberToken();
+            $token_expires = date('Y-m-d H:i:s', time() + (86400 * 30)); // 30 dias
+            
+            $update_query = "UPDATE users SET 
+                            remember_token = :token,
+                            remember_token_expires = :expires 
+                            WHERE id = :id";
+            $update_stmt = $db->prepare($update_query);
+            $update_stmt->bindParam(":token", $new_token);
+            $update_stmt->bindParam(":expires", $token_expires);
+            $update_stmt->bindParam(":id", $user['id']);
+            $update_stmt->execute();
+            
             $cookie_options = [
                 'expires' => time() + (86400 * 30),
                 'path' => '/',
-                'secure' => true,
+                'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
                 'httponly' => true,
                 'samesite' => 'Strict'
             ];
             
-            setcookie('remember_token', $_COOKIE['remember_token'], $cookie_options);
-            setcookie('remember_user_id', $_COOKIE['remember_user_id'], $cookie_options);
+            setcookie('remember_token', $new_token, $cookie_options);
+            setcookie('remember_user_id', $user['id'], $cookie_options);
             setcookie('remember_user', $user['username'], $cookie_options);
             
             debug_log("Cookies renovados - Redirecionando");
             header("Location: dashboard.php");
             exit();
         } else {
-            debug_log("Usuário/token não encontrado - Limpando cookies");
+            debug_log("Usuário/token não encontrado ou expirado - Limpando cookies");
             clearRememberCookies();
         }
     } catch(PDOException $e) {
@@ -109,17 +135,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if($remember) {
                     debug_log("Remember-me ativado");
                     $remember_token = generateRememberToken();
+                    $token_expires = date('Y-m-d H:i:s', time() + (86400 * 30)); // 30 dias
                     
-                    $update_query = "UPDATE users SET remember_token = :token WHERE id = :id";
+                    $update_query = "UPDATE users SET 
+                                    remember_token = :token,
+                                    remember_token_expires = :expires 
+                                    WHERE id = :id";
                     $update_stmt = $db->prepare($update_query);
                     $update_stmt->bindParam(":token", $remember_token);
+                    $update_stmt->bindParam(":expires", $token_expires);
                     $update_stmt->bindParam(":id", $row['id']);
                     $update_stmt->execute();
                     
                     $cookie_options = [
                         'expires' => time() + (86400 * 30),
                         'path' => '/',
-                        'secure' => true,
+                        'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
                         'httponly' => true,
                         'samesite' => 'Strict'
                     ];
