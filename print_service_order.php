@@ -87,6 +87,15 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             border-bottom: 1px solid #000;
             padding-bottom: 5px;
         }
+        
+        .header-segunda {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            margin-bottom: 6px;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
 
         .header-left {
             text-align: left;
@@ -333,7 +342,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             
             <div class="container-half">
                 <div class="container">
-                    
+
                     <div class="header-segunda">
                         <div class="header-left-segunda">
                             <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
