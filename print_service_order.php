@@ -185,6 +185,8 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         }
         .quatro > *{
             scale: 50%;
+            height: 25%;
+            width: 50%;
         }
         @media print {
             @page {
