@@ -234,9 +234,7 @@ if(!isset($_SESSION['user_id'])) {
     </style>
 </head>
 <body class="bg-light">
-    <a href="logout.php" class="btn btn-outline-danger logout-btn">
-        <i class="bi bi-box-arrow-right"></i> Sair
-    </a>
+
 
     <div class="container">
         <div class="dashboard-container">
