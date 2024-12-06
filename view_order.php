@@ -116,7 +116,7 @@ try {
 
         /* Order info styles */
         .order-info {
-            /* background: linear-gradient(145deg, var(--accent-color), #f8f9ff); */
+            background: linear-gradient(145deg, var(--accent-color), #f8f9ff);
             padding: 20px;
             border-radius: var(--border-radius);
             margin-bottom: 24px;
