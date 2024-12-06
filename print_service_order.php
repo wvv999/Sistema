@@ -84,7 +84,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             grid-template-columns: 1fr auto;
             align-items: center;
             margin-bottom: 6px;
-            border-bottom: 1px solid #000;
+            
             padding-bottom: 5px;
         }
 
@@ -316,7 +316,8 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
                 </div>
             </div>
 
-            <!-- Second half-width copy -->
+            <!-- SEGUNDA METADE -->
+            
             <div class="container-half">
                 <div class="container">
                     <div class="header">
