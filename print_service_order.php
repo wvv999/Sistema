@@ -26,7 +26,7 @@ try {
     die("Erro: " . $e->getMessage());
 }
 
-$delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
+$delivery_date = date("d/m/", strtotime($order['delivery_date']));
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -87,7 +87,7 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             border-bottom: 1px solid #000;
             padding-bottom: 5px;
         }
-        
+
         .header-segunda {
             display: grid;
             grid-template-columns: 1fr auto;
