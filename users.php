@@ -206,10 +206,7 @@ try {
                                     <i class="bi bi-person-circle me-2"></i>
                                     <?php echo htmlspecialchars($user['username']); ?>
                                 </td>
-                                <!-- <td class="date-column">
-                                    <i class="bi bi-calendar-event me-2"></i>
-                                    <?php echo date('d/m/Y', strtotime($user['created_at'])); ?>
-                                </td> -->
+
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
