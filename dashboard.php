@@ -432,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
         toast.id = `toast-${toastId}`;
 
         const buttonHtml = orderId ? `
-            <button onclick="window.location.href='view_order.php?id=${orderId}'" 
+            <button onclick="event.preventDefault(); openOrder('${orderId}', '${toastId}')" 
                     class="btn btn-primary btn-sm mt-2 w-100">
                 <i class="bi bi-eye"></i> Visualizar OS
             </button>
@@ -711,6 +711,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, NOTIFICATION_TIMEOUT);
+
+    // Função para abrir ordem e remover notificação
+    function openOrder(orderId, toastId) {
+        // Remove a notificação
+        removeToast(toastId);
+        
+        // Redireciona para a página da ordem
+        window.location.href = `view_order.php?id=${orderId}`;
+    }
 
     // Inicializa a aplicação
     initialize();
