@@ -415,10 +415,9 @@ if(!isset($_SESSION['user_id'])) {
         let buttonHtml = '';
         if (orderId) {
             buttonHtml = `
-                <button onclick="(function() {
-                    document.getElementById('${toastId}').remove();
-                    window.location.href='view_order.php?id=${orderId}';
-                })()" class="btn btn-primary btn-sm mt-2 w-100">
+
+                <button onclick="this.closest('.notification-persistent').remove(); window.location.href='view_order.php?id=${orderId}';" 
+                        class="btn btn-primary btn-sm mt-2 w-100">
                     <i class="bi bi-eye"></i> Visualizar OS
                 </button>
             `;
