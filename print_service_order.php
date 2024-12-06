@@ -91,6 +91,19 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
         .header-left {
             text-align: left;
         }
+        .header-left-segunda {
+            text-align: left;
+        }
+        .header-right-segunda {
+            text-align: right;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 3px;
+        }
+
 
         .header-right {
             text-align: right;
@@ -320,10 +333,13 @@ $delivery_date = date("d/m/Y", strtotime($order['delivery_date']));
             
             <div class="container-half">
                 <div class="container">
-                    <div>
-
-                        <div class="header-right">
+                    
+                    <div class="header-segunda">
+                        <div class="header-left-segunda">
                             <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
+                        </div>
+                        <div class="header-right-segunda">
+                            
                             <div class="delivery-date">Previsão de Entrega: <?php echo $delivery_date; ?></div>
                         </div>
                     </div>
