@@ -603,6 +603,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializa a aplicação
     initialize();
 });
-</script>
+    </script>
 </body>
 </html>
