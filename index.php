@@ -1,9 +1,21 @@
 <?php
+// Habilita exibição de erros para debug (remova em produção)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 require_once 'config.php';
 
 function generateRememberToken() {
     return bin2hex(random_bytes(32));
+}
+
+// Função para limpar cookies de remember-me
+function clearRememberCookies() {
+    setcookie("remember_token", "", time() - 3600, "/");
+    setcookie("remember_user_id", "", time() - 3600, "/");
+    setcookie("remember_user", "", time() - 3600, "/");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -92,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $db = $database->getConnection();
             
             $query = "SELECT id, username, current_sector, UNIX_TIMESTAMP(token_created_at) as token_time 
-                     FROM users WHERE id = :id AND remember_token = :token";
+                     FROM users WHERE id = :id AND remember_token = :token AND remember_token IS NOT NULL";
             $stmt = $db->prepare($query);
             $stmt->bindParam(":id", $_COOKIE['remember_user_id']);
             $stmt->bindParam(":token", $_COOKIE['remember_token']);
@@ -102,12 +114,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $row = $stmt->fetch();
                 $token_age = time() - $row['token_time'];
                 
-                // Se o token tiver mais de 30 dias, invalida
+                // Se o token tiver mais de 30 dias ou for inválido, limpa tudo
                 if($token_age > (86400 * 30)) {
-                    // Limpa os cookies
-                    setcookie("remember_token", "", time() - 3600, "/");
-                    setcookie("remember_user_id", "", time() - 3600, "/");
-                    setcookie("remember_user", "", time() - 3600, "/");
+                    clearRememberCookies();
                     
                     // Limpa o token no banco
                     $update_query = "UPDATE users SET remember_token = NULL WHERE id = :id";
@@ -122,9 +131,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     header("Location: dashboard.php");
                     exit();
                 }
+            } else {
+                // Se não encontrou o token válido, limpa os cookies
+                clearRememberCookies();
             }
         } catch(PDOException $e) {
             error_log("Erro no remember-me: " . $e->getMessage());
+            // Em caso de erro, limpa os cookies para evitar loops
+            clearRememberCookies();
         }
     }
 }
@@ -170,7 +184,7 @@ $remembered_user = isset($_COOKIE['remember_user']) ? $_COOKIE['remember_user'] 
             
             <?php 
             if(!empty($login_err)){
-                echo '<div class="alert alert-danger">' . $login_err . '</div>';
+                echo '<div class="alert alert-danger">' . htmlspecialchars($login_err) . '</div>';
             }        
             ?>
 
