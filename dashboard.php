@@ -375,29 +375,50 @@ if(!isset($_SESSION['user_id'])) {
     <!-- Antes do fechamento do </body> no dashboard.php -->
 <div id="notification-container"></div>
 
-<script type="text/javascript">
+<script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Configuração do som de notificação
-    let notificationSound = new Audio('/assets/som.mp3');
+    // Inicializa tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+    // Configuração do som e elementos de notificação
+    let notificationSound = new Audio('assets/som.mp3');
     notificationSound.load();
 
-    // Função para mostrar notificação
-    function showNotification(notification) {
+    // Elementos do setor
+    const sectorInputs = document.querySelectorAll('input[name="sector"]');
+    const notifyButton = document.getElementById('notifyButton');
+    
+    // Carrega o setor atual do usuário da sessão PHP
+    const currentSector = <?php echo json_encode($_SESSION['current_sector'] ?? ''); ?>;
+    
+    console.log('Current Sector:', currentSector); // Debug
+
+    // Marca o radio button correto baseado no setor atual
+    if (currentSector) {
+        const radioToCheck = document.querySelector(`input[name="sector"][value="${currentSector}"]`);
+        if (radioToCheck) {
+            radioToCheck.checked = true;
+            const targetSector = currentSector === 'atendimento' ? 'Técnica' : 'Atendimento';
+            notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
+            notifyButton.disabled = false;
+        }
+    }
+
+    // Sistema de notificações toast
+    function showToast(message, type = 'success', title = null) {
         const toast = document.createElement('div');
         toast.className = 'notification-persistent';
         
-        // Define o conteúdo do toast baseado no tipo de notificação
         toast.innerHTML = `
-            <div class="toast-header bg-primary text-white">
-                <strong class="me-auto">Nova Chamada</strong>
+            <div class="toast-header bg-${type} text-white">
+                <strong class="me-auto">${title || (type === 'success' ? 'Sucesso' : 'Notificação')}</strong>
                 <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
             </div>
             <div class="toast-body">
-                <div class="d-flex align-items-center">
-                    <i class="bi bi-bell me-2"></i>
-                    <span>Chamada do setor ${notification.type === 'tecnica' ? 'Técnico' : 'Atendimento'}</span>
-                </div>
-                <small class="text-muted">De: ${notification.from_username}</small>
+                ${message}
             </div>
         `;
         
@@ -407,72 +428,176 @@ document.addEventListener('DOMContentLoaded', function() {
         notificationSound.currentTime = 0;
         notificationSound.play().catch(console.error);
         
-        // Remove a notificação após 5 segundos
+        // Remove após 5 segundos
         setTimeout(() => toast.remove(), 5000);
     }
 
-    // Função para verificar notificações
-    async function checkNotifications() {
+    // Atualiza setor do usuário
+    sectorInputs.forEach(input => {
+        input.addEventListener('change', async function() {
+            try {
+                const response = await fetch('update_user_sector.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        sector: this.value
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showToast('Setor atualizado com sucesso!', 'success');
+                    const targetSector = this.value === 'atendimento' ? 'Técnica' : 'Atendimento';
+                    notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
+                    notifyButton.disabled = false;
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar setor:', error);
+                showToast('Erro ao atualizar setor', 'danger');
+            }
+        });
+    });
+
+    // Notificar outro setor
+    notifyButton.addEventListener('click', async function() {
+        const selectedInput = document.querySelector('input[name="sector"]:checked');
+        
+        if (!selectedInput) {
+            showToast('Selecione um setor primeiro', 'danger');
+            return;
+        }
+
+        const currentSector = selectedInput.value;
+        const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
+    
         try {
+            const response = await fetch('send_notification.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    sector: targetSector,
+                    from_user: <?php echo $_SESSION['user_id']; ?>
+                })
+            });
+
+            const data = await response.json();
+            
+            if (data.success) {
+                showToast('Chamada enviada', 'success');
+            } else {
+                showToast('Erro ao enviar notificação: ' + data.message, 'danger');
+            }
+        } catch (error) {
+            console.error('Erro ao enviar notificação:', error);
+            showToast('Erro ao enviar notificação', 'danger');
+        }
+    });
+
+    // Sistema de busca
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+
+    function searchOrder() {
+        const searchValue = searchInput.value.trim();
+        if (!searchValue) {
+            showToast('Por favor, digite um número de OS ou nome do cliente', 'warning');
+            return;
+        }
+        window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
+    }
+
+    searchButton.addEventListener('click', searchOrder);
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') searchOrder();
+    });
+
+    // Verificação de notificações
+    async function checkAllNotifications() {
+        try {
+            // Verifica notificações gerais
             const response = await fetch('check_notifications.php');
             const data = await response.json();
             
             if (data.success && data.hasNotification) {
                 const notification = data.notification;
-                showNotification(notification);
+                
+                // Notificação de setor
+                if (notification.type === 'tecnica' || notification.type === 'atendimento') {
+                    showToast(
+                        `<div class="d-flex align-items-center">
+                            <i class="bi bi-bell me-2"></i>
+                            <span>Chamada do setor ${notification.type === 'tecnica' ? 'Técnico' : 'Atendimento'}</span>
+                        </div>
+                        <small class="text-muted">De: ${notification.from_username}</small>`,
+                        'primary',
+                        'Nova Chamada'
+                    );
+                }
+                // Notificação de autorização
+                else if (notification.type === 'auth_status_change') {
+                    showToast(
+                        `<div>OS #${notification.order_id}: ${notification.message}</div>
+                        <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
+                                class="btn btn-primary btn-sm mt-2 w-100">
+                            <i class="bi bi-eye"></i> Visualizar OS
+                        </button>`,
+                        'warning',
+                        'Alteração de Autorização'
+                    );
+                }
+            }
+
+            // Verifica notificações de autorização
+            const authResponse = await fetch('check_auth_notifications.php');
+            const authData = await authResponse.json();
+            
+            if (authData.success && authData.hasNotification) {
+                authData.notifications.forEach(notification => {
+                    showToast(
+                        `<div>OS #${notification.order_id}: ${notification.message}</div>
+                        <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
+                                class="btn btn-primary btn-sm mt-2 w-100">
+                            <i class="bi bi-eye"></i> Visualizar OS
+                        </button>`,
+                        'warning',
+                        'Alteração de Autorização'
+                    );
+                });
             }
         } catch (error) {
             console.error('Erro ao verificar notificações:', error);
         }
     }
 
-    // Verifica notificações a cada 5 segundos
-    setInterval(checkNotifications, 500);
-});
-function checkAuthNotifications() {
-    fetch('check_auth_notifications.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success && data.hasNotification) {
-                data.notifications.forEach(notification => {
-                    // Verifica se a notificação é de autorização
-                    if (notification.type === 'auth_status_change') {
-                        // Toca o som
-                        notificationSound.currentTime = 0;
-                        notificationSound.play().catch(console.error);
-                        
-                        // Mostra o toast de notificação
-                        const toast = document.createElement('div');
-                        toast.className = 'notification-persistent';
-                        toast.innerHTML = `
-                            <div class="toast-header bg-warning">
-                                <strong class="me-auto">Alteração de Autorização</strong>
-                                <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
-                            </div>
-                            <div class="toast-body">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-shield-check me-2"></i>
-                                    <span>OS #${notification.order_id}: ${notification.message}</span>
-                                </div>
-                                <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
-                                        class="btn btn-primary btn-sm mt-2 w-100">
-                                    <i class="bi bi-eye"></i> Visualizar OS
-                                </button>
-                            </div>
-                        `;
-                        document.body.appendChild(toast);
-                        
-                        // Remove a notificação após 10 segundos
-                        setTimeout(() => toast.remove(), 10000);
-                    }
-                });
-            }
-        })
-        .catch(error => console.error('Erro ao verificar notificações:', error));
-}
+    // Inicia as verificações
+    setInterval(checkAllNotifications, 1000);
 
-// Adiciona a verificação de autorizações ao seu intervalo existente
-setInterval(checkAuthNotifications, 1000);
+    // Desabilita o botão de notificar se nenhum setor estiver selecionado
+    if (!document.querySelector('input[name="sector"]:checked')) {
+        notifyButton.disabled = true;
+    }
+
+    // Atualiza o texto do botão baseado no setor atual
+    if (currentSector) {
+        const targetSector = currentSector === 'atendimento' ? 'Técnica' : 'Atendimento';
+        notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
+    }
+
+    // Botão de teste de som
+    const testButton = document.createElement('button');
+    testButton.className = 'btn btn-sm btn-outline-secondary position-fixed';
+    testButton.style.bottom = '20px';
+    testButton.style.left = '20px';
+    testButton.innerHTML = '<i class="bi bi-volume-up"></i> Testar Som';
+    testButton.onclick = () => {
+        notificationSound.play().catch(e => console.error('Erro ao testar som:', e));
+    };
+    document.body.appendChild(testButton);
+});
 </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
