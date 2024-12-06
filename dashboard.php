@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Cache de notificações para evitar duplicatas
     const notificationCache = new Set();
-    const NOTIFICATION_TIMEOUT = 5000;
+    const NOTIFICATION_TIMEOUT = 50000;
 
     // Inicialização
     function initialize() {
