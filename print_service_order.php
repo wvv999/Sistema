@@ -70,8 +70,8 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
 
         .container-half:last-child {
             border-right: none;
-            padding-top:10px;
-            padding-right: 10px;
+            padding-top: 20px;
+            padding-right: 20px;
         }
 
         .container-full {
