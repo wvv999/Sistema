@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Busca todos os usuários
 try {
-    $query = "SELECT id, username, created_at FROM users ORDER BY created_at DESC";
+    $query = "SELECT id, username FROM users ORDER BY created_at DESC";
     $stmt = $db->prepare($query);
     $stmt->execute();
     $users = $stmt->fetchAll();
@@ -195,7 +195,7 @@ try {
                         <tr>
                             <th scope="col">ID</th>
                             <th scope="col">Usuário</th>
-                            <th scope="col" class="date-column">Data</th>
+                            <!-- <th scope="col" class="date-column">Data</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -206,10 +206,10 @@ try {
                                     <i class="bi bi-person-circle me-2"></i>
                                     <?php echo htmlspecialchars($user['username']); ?>
                                 </td>
-                                <td class="date-column">
+                                <!-- <td class="date-column">
                                     <i class="bi bi-calendar-event me-2"></i>
                                     <?php echo date('d/m/Y', strtotime($user['created_at'])); ?>
-                                </td>
+                                </td> -->
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
