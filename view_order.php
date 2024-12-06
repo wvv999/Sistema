@@ -136,6 +136,7 @@ try {
         }
 
         .client-details {
+            display: flex;
             padding-left: 15px;
             margin-top: 10px;
             background: rgba(255, 255, 255, 0.5);
@@ -503,18 +504,21 @@ try {
             </h4>
             <div class="client-details">
                 <div class="row">
+
                     <div class="col-md-2">
                         <div class="info-label">
                             <i class="bi bi-person"></i> Nome do Cliente
                         </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
                     </div>
+
                     <div class="col-md-2">
                         <div class="info-label">
                             <i class="bi bi-laptop"></i> Modelo
                         </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
                     </div>
+
                     <div class="col-md-2">
                         <div class="info-label">
                             <i class="bi bi-telephone"></i> Contatos
@@ -522,6 +526,7 @@ try {
                         <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
                         <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
                     </div>
+
                     <div class="col-md-2">
                         <div class="info-label">
                             <i class="bi bi-calendar-event"></i> Data de Abertura
@@ -532,6 +537,7 @@ try {
                         </div>
                         <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
                     </div>
+
                 </div>
             </div>
         </div>
