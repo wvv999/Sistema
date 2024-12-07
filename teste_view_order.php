@@ -2,7 +2,6 @@
 session_start(); 
 require_once 'config.php';  
 
-
 if(!isset($_SESSION['user_id'])) {     
     header("Location: index.php");     
     exit; 
@@ -24,7 +23,8 @@ try {
             c.phone1,
             c.phone2,
             so.device_password,
-            COALESCE(so.status, 'Não iniciada') as status
+            COALESCE(so.status, 'Não iniciada') as status,
+            COALESCE(so.auth_status, 'Autorização') as auth_status
           FROM service_orders so 
           INNER JOIN clients c ON so.client_id = c.id 
           WHERE so.id = :id";
@@ -199,38 +199,17 @@ try {
             animation: slideIn 0.3s ease;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
         .technical-report {
             background-color: #f8f9fa;
             padding: 16px;
-            border-radius: var(--border-radius);
+            border-radius: 8px;
             border: 1px solid rgba(0,0,0,0.05);
             position: relative;
         }
 
-        .technical-report::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: var(--primary-color);
-            border-radius: var(--border-radius) 0 0 var(--border-radius);
-        }
-
         .technical-notes {
             background: white;
-            border-radius: var(--border-radius);
+            border-radius: 8px;
             padding: 16px;
         }
 
@@ -252,7 +231,6 @@ try {
         }
 
         .add-note-form {
-            /* border-top: 1px solid rgba(0,0,0,0.1); */
             padding-top: 16px;
             margin-top: 16px;
         }
@@ -268,15 +246,15 @@ try {
             min-height: 38px;
             padding: 8px 12px;
             border: 1px solid #dee2e6;
-            border-radius: var(--border-radius);
+            border-radius: 8px;
             background-color: white;
             resize: none;
             line-height: 20px;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
         .add-note-form textarea:focus {
-            border-color: var(--primary-color);
+            border-color: #4a6fff;
             box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.1);
         }
 
@@ -287,11 +265,40 @@ try {
             display: flex;
             align-items: center;
             gap: 4px;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
         .add-note-form button:hover {
             transform: translateY(-2px);
+        }
+
+        /* Status button styles */
+        .status-nao-iniciada { background-color: #e74c3c; color: white; }
+        .status-em-andamento { background-color: #f39c12; color: white; }
+        .status-concluida { background-color: #27ae60; color: white; }
+        .status-pronto-e-avisado { background-color: #3498db; color: white; }
+        .status-entregue { background-color: #2c3e50; color: white; }
+
+        /* Auth button styles */
+        .auth-button {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            justify-content: center;
+        }
+
+        .auth-autorizacao { background-color: #6c757d; color: white; }
+        .auth-solicitado { background-color: #ffc107; color: black; }
+        .auth-autorizado { background-color: #28a745; color: white; }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -308,9 +315,6 @@ try {
             </div>
         </div>
     </div>
-
-
-
 
     <!-- Main Content -->
     <div class="container-fluid">
@@ -402,25 +406,6 @@ try {
                         <div class="tab-content">
                             <!-- Notes Tab -->
                             <div class="tab-pane fade show active" id="notes">
-                                <?php foreach ($notes as $note): ?>
-                                <div class="technical-note bg-light p-3 rounded mb-3">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <div>
-                                            <span class="badge bg-primary me-2">Técnico</span>
-                                            <span class="fw-medium"><?php echo htmlspecialchars($note['username']); ?></span>
-                                        </div>
-                                        <small class="text-muted"><?php echo $note['formatted_date']; ?></small>
-                                    </div>
-                                    <p class="mb-0">
-                                        <?php echo nl2br(htmlspecialchars($note['note'])); ?>
-                                    </p>
-                                </div>
-                                <?php endforeach; ?>
-
-                                <!-- Add Note Form -->
-                                <div class="section-title">
-                        
-                    </div>
                                 <div class="technical-report">
                                     <div class="technical-notes">
                                         <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
@@ -431,7 +416,9 @@ try {
                                                         rows="1"
                                                         placeholder="Digite sua nota técnica..."
                                                         data-autoresize></textarea>
-                                                <!-- <button onclick="addNote()" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Adicionar</button> -->
+                                                <button onclick="addNote()" class="btn btn-primary">
+                                                    <i class="bi bi-plus-circle"></i> Adicionar
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -476,7 +463,7 @@ try {
                 <div class="card mb-4">
                     <div class="card-body">
                         <button id="statusButton" 
-                                class="btn btn-success w-100 mb-3"
+                                class="btn w-100 mb-3 <?php echo 'status-' . strtolower(str_replace(' ', '-', $order['status'])); ?>"
                                 data-status="<?php echo $order['status']; ?>"
                                 data-order-id="<?php echo $order['id']; ?>">
                             <i class="bi bi-check-circle me-2"></i>
@@ -484,11 +471,11 @@ try {
                         </button>
                         
                         <button id="authButton" 
-                                class="btn btn-outline-primary w-100 mb-3"
-                                data-auth-status="Autorização"
+                                class="btn w-100 mb-3 <?php echo 'auth-' . strtolower(str_replace(' ', '-', $order['auth_status'])); ?>"
+                                data-auth-status="<?php echo $order['auth_status']; ?>"
                                 data-order-id="<?php echo $order['id']; ?>">
                             <i class="bi bi-shield-check me-2"></i>
-                            Solicitar Autorização
+                            <?php echo $order['auth_status']; ?>
                         </button>
                         
                         <button class="btn btn-outline-secondary w-100"
@@ -520,209 +507,280 @@ try {
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        const orderId = <?php echo $_GET['id']; ?>;
+        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
+        const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
+
         // Initialize tooltips
-var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl);
-});
-
-// Toast notification system
-function showToast(message, type = 'success') {
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerHTML = `
-        <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
-        <span>${message}</span>
-    `;
-    document.querySelector('.toast-container').appendChild(toast);
-
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
-}
-
-// Technical notes functionality
-async function addNote() {
-    const noteText = document.getElementById('newNote').value.trim();
-    if (!noteText) {
-        showToast('Por favor, digite uma nota técnica.', 'error');
-        return;
-    }
-
-    try {
-        const response = await fetch('save_technical_note.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                orderId: orderId,
-                note: noteText
-            })
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
         });
 
-        const data = await response.json();
-        
-        if (data.success) {
-            // Add the new note to the list
-            const notesContainer = document.querySelector('#notes');
-            const noteElement = document.createElement('div');
-            noteElement.className = 'technical-note bg-light p-3 rounded mb-3';
-            noteElement.innerHTML = `
-                <div class="d-flex justify-content-between mb-2">
-                    <div>
-                        <span class="badge bg-primary me-2">Técnico</span>
-                        <span class="fw-medium">${data.username}</span>
-                    </div>
-                    <small class="text-muted">${new Date().toLocaleDateString()}</small>
-                </div>
-                <p class="mb-0">${noteText}</p>
+        // Toast notification system
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
             `;
-            notesContainer.insertBefore(noteElement, document.querySelector('#notes .mt-4'));
-            
-            document.getElementById('newNote').value = '';
-            showToast('Nota adicionada com sucesso!');
-            
-            // Refresh order history
-            loadOrderHistory();
-        } else {
-            showToast(data.message || 'Erro ao salvar nota', 'error');
+            document.querySelector('.toast-container').appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
         }
-    } catch (error) {
-        console.error('Erro:', error);
-        showToast('Erro ao salvar nota técnica', 'error');
-    }
-}
 
-// Status management
-async function updateStatus(button, newStatus) {
-    try {
-        const response = await fetch('update_status.php', {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                orderId: button.dataset.orderId,
-                status: newStatus
-            })
-        });
-
-        const data = await response.json();
-        
-        if (data.success) {
-            button.dataset.status = newStatus;
-            button.querySelector('span').textContent = newStatus;
-            showToast(`Status atualizado para: ${newStatus}`);
-            loadOrderHistory();
-        } else {
-            showToast(data.message || 'Erro ao atualizar status', 'error');
-        }
-    } catch (error) {
-        console.error('Erro:', error);
-        showToast('Erro ao atualizar status', 'error');
-    }
-}
-
-// Order history management
-async function loadOrderHistory() {
-    try {
-        const response = await fetch('get_order_history.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                orderId: orderId
-            })
-        });
-
-        const data = await response.json();
-        
-        if (data.success) {
-            const timelineContainer = document.querySelector('.timeline');
-            timelineContainer.innerHTML = '';
-
-            // Combine and sort status and notes history
-            const allHistory = [
-                ...(data.statusHistory || []).map(item => ({
-                    ...item,
-                    type: 'status',
-                    timestamp: new Date(item.created_at)
-                })),
-                ...(data.notesHistory || []).map(item => ({
-                    ...item,
-                    type: 'note',
-                    timestamp: new Date(item.created_at)
-                }))
-            ].sort((a, b) => b.timestamp - a.timestamp);
-
-            allHistory.forEach(item => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'timeline-item mb-4';
-                
-                if (item.type === 'status') {
-                    const details = JSON.parse(item.details);
-                    historyItem.innerHTML = `
-                        <h6 class="fw-medium mb-1">Status atualizado</h6>
-                        <p class="mb-1 text-muted">${details.new_status}</p>
-                        <small class="text-muted">${item.formatted_date}</small>
-                    `;
-                } else {
-                    historyItem.innerHTML = `
-                        <h6 class="fw-medium mb-1">Nota técnica</h6>
-                        <p class="mb-1 text-muted">${item.note}</p>
-                        <small class="text-muted">${item.formatted_date}</small>
-                    `;
+        // Button appearance update
+        function updateButtonAppearance(button, status, prefix = 'status') {
+            const classes = [...button.classList];
+            classes.forEach(className => {
+                if (className.startsWith(prefix) || className === 'btn-outline-primary' || className === 'btn-success') {
+                    button.classList.remove(className);
                 }
-                
-                timelineContainer.appendChild(historyItem);
             });
+            
+            button.classList.add('btn');
+            const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/ /g, '-')}`;
+            button.classList.add(statusClass);
+            button.querySelector('span').textContent = status;
         }
-    } catch (error) {
-        console.error('Erro:', error);
-        showToast('Erro ao carregar histórico', 'error');
-    }
-}
 
-// Notification check
-function checkNotifications() {
-    fetch('check_notifications.php')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success && data.hasNotification) {
-                showToast(data.message);
-                loadOrderHistory();
+        // Technical notes functionality
+        async function addNote() {
+            const noteText = document.getElementById('newNote').value.trim();
+            if (!noteText) {
+                showToast('Por favor, digite uma nota técnica.', 'error');
+                return;
             }
-        })
-        .catch(console.error);
-}
 
-// Initialize event listeners
-document.addEventListener('DOMContentLoaded', () => {
-    // Status button click handler
-    const statusButton = document.getElementById('statusButton');
-    const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
-    
-    statusButton.addEventListener('click', function() {
-        const currentStatus = this.dataset.status;
-        const currentIndex = statusFlow.indexOf(currentStatus);
-        const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
-        updateStatus(this, nextStatus);
-    });
+            try {
+                const response = await fetch('save_technical_note.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderId: orderId,
+                        note: noteText
+                    })
+                });
 
-    // Initial load
-    loadOrderHistory();
-
-    // Set up periodic notification check
-    setInterval(checkNotifications, 30000);
-
-    // Enter key handler for notes
-    document.getElementById('newNote').addEventListener('keypress', function(event) {
-        if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault();
-            addNote();
+                const data = await response.json();
+                
+                if (data.success) {
+                    const technicalNotes = document.getElementById('technicalNotes');
+                    const today = new Date().toLocaleDateString('pt-BR', { 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: '2-digit' 
+                    });
+                    
+                    let newNoteText = '';
+                    if (!technicalNotes.value.includes(today)) {
+                        newNoteText = `\n---------------- ${today} ----------------\n\n`;
+                    }
+                    
+                    newNoteText += `${data.username}: ${noteText}\n`;
+                    technicalNotes.value += newNoteText;
+                    document.getElementById('newNote').value = '';
+                    technicalNotes.scrollTop = technicalNotes.scrollHeight;
+                    
+                    showToast('Nota adicionada com sucesso!');
+                    loadOrderHistory();
+                } else {
+                    showToast(data.message || 'Erro ao salvar nota', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao salvar nota técnica', 'error');
+            }
         }
-    });
-});
+
+        // Status management
+        async function updateStatus(button, newStatus) {
+            try {
+                const response = await fetch('update_status.php', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: button.dataset.orderId,
+                        status: newStatus
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    button.dataset.status = newStatus;
+                    updateButtonAppearance(button, newStatus, 'status');
+                    showToast(`Status atualizado para: ${newStatus}`);
+                    loadOrderHistory();
+                } else {
+                    showToast(data.message || 'Erro ao atualizar status', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao atualizar status', 'error');
+            }
+        }
+
+        // Auth status management
+        async function updateAuthStatus(button, newStatus) {
+            try {
+                const response = await fetch('update_auth_status.php', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: button.dataset.orderId,
+                        authStatus: newStatus
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    button.dataset.authStatus = newStatus;
+                    updateButtonAppearance(button, newStatus, 'auth');
+                    showToast(`Autorização atualizada para: ${newStatus}`);
+                    loadOrderHistory();
+                } else {
+                    showToast(data.message || 'Erro ao atualizar autorização', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao atualizar autorização', 'error');
+            }
+        }
+
+        // Order history management
+        async function loadOrderHistory() {
+            try {
+                const response = await fetch('get_order_history.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        orderId: orderId
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    const timelineContainer = document.querySelector('.timeline');
+                    timelineContainer.innerHTML = '';
+
+                    // Combine and sort status and notes history
+                    const allHistory = [
+                        ...(data.statusHistory || []).map(item => ({
+                            ...item,
+                            type: 'status',
+                            timestamp: new Date(item.created_at)
+                        })),
+                        ...(data.notesHistory || []).map(item => ({
+                            ...item,
+                            type: 'note',
+                            timestamp: new Date(item.created_at)
+                        }))
+                    ].sort((a, b) => b.timestamp - a.timestamp);
+
+                    allHistory.forEach(item => {
+                        const historyItem = document.createElement('div');
+                        historyItem.className = 'timeline-item mb-4';
+                        
+                        if (item.type === 'status') {
+                            const details = JSON.parse(item.details);
+                            historyItem.innerHTML = `
+                                <h6 class="fw-medium mb-1">Status atualizado</h6>
+                                <p class="mb-1 text-muted">${details.new_status}</p>
+                                <small class="text-muted">${item.formatted_date}</small>
+                            `;
+                        } else {
+                            historyItem.innerHTML = `
+                                <h6 class="fw-medium mb-1">Nota técnica</h6>
+                                <p class="mb-1 text-muted">${item.note}</p>
+                                <small class="text-muted">${item.formatted_date}</small>
+                            `;
+                        }
+                        
+                        timelineContainer.appendChild(historyItem);
+                    });
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao carregar histórico', 'error');
+            }
+        }
+
+        // Notification check
+        function checkNotifications() {
+            fetch('check_notifications.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success && data.hasNotification) {
+                        if (data.notification.type === 'auth_status') {
+                            showToast(`Autorização solicitada para a OS #${data.notification.order_id} por ${data.notification.from_username}`);
+                        } else if (data.notification.type === 'auth_approved') {
+                            showToast(`Autorização aprovada para a OS #${data.notification.order_id} por ${data.notification.from_username}`);
+                            const authButton = document.getElementById('authButton');
+                            authButton.dataset.authStatus = 'Autorizado';
+                            updateButtonAppearance(authButton, 'Autorizado', 'auth');
+                        }
+                        loadOrderHistory();
+                    }
+                })
+                .catch(console.error);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Status button click handler
+            const statusButton = document.getElementById('statusButton');
+            statusButton.addEventListener('click', function() {
+                const currentStatus = this.dataset.status;
+                const currentIndex = statusFlow.indexOf(currentStatus);
+                const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+                updateStatus(this, nextStatus);
+            });
+
+            // Auth button click handler
+            const authButton = document.getElementById('authButton');
+            authButton.addEventListener('click', function() {
+                const currentStatus = this.dataset.authStatus;
+                const currentIndex = authFlow.indexOf(currentStatus);
+                const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
+                updateAuthStatus(this, nextStatus);
+            });
+
+            // Auto-resize textarea
+            document.querySelectorAll('[data-autoresize]').forEach(function(element) {
+                element.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            });
+
+            // Enter key handler for notes
+            document.getElementById('newNote').addEventListener('keypress', function(event) {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    addNote();
+                }
+            });
+
+            // Initial load
+            loadOrderHistory();
+
+            // Set up periodic notification check
+            setInterval(checkNotifications, 30000);
+        });
     </script>
 </body>
 </html>
