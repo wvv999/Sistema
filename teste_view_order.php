@@ -209,6 +209,90 @@ try {
                 opacity: 1;
             }
         }
+        .technical-report {
+            background-color: #f8f9fa;
+            padding: 16px;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .technical-report::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: var(--primary-color);
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+        }
+
+        .technical-notes {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 16px;
+        }
+
+        .technical-notes textarea {
+            border: none;
+            background: transparent;
+            width: 100%;
+            resize: none;
+            padding: 0;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            line-height: 1.5;
+        }
+
+        .technical-notes textarea:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .add-note-form {
+            /* border-top: 1px solid rgba(0,0,0,0.1); */
+            padding-top: 16px;
+            margin-top: 16px;
+        }
+
+        .add-note-form .input-group {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            align-items: start;
+        }
+
+        .add-note-form textarea {
+            min-height: 38px;
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: var(--border-radius);
+            background-color: white;
+            resize: none;
+            line-height: 20px;
+            transition: var(--transition);
+        }
+
+        .add-note-form textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.1);
+        }
+
+        .add-note-form button {
+            height: 38px;
+            white-space: nowrap;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: var(--transition);
+        }
+
+        .add-note-form button:hover {
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body class="p-4">
@@ -335,7 +419,7 @@ try {
 
                                 <!-- Add Note Form -->
                                 <div class="section-title">
-                        <i class="bi bi-clipboard-data"></i> Laudo Técnico
+                        
                     </div>
                                 <div class="technical-report">
                                     <div class="technical-notes">
