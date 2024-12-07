@@ -326,11 +326,25 @@ try {
         .auth-autorizacao { background-color: #6c757d; color: white; }
         .auth-solicitado { background-color: var(--warning-color); color: black; }
         .auth-autorizado { background-color: var(--success-color); color: white; }
-        
+
         .side-panel {
             display: flex;
             flex-direction: column;
             gap: 24px;
+        }
+        .menu-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--border-radius);
+            background-color: #fff;
+            transition: var(--transition);
+        }
+
+        .menu-section:hover {
+            box-shadow: var(--shadow);
         }
     </style>
 </head>
