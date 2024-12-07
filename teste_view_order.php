@@ -2,6 +2,7 @@
 session_start(); 
 require_once 'config.php';  
 
+
 if(!isset($_SESSION['user_id'])) {     
     header("Location: index.php");     
     exit; 
@@ -16,7 +17,7 @@ $database = new Database();
 $db = $database->getConnection();  
 
 try {
-    // Buscar os dados da ordem de serviço
+    // Primeiro, buscar os dados da ordem de serviço
     $query = "SELECT 
             so.*,
             c.name as client_name,
@@ -37,7 +38,7 @@ try {
         exit;     
     }
 
-    // Buscar as notas técnicas
+    // Depois, buscar as notas técnicas
     $notesQuery = "SELECT tn.*, u.username, 
                    DATE_FORMAT(tn.created_at, '%d/%m/%y') as formatted_date,
                    DATE_FORMAT(tn.created_at, '%Y-%m-%d') as note_date
