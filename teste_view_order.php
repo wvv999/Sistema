@@ -219,7 +219,7 @@ try {
                 <i class="bi bi-arrow-left"></i>
             </a>
             <div>
-                <h1 class="h3 mb-0">Ordem de Serviço #<?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></h1>
+                <h1 class="h3 mb-0">Ordem <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></h1>
                 <small class="text-muted">Aberta em <?php echo date('d/m/Y', strtotime($order['created_at'])); ?></small>
             </div>
         </div>
