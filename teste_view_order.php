@@ -300,6 +300,32 @@ try {
                 opacity: 1;
             }
         }
+        .content-right {
+            width: 300px;
+        }
+        .status-button {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            justify-content: center;
+        }
+
+        /* Status button styles */
+        .status-nao-iniciada { background-color: #e74c3c; color: white; }
+        .status-em-andamento { background-color: #f39c12; color: white; }
+        .status-concluida { background-color: #27ae60; color: white; }
+        .status-pronto-e-avisado { background-color: #3498db; color: white; }
+        .status-entregue { background-color: #2c3e50; color: white; }
+
+        /* Auth button styles */
+        .auth-button {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            justify-content: center;
+        }
+
+        .auth-autorizacao { background-color: #6c757d; color: white; }
+        .auth-solicitado { background-color: var(--warning-color); color: black; }
+        .auth-autorizado { background-color: var(--success-color); color: white; }
     </style>
 </head>
 <body class="p-4">
