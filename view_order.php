@@ -674,6 +674,7 @@ try {
         </div>
     </div>
     <script>
+        const orderId = <?php echo $_GET['id']; ?>;
         // Atualizar a função loadOrderHistory
         async function loadOrderHistory() {
             try {
