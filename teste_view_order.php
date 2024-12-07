@@ -458,43 +458,52 @@ try {
             </div>
 
             <!-- Right Column -->
-            <div class="col-3">
-                <!-- Action Buttons -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <button id="statusButton" 
-                                class="btn w-100 mb-3 <?php echo 'status-' . strtolower(str_replace(' ', '-', $order['status'])); ?>"
-                                data-status="<?php echo $order['status']; ?>"
-                                data-order-id="<?php echo $order['id']; ?>">
-                            <i class="bi bi-check-circle me-2"></i>
-                            <?php echo $order['status']; ?>
-                        </button>
-                        
-                        <button id="authButton" 
-                                class="btn w-100 mb-3 <?php echo 'auth-' . strtolower(str_replace(' ', '-', $order['auth_status'])); ?>"
-                                data-auth-status="<?php echo $order['auth_status']; ?>"
-                                data-order-id="<?php echo $order['id']; ?>">
-                            <i class="bi bi-shield-check me-2"></i>
-                            <?php echo $order['auth_status']; ?>
-                        </button>
-                        
-                        <button class="btn btn-outline-secondary w-100"
-                                onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
-                            <i class="bi bi-printer me-2"></i>
-                            Imprimir OS
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Timeline -->
-                <div class="card">
-                    <div class="card-header bg-white">
-                        <h5 class="card-title mb-0">Histórico</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="timeline">
-                            <!-- O histórico será carregado via JavaScript -->
+            <div class="content-right">
+                <div class="side-panel">
+                    <!-- Status e Ações -->
+                    <div class="menu-section">
+                        <div id="statusButton" 
+                            class="action-button status-button"
+                            data-status="<?php echo $order['status']; ?>"
+                            data-order-id="<?php echo $order['id']; ?>"
+                            data-bs-toggle="tooltip"
+                            title="Clique para alterar o status">
+                            <i class="bi bi-gear"></i>
+                            <span><?php echo $order['status']; ?></span>
                         </div>
+
+                        <div id="authButton" 
+                            class="action-button auth-button auth-autorizacao"
+                            data-auth-status="Autorização"
+                            data-order-id="<?php echo $order['id']; ?>"
+                            data-bs-toggle="tooltip"
+                            title="Clique para alterar a autorização">
+                            <i class="bi bi-check-circle"></i>
+                            <span>Autorização</span>
+                        </div>
+
+                        <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
+                            <i class="bi bi-cart"></i>
+                            <span>Compra de Peças</span>
+                        </div>
+                    </div>
+
+                    <!-- Ações da OS -->
+                    <div class="menu-section">
+                        <button class="action-button" data-bs-toggle="tooltip" title="Ver histórico completo">
+                            <i class="bi bi-clock-history"></i>
+                            <span>Histórico</span>
+                        </button>
+                        <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço" 
+                                onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
+                            <i class="bi bi-printer"></i>
+                            <span>Imprimir</span>
+                        </button>
+                        <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
+                            <i class="bi bi-box-arrow-right"></i>
+                        
+                            <span>Salvar e Sair</span>
+                        </button>
                     </div>
                 </div>
             </div>
