@@ -76,255 +76,140 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
     <style>
-        body::-webkit-scrollbar {
+        body {
+            background-color: #f5f6fa;
+        }
+        
+        .progress-step {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            position: relative;
+        }
+
+        .progress-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 0.85rem;
+        }
+
+        .progress-line {
+            flex: 1;
+            height: 3px;
+            background: #dee2e6;
+        }
+
+        .progress-line.active {
+            background: #0d6efd;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #0d6efd;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 9px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% + 10px);
+            background: #dee2e6;
+        }
+
+        .timeline-item:last-child::after {
             display: none;
         }
 
-        :root {
-            --primary-color: #4a6fff;
-            --secondary-color: #f8f9fa;
-            --accent-color: #e7e9f6;
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-            --border-radius: 8px;
-            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
+        .card {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: none;
         }
 
-        body {
-            background-color: #f5f6fa;
-            padding: 20px;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            margin: 0;
-            min-height: 100vh;
-        }
-
-        .order-container {
-            background-color: #fff;
-            border-radius: var(--border-radius);
-            padding: 24px;
-            box-shadow: var(--shadow);
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            min-height: calc(100vh - 40px);
-        }
-
-        /* Order info styles */
-        .order-info {
-            background: linear-gradient(145deg, var(--accent-color), #f8f9ff);
-            padding: 20px;
-            border-radius: var(--border-radius);
-            margin-bottom: 24px;
-            border: 1px solid rgba(0,0,0,0.05);
+        .nav-tabs .nav-link {
+            border: none;
+            color: #6c757d;
+            padding: 0.5rem 1rem;
+            margin-right: 1rem;
             position: relative;
         }
 
-        .order-info::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: var(--primary-color);
-            border-radius: var(--border-radius) 0 0 var(--border-radius);
-        }
-
-        .client-details {
-            padding-left: 15px;
-            margin-top: 10px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
-        }
-
-        .main-content {
-            display: flex;
-            gap: 24px;
-            flex: 1;
-            margin-bottom: 24px;
-        }
-
-        .content-left {
-            flex: 1;
-        }
-
-        .content-right {
-            width: 300px;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #6c757d;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .info-value {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-        }
-
-        .info-value:hover {
-            background: rgba(255, 255, 255, 0.8);
-        }
-
-        .device-password, .reported-issue {
-            background-color: #f8f9fa;
-            padding: 16px;
-            border-radius: var(--border-radius);
-            margin-bottom: 20px;
-            border: 1px solid rgba(0,0,0,0.05);
-            position: relative;
-            transition: var(--transition);
-        }
-
-        .device-password::before,
-        .reported-issue::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: var(--primary-color);
-            border-radius: var(--border-radius) 0 0 var(--border-radius);
-        }
-
-        .device-password:hover,
-        .reported-issue:hover {
-            box-shadow: var(--shadow);
-        }
-
-        .section-title {
-            font-weight: 600;
-            color: #6c757d;
-            margin-bottom: 12px;
-            font-size: 1.1em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .section-title i {
-            color: var(--primary-color);
-        }
-
-        /* Side panel styles */
-        .side-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .menu-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding: 16px;
-            border: 1px solid rgba(0,0,0,0.1);
-            border-radius: var(--border-radius);
-            background-color: #fff;
-            transition: var(--transition);
-        }
-
-        .menu-section:hover {
-            box-shadow: var(--shadow);
-        }
-
-        .action-button {
-            width: 100%;
-            padding: 12px;
-            border-radius: var(--border-radius);
-            border: 1px solid #dee2e6;
-            background: white;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: var(--transition);
+        .nav-tabs .nav-link.active {
+            color: #0d6efd;
+            background: none;
             font-weight: 500;
-            position: relative;
-            overflow: hidden;
         }
 
-        .action-button::before {
+        .nav-tabs .nav-link.active::after {
             content: '';
             position: absolute;
+            bottom: -1px;
             left: 0;
-            top: 0;
-            height: 100%;
-            width: 0;
-            background: rgba(0,0,0,0.05);
-            transition: var(--transition);
-        }
-
-        .action-button:hover::before {
             width: 100%;
+            height: 2px;
+            background: #0d6efd;
         }
 
-        .action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
+        .technical-note {
+            border-left: 3px solid #0d6efd;
         }
 
-        /* Status button styles */
-        .status-button {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            justify-content: center;
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 500;
         }
 
-        .status-nao-iniciada { background-color: #e74c3c; color: white; }
-        .status-em-andamento { background-color: #f39c12; color: white; }
-        .status-concluida { background-color: #27ae60; color: white; }
-        .status-pronto-e-avisado { background-color: #3498db; color: white; }
-        .status-entregue { background-color: #2c3e50; color: white; }
-
-        /* Auth button styles */
-        .auth-button {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            justify-content: center;
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
         }
 
-        .auth-autorizacao { background-color: #6c757d; color: white; }
-        .auth-solicitado { background-color: var(--warning-color); color: black; }
-        .auth-autorizado { background-color: var(--success-color); color: white; }
+        .toast {
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: slideIn 0.3s ease;
+        }
 
-        /* Technical notes section */
         .technical-report {
             background-color: #f8f9fa;
             padding: 16px;
-            border-radius: var(--border-radius);
+            border-radius: 8px;
             border: 1px solid rgba(0,0,0,0.05);
             position: relative;
-        }
-
-        .technical-report::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: var(--primary-color);
-            border-radius: var(--border-radius) 0 0 var(--border-radius);
         }
 
         .technical-notes {
             background: white;
-            border-radius: var(--border-radius);
+            border-radius: 8px;
             padding: 16px;
         }
 
@@ -361,15 +246,15 @@ try {
             min-height: 38px;
             padding: 8px 12px;
             border: 1px solid #dee2e6;
-            border-radius: var(--border-radius);
+            border-radius: 8px;
             background-color: white;
             resize: none;
             line-height: 20px;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
         .add-note-form textarea:focus {
-            border-color: var(--primary-color);
+            border-color: #4a6fff;
             box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.1);
         }
 
@@ -380,106 +265,30 @@ try {
             display: flex;
             align-items: center;
             gap: 4px;
-            transition: var(--transition);
+            transition: all 0.3s ease;
         }
 
         .add-note-form button:hover {
             transform: translateY(-2px);
         }
 
-        /* Toast notifications */
-        .toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
+        /* Status button styles */
+        .status-nao-iniciada { background-color: #e74c3c; color: white; }
+        .status-em-andamento { background-color: #f39c12; color: white; }
+        .status-concluida { background-color: #27ae60; color: white; }
+        .status-pronto-e-avisado { background-color: #3498db; color: white; }
+        .status-entregue { background-color: #2c3e50; color: white; }
 
-        .toast {
-            padding: 12px 20px;
-            border-radius: var(--border-radius);
-            background: white;
-            box-shadow: var(--shadow);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            animation: slideIn 0.3s ease;
-        }
-
-        /* History styles */
-        .history-item {
-            padding: 15px;
-            border-radius: var(--border-radius);
-            background: var(--secondary-color);
-            margin-bottom: 10px;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .history-item:hover {
-            background: var(--accent-color);
-        }
-
-        .history-item .date {
-            color: #6c757d;
-            font-size: 0.9em;
-            margin-bottom: 5px;
-        }
-
-        .history-item .username {
+        /* Auth button styles */
+        .auth-button {
             font-weight: 600;
-            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            justify-content: center;
         }
 
-        .history-item .detail {
-            color: #495057;
-        }
-
-        #historyTabs .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 15px;
-        }
-
-        #historyTabs .nav-link i {
-            font-size: 1.1em;
-        }
-
-        .status-history-list, .notes-history-list {
-            padding: 10px;
-        }
-
-        /* Timeline */
-        .timeline-item {
-            position: relative;
-            padding-left: 30px;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 4px;
-            top: 8px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #0d6efd;
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: 9px;
-            top: 20px;
-            width: 2px;
-            height: calc(100% + 10px);
-            background: #dee2e6;
-        }
-
-        .timeline-item:last-child::after {
-            display: none;
-        }
+        .auth-autorizacao { background-color: #6c757d; color: white; }
+        .auth-solicitado { background-color: #ffc107; color: black; }
+        .auth-autorizado { background-color: #28a745; color: white; }
 
         @keyframes slideIn {
             from {
@@ -491,31 +300,51 @@ try {
                 opacity: 1;
             }
         }
-
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .content-right {
-                width: 100%;
-            }
+        .content-right {
+            width: 300px;
+        }
+        .status-button {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            justify-content: center;
         }
 
-        @media (max-width: 576px) {
-            .order-container {
-                padding: 16px;
-            }
+        /* Status button styles */
+        .status-nao-iniciada { background-color: #e74c3c; color: white; }
+        .status-em-andamento { background-color: #f39c12; color: white; }
+        .status-concluida { background-color: #27ae60; color: white; }
+        .status-pronto-e-avisado { background-color: #3498db; color: white; }
+        .status-entregue { background-color: #2c3e50; color: white; }
 
-            .client-details .row {
-                flex-direction: column;
-            }
+        /* Auth button styles */
+        .auth-button {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            justify-content: center;
+        }
 
-            .client-details .col-md-2 {
-                width: 100%;
-                margin-bottom: 10px;
-            }
+        .auth-autorizacao { background-color: #6c757d; color: white; }
+        .auth-solicitado { background-color: var(--warning-color); color: black; }
+        .auth-autorizado { background-color: var(--success-color); color: white; }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .menu-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--border-radius);
+            background-color: #fff;
+            transition: var(--transition);
+        }
+
+        .menu-section:hover {
+            box-shadow: var(--shadow);
         }
     </style>
 </head>
@@ -533,69 +362,66 @@ try {
         </div>
     </div>
 
-    <div class="order-container">
-        <!-- Informações do pedido -->
-        <div class="order-info">
-            <h4 class="mb-3">
-                Ordem número: <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?>
-            </h4>
-            <div class="client-details">
-                <div class="row">
-                    <div class="col-md-2">
-                        <div class="info-label">
-                            <i class="bi bi-person"></i> Nome do Cliente
-                        </div>
-                        <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <div class="info-label">
-                            <i class="bi bi-laptop"></i> Modelo
-                        </div>
-                        <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <div class="info-label">
-                            <i class="bi bi-telephone"></i> Contatos
-                        </div>
-                        <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
-                        <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
-                    </div>
-
-                    <div class="col-md-2">
-                        <div class="info-label">
-                            <i class="bi bi-calendar-event"></i> Data de Abertura
-                        </div>
-                        <div class="info-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></div>
-                        <div class="info-label">
-                            <i class="bi bi-calendar-check"></i> Data de Entrega
-                        </div>
-                        <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main content -->
+    <!-- Main Content -->
+    <div class="container-fluid">
         <div class="row g-4">
             <!-- Left Column -->
             <div class="col-3">
-                <div>
-                    <div class="section-title">
-                        <i class="bi bi-key"></i> Senha do Dispositivo
+                <!-- Client Info -->
+                <div class="card mb-4">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">Informações do Cliente</h5>
                     </div>
-                    <div class="device-password">
-                        <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center gap-2 text-muted mb-2">
+                                <i class="bi bi-person"></i>
+                                <small>Nome do Cliente</small>
+                            </div>
+                            <div class="ps-4"><?php echo htmlspecialchars($order['client_name']); ?></div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center gap-2 text-muted mb-2">
+                                <i class="bi bi-telephone"></i>
+                                <small>Telefones</small>
+                            </div>
+                            <div class="ps-4"><?php echo htmlspecialchars($order['phone1']); ?></div>
+                            <?php if ($order['phone2']): ?>
+                                <div class="ps-4"><?php echo htmlspecialchars($order['phone2']); ?></div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center gap-2 text-muted mb-2">
+                                <i class="bi bi-laptop"></i>
+                                <small>Equipamento</small>
+                            </div>
+                            <div class="ps-4"><?php echo htmlspecialchars($order['device_model']); ?></div>
+                        </div>
+
+                        <hr>
+
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center gap-2 text-muted mb-2">
+                                <i class="bi bi-key"></i>
+                                <small>Senha</small>
+                            </div>
+                            <div class="ps-4"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
+                        </div>
                     </div>
                 </div>
 
-                <div>
-                    <div class="section-title">
-                        <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
+                <!-- Reported Issue -->
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">Defeito Relatado</h5>
                     </div>
-                    <div class="reported-issue">
-                        <?php echo htmlspecialchars($order['reported_issue']); ?>
+                    <div class="card-body">
+                        <div class="d-flex gap-2">
+                            <i class="bi bi-exclamation-triangle text-warning"></i>
+                            <p class="mb-0"><?php echo nl2br(htmlspecialchars($order['reported_issue'])); ?></p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -678,12 +504,12 @@ try {
             </div>
 
             <!-- Right Column -->
-            <div class="col-3">
+            <div class="content-right">
                 <div class="side-panel">
                     <!-- Status e Ações -->
                     <div class="menu-section">
                         <div id="statusButton" 
-                            class="action-button status-button <?php echo 'status-' . strtolower(str_replace(' ', '-', $order['status'])); ?>"
+                            class="action-button status-button"
                             data-status="<?php echo $order['status']; ?>"
                             data-order-id="<?php echo $order['id']; ?>"
                             data-bs-toggle="tooltip"
@@ -693,13 +519,13 @@ try {
                         </div>
 
                         <div id="authButton" 
-                            class="action-button auth-button <?php echo 'auth-' . strtolower(str_replace(' ', '-', $order['auth_status'])); ?>"
-                            data-auth-status="<?php echo $order['auth_status']; ?>"
+                            class="action-button auth-button auth-autorizacao"
+                            data-auth-status="Autorização"
                             data-order-id="<?php echo $order['id']; ?>"
                             data-bs-toggle="tooltip"
                             title="Clique para alterar a autorização">
                             <i class="bi bi-check-circle"></i>
-                            <span><?php echo $order['auth_status']; ?></span>
+                            <span>Autorização</span>
                         </div>
 
                         <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
@@ -721,46 +547,9 @@ try {
                         </button>
                         <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
                             <i class="bi bi-box-arrow-right"></i>
+                        
                             <span>Salvar e Sair</span>
                         </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Histórico -->
-    <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="historyModalLabel">Histórico da Ordem de Serviço</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <ul class="nav nav-tabs" id="historyTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button" role="tab">
-                                <i class="bi bi-clock-history"></i> Status
-                            </button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab">
-                                <i class="bi bi-card-text"></i> Notas Técnicas
-                            </button>
-                        </li>
-                    </ul>
-                    <div class="tab-content mt-3" id="historyTabContent">
-                        <div class="tab-pane fade show active" id="status" role="tabpanel">
-                            <div class="status-history-list" style="max-height: 400px; overflow-y: auto;">
-                                <!-- Status history will be inserted here -->
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="notes" role="tabpanel">
-                            <div class="notes-history-list" style="max-height: 400px; overflow-y: auto;">
-                                <!-- Notes history will be inserted here -->
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -770,8 +559,10 @@ try {
     <!-- Toast Container -->
     <div class="toast-container"></div>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        
         const orderId = <?php echo $_GET['id']; ?>;
         const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
         const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
@@ -1038,13 +829,6 @@ try {
                     event.preventDefault();
                     addNote();
                 }
-            });
-
-            // Add event to history button
-            document.querySelector('button[title="Ver histórico completo"]').addEventListener('click', function() {
-                const historyModal = new bootstrap.Modal(document.getElementById('historyModal'));
-                loadOrderHistory(); // Carrega o histórico
-                historyModal.show(); // Mostra o modal
             });
 
             // Initial load
