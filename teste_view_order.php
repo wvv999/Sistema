@@ -326,6 +326,12 @@ try {
         .auth-autorizacao { background-color: #6c757d; color: white; }
         .auth-solicitado { background-color: var(--warning-color); color: black; }
         .auth-autorizado { background-color: var(--success-color); color: white; }
+        
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
     </style>
 </head>
 <body class="p-4">
