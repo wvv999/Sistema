@@ -1,9 +1,10 @@
 <?php
 session_start();
-header('Content-Type: application/json');
 require_once 'config.php';
 
-if(!isset($_SESSION['user_id'])) {
+header('Content-Type: application/json');
+
+if (!isset($_SESSION['user_id'])) {
     echo json_encode(['success' => false, 'message' => 'Usuário não autenticado']);
     exit;
 }
@@ -19,33 +20,30 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    $query = "INSERT INTO technical_notes (order_id, user_id, note) 
-              VALUES (:order_id, :user_id, :note)";
-              
+    $query = "INSERT INTO technical_notes (order_id, user_id, note) VALUES (:order_id, :user_id, :note)";
     $stmt = $db->prepare($query);
-    $result = $stmt->execute([
+    
+    $success = $stmt->execute([
         ':order_id' => $data['orderId'],
         ':user_id' => $_SESSION['user_id'],
         ':note' => $data['note']
     ]);
-    
-    if ($result) {
-        // Buscar o username do usuário
-        $userQuery = "SELECT username FROM users WHERE id = ?";
-        $userStmt = $db->prepare($userQuery);
-        $userStmt->execute([$_SESSION['user_id']]);
-        $username = $userStmt->fetchColumn();
-        
+
+    if ($success) {
+        // Buscar nome do usuário
+        $userQuery = "SELECT username FROM users WHERE id = :user_id";
+        $stmt = $db->prepare($userQuery);
+        $stmt->execute([':user_id' => $_SESSION['user_id']]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
         echo json_encode([
-            'success' => true,
-            'username' => $username,
-            'created_at' => date('d/m/Y H:i')
+            'success' => true, 
+            'message' => 'Nota salva com sucesso',
+            'username' => $user['username']
         ]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Erro ao salvar nota']);
     }
-    
-} catch (Exception $e) {
-    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+} catch(Exception $e) {
+    echo json_encode(['success' => false, 'message' => 'Erro ao salvar nota: ' . $e->getMessage()]);
 }
-?>
