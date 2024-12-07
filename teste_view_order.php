@@ -431,7 +431,7 @@ try {
                                                         rows="1"
                                                         placeholder="Digite sua nota técnica..."
                                                         data-autoresize></textarea>
-                                                <button onclick="addNote()" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Adicionar</button>
+                                                <!-- <button onclick="addNote()" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Adicionar</button> -->
                                             </div>
                                         </div>
                                     </div>
