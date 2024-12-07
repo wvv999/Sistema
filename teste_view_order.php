@@ -228,9 +228,6 @@ try {
     <!-- Progress Steps -->
     <div class="container-fluid mb-4">
         <div class="card">
-            <div class="card-body">
-                
-            </div>
         </div>
     </div>
 
