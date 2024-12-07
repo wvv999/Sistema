@@ -19,19 +19,11 @@ try {
     $database = new Database();
     $db = $database->getConnection();
     
-    // Primeiro, buscar o status atual de autorização e informações do usuário
-    $currentStatusQuery = "SELECT so.auth_status, u.username 
-                          FROM service_orders so
-                          LEFT JOIN users u ON u.id = :user_id 
-                          WHERE so.id = :id";
+    // Primeiro, buscar o status atual de autorização
+    $currentStatusQuery = "SELECT auth_status FROM service_orders WHERE id = :id";
     $stmt = $db->prepare($currentStatusQuery);
-    $stmt->execute([
-        ':id' => $data['orderId'],
-        ':user_id' => $_SESSION['user_id']
-    ]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    $currentStatus = $result['auth_status'];
-    $username = $result['username'];
+    $stmt->execute([':id' => $data['orderId']]);
+    $currentStatus = $stmt->fetchColumn();
     
     // Iniciar transação
     $db->beginTransaction();
@@ -51,27 +43,18 @@ try {
                          VALUES (:order_id, :user_id, 'auth_status_change', :details)";
         $stmt = $db->prepare($activityQuery);
         
-        $details = [
-            'old_status' => $currentStatus,
-            'new_status' => $data['authStatus'],
-            'changed_by' => $username,
-            'notification' => true, // Flag para identificar que isso deve gerar notificação
-            'timestamp' => date('Y-m-d H:i:s')
-        ];
-        
         $activityResult = $stmt->execute([
             ':order_id' => $data['orderId'],
             ':user_id' => $_SESSION['user_id'],
-            ':details' => json_encode($details)
+            ':details' => json_encode([
+                'old_status' => $currentStatus,
+                'new_status' => $data['authStatus']
+            ])
         ]);
         
         if ($activityResult) {
             $db->commit();
-            echo json_encode([
-                'success' => true,
-                'username' => $username,
-                'newStatus' => $data['authStatus']
-            ]);
+            echo json_encode(['success' => true]);
         } else {
             $db->rollBack();
             echo json_encode(['success' => false, 'message' => 'Erro ao registrar atividade']);
