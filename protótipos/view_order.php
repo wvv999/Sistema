@@ -9,10 +9,7 @@ if(!isset($_SESSION['user_id'])) {
     exit; 
 }  
 
-if(!isset($_GET['id'])) {     
-    header("Location: dashboard.php");     
-    exit; 
-}  
+ 
 
 $database = new Database(); 
 $db = $database->getConnection();  
