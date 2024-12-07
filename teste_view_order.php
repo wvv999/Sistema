@@ -229,25 +229,7 @@ try {
     <div class="container-fluid mb-4">
         <div class="card">
             <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between position-relative">
-                    <?php
-                    $statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
-                    $currentStatusIndex = array_search($order['status'], $statusFlow);
-                    
-                    foreach ($statusFlow as $index => $status) {
-                        $isActive = $index <= $currentStatusIndex;
-                        ?>
-                        <div class="progress-step <?php echo $isActive ? 'bg-primary' : 'bg-secondary'; ?>">
-                            <i class="bi <?php echo $isActive ? 'bi-check-lg' : 'bi-circle'; ?>"></i>
-                            <span class="progress-label"><?php echo $status; ?></span>
-                        </div>
-                        <?php
-                        if ($index < count($statusFlow) - 1) {
-                            echo '<div class="progress-line' . ($index < $currentStatusIndex ? ' active' : '') . '"></div>';
-                        }
-                    }
-                    ?>
-                </div>
+                
             </div>
         </div>
     </div>
