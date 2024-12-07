@@ -225,11 +225,8 @@ try {
         </div>
     </div>
 
-    <!-- Progress Steps -->
-    <div class="container-fluid mb-4">
-        <div class="card">
-        </div>
-    </div>
+
+
 
     <!-- Main Content -->
     <div class="container-fluid">
