@@ -505,7 +505,7 @@ async function addNote() {
             // Adicionar separador de data se necessário
             let newNoteText = '';
             if (!technicalNotesDiv.textContent.includes(today)) {
-                newNoteText = `\n---------------- ${today} ----------------\n\n`;
+                newNoteText = `\n${today}\n\n`;
             }
             
             // Adicionar nota
