@@ -155,7 +155,9 @@ try {
             flex: 1;
         }
 
+        /* BOTÕES */
         .content-right {
+            height: 40%;
             width: 300px;
             background: red;
         }
