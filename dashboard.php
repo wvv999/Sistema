@@ -132,7 +132,7 @@ if(!isset($_SESSION['user_id'])) {
         }
         
         .não-iniciada {background: #e74c3c;}
-        .em-andamento {background: #f39c12; color: red}
+        .em-andamento {background: #f39c12;}
         .concluída {background: #27ae60;}
         .pronto-e-avisado {background: #3498db; color: white}
         .entregue {background: #2c3e50; color: white}
