@@ -453,6 +453,37 @@ try {
                 padding: 10px;
             }
 
+            .card {
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border: none;
+            margin-bottom: 1rem;
+            }
+            .btn-action {
+                width: 100%;
+                margin-bottom: 0.5rem;
+                text-align: left;
+                padding: 0.75rem 1rem;
+            }
+            .info-label {
+                color: #6c757d;
+                font-size: 0.875rem;
+                margin-bottom: 0.25rem;
+            }
+            .info-value {
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+            .status-badge {
+                padding: 0.5rem 1rem;
+                border-radius: 0.25rem;
+                font-weight: 500;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            .status-waiting { background-color: #ffc107; }
+            .status-progress { background-color: #17a2b8; color: white; }
+            .status-completed { background-color: #28a745; color: white; }
+
             @keyframes slideIn {
                 from {
                     transform: translateX(100%);
@@ -491,189 +522,122 @@ try {
             }
         </style>
     </head>
-    <body>
-        <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
-            <i class="bi bi-arrow-left"></i> Voltar
-        </a>
-        <div class="order-container">
-            <!-- Informações do pedido -->
-            <div class="order-info">
-                <h4 class="mb-3">
-                    Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
-                </h4>
-                <div class="client-details">
-                    <div class="row">
+    <body class="bg-light">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <!-- Left Container - Client Information -->
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Informações do Cliente - OS #<?php echo str_pad($order['id'], 6, "0", STR_PAD_LEFT); ?>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="info-label">
+                                    <i class="bi bi-person me-1"></i> Cliente
+                                </div>
+                                <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
 
-                        <div class="col-md-2">
-                            <div class="info-label">
-                                <i class="bi bi-person"></i> Nome do Cliente
+                                <div class="info-label">
+                                    <i class="bi bi-telephone me-1"></i> Telefones
+                                </div>
+                                <div class="info-value">
+                                    <?php echo htmlspecialchars($order['phone1']); ?><br>
+                                    <?php echo htmlspecialchars($order['phone2'] ?? '-'); ?>
+                                </div>
                             </div>
-                            <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
+                            <div class="col-md-6">
+                                <div class="info-label">
+                                    <i class="bi bi-laptop me-1"></i> Modelo
+                                </div>
+                                <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
+
+                                <div class="info-label">
+                                    <i class="bi bi-calendar me-1"></i> Datas
+                                </div>
+                                <div class="info-value">
+                                    Abertura: <?php echo date('d/m/Y', strtotime($order['created_at'])); ?><br>
+                                    Entrega: <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="mt-3">
                             <div class="info-label">
-                                <i class="bi bi-laptop"></i> Modelo
+                                <i class="bi bi-exclamation-triangle me-1"></i> Defeito Relatado
                             </div>
-                            <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
+                            <div class="info-value bg-light p-3 rounded">
+                                <?php echo htmlspecialchars($order['reported_issue']); ?>
+                            </div>
                         </div>
-
-                        <div class="col-md-2">
-                            <div class="info-label">
-                                <i class="bi bi-telephone"></i> Contatos
-                            </div>
-                            <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
-                            <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="info-label">
-                                <i class="bi bi-calendar-event"></i> Data de Abertura
-                            </div>
-                            <div class="info-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></div>
-                            <div class="info-label">
-                                <i class="bi bi-calendar-check"></i> Data de Entrega
-                            </div>
-                            <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
-                        </div>
-                        
                     </div>
                 </div>
             </div>
 
-            <!-- Conteúdo principal -->
-            <div class="main-content">
-                <!-- Coluna da esquerda -->
-                <div class="content-left">
-                    <div>
-                        <div class="section-title">
-                            <i class="bi bi-key"></i> Senha do Dispositivo
-                        </div>
-                        <div class="device-password">
-                            <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
-                        </div>
+            <!-- Right Container - Action Buttons -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-gear me-2"></i>
+                            Ações
+                        </h5>
                     </div>
-
-                    <div>
-                        <div class="section-title">
-                            <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
-                        </div>
-                        <div class="reported-issue">
-                        <?php echo htmlspecialchars($order['reported_issue']); ?>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="section-title">
-                            <i class="bi bi-clipboard-data"></i> Laudo Técnico
-                        </div>
-                        <div class="technical-report">
-                            <div class="technical-notes">
-                                <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
-                                
-                                <div class="add-note-form">
-                                    <div class="input-group">
-                                        <textarea id="newNote" 
-                                                rows="1"
-                                                placeholder="Digite sua nota técnica..."
-                                                data-autoresize></textarea>
-                                        <button onclick="addNote()" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Adicionar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Coluna da direita -->
-                <div class="content-right">
-                    <div class="side-panel">
-                        <!-- Status e Ações -->
-                        <div class="menu-section">
-                            <div id="statusButton" 
-                                class="action-button status-button"
-                                data-status="<?php echo $order['status']; ?>"
-                                data-order-id="<?php echo $order['id']; ?>"
-                                data-bs-toggle="tooltip"
-                                title="Clique para alterar o status">
-                                <i class="bi bi-gear"></i>
-                                <span><?php echo $order['status']; ?></span>
-                            </div>
-
-                            <div id="authButton" 
-                                class="action-button auth-button auth-autorizacao"
-                                data-auth-status="Autorização"
-                                data-order-id="<?php echo $order['id']; ?>"
-                                data-bs-toggle="tooltip"
-                                title="Clique para alterar a autorização">
-                                <i class="bi bi-check-circle"></i>
-                                <span>Autorização</span>
-                            </div>
-
-                            <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
-                                <i class="bi bi-cart"></i>
-                                <span>Compra de Peças</span>
-                            </div>
+                    <div class="card-body">
+                        <div class="status-badge <?php 
+                            echo match($order['status']) {
+                                'Em andamento' => 'status-progress',
+                                'Concluída' => 'status-completed',
+                                default => 'status-waiting'
+                            }; 
+                        ?>">
+                            <?php echo htmlspecialchars($order['status']); ?>
                         </div>
 
-                        <!-- Ações da OS -->
-                        <div class="menu-section">
-                            <button class="action-button" data-bs-toggle="tooltip" title="Ver histórico completo">
-                                <i class="bi bi-clock-history"></i>
-                                <span>Histórico</span>
-                            </button>
-                            <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço" 
-                                    onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
-                                <i class="bi bi-printer"></i>
-                                <span>Imprimir</span>
-                            </button>
-                            <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
-                                <i class="bi bi-box-arrow-right"></i>
-                            
-                                <span>Salvar e Sair</span>
-                            </button>
-                        </div>
+                        <button class="btn btn-outline-primary btn-action">
+                            <i class="bi bi-pencil-square me-2"></i>
+                            Alterar Status
+                        </button>
+
+                        <button class="btn btn-outline-success btn-action">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Autorizar Serviço
+                        </button>
+
+                        <button class="btn btn-outline-info btn-action">
+                            <i class="bi bi-cart me-2"></i>
+                            Peças Necessárias
+                        </button>
+
+                        <button class="btn btn-outline-secondary btn-action">
+                            <i class="bi bi-printer me-2"></i>
+                            Imprimir OS
+                        </button>
+
+                        <hr>
+
+                        <button class="btn btn-primary btn-action">
+                            <i class="bi bi-save me-2"></i>
+                            Salvar Alterações
+                        </button>
+
+                        <a href="dashboard.php" class="btn btn-outline-danger btn-action">
+                            <i class="bi bi-x-circle me-2"></i>
+                            Cancelar
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- Modal de Histórico -->
-        <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="historyModalLabel">Histórico da Ordem de Serviço</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <ul class="nav nav-tabs" id="historyTabs" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button" role="tab">
-                                    <i class="bi bi-clock-history"></i> Status
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab">
-                                    <i class="bi bi-card-text"></i> Notas Técnicas
-                                </button>
-                            </li>
-                        </ul>
-                        <div class="tab-content mt-3" id="historyTabContent">
-                            <div class="tab-pane fade show active" id="status" role="tabpanel">
-                                <div class="status-history-list" style="max-height: 400px; overflow-y: auto;">
-                                    <!-- Status history will be inserted here -->
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="notes" role="tabpanel">
-                                <div class="notes-history-list" style="max-height: 400px; overflow-y: auto;">
-                                    <!-- Notes history will be inserted here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="toast-container"></div>
+    <script>
             const orderId = <?php echo $_GET['id']; ?>;
             // Atualizar a função loadOrderHistory
             async function loadOrderHistory() {
@@ -741,7 +705,7 @@ try {
         </script>
 
         <!-- Container para notificações toast -->
-        <div class="toast-container"></div>
+        
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script>
@@ -1006,5 +970,7 @@ try {
                 // Chama a função checkNotifications a cada 5 segundos
                 setInterval(checkNotifications, 5000);
             </script>
-    </body>
+</body>
+
+    
 </html>
