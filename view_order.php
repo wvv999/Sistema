@@ -484,6 +484,68 @@ try {
             .status-progress { background-color: #17a2b8; color: white; }
             .status-completed { background-color: #28a745; color: white; }
 
+            body {
+            background-color: #f5f6fa;
+        }
+        .card {
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border: none;
+            height: calc(100vh - 2rem);
+            margin: 1rem 0;
+        }
+        .card-header {
+            background-color: #4a6fff;
+            color: white;
+            font-weight: 500;
+            padding: 1rem;
+        }
+        .info-group {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+        .info-label {
+            color: #6c757d;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+        .info-value {
+            background-color: #f8f9fa;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .btn-action {
+            width: 100%;
+            margin-bottom: 0.5rem;
+            text-align: left;
+            padding: 0.75rem 1rem;
+        }
+        .technical-notes {
+            height: calc(100% - 60px);
+            overflow-y: auto;
+        }
+        .notes-content {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+            height: calc(100% - 100px);
+            overflow-y: auto;
+        }
+        .card-body {
+            overflow-y: auto;
+            height: calc(100% - 56px);
+        }
+        .status-badge {
+            background-color: #4a6fff;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
             @keyframes slideIn {
                 from {
                     transform: translateX(100%);
@@ -522,56 +584,93 @@ try {
             }
         </style>
     </head>
-    <body class="bg-light">
-    <div class="container-fluid py-4">
+    <body>
+    <div class="container-fluid">
         <div class="row">
-            <!-- Left Container - Client Information -->
-            <div class="col-md-8">
+            <!-- Left Container - Client Info -->
+            <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0">
-                            <i class="bi bi-info-circle me-2"></i>
-                            Informações do Cliente - OS #<?php echo str_pad($order['id'], 6, "0", STR_PAD_LEFT); ?>
-                        </h5>
+                    <div class="card-header">
+                        <i class="bi bi-person-badge me-2"></i>
+                        Informações do Cliente - OS #<?php echo str_pad($order['id'], 6, "0", STR_PAD_LEFT); ?>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="info-label">
-                                    <i class="bi bi-person me-1"></i> Cliente
-                                </div>
-                                <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
-
-                                <div class="info-label">
-                                    <i class="bi bi-telephone me-1"></i> Telefones
-                                </div>
-                                <div class="info-value">
-                                    <?php echo htmlspecialchars($order['phone1']); ?><br>
-                                    <?php echo htmlspecialchars($order['phone2'] ?? '-'); ?>
-                                </div>
+                        <div class="info-group">
+                            <div class="info-label">
+                                <i class="bi bi-person me-1"></i> Nome do Cliente
                             </div>
-                            <div class="col-md-6">
-                                <div class="info-label">
-                                    <i class="bi bi-laptop me-1"></i> Modelo
-                                </div>
-                                <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
+                            <div class="info-value">
+                                <?php echo htmlspecialchars($order['client_name']); ?>
+                            </div>
 
-                                <div class="info-label">
-                                    <i class="bi bi-calendar me-1"></i> Datas
-                                </div>
-                                <div class="info-value">
-                                    Abertura: <?php echo date('d/m/Y', strtotime($order['created_at'])); ?><br>
-                                    Entrega: <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?>
-                                </div>
+                            <div class="info-label">
+                                <i class="bi bi-telephone me-1"></i> Telefones
+                            </div>
+                            <div class="info-value">
+                                Principal: <?php echo htmlspecialchars($order['phone1']); ?><br>
+                                Alternativo: <?php echo htmlspecialchars($order['phone2'] ?? '-'); ?>
                             </div>
                         </div>
 
-                        <div class="mt-3">
+                        <div class="info-group">
+                            <div class="info-label">
+                                <i class="bi bi-laptop me-1"></i> Equipamento
+                            </div>
+                            <div class="info-value">
+                                <?php echo htmlspecialchars($order['device_model']); ?>
+                            </div>
+
+                            <div class="info-label">
+                                <i class="bi bi-key me-1"></i> Senha
+                            </div>
+                            <div class="info-value">
+                                <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
+                            </div>
+                        </div>
+
+                        <div class="info-group">
+                            <div class="info-label">
+                                <i class="bi bi-calendar-event me-1"></i> Datas
+                            </div>
+                            <div class="info-value">
+                                Abertura: <?php echo date('d/m/Y', strtotime($order['created_at'])); ?><br>
+                                Previsão: <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?>
+                            </div>
+                        </div>
+
+                        <div class="info-group">
                             <div class="info-label">
                                 <i class="bi bi-exclamation-triangle me-1"></i> Defeito Relatado
                             </div>
-                            <div class="info-value bg-light p-3 rounded">
+                            <div class="info-value">
                                 <?php echo htmlspecialchars($order['reported_issue']); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Middle Container - Technical Notes -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="bi bi-journal-text me-2"></i>
+                        Notas Técnicas
+                    </div>
+                    <div class="card-body">
+                        <div class="technical-notes">
+                            <div class="notes-content">
+                                <?php echo nl2br(htmlspecialchars($textareaContent)); ?>
+                            </div>
+                            <div class="input-group">
+                                <textarea class="form-control" 
+                                          id="newNote" 
+                                          rows="2" 
+                                          placeholder="Digite sua nota técnica..."></textarea>
+                                <button class="btn btn-primary" onclick="addNote()">
+                                    <i class="bi bi-plus-circle"></i>
+                                    Adicionar
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -581,31 +680,24 @@ try {
             <!-- Right Container - Action Buttons -->
             <div class="col-md-4">
                 <div class="card">
-                    <div class="card-header bg-secondary text-white">
-                        <h5 class="mb-0">
-                            <i class="bi bi-gear me-2"></i>
-                            Ações
-                        </h5>
+                    <div class="card-header">
+                        <i class="bi bi-gear me-2"></i>
+                        Ações
                     </div>
                     <div class="card-body">
-                        <div class="status-badge <?php 
-                            echo match($order['status']) {
-                                'Em andamento' => 'status-progress',
-                                'Concluída' => 'status-completed',
-                                default => 'status-waiting'
-                            }; 
-                        ?>">
-                            <?php echo htmlspecialchars($order['status']); ?>
+                        <div class="status-badge">
+                            <i class="bi bi-info-circle me-2"></i>
+                            Status: <?php echo htmlspecialchars($order['status']); ?>
                         </div>
 
-                        <button class="btn btn-outline-primary btn-action">
-                            <i class="bi bi-pencil-square me-2"></i>
+                        <button class="btn btn-outline-primary btn-action" id="statusButton">
+                            <i class="bi bi-arrow-clockwise me-2"></i>
                             Alterar Status
                         </button>
 
-                        <button class="btn btn-outline-success btn-action">
+                        <button class="btn btn-outline-success btn-action" id="authButton">
                             <i class="bi bi-check-circle me-2"></i>
-                            Autorizar Serviço
+                            Autorização
                         </button>
 
                         <button class="btn btn-outline-info btn-action">
@@ -613,19 +705,24 @@ try {
                             Peças Necessárias
                         </button>
 
-                        <button class="btn btn-outline-secondary btn-action">
+                        <button class="btn btn-outline-secondary btn-action" onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
                             <i class="bi bi-printer me-2"></i>
                             Imprimir OS
                         </button>
 
-                        <hr>
-
-                        <button class="btn btn-primary btn-action">
-                            <i class="bi bi-save me-2"></i>
-                            Salvar Alterações
+                        <button class="btn btn-outline-warning btn-action" data-bs-toggle="modal" data-bs-target="#historyModal">
+                            <i class="bi bi-clock-history me-2"></i>
+                            Histórico
                         </button>
 
-                        <a href="dashboard.php" class="btn btn-outline-danger btn-action">
+                        <hr>
+
+                        <button class="btn btn-success btn-action" onclick="window.location.href='dashboard.php'">
+                            <i class="bi bi-save me-2"></i>
+                            Salvar e Voltar
+                        </button>
+
+                        <a href="dashboard.php" class="btn btn-danger btn-action">
                             <i class="bi bi-x-circle me-2"></i>
                             Cancelar
                         </a>
@@ -636,6 +733,10 @@ try {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
     <div class="toast-container"></div>
     <script>
             const orderId = <?php echo $_GET['id']; ?>;
