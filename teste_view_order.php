@@ -79,67 +79,6 @@ try {
         body {
             background-color: #f5f6fa;
         }
-        
-        .progress-step {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            position: relative;
-        }
-
-        .progress-label {
-            position: absolute;
-            bottom: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            font-size: 0.85rem;
-        }
-
-        .progress-line {
-            flex: 1;
-            height: 3px;
-            background: #dee2e6;
-        }
-
-        .progress-line.active {
-            background: #0d6efd;
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-left: 30px;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: 4px;
-            top: 8px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #0d6efd;
-        }
-
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: 9px;
-            top: 20px;
-            width: 2px;
-            height: calc(100% + 10px);
-            background: #dee2e6;
-        }
-
-        .timeline-item:last-child::after {
-            display: none;
-        }
 
         .card {
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
