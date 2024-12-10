@@ -579,7 +579,10 @@ try {
                     </div>
                 </div>
 
-                <div>
+                
+            </div>
+            <div class="mid-content">
+            <div>
                     <div class="section-title">
                         <i class="bi bi-clipboard-data"></i> Laudo Técnico
                     </div>
