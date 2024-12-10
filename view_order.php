@@ -142,6 +142,11 @@ try {
             flex-direction: column;
         }
 
+        .row{
+            display:flex;
+            flex-direction: column;
+        }
+
         .main-content {
             display: flex;
             gap: 24px;
