@@ -98,7 +98,7 @@ try {
             padding: 20px;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;margin: 0;
             min-height: 100vh;
-            
+            display:flex;
         }
 
         .order-container {
@@ -495,6 +495,8 @@ try {
     <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
+
+
     <div class="order-container">
         <!-- Informações do pedido -->
         <div class="order-info">
