@@ -109,7 +109,9 @@ try {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
+            flex-direction: column;
             min-height: calc(100vh - 40px);
+            scale: 85%;
         }
 
         /* Order info styles */
@@ -138,13 +140,6 @@ try {
             margin-top: 10px;
             background: rgba(255, 255, 255, 0.5);
             border-radius: 0 var(--border-radius) var(--border-radius) 0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .row{
-            display:flex;
-            flex-direction: column;
         }
 
         .main-content {
@@ -500,16 +495,12 @@ try {
     <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
-
-
     <div class="order-container">
         <!-- Informações do pedido -->
         <div class="order-info">
             <h4 class="mb-3">
                 Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
             </h4>
-
-
             <div class="client-details">
                 <div class="row">
 
@@ -815,7 +806,7 @@ try {
                     
                     let newNoteText = '';
                     if (!technicalNotes.value.includes(today)) {
-                        newNoteText = `\n${today}\n\n`;
+                        newNoteText = `\n---------------- ${today} ----------------\n\n`;
                     }
                     
                     newNoteText += `${data.username}: ${noteText}\n`;
