@@ -126,17 +126,6 @@ try {
             z-index: 1000;
         }
 
-        .toast {
-            padding: 12px 20px;
-            border-radius: 8px;
-            background: white;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            animation: slideIn 0.3s ease;
-        }
 
         .technical-report {
             background-color: #f8f9fa;
