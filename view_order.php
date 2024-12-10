@@ -104,6 +104,8 @@ try {
         .painel{
             display:flex;
             max-width: 80%;
+            justify-content: center;
+            align-items: center;
         }
 
         .order-container {
