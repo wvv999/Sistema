@@ -100,9 +100,12 @@ try {
             min-height: 100vh;
             
         }
+
         .painel{
             display:flex;
+            max-width: 80%;
         }
+
         .order-container {
             background-color: #fff;
             border-radius: var(--border-radius);
