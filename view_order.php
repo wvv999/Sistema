@@ -356,7 +356,7 @@ try {
                 <i class="bi bi-arrow-left"></i> Voltar
             </a>
             <h1 class="order-title">
-                Ordem <?php echo str_pad($order['id'], 6, "0", STR_PAD_LEFT); ?>
+                Ordem <?php echo str_pad($order['id'], STR_PAD_LEFT); ?>t
             </h1>
             <div class="order-date">
                 Aberta em <?php echo date('d/m/Y', strtotime($order['created_at'])); ?>
