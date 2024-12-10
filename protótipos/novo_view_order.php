@@ -56,7 +56,7 @@ try {
 
     foreach ($notes as $note) {         
         if ($currentDate != $note['note_date']) {             
-            $textareaContent .= "\n---------------- " . $note['formatted_date'] . " ----------------\n\n";             
+            $textareaContent .= "\n " . $note['formatted_date'] . " \n\n";       
             $currentDate = $note['note_date'];         
         }         
         $textareaContent .= "{$note['username']}: {$note['note']}\n";     
@@ -99,6 +99,13 @@ try {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;margin: 0;
             min-height: 100vh;
             
+        }
+
+        .painel{
+            display:flex;
+            max-width: 80%;
+            justify-content: center;
+            align-items: center;
         }
 
         .order-container {
@@ -153,7 +160,9 @@ try {
             flex: 1;
         }
 
+        /* BOTÕES */
         .content-right {
+            height: 40%;
             width: 300px;
         }
 
@@ -489,36 +498,43 @@ try {
                 margin-bottom: 10px;
             }
         }
+
+        .mb-3{
+            margin-left: 200px;
+        }
     </style>
 </head>
 <body>
     <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
+    <h4 class="mb-3">
+        Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
+    </h4>
+
+<div class="painel">
     <div class="order-container">
         <!-- Informações do pedido -->
         <div class="order-info">
-            <h4 class="mb-3">
-                Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
-            </h4>
+
             <div class="client-details">
                 <div class="row">
 
-                    <div class="col-md-2">
+                    <div>
                         <div class="info-label">
                             <i class="bi bi-person"></i> Nome do Cliente
                         </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div>
                         <div class="info-label">
                             <i class="bi bi-laptop"></i> Modelo
                         </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div>
                         <div class="info-label">
                             <i class="bi bi-telephone"></i> Contatos
                         </div>
@@ -526,7 +542,7 @@ try {
                         <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div>
                         <div class="info-label">
                             <i class="bi bi-calendar-event"></i> Data de Abertura
                         </div>
@@ -563,10 +579,16 @@ try {
                     </div>
                 </div>
 
-                <div>
-                    <div class="section-title">
-                        <i class="bi bi-clipboard-data"></i> Laudo Técnico
-                    </div>
+                
+            </div>
+
+
+        </div>
+    </div>
+    <div class="mid-content">
+                <div class="section-title">
+                    <i class="bi bi-clipboard-data"></i> Laudo Técnico
+                </div>
                     <div class="technical-report">
                         <div class="technical-notes">
                             <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
@@ -582,9 +604,7 @@ try {
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
-            <!-- Coluna da direita -->
             <div class="content-right">
                 <div class="side-panel">
                     <!-- Status e Ações -->
@@ -634,8 +654,28 @@ try {
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- Modal de Histórico -->
     <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -806,7 +846,7 @@ try {
                     
                     let newNoteText = '';
                     if (!technicalNotes.value.includes(today)) {
-                        newNoteText = `\n---------------- ${today} ----------------\n\n`;
+                        newNoteText = `\n${today}\n\n`;
                     }
                     
                     newNoteText += `${data.username}: ${noteText}\n`;
