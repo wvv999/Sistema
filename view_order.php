@@ -164,7 +164,6 @@ try {
         .content-right {
             height: 40%;
             width: 300px;
-            background: red;
         }
 
         .info-label {
