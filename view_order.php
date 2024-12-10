@@ -520,21 +520,21 @@ try {
             <div class="client-details">
                 <div class="row">
 
-                    <div class="col-md-2">
+                    <div>
                         <div class="info-label">
                             <i class="bi bi-person"></i> Nome do Cliente
                         </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div>
                         <div class="info-label">
                             <i class="bi bi-laptop"></i> Modelo
                         </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div>
                         <div class="info-label">
                             <i class="bi bi-telephone"></i> Contatos
                         </div>
@@ -542,7 +542,7 @@ try {
                         <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div>
                         <div class="info-label">
                             <i class="bi bi-calendar-event"></i> Data de Abertura
                         </div>
