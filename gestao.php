@@ -388,7 +388,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Função auxiliar para definir a classe do status
     function getStatusClass(status) {
         const statusClasses = {
-            'Não iniciada': 'não-iniciada',
+            'não iniciada': 'não-iniciada',
             'em andamento': 'em-andamento',
             'concluída': 'concluída',
             'pronto e avisado': 'pronto-e-avisado',
