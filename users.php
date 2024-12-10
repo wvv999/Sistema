@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 // Busca todos os usuários
 try {
-    $query = "SELECT id, username FROM users ";
+    $query = "SELECT username FROM users "; // Removed id from SELECT
     $stmt = $db->prepare($query);
     $stmt->execute();
     $users = $stmt->fetchAll();
@@ -69,11 +69,11 @@ try {
         }
         
         .container {
-            padding-top: 6rem; /* Aumentado o padding superior */
+            padding-top: 6rem;
             padding-bottom: 2rem;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Garante alinhamento correto */
+            align-items: flex-start;
         }
         
         .content-container {
@@ -118,19 +118,18 @@ try {
 
         .table > tbody > tr > td {
             vertical-align: middle;
-            padding: 8px;
-        }
-
-        /* Alinhamento da coluna de data */
-        .table th.date-column,
-        .table td.date-column {
-            text-align: right;
-            padding-right: 15px;
+            padding: 12px 15px; /* Increased padding for better spacing */
         }
 
         .divider {
             margin: 2rem 0;
             border-top: 2px solid #eee;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         @media (max-width: 576px) {
@@ -144,7 +143,7 @@ try {
             }
 
             .container {
-                padding-top: 4rem; /* Menor padding no mobile */
+                padding-top: 4rem;
             }
         }
     </style>
@@ -197,20 +196,18 @@ try {
                 <table class="table table-hover">
                     <thead class="table-light">
                         <tr>
-                            <th scope="col">ID</th>
                             <th scope="col">Usuário</th>
-                            <!-- <th scope="col" class="date-column">Data</th> -->
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($users as $user): ?>
                             <tr>
-                                <td><?php echo $user['id']; ?></td>
                                 <td>
-                                    <i class="bi bi-person-circle me-2"></i>
-                                    <?php echo htmlspecialchars($user['username']); ?>
+                                    <div class="user-item">
+                                        <i class="bi bi-person-circle"></i>
+                                        <?php echo htmlspecialchars($user['username']); ?>
+                                    </div>
                                 </td>
-
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
