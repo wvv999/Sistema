@@ -100,7 +100,9 @@ try {
             min-height: 100vh;
             
         }
-
+        .painel{
+            display:flex;
+        }
         .order-container {
             background-color: #fff;
             border-radius: var(--border-radius);
@@ -496,6 +498,9 @@ try {
     <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
+
+
+<div class="painel">
     <div class="order-container">
         <!-- Informações do pedido -->
         <div class="order-info">
@@ -585,12 +590,9 @@ try {
                     </div>
                 </div>
             </div>
-            <!-- Coluna da direita -->
-
         </div>
     </div>
-
-    <div class="content-right">
+            <div class="content-right">
                 <div class="side-panel">
                     <!-- Status e Ações -->
                     <div class="menu-section">
@@ -639,6 +641,26 @@ try {
                     </div>
                 </div>
             </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     <!-- Modal de Histórico -->
