@@ -125,6 +125,7 @@ if(!isset($_SESSION['user_id'])) {
             align-items: center;
             justify-content: center;
             gap: 4px;
+            color:white;
         }
 
         .status-indicator i {
