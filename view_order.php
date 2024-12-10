@@ -498,6 +498,10 @@ try {
                 margin-bottom: 10px;
             }
         }
+
+        .mb-3{
+            margin-left: 100px;
+        }
     </style>
 </head>
 <body>
