@@ -581,11 +581,14 @@ try {
 
                 
             </div>
-            <div class="mid-content">
-            <div>
-                    <div class="section-title">
-                        <i class="bi bi-clipboard-data"></i> Laudo Técnico
-                    </div>
+
+
+        </div>
+    </div>
+    <div class="mid-content">
+                <div class="section-title">
+                    <i class="bi bi-clipboard-data"></i> Laudo Técnico
+                </div>
                     <div class="technical-report">
                         <div class="technical-notes">
                             <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
@@ -601,10 +604,7 @@ try {
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
-        </div>
-    </div>
             <div class="content-right">
                 <div class="side-panel">
                     <!-- Status e Ações -->
