@@ -504,15 +504,15 @@ try {
     <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
-
+    <h4 class="mb-3">
+        Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
+    </h4>
 
 <div class="painel">
     <div class="order-container">
         <!-- Informações do pedido -->
         <div class="order-info">
-            <h4 class="mb-3">
-                Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
-            </h4>
+
             <div class="client-details">
                 <div class="row">
 
