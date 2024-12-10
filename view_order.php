@@ -98,7 +98,7 @@ try {
             padding: 20px;
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;margin: 0;
             min-height: 100vh;
-            display:flex;
+            
         }
 
         .order-container {
@@ -109,9 +109,7 @@ try {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            flex-direction: column;
             min-height: calc(100vh - 40px);
-            scale: 85%;
         }
 
         /* Order info styles */
