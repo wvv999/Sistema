@@ -138,6 +138,8 @@ try {
             margin-top: 10px;
             background: rgba(255, 255, 255, 0.5);
             border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            display: flex;
+            flex-direction: column;
         }
 
         .main-content {
@@ -501,6 +503,8 @@ try {
             <h4 class="mb-3">
                 Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
             </h4>
+
+
             <div class="client-details">
                 <div class="row">
 
