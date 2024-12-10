@@ -56,7 +56,7 @@ try {
 
     foreach ($notes as $note) {         
         if ($currentDate != $note['note_date']) {             
-            $textareaContent .= "\n " . $note['formatted_date'] . " \n\n";             
+            $textareaContent .= "\n " . $note['formatted_date'] . " \n\n";       
             $currentDate = $note['note_date'];         
         }         
         $textareaContent .= "{$note['username']}: {$note['note']}\n";     
@@ -155,6 +155,7 @@ try {
 
         .content-right {
             width: 300px;
+            background: red;
         }
 
         .info-label {
