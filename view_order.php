@@ -56,7 +56,7 @@ try {
 
     foreach ($notes as $note) {         
         if ($currentDate != $note['note_date']) {             
-            $textareaContent .= "\n---------------- " . $note['formatted_date'] . " ----------------\n\n";             
+            $textareaContent .= "\n " . $note['formatted_date'] . " \n\n";             
             $currentDate = $note['note_date'];         
         }         
         $textareaContent .= "{$note['username']}: {$note['note']}\n";     
@@ -806,7 +806,7 @@ try {
                     
                     let newNoteText = '';
                     if (!technicalNotes.value.includes(today)) {
-                        newNoteText = `\n---------------- ${today} ----------------\n\n`;
+                        newNoteText = `\n${today}\n\n`;
                     }
                     
                     newNoteText += `${data.username}: ${noteText}\n`;
