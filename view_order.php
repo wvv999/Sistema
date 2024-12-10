@@ -586,7 +586,11 @@ try {
                 </div>
             </div>
             <!-- Coluna da direita -->
-            <div class="content-right">
+
+        </div>
+    </div>
+
+    <div class="content-right">
                 <div class="side-panel">
                     <!-- Status e Ações -->
                     <div class="menu-section">
@@ -635,8 +639,8 @@ try {
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+
+
     <!-- Modal de Histórico -->
     <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
