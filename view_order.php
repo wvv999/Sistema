@@ -76,334 +76,383 @@ try {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
         :root {
-            --bs-primary: #4a6fff;
-            --bs-secondary: #6c757d;
-            --bs-success: #28a745;
-            --bs-info: #17a2b8;
-            --bs-warning: #ffc107;
-            --bs-danger: #dc3545;
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --success: #16a34a;
+            --warning: #ca8a04;
+            --danger: #dc2626;
+            --background: #f1f5f9;
+            --surface: #ffffff;
+            --text: #1e293b;
         }
 
         body {
-            background-color: #f8f9fa;
+            background-color: var(--background);
+            color: var(--text);
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            min-height: 100vh;
         }
 
-        .card {
-            border: none;
-            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-            margin-bottom: 1.5rem;
+        .workspace {
+            display: grid;
+            grid-template-columns: 280px 1fr 300px;
+            gap: 24px;
+            padding: 24px;
+            max-width: 1800px;
+            margin: 0 auto;
         }
 
-        .order-header {
-            background: linear-gradient(135deg, var(--bs-primary) 0%, #3d5afe 100%);
-            color: white;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .status-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 50rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.875rem;
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .info-label {
-            color: var(--bs-secondary);
-            font-size: 0.875rem;
-            margin-bottom: 0.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .info-value {
-            font-weight: 500;
-            margin-bottom: 1rem;
-            padding: 0.5rem;
-            background: #f8f9fa;
-            border-radius: 0.375rem;
-        }
-
-        .action-button {
-            width: 100%;
-            text-align: left;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            border-radius: 0.5rem;
-            border: 1px solid rgba(0,0,0,0.1);
-            background: white;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 500;
-        }
-
-        .action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-
-        .notes-area {
-            border: none;
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            min-height: 200px;
-            resize: none;
-            width: 100%;
-            font-family: inherit;
-        }
-
-        .status-history {
-            max-height: 300px;
+        .panel {
+            background: var(--surface);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            height: calc(100vh - 48px);
             overflow-y: auto;
         }
 
-        /* Status styles */
-        .status-nao-iniciada { background-color: var(--bs-danger); color: white; }
-        .status-em-andamento { background-color: var(--bs-warning); color: black; }
-        .status-concluida { background-color: var(--bs-success); color: white; }
-        .status-pronto-e-avisado { background-color: var(--bs-info); color: white; }
-        .status-entregue { background-color: var(--bs-secondary); color: white; }
+        .nav-panel {
+            padding: 20px;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
-        /* Auth styles */
-        .auth-autorizacao { background-color: var(--bs-secondary); color: white; }
-        .auth-solicitado { background-color: var(--bs-warning); color: black; }
-        .auth-autorizado { background-color: var(--bs-success); color: white; }
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding: 32px;
+        }
+
+        .actions-panel {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            border-left: 1px solid #e2e8f0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .order-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .info-section {
+            background: var(--surface);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .info-label {
+            font-size: 0.875rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: var(--surface);
+            color: var(--text);
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .notes-area {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            width: 100%;
+            height: 200px;
+            resize: vertical;
+            font-family: inherit;
+            line-height: 1.5;
+        }
+
+        .notes-input {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        /* Status badges */
+        .badge {
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .badge-primary { background: #dbeafe; color: #1e40af; }
+        .badge-success { background: #dcfce7; color: #166534; }
+        .badge-warning { background: #fef9c3; color: #854d0e; }
+        .badge-danger { background: #fee2e2; color: #991b1b; }
 
         /* Toast notifications */
         .toast-container {
             position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            z-index: 1050;
+            bottom: 24px;
+            right: 24px;
+            z-index: 100;
         }
 
         .toast {
-            background: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            margin-bottom: 0.5rem;
+            background: var(--surface);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
             animation: slideIn 0.3s ease;
         }
 
         @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 1200px) {
+            .workspace {
+                grid-template-columns: 240px 1fr;
             }
-            to {
-                transform: translateX(0);
-                opacity: 1;
+
+            .actions-panel {
+                grid-column: span 2;
+                height: auto;
             }
-        }
-
-        .history-item {
-            padding: 1rem;
-            border-radius: 0.5rem;
-            background: #f8f9fa;
-            margin-bottom: 0.5rem;
-        }
-
-        .history-item .date {
-            color: var(--bs-secondary);
-            font-size: 0.875rem;
-        }
-
-        .history-item .username {
-            font-weight: 600;
-            margin: 0.25rem 0;
-        }
-
-        .history-item .detail {
-            color: var(--bs-secondary);
         }
 
         @media (max-width: 768px) {
-            .order-header {
-                padding: 1.5rem;
+            .workspace {
+                grid-template-columns: 1fr;
+                padding: 16px;
             }
-            
-            .container-fluid {
-                padding: 1rem;
+
+            .nav-panel, .actions-panel {
+                grid-column: span 1;
+            }
+
+            .panel {
+                height: auto;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container-fluid py-4">
-        <!-- Botão Voltar -->
-        <div class="row mb-4">
-            <div class="col">
-                <button onclick="history.back()" class="btn btn-outline-primary">
-                    <i class="bi bi-arrow-left"></i> Voltar
-                </button>
+    <div class="workspace">
+        <!-- Painel de Navegação -->
+        <div class="panel nav-panel">
+            <div class="order-title">
+                OS #<?php echo str_pad($order['id'], 6, "0", STR_PAD_LEFT); ?>
+            </div>
+            
+            <button onclick="history.back()" class="action-button">
+                <i class="bi bi-arrow-left"></i>
+                <span>Voltar</span>
+            </button>
+
+            <div class="section-title">
+                <i class="bi bi-calendar"></i>
+                Datas
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Abertura</div>
+                <div class="info-value">
+                    <?php echo date('d/m/Y', strtotime($order['created_at'])); ?>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-label">Previsão</div>
+                <div class="info-value">
+                    <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?>
+                </div>
             </div>
         </div>
 
-        <!-- Cabeçalho da OS -->
-        <div class="order-header">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    <h4 class="mb-0">Ordem de Serviço #<?php echo str_pad($order['id'], 6, "0", STR_PAD_LEFT); ?></h4>
+        <!-- Painel Principal -->
+        <div class="panel main-panel">
+            <!-- Informações do Cliente -->
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="bi bi-person"></i>
+                    Informações do Cliente
                 </div>
-                <div class="col-md-6 text-md-end">
-                    <span class="status-badge">
-                        <?php echo $order['status']; ?>
-                    </span>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Nome</div>
+                        <div class="info-value">
+                            <?php echo htmlspecialchars($order['client_name']); ?>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Telefone Principal</div>
+                        <div class="info-value">
+                            <?php echo htmlspecialchars($order['phone1']); ?>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Telefone Alternativo</div>
+                        <div class="info-value">
+                            <?php echo htmlspecialchars($order['phone2'] ?? '-'); ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Informações do Dispositivo -->
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="bi bi-laptop"></i>
+                    Informações do Dispositivo
+                </div>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Modelo</div>
+                        <div class="info-value">
+                            <?php echo htmlspecialchars($order['device_model']); ?>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Senha</div>
+                        <div class="info-value">
+                            <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-item mt-4">
+                    <div class="info-label">Defeito Relatado</div>
+                    <div class="info-value">
+                        <?php echo htmlspecialchars($order['reported_issue']); ?>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Laudo Técnico -->
+            <div class="info-section">
+                <div class="section-title">
+                    <i class="bi bi-clipboard-data"></i>
+                    Laudo Técnico
+                </div>
+                <textarea id="technicalNotes" class="notes-area" readonly><?php echo $textareaContent; ?></textarea>
+                <div class="notes-input">
+                    <textarea id="newNote" class="form-control" rows="2" 
+                            placeholder="Digite sua nota técnica..."></textarea>
+                    <button onclick="addNote()" class="action-button">
+                        <i class="bi bi-plus-lg"></i>
+                        Adicionar
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Conteúdo Principal -->
-        <div class="row">
-            <!-- Informações do Cliente e Dispositivo -->
-            <div class="col-md-8">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Informações do Cliente</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="info-label">
-                                    <i class="bi bi-person"></i> Nome
-                                </div>
-                                <div class="info-value">
-                                    <?php echo htmlspecialchars($order['client_name']); ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info-label">
-                                    <i class="bi bi-telephone"></i> Telefones
-                                </div>
-                                <div class="info-value">
-                                    <?php echo htmlspecialchars($order['phone1']); ?><br>
-                                    <?php echo htmlspecialchars($order['phone2'] ?? '-'); ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Painel de Ações -->
+        <div class="panel actions-panel">
+            <div class="section-title">Ações</div>
 
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Informações do Dispositivo</h5>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="info-label">
-                                    <i class="bi bi-laptop"></i> Modelo
-                                </div>
-                                <div class="info-value">
-                                    <?php echo htmlspecialchars($order['device_model']); ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="info-label">
-                                    <i class="bi bi-key"></i> Senha
-                                </div>
-                                <div class="info-value">
-                                    <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="info-label">
-                                    <i class="bi bi-exclamation-triangle"></i> Defeito Relatado
-                                </div>
-                                <div class="info-value">
-                                    <?php echo htmlspecialchars($order['reported_issue']); ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <!-- Status e Autorização -->
+            <button id="statusButton" class="action-button"
+                    data-status="<?php echo $order['status']; ?>"
+                    data-order-id="<?php echo $order['id']; ?>">
+                <i class="bi bi-gear"></i>
+                <span><?php echo $order['status']; ?></span>
+            </button>
 
-                <!-- Laudo Técnico -->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">
-                            <i class="bi bi-clipboard-data"></i> Laudo Técnico
-                        </h5>
-                        <textarea id="technicalNotes" class="notes-area mb-3" readonly><?php echo $textareaContent; ?></textarea>
-                        <div class="input-group">
-                            <textarea id="newNote" class="form-control" rows="2" 
-                                    placeholder="Digite sua nota técnica..." data-autoresize></textarea>
-                            <button onclick="addNote()" class="btn btn-primary">
-                                <i class="bi bi-plus-lg"></i> Adicionar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <button id="authButton" class="action-button"
+                    data-auth-status="Autorização"
+                    data-order-id="<?php echo $order['id']; ?>">
+                <i class="bi bi-check-circle"></i>
+                <span>Autorização</span>
+            </button>
 
-            <!-- Sidebar -->
-            <div class="col-md-4">
-                <!-- Ações -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Ações</h5>
-                        
-                        <button id="statusButton" class="action-button" 
-                                data-status="<?php echo $order['status']; ?>"
-                                data-order-id="<?php echo $order['id']; ?>">
-                            <i class="bi bi-gear-fill"></i>
-                            <span><?php echo $order['status']; ?></span>
-                        </button>
+            <hr>
 
-                        <button id="authButton" class="action-button"
-                                data-auth-status="Autorização"
-                                data-order-id="<?php echo $order['id']; ?>">
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>Autorização</span>
-                        </button>
+            <!-- Outras Ações -->
+            <button class="action-button" data-bs-toggle="modal" data-bs-target="#historyModal">
+                <i class="bi bi-clock-history"></i>
+                Histórico
+            </button>
 
-                        <button class="action-button" onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
-                            <i class="bi bi-printer-fill"></i>
-                            <span>Imprimir</span>
-                        </button>
+            <button class="action-button" 
+                    onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
+                <i class="bi bi-printer"></i>
+                Imprimir
+            </button>
 
-                        <button class="action-button" data-bs-toggle="modal" data-bs-target="#historyModal">
-                            <i class="bi bi-clock-history"></i>
-                            <span>Histórico</span>
-                        </button>
-
-                        <button class="action-button text-success" onclick="javascript:history.go(-1)">
-                            <i class="bi bi-save2-fill"></i>
-                            <span>Salvar e Sair</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Datas -->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Datas</h5>
-                        <div class="info-label">
-                            <i class="bi bi-calendar-event"></i> Abertura
-                        </div>
-                        <div class="info-value">
-                            <?php echo date('d/m/Y', strtotime($order['created_at'])); ?>
-                        </div>
-                        <div class="info-label">
-                            <i class="bi bi-calendar-check"></i> Entrega Prevista
-                        </div>
-                        <div class="info-value">
-                            <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <button class="action-button" style="margin-top: auto; background: var(--success); color: white"
+                    onclick="javascript:history.go(-1)">
+                <i class="bi bi-check-lg"></i>
+                Salvar e Sair
+            </button>
         </div>
     </div>
+
+    <!-- Modal de Histórico -->
+    [O mesmo modal existente]
+
+    <!-- Container de Toast -->
+    <div class="toast-container"></div>
+
+    <!-- Scripts -->
+    [Os mesmos scripts existentes]
+
 
     <!-- Modal de Histórico -->
     <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
