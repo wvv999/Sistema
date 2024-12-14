@@ -182,7 +182,6 @@ try {
             display: flex;
             flex-direction: column;
             gap: 24px;
-            background: red;
         }
 
         .info-label {
@@ -621,7 +620,7 @@ try {
         </div>
 
         <div class="container-direita">
-                <div class="side-panel">
+                
                     <!-- Status e Ações -->
                     <div class="menu-section">
                         <div id="statusButton" 
@@ -667,7 +666,7 @@ try {
                             <span>Salvar e Sair</span>
                         </button>
                     </div>
-                </div>
+                
             </div>
         </div>
     </div>
