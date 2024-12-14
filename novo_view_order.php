@@ -160,12 +160,14 @@ try {
         }
         .content-left {
             height: 100%;
+            background: green;
         }
         /* PAINEL DIREITO */
         .side-panel {
             display: flex;
             flex-direction: column;
             gap: 24px;
+            background: red;
         }
         
         /* BOTÕES */
