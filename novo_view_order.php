@@ -149,7 +149,7 @@ try {
             border-radius: 0 var(--border-radius) var(--border-radius) 0;
         }
 
-        .main-content {
+        .meio {
             display: flex;
             gap: 24px;
             flex: 1;
@@ -175,9 +175,10 @@ try {
         }
         
         /* BOTÕES */
-        .content-right {
+        .container-direita {
             height: 40%;
             width: 300px;
+            background: yellow;
         }
 
         .info-label {
@@ -483,11 +484,11 @@ try {
 
         /* Responsive styles */
         @media (max-width: 768px) {
-            .main-content {
+            .meio {
                 flex-direction: column;
             }
             
-            .content-right {
+            .container-direita {
                 width: 100%;
             }
         }
@@ -566,7 +567,7 @@ try {
         </div>
 
         <!-- Conteúdo principal -->
-        <div class="main-content">
+        <div class="meio">
             <!-- Coluna da esquerda -->
             <div class="content-left">
                 <div>
@@ -593,6 +594,8 @@ try {
 
         </div>
     </div>
+
+
         <div class="mid-content">
             <div class="section-title">
                 <i class="bi bi-clipboard-data"></i> Laudo Técnico
@@ -612,7 +615,8 @@ try {
                 </div>
             </div>
         </div>
-            <div class="content-right">
+
+        <div class="container-direita">
                 <div class="side-panel">
                     <!-- Status e Ações -->
                     <div class="menu-section">
