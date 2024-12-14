@@ -167,18 +167,22 @@ try {
         }
 
         /* PAINEL DIREITO */
-        .side-panel {
+        /* .side-panel {
             display: flex;
             flex-direction: column;
             gap: 24px;
             background: red;
-        }
+        } */
         
         /* BOTÕES */
         .container-direita {
             height: 40%;
             width: 300px;
             background: yellow;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            background: red;
         }
 
         .info-label {
