@@ -345,7 +345,7 @@ if(!isset($_SESSION['user_id'])) {
                                 $statusButton = OrderStatus::getStatusButton($status);
                                 
                                 echo <<<HTML
-                                <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
+                                <li class="list-group-item" onclick="window.location='novo_view_order.php?id={$order['id']}'">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <code>{$orderNumber}</code> - {$device_model} - <small>{$issue}</small>
@@ -582,7 +582,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="toast-body">
                     <p>Ordem número ${notification.order_id} necessita solicitação</p>
-                    <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
+                    <button onclick="window.location.href='novo_view_order.php?id=${notification.order_id}'" 
                             class="btn btn-primary mt-2">
                         <i class="bi bi-eye"></i> Abrir Ordem
                     </button>
@@ -599,7 +599,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="toast-body">
                     <p>Ordem número ${notification.order_id} foi autorizada</p>
-                    <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
+                    <button onclick="window.location.href='novo_view_order.php?id=${notification.order_id}'" 
                             class="btn btn-primary mt-2">
                         <i class="bi bi-eye"></i> Abrir Ordem
                     </button>
