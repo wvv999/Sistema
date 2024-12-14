@@ -155,13 +155,16 @@ try {
             flex: 1;
             margin-bottom: 24px;
         }
+
         .mid-content{
             height: 100%;
         }
+        
         .content-left {
             height: 100%;
             background: green;
         }
+
         /* PAINEL DIREITO */
         .side-panel {
             display: flex;
@@ -517,7 +520,7 @@ try {
     </h4>
 
 <div class="painel">
-    <div class="order-container">
+    <div class="order-container">   
         <!-- Informações do pedido -->
         <div class="order-info">
 
@@ -658,6 +661,8 @@ try {
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 </div>
 
 
