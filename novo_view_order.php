@@ -158,6 +158,7 @@ try {
 
         .mid-content{
             height: 100%;
+            background: blue;
         }
         
         .content-left {
