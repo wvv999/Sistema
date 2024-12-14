@@ -159,9 +159,15 @@ try {
             height: 100%;
         }
         .content-left {
-            flex: 1;
+            height: 100%;
         }
-
+        /* PAINEL DIREITO */
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
         /* BOTÕES */
         .content-right {
             height: 40%;
@@ -232,12 +238,6 @@ try {
             color: var(--primary-color);
         }
 
-        /* Side panel styles */
-        .side-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
 
         .menu-section {
             display: flex;
