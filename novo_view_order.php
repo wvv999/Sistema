@@ -155,7 +155,9 @@ try {
             flex: 1;
             margin-bottom: 24px;
         }
-
+        .mid-content{
+            height: 100%;
+        }
         .content-left {
             flex: 1;
         }
