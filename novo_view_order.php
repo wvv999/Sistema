@@ -159,6 +159,7 @@ try {
         .mid-content{
             height: 100%;
             background: blue;
+            background: purple;
         }
         
         .content-left {
@@ -620,34 +621,30 @@ try {
         </div>
 
         <div class="container-direita">
-                
-                    <!-- Status e Ações -->
-                    <div class="menu-section">
-                        <div id="statusButton" 
-                            class="action-button status-button"
-                            data-status="<?php echo $order['status']; ?>"
-                            data-order-id="<?php echo $order['id']; ?>"
-                            data-bs-toggle="tooltip"
-                            title="Clique para alterar o status">
-                            <i class="bi bi-gear"></i>
-                            <span><?php echo $order['status']; ?></span>
-                        </div>
-
-                        <div id="authButton" 
-                            class="action-button auth-button auth-autorizacao"
-                            data-auth-status="Autorização"
-                            data-order-id="<?php echo $order['id']; ?>"
-                            data-bs-toggle="tooltip"
-                            title="Clique para alterar a autorização">
-                            <i class="bi bi-check-circle"></i>
-                            <span>Autorização</span>
-                        </div>
-
-                        <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
-                            <i class="bi bi-cart"></i>
-                            <span>Compra de Peças</span>
-                        </div>
-                    </div>
+            <div class="menu-section">
+                <div id="statusButton" 
+                    class="action-button status-button"
+                    data-status="<?php echo $order['status']; ?>"
+                    data-order-id="<?php echo $order['id']; ?>"
+                    data-bs-toggle="tooltip"
+                    title="Clique para alterar o status">
+                    <i class="bi bi-gear"></i>
+                    <span><?php echo $order['status']; ?></span>
+                </div>
+                <div id="authButton" 
+                    class="action-button auth-button auth-autorizacao"
+                    data-auth-status="Autorização"
+                    data-order-id="<?php echo $order['id']; ?>"
+                    data-bs-toggle="tooltip"
+                    title="Clique para alterar a autorização">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Autorização</span>
+                </div>
+                <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
+                    <i class="bi bi-cart"></i>
+                    <span>Compra de Peças</span>
+                </div>
+            </div>
 
                     <!-- Ações da OS -->
                     <div class="menu-section">
