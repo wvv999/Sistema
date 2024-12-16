@@ -241,6 +241,7 @@ try {
 
         .senha-e-defeito{
             width: 400px;
+            gap: 10px;
         }
 
         .section-title {
