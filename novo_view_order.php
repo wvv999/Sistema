@@ -154,6 +154,7 @@ try {
             gap: 24px;
             flex: 1;
             margin-bottom: 24px;
+            background: brown;
         }
 
         .mid-content{   
