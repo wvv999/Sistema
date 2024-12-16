@@ -162,14 +162,7 @@ try {
             border-radius: 0 var(--border-radius) var(--border-radius) 0;
         }
 
-        .coluna-esquerda {
-            width: 100%;
-            display: flex;
-            gap: 24px;
-            flex: 1;
-            margin-bottom: 24px;
-            background: brown;
-        }
+
 
         .mid-content{   
             height: 100%;
@@ -498,10 +491,6 @@ try {
 
         /* Responsive styles */
         @media (max-width: 768px) {
-            .coluna-esquerda {
-                flex-direction: column;
-            }
-            
             .container-direita {
                 width: 100%;
             }
@@ -592,12 +581,8 @@ try {
 
         </div>
 
-        <!-- Conteúdo principal -->
-        <div class="coluna-esquerda">
+    
 
-
-
-        </div>
     </div>
 
 
