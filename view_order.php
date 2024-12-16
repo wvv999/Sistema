@@ -99,6 +99,7 @@ try {
         .example::-webkit-scrollbar { display: none; }
 
         .order-container {
+            height: fit-content;
             background-color: #fff;
             border-radius: var(--border-radius);
             padding: 24px;
@@ -107,7 +108,6 @@ try {
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            min-height: calc(100vh - 40px);
         }
 
         /* Order info styles */
