@@ -199,7 +199,7 @@ try {
             gap: 6px;
         }
 
-        /* .info-value {
+        .info-value {
             color: #333;
             margin-bottom: 15px;
             font-size: 1rem;
@@ -207,12 +207,11 @@ try {
             background: rgba(255, 255, 255, 0.5);
             border-radius: var(--border-radius);
             transition: var(--transition);
-        } */
+        }
 
-        /* .info-value:hover {
+        .info-value:hover {
             background: rgba(255, 255, 255, 0.8);
-        } */
-
+        }
 
         .device-password, .reported-issue {
             background-color: #f8f9fa;
@@ -597,7 +596,7 @@ try {
                 <i class="bi bi-key"></i> Senha
             </div>
             <div class="device-password">
-                <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
+                <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>t
             </div>
         </div>
         
