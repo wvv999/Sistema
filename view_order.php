@@ -235,6 +235,7 @@ try {
             display: flex;
             flex-direction: column;
             gap: 24px;
+            justify-content: space-between;
         }
 
         .menu-section {
