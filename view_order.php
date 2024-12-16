@@ -188,6 +188,7 @@ try {
         }
 
         .linha{
+            width: 100%;
             display:flex;
             background: red;
         }
