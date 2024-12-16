@@ -123,7 +123,7 @@ try {
             height: 400px;
             background-color: #fff;
             border-radius: var(--border-radius);
-            
+            padding: 24px;
             box-shadow: var(--shadow);
             max-width: 400px;
             
