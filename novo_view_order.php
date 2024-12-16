@@ -150,6 +150,7 @@ try {
         }
 
         .meio {
+            width: 100%;
             display: flex;
             gap: 24px;
             flex: 1;
