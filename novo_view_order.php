@@ -129,6 +129,7 @@ try {
             margin-bottom: 24px;
             border: 1px solid rgba(0,0,0,0.05);
             position: relative;
+            background: gray;
         }
 
         .order-info::before {
@@ -149,7 +150,7 @@ try {
             border-radius: 0 var(--border-radius) var(--border-radius) 0;
         }
 
-        .meio {
+        .coluna-esquerda {
             width: 100%;
             display: flex;
             gap: 24px;
@@ -490,7 +491,7 @@ try {
 
         /* Responsive styles */
         @media (max-width: 768px) {
-            .meio {
+            .coluna-esquerda {
                 flex-direction: column;
             }
             
@@ -529,7 +530,11 @@ try {
 
 <div class="painel">
     <div class="order-container">   
+
+
         <div class="order-info">
+
+
             <div class="client-details">
                 <div class="row">
                     <div>
@@ -563,10 +568,12 @@ try {
                     </div>
                 </div>
             </div>
+
+
         </div>
 
         <!-- Conteúdo principal -->
-        <div class="meio">
+        <div class="coluna-esquerda">
             <!-- Coluna da esquerda -->
             <div class="content-left">
                 <div>
