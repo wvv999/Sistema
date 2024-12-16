@@ -582,24 +582,13 @@ try {
 
     <div class="senha-container">
         <div class="section-title">
-            <i class="bi bi-exclamation-triangle"></i> Senha
+            <i class="bi bi-key"></i> Senha do Dispositivo
         </div>
-        <div class="reported-issue">
-            <?php echo htmlspecialchars($order['device_password']); ?>
+        <div class="device-password">
+            <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
         </div>
     </div>
     
-
-                        <div class="section-title">
-                        <i class="bi bi-key"></i> Senha do Dispositivo
-                        </div>
-                        <div class="device-password">
-                            <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
-                        </div>
-
-
-
-
     <div class="defeito-container">
         <div class="section-title">
             <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
