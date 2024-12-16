@@ -150,7 +150,7 @@ try {
         }
 
         .content-right {
-            height: 500px;
+            height: 495px;
             background: red;
             width: 300px;
             display: flex;
