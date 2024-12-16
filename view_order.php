@@ -151,8 +151,9 @@ try {
 
         .content-right {
             width: 300px;
+            height: 495px;
         }
-        
+
         .side-panel {
             display: flex;
             flex-direction: column;
