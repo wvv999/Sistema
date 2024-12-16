@@ -589,27 +589,27 @@ try {
 
     </div>
     
-    <div class="senha-e-defeito">
+        <div class="senha-e-defeito">
 
-        <div class="senha-container">
-            <div class="section-title">
-                <i class="bi bi-key"></i> Senha
+            <div class="senha-container">
+                <div class="section-title">
+                    <i class="bi bi-key"></i> Senha
+                </div>
+                <div class="device-password">
+                    <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
+                </div>
             </div>
-            <div class="device-password">
-                <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>t
+            
+            <div class="defeito-container">
+                <div class="section-title">
+                    <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
+                </div>
+                <div class="reported-issue">
+                    <?php echo htmlspecialchars($order['reported_issue']); ?>
+                </div>
             </div>
+            
         </div>
-        
-        <div class="defeito-container">
-            <div class="section-title">
-                <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
-            </div>
-            <div class="reported-issue">
-                <?php echo htmlspecialchars($order['reported_issue']); ?>
-            </div>
-        </div>
-        
-    </div>
 
 
         <div class="mid-content">
