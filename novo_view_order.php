@@ -564,6 +564,19 @@ try {
                             <i class="bi bi-calendar-check"></i> Data de Entrega
                         </div>
                         <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
+                        
+
+                        <div class="section-title">
+                        <i class="bi bi-key"></i> Senha do Dispositivo
+                        </div>
+                        <div class="device-password">
+                            <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
+                        </div>
+
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -576,12 +589,7 @@ try {
             <!-- Coluna da esquerda -->
             <div class="content-left">
                 <div>
-                    <div class="section-title">
-                        <i class="bi bi-key"></i> Senha do Dispositivo
-                    </div>
-                    <div class="device-password">
-                        <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
-                    </div>
+
                 </div>
 
                 <div>
