@@ -192,6 +192,7 @@ try {
             display:flex;
             background: red;
             justify-content: space-between;
+            padding: 24px;
         }
 
         .device-password::before,
