@@ -489,42 +489,7 @@ try {
             padding: 10px;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
 
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .container-direita {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .context {
-                padding: 16px;
-            }
-
-            .client-details .row {
-                flex-direction: column;
-            }
-
-            .client-details .col-md-2 {
-                width: 100%;
-                margin-bottom: 10px;
-            }
-        }
-
-        .mb-3{
-            margin-left: 200px;
-        }
     </style>
 </head>
 <body>
