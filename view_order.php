@@ -177,7 +177,7 @@ try {
             background: rgba(255, 255, 255, 0.8);
         }
         .device-password, .reported-issue {
-            width: 500px;
+            width: 160px;
             background-color: #f8f9fa;
             padding: 16px;
             border-radius: var(--border-radius);
@@ -191,6 +191,7 @@ try {
             width: 100%;
             display:flex;
             background: red;
+            justify-content: space-evenly;
         }
 
         .device-password::before,
