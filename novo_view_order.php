@@ -239,6 +239,11 @@ try {
             box-shadow: var(--shadow);
         }
 
+        .senha-e-defeito,
+        .senha-e-defeito > *{
+            width: 200px;
+        }
+
         .section-title {
             font-weight: 600;
             color: #6c757d;
@@ -580,23 +585,27 @@ try {
     
 
     </div>
-
-    <div class="senha-container">
-        <div class="section-title">
-            <i class="bi bi-key"></i> Senha
-        </div>
-        <div class="device-password">
-            <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
-        </div>
-    </div>
     
-    <div class="defeito-container">
-        <div class="section-title">
-            <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
+    <div class="senha-e-defeito">
+
+        <div class="senha-container">
+            <div class="section-title">
+                <i class="bi bi-key"></i> Senha
+            </div>
+            <div class="device-password">
+                <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
+            </div>
         </div>
-        <div class="reported-issue">
-            <?php echo htmlspecialchars($order['reported_issue']); ?>
+        
+        <div class="defeito-container">
+            <div class="section-title">
+                <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
+            </div>
+            <div class="reported-issue">
+                <?php echo htmlspecialchars($order['reported_issue']); ?>
+            </div>
         </div>
+        
     </div>
 
 
