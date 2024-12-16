@@ -150,12 +150,13 @@ try {
         }
 
         .content-right {
-            height: 495px;
-            background: red;
             width: 300px;
+        }
+        
+        .side-panel {
             display: flex;
-            gap:200px;
             flex-direction: column;
+            gap: 24px;
             justify-content: space-between;
         }
 
@@ -228,14 +229,6 @@ try {
 
         .section-title i {
             color: var(--primary-color);
-        }
-
-        /* Side panel styles */
-        .side-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 214px;
-            justify-content: space-between;
         }
 
         .menu-section {
