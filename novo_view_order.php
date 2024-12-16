@@ -119,7 +119,8 @@ try {
             display: flex;
             scale: 85%;
         }
-        .defeito-container {
+        .defeito-container,
+        .senha-container {
             min-height: fit-content;
             max-height: 400px;
             background-color: #fff;
