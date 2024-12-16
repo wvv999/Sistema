@@ -187,6 +187,7 @@ try {
             background: rgba(255, 255, 255, 0.8);
         }
         .device-password, .reported-issue {
+            height: 300px;
             width: 400px;
             background-color: #f8f9fa;
             padding: 16px;
