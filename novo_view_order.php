@@ -108,7 +108,7 @@ try {
             align-items: center;
         }
 
-        .order-container {
+        .context {
             background-color: #fff;
             border-radius: var(--border-radius);
             padding: 24px;
@@ -116,8 +116,6 @@ try {
             max-width: 1200px;
             margin: 0 auto;
             display: flex;
-            flex-direction: column;
-            min-height: calc(100vh - 40px);
             scale: 85%;
         }
 
@@ -501,7 +499,7 @@ try {
         }
 
         @media (max-width: 576px) {
-            .order-container {
+            .context {
                 padding: 16px;
             }
 
@@ -529,7 +527,7 @@ try {
     </h4>
 
 <div class="painel">
-    <div class="order-container">   
+    <div class="context">   
 
 
         <div class="order-info">
