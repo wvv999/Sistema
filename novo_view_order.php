@@ -175,11 +175,6 @@ try {
             background: blue;
             background: purple;
         }
-        
-        .content-left {
-            height: 100%;
-            background: green;
-        }
 
         /* PAINEL DIREITO */
         /* .side-panel {
@@ -598,16 +593,7 @@ try {
 
         <!-- Conteúdo principal -->
         <div class="coluna-esquerda">
-            <!-- Coluna da esquerda -->
-            <div class="content-left">
-                <div>
 
-                </div>
-
->
-
-                
-            </div>
 
 
         </div>
