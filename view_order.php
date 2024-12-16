@@ -150,6 +150,8 @@ try {
         }
 
         .content-right {
+            height: 500px;
+            background: red;
             width: 300px;
             display: flex;
             gap:200px;
