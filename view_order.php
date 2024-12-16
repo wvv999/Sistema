@@ -189,6 +189,7 @@ try {
 
         .linha{
             display:flex;
+            background: red;
         }
 
         .device-password::before,
