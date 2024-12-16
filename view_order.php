@@ -199,8 +199,8 @@ try {
 
         .linha{
             display:flex;
+            gap: 50px;
             justify-content: space-between;
-            padding: 24px;
         }
 
         .device-password::before,
