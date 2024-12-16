@@ -187,6 +187,10 @@ try {
             transition: var(--transition);
         }
 
+        .linha{
+            display:flex;
+        }
+
         .device-password::before,
         .reported-issue::before {
             content: '';
@@ -539,21 +543,23 @@ try {
         <div class="main-content">
             <!-- Coluna da esquerda -->
             <div class="content-left">
-                <div>
-                    <div class="section-title">
-                        <i class="bi bi-key"></i> Senha do Dispositivo
+                <div class="linha">
+                    <div>
+                        <div class="section-title">
+                            <i class="bi bi-key"></i> Senha do Dispositivo
+                        </div>
+                        <div class="device-password">
+                            <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
+                        </div>
                     </div>
-                    <div class="device-password">
-                        <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
-                    </div>
-                </div>
 
-                <div>
-                    <div class="section-title">
-                        <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
-                    </div>
-                    <div class="reported-issue">
-                    <?php echo htmlspecialchars($order['reported_issue']); ?>
+                    <div>
+                        <div class="section-title">
+                            <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
+                        </div>
+                        <div class="reported-issue">
+                        <?php echo htmlspecialchars($order['reported_issue']); ?>
+                        </div>
                     </div>
                 </div>
 
