@@ -200,6 +200,7 @@ try {
         .linha{
             display:flex;
             gap: 50px;
+            padding-bottom: 10px;
             justify-content: space-between;
         }
 
