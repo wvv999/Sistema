@@ -109,7 +109,18 @@ try {
         }
 
         .context {
-            height: 800px;
+            height: 400px;
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--shadow);
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            scale: 85%;
+        }
+        .defeito-container {
+            height: 400px;
             background-color: #fff;
             border-radius: var(--border-radius);
             padding: 24px;
@@ -592,19 +603,24 @@ try {
 
                 </div>
 
-                <div>
-                    <div class="section-title">
-                        <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
-                    </div>
-                    <div class="reported-issue">
-                    <?php echo htmlspecialchars($order['reported_issue']); ?>
-                    </div>
-                </div>
+>
 
                 
             </div>
 
 
+        </div>
+    </div>
+
+
+
+    
+    <div class="defeito-container">
+        <div class="section-title">
+            <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
+        </div>
+        <div class="reported-issue">
+            <?php echo htmlspecialchars($order['reported_issue']); ?>
         </div>
     </div>
 
