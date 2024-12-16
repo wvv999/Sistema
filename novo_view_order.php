@@ -119,6 +119,7 @@ try {
             display: flex;
             scale: 85%;
         }
+
         .defeito-container,
         .senha-container {
             min-height: fit-content;
@@ -212,7 +213,7 @@ try {
         .info-value:hover {
             background: rgba(255, 255, 255, 0.8);
         }
-        .device-password, .reported-issue {
+        .reported-issue {
             background-color: #f8f9fa;
             padding: 16px;
             border-radius: var(--border-radius);
@@ -222,7 +223,7 @@ try {
             transition: var(--transition);
         }
 
-        .device-password::before,
+        
         .reported-issue::before {
             content: '';
             position: absolute;
@@ -234,7 +235,7 @@ try {
             border-radius: var(--border-radius) 0 0 var(--border-radius);
         }
 
-        .device-password:hover,
+        
         .reported-issue:hover {
             box-shadow: var(--shadow);
         }
