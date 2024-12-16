@@ -110,11 +110,12 @@ try {
 
         .context {
             height: fit-content;
+            width: fit-content;
             background-color: #fff;
             border-radius: var(--border-radius);
             padding: 24px;
             box-shadow: var(--shadow);
-            max-width: 1200px;
+            
             margin: 0 auto;
             display: flex;
             flex-direction: column;
