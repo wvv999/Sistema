@@ -239,9 +239,8 @@ try {
             box-shadow: var(--shadow);
         }
 
-        .senha-e-defeito,
-        .senha-e-defeito > *{
-            width: 500px;
+        .senha-e-defeito{
+            width: 200px;
         }
 
         .section-title {
