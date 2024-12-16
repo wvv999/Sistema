@@ -120,7 +120,8 @@ try {
             scale: 85%;
         }
         .defeito-container {
-            height: 400px;
+            min-height: fit-content;
+            max-height: 400px;
             background-color: #fff;
             border-radius: var(--border-radius);
             padding: 24px;
