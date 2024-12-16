@@ -570,8 +570,6 @@ try {
                 </div>
             </div>
         </div>
-    </div>
-    
         <div class="senha-e-defeito">
 
             <div class="senha-container">
@@ -582,7 +580,7 @@ try {
                     <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
                 </div>
             </div>
-            
+
             <div class="defeito-container">
                 <div class="section-title">
                     <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
@@ -591,8 +589,11 @@ try {
                     <?php echo htmlspecialchars($order['reported_issue']); ?>
                 </div>
             </div>
-            
+
         </div>
+    </div>
+    
+
 
 
         <div class="mid-content">
