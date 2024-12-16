@@ -109,7 +109,7 @@ try {
         }
 
         .context {
-            height: 80%;
+            height: 800px;
             background-color: #fff;
             border-radius: var(--border-radius);
             padding: 24px;
