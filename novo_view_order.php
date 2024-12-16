@@ -241,7 +241,7 @@ try {
 
         .senha-e-defeito,
         .senha-e-defeito > *{
-            width: 200px;
+            width: 500px;
         }
 
         .section-title {
