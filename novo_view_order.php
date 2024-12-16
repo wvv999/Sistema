@@ -123,12 +123,13 @@ try {
             height: 400px;
             background-color: #fff;
             border-radius: var(--border-radius);
-            padding: 24px;
+            
             box-shadow: var(--shadow);
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 400px;
+            
             display: flex;
-            scale: 85%;
+            flex-direction: column;
+            
         }
 
         /* Order info styles */
@@ -614,7 +615,7 @@ try {
 
 
 
-    
+
     <div class="defeito-container">
         <div class="section-title">
             <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
