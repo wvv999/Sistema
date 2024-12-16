@@ -234,7 +234,7 @@ try {
         .side-panel {
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 214px;
             justify-content: space-between;
         }
 
