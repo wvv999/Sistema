@@ -151,6 +151,9 @@ try {
 
         .content-right {
             width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .info-label {
