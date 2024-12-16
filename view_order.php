@@ -177,7 +177,7 @@ try {
             background: rgba(255, 255, 255, 0.8);
         }
         .device-password, .reported-issue {
-            width: 260px;
+            width: 300px;
             background-color: #f8f9fa;
             padding: 16px;
             border-radius: var(--border-radius);
@@ -552,7 +552,7 @@ try {
                             <i class="bi bi-key"></i> Senha do Dispositivo
                         </div>
                         <div class="device-password">
-                            <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
+                            <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
                         </div>
                     </div>
 
