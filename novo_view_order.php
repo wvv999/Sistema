@@ -583,7 +583,7 @@ try {
 
     <div class="senha-container">
         <div class="section-title">
-            <i class="bi bi-key"></i> Senha do Dispositivo
+            <i class="bi bi-key"></i> Senha
         </div>
         <div class="device-password">
             <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
