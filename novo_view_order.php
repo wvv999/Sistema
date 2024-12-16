@@ -240,7 +240,7 @@ try {
         }
 
         .senha-e-defeito{
-            width: 200px;
+            width: 400px;
         }
 
         .section-title {
