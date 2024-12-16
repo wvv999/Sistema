@@ -199,7 +199,7 @@ try {
             gap: 6px;
         }
 
-        .info-value {
+        /* .info-value {
             color: #333;
             margin-bottom: 15px;
             font-size: 1rem;
@@ -207,7 +207,7 @@ try {
             background: rgba(255, 255, 255, 0.5);
             border-radius: var(--border-radius);
             transition: var(--transition);
-        }
+        } */
 
         .info-value:hover {
             background: rgba(255, 255, 255, 0.8);
