@@ -563,12 +563,7 @@ try {
                         <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
                         
 
-                        <div class="section-title">
-                        <i class="bi bi-key"></i> Senha do Dispositivo
-                        </div>
-                        <div class="device-password">
-                            <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
-                        </div>
+
 
 
 
@@ -584,6 +579,23 @@ try {
     
 
     </div>
+
+    <div class="senha-container">
+        <div class="section-title">
+            <i class="bi bi-exclamation-triangle"></i> Senha
+        </div>
+        <div class="reported-issue">
+            <?php echo htmlspecialchars($order['device_password']); ?>
+        </div>
+    </div>
+    
+
+                        <div class="section-title">
+                        <i class="bi bi-key"></i> Senha do Dispositivo
+                        </div>
+                        <div class="device-password">
+                            <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
+                        </div>
 
 
 
