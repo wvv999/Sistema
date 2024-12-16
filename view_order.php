@@ -187,7 +187,7 @@ try {
             background: rgba(255, 255, 255, 0.8);
         }
         .device-password, .reported-issue {
-            height: 300px;
+            height: 100px;
             width: 400px;
             background-color: #f8f9fa;
             padding: 16px;
@@ -201,7 +201,7 @@ try {
         .linha{
             display:flex;
             gap: 50px;
-            padding-bottom: 50px;
+            
             justify-content: space-between;
         }
 
