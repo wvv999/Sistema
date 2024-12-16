@@ -209,9 +209,11 @@ try {
             transition: var(--transition);
         } */
 
-        .info-value:hover {
+        /* .info-value:hover {
             background: rgba(255, 255, 255, 0.8);
-        }
+        } */
+
+
         .device-password, .reported-issue {
             background-color: #f8f9fa;
             padding: 16px;
