@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Adiciona as ordens
             tableBody.innerHTML = data.orders.map(order => `
-            <tr>
+            <tr style="cursor: pointer" onclick="window.location.href='view_order.php?id=${order.id}'">
                 <td>${order.id}</td>
                 <td>${order.client_name}</td>
                 <td>
