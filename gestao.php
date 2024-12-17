@@ -257,6 +257,9 @@ try {
         <!-- Lista de Ordens -->
         <div class="order-list">
             <h5 class="mb-3">Ordens de Serviço</h5>
+            <button class="btn btn-sm btn-outline-primary" id="refresh-activities">
+                <i class="bi bi-arrow-clockwise"></i> Atualizar
+            </button>
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
@@ -286,9 +289,7 @@ try {
                     <i class="bi bi-activity"></i> Atividades Recentes
                 </h5> -->
                 <div class="d-flex align-items-center gap-2">
-                    <button class="btn btn-sm btn-outline-primary" id="refresh-activities">
-                        <i class="bi bi-arrow-clockwise"></i> Atualizar
-                    </button>
+
                     <!-- <div class="badge bg-secondary" id="activities-count">
                         Carregando...
                     </div> -->
