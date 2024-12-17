@@ -135,6 +135,10 @@ try {
         .activity-item {
             animation: fadeIn 0.3s ease-out forwards;
         }
+        .table tbody tr:hover {
+            background-color: rgba(0,0,0,0.05);
+            transition: background-color 0.2s ease;
+        }
     </style>
 </head>
 <body class="bg-light">
