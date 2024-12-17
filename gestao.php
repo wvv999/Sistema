@@ -280,7 +280,20 @@ try {
             </div>
         </div>
         <!-- Atividades Recentes -->
-
+        <div class="activities-section">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">
+                    <i class="bi bi-activity"></i> Atividades Recentes
+                </h5>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-sm btn-outline-primary" id="refresh-activities">
+                        <i class="bi bi-arrow-clockwise"></i> Atualizar
+                    </button>
+                    <!-- <div class="badge bg-secondary" id="activities-count">
+                        Carregando...
+                    </div> -->
+                </div>
+            </div>
             
             <!-- <div class="list-group" id="activities-list">
                 <div class="text-center py-4">
