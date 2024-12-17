@@ -257,9 +257,7 @@ try {
         <!-- Lista de Ordens -->
         <div class="order-list">
             <h5 class="mb-3" id="refresh-activities" >Ordens de Serviço</h5>
-            <button class="btn btn-sm btn-outline-primary">
-                <i class="bi bi-arrow-clockwise"></i> Atualizar
-            </button>
+
             <div class="table-responsive">
                 <table class="table table-hover">
                     <thead>
