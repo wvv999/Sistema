@@ -295,13 +295,13 @@ try {
                 </div>
             </div>
             
-            <div class="list-group" id="activities-list">
+            <!-- <div class="list-group" id="activities-list">
                 <div class="text-center py-4">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Carregando...</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 
