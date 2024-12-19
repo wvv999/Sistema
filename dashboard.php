@@ -231,6 +231,9 @@ if(!isset($_SESSION['user_id'])) {
                 opacity: 1;
             }
         }
+        strong{
+            color:red;
+        }
     </style>
 </head>
 <body class="bg-light">
