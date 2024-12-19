@@ -141,7 +141,7 @@ try {
         }
         .teste{
             padding: 6px;
-            border-radius: 5px !important;
+            border-radius: 50px !important;
         }
     </style>
 </head>
