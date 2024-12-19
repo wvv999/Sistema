@@ -42,7 +42,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
             padding: 0;
             height: 100%;
         }
-
+        
         .page {
             width: 21cm;
             min-height: 29.7cm;
@@ -249,6 +249,9 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
             .no-print {
                 display: none;
             }
+            .segunda{
+                font-size: larger;
+            }
         }
     </style>
 </head>
@@ -335,11 +338,12 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
             </div>
 
             <!-- SEGUNDA METADE -->
+            <div class="segunda">
             <div class="container-half">
                 <div class="container">
                     <div class="header-segunda">
                         <div class="header-left-segunda">
-                            <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
+                            <div><strong><?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></strong></div>
                         </div>
                         <div class="header-right-segunda">
                             <div class="delivery-date">Entrega: <?php echo $delivery_date; ?></div>
@@ -388,6 +392,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                     </div>
                 </div>
             </div>
+            </div>
         </div>
 
         <!-- Full-width copy at bottom -->
@@ -404,7 +409,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                         <div class="company-info">WhatsApp: (51) 99538-4838</div>
                     </div>
                     <div class="header-right">
-                        <div><strong><?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></strong></div>
+                        <div><?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
                         <div class="delivery-date">Entrega: <?php echo $delivery_date; ?></div>
                     </div>
                 </div>
