@@ -49,25 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $phone1 = $client['phone1'];
         $phone2 = $client['phone2'];
 
-        // // Encontra o menor ID disponível
-        // $stmt = $db->query("
-        //     SELECT COALESCE(
-        //         (SELECT t1.id + 1
-        //         FROM service_orders t1
-        //         LEFT JOIN service_orders t2 ON t1.id + 1 = t2.id
-        //         WHERE t2.id IS NULL
-        //         ORDER BY t1.id
-        //         LIMIT 1), 1) as next_id
-        //     FOR UPDATE");
-        
-        // $next_id = $stmt->fetch(PDO::FETCH_ASSOC)['next_id'];
-
-        // // Verifica se o ID já não foi usado
-        // $check = $db->prepare("SELECT id FROM service_orders WHERE id = ? LIMIT 1");
-        // $check->execute([$next_id]);
-        // if ($check->fetch()) {
-        //     throw new Exception("Erro de concorrência ao gerar ID. Por favor, tente novamente.");
-        // }
         // Encontra o próximo ID (começando de 16000)
         $stmt = $db->query("
             SELECT COALESCE(MAX(id) + 1, 16000) as next_id 
@@ -81,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $check->execute([$next_id]);
         if ($check->fetch()) {
             throw new Exception("Erro de concorrência ao gerar ID. Por favor, tente novamente.");
-            }
+        }
 
         $stmt = $db->prepare("
             INSERT INTO service_orders (id, client_id, device_model, phone1, phone2, 
@@ -92,6 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                            $delivery_date, $reported_issue, $accessories, $device_password])) {
             $db->commit();
             $_SESSION['success_message'] = "Ordem de serviço " . $next_id . " criada com sucesso!";
+            $_SESSION['last_created_order'] = $next_id;
             header("Location: " . $_SERVER['PHP_SELF']);
             exit;
         } else {
@@ -134,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         textarea.form-control {
             resize: none;
-            height: 80px; /* Aumenta a altura do textarea */
+            height: 80px;
         }
     </style>
 </head>
@@ -142,8 +124,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a href="dashboard.php" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
-    
-
 
     <div class="container">
         <div class="content-container">
@@ -151,6 +131,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <?php if ($success): ?>
                 <div class="alert alert-success"><?php echo $success; ?></div>
+                <?php if (isset($_SESSION['last_created_order'])): ?>
+                <script>
+                    // Abre a janela de impressão automaticamente
+                    window.open('print_service_order.php?id=<?php echo $_SESSION['last_created_order']; ?>', '_blank');
+                    <?php unset($_SESSION['last_created_order']); ?>
+                </script>
+                <?php endif; ?>
             <?php endif; ?>
 
             <?php if ($error): ?>
@@ -214,6 +201,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script>
         // Define a data mínima como hoje
         document.getElementById('delivery_date').min = new Date().toISOString().split('T')[0];
+
+        // Após submissão bem-sucedida do formulário
+        <?php if ($success): ?>
+            // Redireciona de volta após um breve delay para permitir que a impressão seja aberta
+            setTimeout(() => {
+                window.location.href = 'dashboard.php';
+            }, 2000);
+        <?php endif; ?>
     </script>
 </body>
 </html>
