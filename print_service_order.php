@@ -221,7 +221,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
             font-size: 11px;
             width: 80%;
             margin: 0 auto;
-            margin-top: 30px;
+            margin-top: 60px;
         }
 
         @media print {
@@ -384,7 +384,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                     </div>
                     
                     <div class="signature-line">
-                        Assinatura do Cliente
+                    <?php echo htmlspecialchars($order['client_name']); ?></div>
                     </div>
                 </div>
             </div>
