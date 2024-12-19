@@ -154,7 +154,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="col-md-4">
                         <label for="delivery_date" class="form-label">Data de Entrega</label>
-                        <input type="date" class="form-control form-control-sm" id="delivery_date" name="delivery_date" required>
+                        <div class="input-group">
+                            <input type="date" class="form-control form-control-sm" id="delivery_date" name="delivery_date" required>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="setDate('today')">Hoje</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="setDate('tomorrow')">Amanhã</button>
+                        </div>
                     </div>
 
                     <!-- Modelo, Senha e Acessórios na mesma linha -->
@@ -213,6 +217,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script>
         // Define a data mínima como hoje
         document.getElementById('delivery_date').min = new Date().toISOString().split('T')[0];
+
+        function setDate(type) {
+            const today = new Date();
+            if (type === 'tomorrow') {
+                today.setDate(today.getDate() + 1);
+            }
+            // Formata a data para YYYY-MM-DD
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('delivery_date').value = formattedDate;
+        }
     </script>
 </body>
 </html>
