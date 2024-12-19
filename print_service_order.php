@@ -385,7 +385,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                     </div>
                     
                     <div class="signature-line">
-                        <div style="color: gray;"><?php echo htmlspecialchars($order['client_name']); ?></div>
+                        <div><?php echo htmlspecialchars($order['client_name']); ?></div>
                     </div>
                 </div>
             </div>
