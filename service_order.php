@@ -119,7 +119,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             height: 80px; /* Aumenta a altura do textarea */
         }
         #delivery_date{
-            border: 10px solid blue;
+            border: 1px solid blue;
         }
         .input-group .btn {
             display: flex;
