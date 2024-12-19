@@ -140,7 +140,7 @@ try {
             transition: background-color 0.2s ease;
         }
         .teste{
-            padding: 10px;
+            padding: 6px;
         }
     </style>
 </head>
