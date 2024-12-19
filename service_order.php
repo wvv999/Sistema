@@ -195,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <button type="button" class="btn btn-sm btn-outline-primary" onclick="setDate('tomorrow')" style="white-space: nowrap;">
                                 <i class="bi bi-calendar-plus"></i> Amanhã
                             </button>
-                            <input type="date" class="form-control form-control-sm " id="delivery_date" name="delivery_date" required style="white-space: nowrap;">
+                            <input type="date" class="form-control form-control-sm " id="delivery_date" name="delivery_date" required>
                         </div>
                     </div>
 
