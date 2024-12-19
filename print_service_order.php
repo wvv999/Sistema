@@ -91,6 +91,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
         }
 
         .header-segunda {
+            font-size: 50px;
             font-weight: bold;
             display: grid;
             grid-template-columns: 1fr auto;
@@ -249,10 +250,6 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
             .no-print {
                 display: none;
             }
-            .segunda{
-                font-size: 20px;
-                width: 100%;
-            }
         }
     </style>
 </head>
@@ -339,7 +336,6 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
             </div>
 
             <!-- SEGUNDA METADE -->
-            <div class="segunda">
             <div class="container-half">
                 <div class="container">
                     <div class="header-segunda">
@@ -392,7 +388,6 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                         <div><?php echo htmlspecialchars($order['client_name']); ?></div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
 
