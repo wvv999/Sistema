@@ -118,6 +118,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             resize: none;
             height: 80px; /* Aumenta a altura do textarea */
         }
+        .input-group .btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            border-radius: 0;
+        }
+
+        .input-group .btn:last-child {
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .input-group .btn i {
+            font-size: 1rem;
+        }
+
+        .input-group .form-select,
+        .input-group .form-control {
+            border-right: 0;
+        }
+
+        .input-group .btn:hover {
+            z-index: 3;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -142,22 +168,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <!-- Cliente e Data -->
                     <div class="col-md-8">
                         <label for="client_id" class="form-label">Cliente</label>
-                        <select class="form-select form-select-sm" id="client_id" name="client_id" required>
-                            <option value="">Selecione um cliente</option>
-                            <?php foreach ($clients as $client): ?>
-                                <option value="<?php echo $client['id']; ?>">
-                                    <?php echo htmlspecialchars($client['name']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+                        <div class="input-group">
+                            <select class="form-select form-select-sm" id="client_id" name="client_id" required>
+                                <option value="">Selecione um cliente</option>
+                                <?php foreach ($clients as $client): ?>
+                                    <option value="<?php echo $client['id']; ?>">
+                                        <?php echo htmlspecialchars($client['name']); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <a href="clientes.php" class="btn btn-sm btn-success" style="white-space: nowrap;">
+                                <i class="bi bi-person-plus"></i> Novo Cliente
+                            </a>
+                        </div>
                     </div>
 
                     <div class="col-md-4">
                         <label for="delivery_date" class="form-label">Data de Entrega</label>
                         <div class="input-group">
                             <input type="date" class="form-control form-control-sm" id="delivery_date" name="delivery_date" required>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="setDate('today')">Hoje</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="setDate('tomorrow')">Amanhã</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="setDate('today')" style="white-space: nowrap;">
+                                <i class="bi bi-calendar-check"></i> Hoje
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="setDate('tomorrow')" style="white-space: nowrap;">
+                                <i class="bi bi-calendar-plus"></i> Amanhã
+                            </button>
                         </div>
                     </div>
 
