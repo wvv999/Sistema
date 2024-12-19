@@ -120,7 +120,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         .input-group .btn {
             display: flex;
-            flex-direction: row-reverse;
             align-items: center;
             gap: 4px;
             padding: 0.25rem 0.5rem;
@@ -166,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <form method="POST" id="serviceOrderForm">
                 <div class="row g-3">
-                    <!-- Cliente e Data -->
+                    
                     <div class="col-md-8">
                         <label for="client_id" class="form-label">Cliente</label>
                         <div class="input-group">
@@ -187,13 +186,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col-md-4">
                         <label for="delivery_date" class="form-label">Data de Entrega</label>
                         <div class="input-group">
-                            <input type="date" class="form-control form-control-sm" id="delivery_date" name="delivery_date" required>
                             <button type="button" class="btn btn-sm btn-outline-primary" onclick="setDate('today')" style="white-space: nowrap;">
                                 <i class="bi bi-calendar-check"></i> Hoje
                             </button>
                             <button type="button" class="btn btn-sm btn-outline-primary" onclick="setDate('tomorrow')" style="white-space: nowrap;">
                                 <i class="bi bi-calendar-plus"></i> Amanhã
                             </button>
+                            <input type="date" class="form-control form-control-sm" id="delivery_date" name="delivery_date" required>
                         </div>
                     </div>
 
