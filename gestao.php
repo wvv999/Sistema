@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${order.id}</td>
                 <td>${order.client_name}</td>
                 <td>
-                    <span class="badge style="padding:5px;" ${getStatusClass(order.status)}">
+                    <span class="badge ${getStatusClass(order.status)}">
                         ${order.status}
                     </span>
                 </td>
