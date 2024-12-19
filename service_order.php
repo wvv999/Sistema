@@ -69,12 +69,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                       delivery_date, reported_issue, accessories, device_password) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         
-        if ($stmt->execute([$next_id, $client_id, $device_model, $phone1, $phone2, 
-                           $delivery_date, $reported_issue, $accessories, $device_password])) {
-            $db->commit();
-            // Redireciona direto para a página de impressão
-            header("Location: print_service_order.php?id=" . $next_id);
-            exit;
+            if ($stmt->execute([$next_id, $client_id, $device_model, $phone1, $phone2, 
+            $delivery_date, $reported_issue, $accessories, $device_password])) {
+        $db->commit();
+        $_SESSION['success_message'] = "Ordem de serviço " . $next_id . " criada com sucesso!";
+        $_SESSION['print_order_id'] = $next_id; // Adicionamos o ID para usar no JavaScript
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit;
         } else {
             throw new Exception("Erro ao criar ordem de serviço.");
         }
@@ -185,6 +186,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </button>
                 </div>
             </form>
+            <?php if ($success): ?>
+            <div class="alert alert-success"><?php echo $success; ?></div>
+            <?php if (isset($_SESSION['print_order_id'])): ?>
+            <script>
+                // Abre a página de impressão em nova aba
+                window.open('print_service_order.php?id=<?php echo $_SESSION['print_order_id']; ?>', '_blank');
+                
+                // Limpa os campos do formulário
+                document.getElementById('client_id').value = '';
+                document.getElementById('device_model').value = '';
+                document.getElementById('device_password').value = '';
+                document.getElementById('accessories').value = '';
+                document.getElementById('reported_issue').value = '';
+                document.getElementById('delivery_date').value = '';
+                
+                <?php unset($_SESSION['print_order_id']); ?>
+            </script>
+            <?php endif; ?>
+        <?php endif; ?>
         </div>
     </div>
 
