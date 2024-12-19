@@ -139,6 +139,9 @@ try {
             background-color: rgba(0,0,0,0.05);
             transition: background-color 0.2s ease;
         }
+        .teste{
+            padding: 10px;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -364,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <td>${order.id}</td>
                 <td>${order.client_name}</td>
                 <td>
-                    <span class="badge ${getStatusClass(order.status)}">
+                    <span class="badge ${getStatusClass(order.status)} teste">
                         ${order.status}
                     </span>
                 </td>
