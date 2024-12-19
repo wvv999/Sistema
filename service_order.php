@@ -187,7 +187,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </form>
             <?php if ($success): ?>
-            <div class="alert alert-success"><?php echo $success; ?></div>
+            
             <?php if (isset($_SESSION['print_order_id'])): ?>
             <script>
                 // Abre a página de impressão em nova aba
