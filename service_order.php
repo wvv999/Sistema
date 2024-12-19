@@ -118,6 +118,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             resize: none;
             height: 80px; /* Aumenta a altura do textarea */
         }
+        input[date]{
+            border: 1px solid blue;
+        }
         .input-group .btn {
             display: flex;
             align-items: center;
@@ -192,7 +195,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <button type="button" class="btn btn-sm btn-outline-primary" onclick="setDate('tomorrow')" style="white-space: nowrap;">
                                 <i class="bi bi-calendar-plus"></i> Amanhã
                             </button>
-                            <input type="date" class="form-control form-control-sm btn-outline-primary" id="delivery_date" name="delivery_date" required>
+                            <input type="date" class="form-control form-control-sm " id="delivery_date" name="delivery_date" required>
                         </div>
                     </div>
 
