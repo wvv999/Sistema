@@ -120,6 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         .input-group .btn {
             display: flex;
+            flex-direction: row-reverse;
             align-items: center;
             gap: 4px;
             padding: 0.25rem 0.5rem;
