@@ -118,8 +118,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             resize: none;
             height: 80px; /* Aumenta a altura do textarea */
         }
-        input[date]{
-            border: 1px solid blue;
+        #delivery_date{
+            border: 10px solid blue;
         }
         .input-group .btn {
             display: flex;
