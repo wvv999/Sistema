@@ -85,7 +85,7 @@ try {
         }
 
         /* Status colors */
-        .não-iniciada { background: #e74c3c; }
+        .não-iniciada { background: #e74c3c; color:black;}
         .em-andamento { background: #f39c12; color:black;}
         .concluída { background: #27ae60; }
         .pronto-e-avisado { background: #3498db; }
