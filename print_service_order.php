@@ -251,6 +251,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
             }
             .segunda{
                 font-size: 20px;
+                width: 100%;
             }
         }
     </style>
