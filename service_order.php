@@ -49,25 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $phone1 = $client['phone1'];
         $phone2 = $client['phone2'];
 
-        // // Encontra o menor ID disponível
-        // $stmt = $db->query("
-        //     SELECT COALESCE(
-        //         (SELECT t1.id + 1
-        //         FROM service_orders t1
-        //         LEFT JOIN service_orders t2 ON t1.id + 1 = t2.id
-        //         WHERE t2.id IS NULL
-        //         ORDER BY t1.id
-        //         LIMIT 1), 1) as next_id
-        //     FOR UPDATE");
-        
-        // $next_id = $stmt->fetch(PDO::FETCH_ASSOC)['next_id'];
-
-        // // Verifica se o ID já não foi usado
-        // $check = $db->prepare("SELECT id FROM service_orders WHERE id = ? LIMIT 1");
-        // $check->execute([$next_id]);
-        // if ($check->fetch()) {
-        //     throw new Exception("Erro de concorrência ao gerar ID. Por favor, tente novamente.");
-        // }
         // Encontra o próximo ID (começando de 16000)
         $stmt = $db->query("
             SELECT COALESCE(MAX(id) + 1, 16000) as next_id 
@@ -81,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $check->execute([$next_id]);
         if ($check->fetch()) {
             throw new Exception("Erro de concorrência ao gerar ID. Por favor, tente novamente.");
-            }
+        }
 
         $stmt = $db->prepare("
             INSERT INTO service_orders (id, client_id, device_model, phone1, phone2, 
@@ -89,10 +70,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         
         if ($stmt->execute([$next_id, $client_id, $device_model, $phone1, $phone2, 
-        $delivery_date, $reported_issue, $accessories, $device_password])) {
-        $db->commit();
-        header("Location: print_service_order.php?id=" . $next_id);
-        exit;
+                           $delivery_date, $reported_issue, $accessories, $device_password])) {
+            $db->commit();
+            // Redireciona direto para a página de impressão
+            header("Location: print_service_order.php?id=" . $next_id);
+            exit;
         } else {
             throw new Exception("Erro ao criar ordem de serviço.");
         }
@@ -141,8 +123,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a href="dashboard.php" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
-    
-
 
     <div class="container">
         <div class="content-container">
