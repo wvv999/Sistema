@@ -236,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                        value="<?php echo htmlspecialchars($order['device_password']); ?>">
                             </div>
 
-                            <div class="mb-3">
+                            <div class="col-md-6 mb-3">
                                 <label for="accessories" class="form-label">Acessórios</label>
                                 <textarea class="form-control" id="accessories" name="accessories"><?php echo htmlspecialchars($order['accessories']); ?></textarea>
                             </div>
