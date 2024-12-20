@@ -325,7 +325,6 @@ try {
             border-radius: var(--border-radius);
             border: 1px solid rgba(0,0,0,0.05);
             position: relative;
-            background: red;
         }
 
         .technical-report::before {
@@ -337,19 +336,17 @@ try {
             width: 4px;
             background: var(--primary-color);
             border-radius: var(--border-radius) 0 0 var(--border-radius);
-            background: yellow;
         }
 
         .technical-notes {
-            background: cyan;
+            background: white;
             border-radius: var(--border-radius);
             padding: 16px;
         }
 
         .technical-notes textarea {
             border: none;
-            background: purple;
-            margin-top: 30px;
+            background: transparent;
             width: 100%;
             resize: none;
             padding: 0;
