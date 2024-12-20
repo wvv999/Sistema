@@ -17,6 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // Remove caracteres especiais do CPF e telefones
     $cpf = preg_replace('/[^0-9]/', '', $_POST['cpf']);
+    $cpf = !empty($cpf) ? $cpf : null;
     $phone1 = preg_replace('/[^0-9]/', '', $_POST['phone1']);
     $phone2 = preg_replace('/[^0-9]/', '', $_POST['phone2']);
     $name = trim($_POST['name']);
