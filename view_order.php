@@ -85,7 +85,7 @@ try {
             --danger-color: #dc3545;
             --border-radius: 8px;
             --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            
+            --transition: all 0.3s ease;
         }
 
         body { 
