@@ -85,7 +85,7 @@ try {
             --danger-color: #dc3545;
             --border-radius: 8px;
             --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
+            
         }
 
         body { 
@@ -181,7 +181,7 @@ try {
             padding: 8px;
             background: rgba(255, 255, 255, 0.5);
             border-radius: var(--border-radius);
-            transition: var(--transition);
+            
         }
 
         .info-value:hover {
@@ -196,7 +196,7 @@ try {
             margin-bottom: 20px;
             border: 1px solid rgba(0,0,0,0.05);
             position: relative;
-            transition: var(--transition);
+            
         }
 
         .linha{
@@ -245,7 +245,7 @@ try {
             border: 1px solid rgba(0,0,0,0.1);
             border-radius: var(--border-radius);
             background-color: #fff;
-            transition: var(--transition);
+            
         }
 
         .menu-section:hover {
@@ -262,7 +262,7 @@ try {
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            transition: var(--transition);
+            
             font-weight: 500;
             position: relative;
             overflow: hidden;
@@ -276,7 +276,7 @@ try {
             height: 100%;
             width: 0;
             background: rgba(0,0,0,0.05);
-            transition: var(--transition);
+            
         }
 
         .action-button:hover::before {
@@ -377,7 +377,7 @@ try {
             background-color: white;
             resize: none;
             line-height: 20px;
-            transition: var(--transition);
+            
         }
 
         .add-note-form textarea:focus {
@@ -392,7 +392,7 @@ try {
             display: flex;
             align-items: center;
             gap: 4px;
-            transition: var(--transition);
+            
         }
 
         .add-note-form button:hover {
@@ -616,7 +616,6 @@ try {
                             <i class="bi bi-check-circle"></i>
                             <span>Autorização</span>
                         </div>
-
 
                     </div>
 
