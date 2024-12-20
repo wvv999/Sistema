@@ -505,7 +505,7 @@ try {
                 margin-bottom: 10px;
             }
         }
-        #newNote{
+        #technicalNotes{
             background: red;
         }
     </style>
