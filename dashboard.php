@@ -231,7 +231,7 @@ if(!isset($_SESSION['user_id'])) {
                 opacity: 1;
             }
         }
-        strong{
+        nume-ordem{
             color:red;
         }
     </style>
@@ -351,7 +351,7 @@ if(!isset($_SESSION['user_id'])) {
                                 <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <strong>{$orderNumber}</strong> - {$device_model} - <small>{$issue}</small>
+                                            <nume-ordem>{$orderNumber}</nume-ordem> - {$device_model} - <small>{$issue}</small>
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-3">
