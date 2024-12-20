@@ -237,11 +237,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                        value="<?php echo htmlspecialchars($order['device_password']); ?>">
                             </div>
                             
-                            <div class="col-md-6 mb-3">
-                                <label for="pattern_password" class="form-label">Senha Padrão</label>
-                                <input type="text" class="form-control" id="pattern_password" name="pattern_password"
-                                       value="<?php echo htmlspecialchars($order['pattern_password']); ?>">
-                            </div>
+                            
                         </div>
 
                         <div class="mb-3">
