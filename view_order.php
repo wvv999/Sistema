@@ -186,6 +186,7 @@ try {
 
         .info-value:hover {
             background: rgba(255, 255, 255, 0.8);
+            transition: var(--transition);
         }
         .device-password, .reported-issue {
             height: 105px;
@@ -221,6 +222,7 @@ try {
         .device-password:hover,
         .reported-issue:hover {
             box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
         .section-title {
@@ -250,6 +252,7 @@ try {
 
         .menu-section:hover {
             box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
         .action-button {
@@ -281,11 +284,13 @@ try {
 
         .action-button:hover::before {
             width: 100%;
+            transition: var(--transition);
         }
 
         .action-button:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
         /* Status button styles */
@@ -397,6 +402,7 @@ try {
 
         .add-note-form button:hover {
             transform: translateY(-2px);
+            transition: var(--transition);
         }
 
         /* Toast notifications */
@@ -430,6 +436,7 @@ try {
 
         .history-item:hover {
             background: var(--accent-color);
+            transition: var(--transition);
         }
 
         .history-item .date {
