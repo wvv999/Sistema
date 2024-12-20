@@ -233,6 +233,10 @@ if(!isset($_SESSION['user_id'])) {
         }
         nume-ordem{
             color:red;
+            font-weight: bold;
+        }
+        modelo{
+            font-weight: bold;
         }
     </style>
 </head>
@@ -351,7 +355,7 @@ if(!isset($_SESSION['user_id'])) {
                                 <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
-                                            <nume-ordem>{$orderNumber}</nume-ordem> - {$device_model} - <small>{$issue}</small>
+                                            <nume-ordem>{$orderNumber}</nume-ordem> - <modelo>{$device_model}</modelo> - <small>{$issue}</small>
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-3">
