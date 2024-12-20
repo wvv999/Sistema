@@ -114,7 +114,7 @@ if(!isset($_SESSION['user_id'])) {
         }
 
         /* Status button styles */
-        /* .status-indicator {
+        .status-indicator {
             min-width: 140px;
             text-align: center;
             font-size: 0.85em;
@@ -129,7 +129,7 @@ if(!isset($_SESSION['user_id'])) {
 
         .status-indicator i {
             font-size: 0.9em;
-        } */
+        }
         
         .não-iniciada {background: #e74c3c; color: white}
         .em-andamento {background: #f39c12; color: white}
