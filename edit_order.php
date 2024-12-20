@@ -232,14 +232,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <div class="col-md-6 mb-3">
                                 <label for="device_password" class="form-label">Senha do Dispositivo</label>
+
                                 <input type="text" class="form-control" id="device_password" name="device_password"
                                        value="<?php echo htmlspecialchars($order['device_password']); ?>">
                             </div>
 
                             <div class="col-md-6 mb-3">
                                 <label for="accessories" class="form-label">Acessórios</label>
-                                <textarea class="form-control" id="accessories" name="accessories"><?php echo htmlspecialchars($order['accessories']); ?></textarea>
+                                <input type="text" class="form-control" id="accessories" name="accessories"
+                                       value="<?php echo htmlspecialchars($order['accessories']); ?>">
                             </div>
+                            
                         </div>
 
                         
