@@ -241,7 +241,7 @@ if(!isset($_SESSION['user_id'])) {
             font-weight: bold;
         }
 
-        @media only screen and (max-width: 600px) {
+        @media only screen and (max-width: 1200px) {
         .dashboard-container {
             margin-top: 100px;
         }
