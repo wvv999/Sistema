@@ -617,10 +617,7 @@ try {
                             <span>Autorização</span>
                         </div>
 
-                        <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
-                            <i class="bi bi-cart"></i>
-                            <span>Compra de Peças</span>
-                        </div>
+
                     </div>
 
                     <!-- Ações da OS -->
