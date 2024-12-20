@@ -8,6 +8,7 @@ class Database {
     private $conn;
 
     public function __construct() {
+        date_default_timezone_set('America/Sao_Paulo');
         // Carrega configurações do arquivo .env
         $env = parse_ini_file('.env');
         
@@ -20,7 +21,6 @@ class Database {
     public function getConnection() {
         if ($this->conn !== null) {
             return $this->conn;
-            date_default_timezone_set('America/Sao_Paulo');
         }
 
         try {

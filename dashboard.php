@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'config.php';
+
 //date_default_timezone_set('America/Sao_Paulo');
 
 if(!isset($_SESSION['current_sector'])) {
