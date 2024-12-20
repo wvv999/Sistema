@@ -143,21 +143,22 @@ try {
             padding: 6px;
             border-radius: 4px !important;
         }
-        /* Adicione isso ao seu CSS existente */
+        /* Adicione ao seu CSS existente */
         .btn-sm {
             padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            border-radius: 0.2rem;
+            line-height: 1;
         }
 
         .table td {
             vertical-align: middle;
         }
 
-        .gap-2 {
-            gap: 0.5rem;
+        .btn-outline-secondary:hover {
+            background-color: #e9ecef;
+            color: #000;
+            border-color: #ced4da;
         }
+        
     </style>
 </head>
 <body class="bg-light">
@@ -381,7 +382,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Adiciona as ordens
             tableBody.innerHTML = data.orders.map(order => `
-                <tr>
+                <tr style="cursor: pointer" onclick="window.location.href='view_order.php?id=${order.id}'">
                     <td>${order.id}</td>
                     <td>${order.client_name}</td>
                     <td>${order.device_model || '-'}</td>
@@ -392,18 +393,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     </td>
                     <td>${formatDate(order.created_at)}</td>
                     <td>
-                        <div class="d-flex gap-2" onclick="event.stopPropagation()">
-                            <a href="view_order.php?id=${order.id}" 
-                            class="btn btn-sm btn-primary"
-                            title="Ver ordem">
-                                <i class="bi bi-eye"></i>
-                            </a>
-                            <a href="edit_order.php?id=${order.id}" 
-                            class="btn btn-sm btn-secondary"
-                            title="Editar ordem">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                        </div>
+                        <button onclick="event.stopPropagation(); window.location.href='edit_order.php?id=${order.id}'" 
+                                class="btn btn-sm btn-outline-secondary"
+                                title="Editar ordem">
+                            <i class="bi bi-pencil"></i>
+                        </button>
                     </td>
                 </tr>
             `).join('');
