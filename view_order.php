@@ -505,6 +505,9 @@ try {
                 margin-bottom: 10px;
             }
         }
+        #newNote{
+            background: red;
+        }
     </style>
 </head>
 <body>
