@@ -505,12 +505,12 @@ try {
                 margin-bottom: 10px;
             }
         }
-        #technicalNotes > {
-            margin:100px;
+        #technicalNotes > *{
             background: red;
             display: flex;
             flex-direction: column;
             gap:20px;
+            margin-top: 10px;
         }
     </style>
 </head>
