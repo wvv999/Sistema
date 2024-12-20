@@ -505,11 +505,8 @@ try {
                 margin-bottom: 10px;
             }
         }
-        #technicalNotes > *{
-            background: red;
-            display: flex;
-            flex-direction: column;
-            gap:20px;
+        #technicalNotes{
+            
             margin-top: 110px;
         }
     </style>
