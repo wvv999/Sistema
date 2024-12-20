@@ -320,7 +320,7 @@ try {
 
         /* Technical notes section */
         .technical-report {
-            background-color: yellow;
+            background-color: #f8f9fa;
             padding: 16px;
             border-radius: var(--border-radius);
             border: 1px solid rgba(0,0,0,0.05);
