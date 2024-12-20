@@ -348,7 +348,7 @@ try {
 
         .technical-notes textarea {
             border: none;
-            background: transparent;
+            background: purple;
             width: 100%;
             resize: none;
             padding: 0;
