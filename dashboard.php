@@ -370,7 +370,7 @@ if(!isset($_SESSION['user_id'])) {
                                 $clientName = htmlspecialchars($order['client_name']);
                                 $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
                                 $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
-                                $createdAt = (new DateTime($order['created_at']))->format('d/m/Y  H:i');
+                                $createdAt = (new DateTime($order['created_at']))->format("d/m/Y  H:i, America/Sao_Paulo");
                                 $status = $order['status'] ?? 'não iniciada';
                                 $statusButton = OrderStatus::getStatusButton($status);
                                 
