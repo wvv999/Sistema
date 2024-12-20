@@ -588,7 +588,7 @@ try {
                     </div>
                     <div class="technical-report">
                         <div class="technical-notes">
-                            <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
+                            <textarea id="technicalNotes" rows="100" readonly><?php echo $textareaContent; ?></textarea>
                             
                             <div class="add-note-form">
                                 <div class="input-group">
