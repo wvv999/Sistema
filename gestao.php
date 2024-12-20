@@ -143,6 +143,21 @@ try {
             padding: 6px;
             border-radius: 4px !important;
         }
+        /* Adicione isso ao seu CSS existente */
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            border-radius: 0.2rem;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .gap-2 {
+            gap: 0.5rem;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -267,25 +282,27 @@ try {
             <h5 class="mb-3" id="refresh-activities" >Ordens de Serviço</h5>
 
             <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>OS</th>
-                            <th>Cliente</th>
-                            <th>Status</th>
-                            <th>Data</th>
-                        </tr>
-                    </thead>
-                    <tbody id="orders-table-body">
-                        <tr>
-                            <td colspan="5" class="text-center">
-                                <div class="spinner-border text-primary" role="status">
-                                    <span class="visually-hidden">Carregando...</span>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>OS</th>
+                        <th>Cliente</th>
+                        <th>Modelo</th>
+                        <th>Status</th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-table-body">
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Carregando...</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
             </div>
         </div>
         <!-- Atividades Recentes -->
@@ -364,17 +381,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Adiciona as ordens
             tableBody.innerHTML = data.orders.map(order => `
-            <tr style="cursor: pointer" onclick="window.location.href='view_order.php?id=${order.id}'">
-                <td>${order.id}</td>
-                <td>${order.client_name}</td>
-                <td>
-                    <span class="badge ${getStatusClass(order.status)} teste">
-                        ${order.status}
-                    </span>
-                </td>
-                <td>${formatDate(order.created_at)}</td>
-            </tr>
-        `).join('');
+                <tr>
+                    <td>${order.id}</td>
+                    <td>${order.client_name}</td>
+                    <td>${order.device_model || '-'}</td>
+                    <td>
+                        <span class="badge ${getStatusClass(order.status)} teste">
+                            ${order.status}
+                        </span>
+                    </td>
+                    <td>${formatDate(order.created_at)}</td>
+                    <td>
+                        <div class="d-flex gap-2" onclick="event.stopPropagation()">
+                            <a href="view_order.php?id=${order.id}" 
+                            class="btn btn-sm btn-primary"
+                            title="Ver ordem">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <a href="edit_order.php?id=${order.id}" 
+                            class="btn btn-sm btn-secondary"
+                            title="Editar ordem">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
         } catch (error) {
             console.error('Erro:', error);
             tableBody.innerHTML = `
