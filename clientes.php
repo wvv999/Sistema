@@ -37,7 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $db->prepare("INSERT INTO clients (name, phone1, phone2, cpf) VALUES (?, ?, ?, ?)");
         
         if ($stmt->execute([$name, $phone1, $phone2, $cpf])) {
-            $success = "Cliente cadastrado com sucesso!";
+            $_SESSION['success_message'] = "Cliente cadastrado com sucesso!";
+            $success = $_SESSION['success_message'];
+            unset($_SESSION['success_message']);
         } else {
             throw new Exception("Erro ao cadastrar cliente.");
         }
@@ -69,7 +71,6 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
-        
         body::-webkit-scrollbar{
             display: none;
         }
@@ -115,8 +116,6 @@ try {
     <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
-    
-
 
     <div class="container">
         <div class="content-container">
@@ -136,7 +135,7 @@ try {
             <?php endif; ?>
 
             <!-- Formulário de Cadastro -->
-            <form method="POST" class="mb-4">
+            <form method="POST" class="mb-4" id="clientForm">
                 <div class="row justify-content-center">
                     <div class="col-md-6">
                         <div class="mb-3">
@@ -170,19 +169,6 @@ try {
                     </div>
                 </div>
             </form>
-            
-            <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Procura por alertas de sucesso
-                const alertSuccess = document.querySelector('.alert-success');
-                if (alertSuccess) {
-                    // Remove o alerta após 3 segundos
-                    setTimeout(() => {
-                        alertSuccess.remove();
-                    }, 3000);
-                }
-            });
-            </script>
 
             <!-- Tabela de Clientes -->
             <h3 class="mt-4 mb-3">Clientes Cadastrados</h3>
@@ -205,8 +191,6 @@ try {
                                     <a href="ordens_cliente.php?id=<?php echo $client['id']; ?>" class="text-decoration-none text-dark">
                                         <?php echo htmlspecialchars($client['name']); ?>
                                     </a>
-                                    <!-- <i class="bi bi-person-circle me-2"></i> -->
-                                    <!-- <?php echo htmlspecialchars($client['name']); ?> -->
                                 </td>
                                 <td><?php echo htmlspecialchars($client['cpf']); ?></td>
                                 <td><?php echo htmlspecialchars($client['phone1']); ?></td>
@@ -225,9 +209,10 @@ try {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Script para máscaras de input -->
+    <!-- Script para máscaras de input e alertas -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Máscaras para os inputs
         function maskCPF(input) {
             let value = input.value.replace(/\D/g, '');
             value = value.replace(/(\d{3})(\d)/, '$1.$2');
@@ -255,6 +240,19 @@ try {
         document.getElementById('phone2').addEventListener('input', function() {
             maskPhone(this);
         });
+
+        // Remove alertas após 3 segundos
+        const alertSuccess = document.querySelector('.alert-success');
+        if (alertSuccess) {
+            setTimeout(() => {
+                alertSuccess.remove();
+            }, 3000);
+        }
+
+        // Limpa o formulário após cadastro bem-sucedido
+        if (alertSuccess) {
+            document.getElementById('clientForm').reset();
+        }
     });
     </script>
 </body>
