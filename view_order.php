@@ -505,10 +505,7 @@ try {
                 margin-bottom: 10px;
             }
         }
-        #technicalNotes{
-            
-            margin-top: 110px;
-        }
+        
     </style>
 </head>
 <body>
