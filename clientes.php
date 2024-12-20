@@ -114,7 +114,9 @@ try {
 <body class="bg-light">
 
 
-<a href="<?php echo isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'dashboard.php'; ?>" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
+    <a href="<?php echo isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'dashboard.php'; ?>" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
     
 
 
