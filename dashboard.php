@@ -693,15 +693,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Botão de teste de som
-    const testButton = document.createElement('button');
-    testButton.className = 'btn btn-sm btn-outline-secondary position-fixed';
-    testButton.style.bottom = '20px';
-    testButton.style.left = '20px';
-    testButton.innerHTML = '<i class="bi bi-volume-up"></i> Testar Som';
-    testButton.onclick = () => {
-        notificationSound.play().catch(e => console.error('Erro ao testar som:', e));
-    };
-    document.body.appendChild(testButton);
+    //const testButton = document.createElement('button');
+    //testButton.className = 'btn btn-sm btn-outline-secondary position-fixed';
+    //testButton.style.bottom = '20px';
+    //testButton.style.left = '20px';
+    //testButton.innerHTML = '<i class="bi bi-volume-up"></i> Testar Som';
+    //testButton.onclick = () => {
+    //    notificationSound.play().catch(e => console.error('Erro ao testar som:', e));
+    //};
+    //document.body.appendChild(testButton);
 });
 </script>
 </body>
