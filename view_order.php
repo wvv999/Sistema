@@ -330,6 +330,7 @@ try {
         .technical-report::before {
             content: '';
             position: absolute;
+            background: yellow;
             left: 0;
             top: 0;
             height: 100%;
