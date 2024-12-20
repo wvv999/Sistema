@@ -170,6 +170,19 @@ try {
                     </div>
                 </div>
             </form>
+            
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Procura por alertas de sucesso
+                const alertSuccess = document.querySelector('.alert-success');
+                if (alertSuccess) {
+                    // Remove o alerta após 3 segundos
+                    setTimeout(() => {
+                        alertSuccess.remove();
+                    }, 3000);
+                }
+            });
+            </script>
 
             <!-- Tabela de Clientes -->
             <h3 class="mt-4 mb-3">Clientes Cadastrados</h3>
