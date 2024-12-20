@@ -1,7 +1,5 @@
 <?php
 
-date_default_timezone_set('America/Sao_Paulo');
-
 class Database {
     private $host;
     private $database;
@@ -22,6 +20,7 @@ class Database {
     public function getConnection() {
         if ($this->conn !== null) {
             return $this->conn;
+            date_default_timezone_set('America/Sao_Paulo');
         }
 
         try {
