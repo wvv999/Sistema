@@ -602,7 +602,7 @@ try {
                             data-status="<?php echo $order['status']; ?>"
                             data-order-id="<?php echo $order['id']; ?>"
                             data-bs-toggle="tooltip"
-                            title="Clique para alterar o status">
+                            title="">
                             <i class="bi bi-gear"></i>
                             <span><?php echo $order['status']; ?></span>
                         </div>
