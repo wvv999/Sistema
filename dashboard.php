@@ -240,6 +240,12 @@ if(!isset($_SESSION['user_id'])) {
         modelo{
             font-weight: bold;
         }
+
+        @meida screen and (width: 1200px){
+            .dashboard-container {
+            background-color: blue;
+        }
+        }
     </style>
 </head>
 <body class="bg-light">
