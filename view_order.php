@@ -506,6 +506,7 @@ try {
             }
         }
         #technicalNotes > *{
+            margin:100px;
             background: red;
             display: flex;
             flex-direction: column;
