@@ -249,6 +249,12 @@ if(!isset($_SESSION['user_id'])) {
         <div class="dashboard-container">
         <div class="welcome-header">
             <h2><i class="bi bi-grid-1x2"></i> Sistema Interno Tele Dil</h2>
+            
+            <?php
+            // Exibe a data e hora atual
+            echo date('Y-m-d H:i:s'); 
+            ?>
+
             <div class="dropdown">
                 <div class="user-info" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-person-circle"></i>
