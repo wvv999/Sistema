@@ -337,6 +337,7 @@ try {
             width: 4px;
             background: var(--primary-color);
             border-radius: var(--border-radius) 0 0 var(--border-radius);
+            background: yellow;
         }
 
         .technical-notes {
