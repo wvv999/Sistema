@@ -241,9 +241,9 @@ if(!isset($_SESSION['user_id'])) {
             font-weight: bold;
         }
 
-        @meida screen and (width: 1200px){
-            .dashboard-container {
-            background-color: blue;
+        @media only screen and (max-width: 600px) {
+        body {
+            background-color: lightblue;
         }
         }
     </style>
