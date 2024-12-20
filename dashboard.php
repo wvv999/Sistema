@@ -542,15 +542,35 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('searchInput');
     const searchButton = document.getElementById('searchButton');
 
-    function searchOrder() {
+    async function searchOrder() {
         const searchValue = searchInput.value.trim();
         if (!searchValue) {
             alert('Por favor, digite um número de OS ou nome do cliente');
             return;
         }
 
-        // Redirect to consulta_ordens.php with search parameter
-        window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
+        try {
+            // Primeiro faz uma busca para verificar quantos resultados existem
+            const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                // Se encontrou exatamente uma ordem e é um número de OS
+                if (data.data.length === 1 && !isNaN(searchValue)) {
+                    // Redireciona diretamente para a visualização da ordem
+                    window.location.href = `view_order.php?id=${data.data[0].id}`;
+                } else {
+                    // Se houver múltiplos resultados ou for uma busca por texto
+                    window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
+                }
+            } else {
+                // Se não encontrou nenhum resultado
+                window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
+            }
+        } catch (error) {
+            console.error('Erro na busca:', error);
+            alert('Erro ao realizar a busca');
+        }
     }
 
     // Event listeners para busca
