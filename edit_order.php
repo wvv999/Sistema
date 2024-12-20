@@ -228,17 +228,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <input type="date" class="form-control" id="delivery_date" name="delivery_date"
                                        value="<?php echo $order['delivery_date']; ?>" required>
                             </div>
-                        </div>
 
-                        <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="device_password" class="form-label">Senha do Dispositivo</label>
                                 <input type="text" class="form-control" id="device_password" name="device_password"
                                        value="<?php echo htmlspecialchars($order['device_password']); ?>">
                             </div>
-                            
-                            
+
+
                         </div>
+
+                        
 
                         <div class="mb-3">
                             <label for="reported_issue" class="form-label">Defeito Relatado</label>
