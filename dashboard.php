@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('America/Sao_Paulo');
 
 if(!isset($_SESSION['current_sector'])) {
     // Se não existir na sessão, busca do banco
@@ -249,7 +250,7 @@ if(!isset($_SESSION['user_id'])) {
         <div class="dashboard-container">
         <div class="welcome-header">
             <h2><i class="bi bi-grid-1x2"></i> Sistema Interno Tele Dil</h2>
-            
+
             <?php
             // Exibe a data e hora atual
             echo date('Y-m-d H:i:s'); 
