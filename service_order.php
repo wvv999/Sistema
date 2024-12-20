@@ -255,7 +255,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <script>
         // Define a data mínima como hoje
-        document.getElementById('delivery_date').min = new Date().toISOString().split('T')[0];
+        document.getElementById('delivery_date').min = new Date(timeZone: 'America/Sao_Paulo').toISOString().split('T')[0];
 
         function setDate(type) {
             const today = new Date();
