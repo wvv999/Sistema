@@ -35,6 +35,10 @@ if(!isset($_SESSION['user_id'])) {
             padding: 20px;
         }
 
+        body::-webkit-scrollbar{
+            display: none;
+        }
+        
         .container { padding-top: 2rem; padding-bottom: 2rem; }
         
         .dashboard-container {
