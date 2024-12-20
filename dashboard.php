@@ -241,17 +241,18 @@ if(!isset($_SESSION['user_id'])) {
             font-weight: bold;
         }
 
-        @media only screen and (max-width: 1200px) {
+        /* @media only screen and (max-width: 1200px) {
         .dashboard-container {
             margin-top: 100px;
         }
-        }
+        } */
     </style>
 </head>
 <body class="bg-light">
-    <a href="logout.php" class="btn btn-outline-danger logout-btn">
+
+    <!-- <a href="logout.php" class="btn btn-outline-danger logout-btn">
         <i class="bi bi-box-arrow-right"></i> Sair
-    </a>
+    </a> -->
 
     <div class="container">
         <div class="dashboard-container">
