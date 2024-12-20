@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Sao_Paulo');
 session_start();
 header('Content-Type: application/json');
 require_once 'config.php';
