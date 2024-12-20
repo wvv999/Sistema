@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Sao_Paulo');
 // get_stats.php
 header('Content-Type: application/json');
 
