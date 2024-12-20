@@ -155,7 +155,7 @@ try {
                         <div class="mb-3">
                             <label for="phone1" class="form-label">Telefone Principal</label>
                             <input type="text" class="form-control bg-light" id="phone1" name="phone1" 
-                                maxlength="15" placeholder="(00) 00000-0000" required>
+                                maxlength="15" placeholder="(00) 00000-0000" >
                         </div>
 
                         <div class="mb-3">
