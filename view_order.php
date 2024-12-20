@@ -325,6 +325,7 @@ try {
             border-radius: var(--border-radius);
             border: 1px solid rgba(0,0,0,0.05);
             position: relative;
+            background: red;
         }
 
         .technical-report::before {
