@@ -505,7 +505,7 @@ try {
                 margin-bottom: 10px;
             }
         }
-        #technicalNotes > *{
+        #technicalNotes > {
             margin:100px;
             background: red;
             display: flex;
