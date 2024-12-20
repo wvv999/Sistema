@@ -243,7 +243,7 @@ if(!isset($_SESSION['user_id'])) {
 
         @media only screen and (max-width: 600px) {
         .dashboard-container {
-            background-color: lightblue;
+            margin-top: 100px;
         }
         }
     </style>
