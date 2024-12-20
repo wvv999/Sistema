@@ -507,6 +507,9 @@ try {
         }
         #technicalNotes{
             background: red;
+            display: flex;
+            flex-direction: column;
+            gap:20px;
         }
     </style>
 </head>
