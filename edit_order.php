@@ -217,6 +217,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h5 class="mb-3">Informações do Dispositivo</h5>
                         
                         <div class="row">
+                            
                             <div class="col-md-6 mb-3">
                                 <label for="device_model" class="form-label">Modelo do Dispositivo</label>
                                 <input type="text" class="form-control" id="device_model" name="device_model" 

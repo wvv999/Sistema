@@ -339,7 +339,7 @@ try {
         }
 
         .technical-notes {
-            background: white;
+            background: cyan;
             border-radius: var(--border-radius);
             padding: 16px;
         }
