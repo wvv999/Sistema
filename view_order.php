@@ -97,9 +97,9 @@ try {
             
         }
         
-        .example::-webkit-scrollbar { display: none; }
+        body::-webkit-scrollbar { display: none; }
 
-        .order-container {
+        .container {
             height: fit-content;
             background-color: #fff;
             border-radius: var(--border-radius);
@@ -513,7 +513,7 @@ try {
     <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
-    <div class="order-container">
+    <div class="container">
         <!-- Informações do pedido -->
         <div class="order-info">
             <h4 class="mb-3">
