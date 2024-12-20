@@ -184,6 +184,7 @@ try {
                             <th>Telefone Principal</th>
                             <th>Telefone Secundário</th>
                             <th>Data de Cadastro</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -194,8 +195,6 @@ try {
                                     <a href="ordens_cliente.php?id=<?php echo $client['id']; ?>" class="text-decoration-none text-dark">
                                         <?php echo htmlspecialchars($client['name']); ?>
                                     </a>
-                                    <!-- <i class="bi bi-person-circle me-2"></i> -->
-                                    <!-- <?php echo htmlspecialchars($client['name']); ?> -->
                                 </td>
                                 <td><?php echo htmlspecialchars($client['cpf']); ?></td>
                                 <td><?php echo htmlspecialchars($client['phone1']); ?></td>
@@ -203,6 +202,13 @@ try {
                                 <td>
                                     <i class="bi bi-calendar-event me-2"></i>
                                     <?php echo date('d/m/Y H:i', strtotime($client['created_at'])); ?>
+                                </td>
+                                <td>
+                                    <a href="edit_client.php?id=<?php echo $client['id']; ?>" 
+                                    class="btn btn-sm btn-outline-primary" 
+                                    title="Editar cliente">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
