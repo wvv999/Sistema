@@ -510,7 +510,7 @@ try {
             display: flex;
             flex-direction: column;
             gap:20px;
-            margin-top: 10px;
+            margin-top: 110px;
         }
     </style>
 </head>
