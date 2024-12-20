@@ -72,6 +72,7 @@ try {
         
         body::-webkit-scrollbar{
             display: none;
+            padding:10px;
         }
         .container {
             padding-top: 2rem;
