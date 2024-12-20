@@ -217,7 +217,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <h5 class="mb-3">Informações do Dispositivo</h5>
                         
                         <div class="row">
-                            
+
                             <div class="col-md-6 mb-3">
                                 <label for="device_model" class="form-label">Modelo do Dispositivo</label>
                                 <input type="text" class="form-control" id="device_model" name="device_model" 
@@ -236,7 +236,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                        value="<?php echo htmlspecialchars($order['device_password']); ?>">
                             </div>
 
-
+                            <div class="mb-3">
+                                <label for="accessories" class="form-label">Acessórios</label>
+                                <textarea class="form-control" id="accessories" name="accessories"><?php echo htmlspecialchars($order['accessories']); ?></textarea>
+                            </div>
                         </div>
 
                         
@@ -247,10 +250,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                       required><?php echo htmlspecialchars($order['reported_issue']); ?></textarea>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="accessories" class="form-label">Acessórios</label>
-                            <textarea class="form-control" id="accessories" name="accessories"><?php echo htmlspecialchars($order['accessories']); ?></textarea>
-                        </div>
+                        
                     </div>
 
                     <div class="btn-toolbar justify-content-between">
