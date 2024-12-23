@@ -506,7 +506,9 @@ try {
                 margin-bottom: 10px;
             }
         }
-        
+        .detail{
+            background-color: red;
+        }
     </style>
 </head>
 <body>
