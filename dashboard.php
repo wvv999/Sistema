@@ -356,7 +356,7 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
                 <ul class="list-group recent-orders-list">
                     <?php
-                    $horas = date('H:i:s');
+                    $horas = date('H:i');
                     require_once 'recent_orders.php';
                     require_once 'orderStatus.php';
                     
