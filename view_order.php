@@ -506,7 +506,9 @@ try {
                 margin-bottom: 10px;
             }
         }
-        
+        .nota{
+            background-color: red;
+        }
 
     </style>
 </head>
@@ -822,7 +824,7 @@ try {
                         newNoteText = `\n ${today} \n\n`;
                     }
                     
-                    newNoteText += `${data.username}: ${noteText}\n`;
+                    newNoteText += `<span class="nota">${data.username}: ${noteText}\n</span>`;
                     technicalNotes.value += newNoteText;
                     document.getElementById('newNote').value = '';
                     technicalNotes.scrollTop = technicalNotes.scrollHeight;
