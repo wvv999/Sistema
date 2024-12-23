@@ -270,7 +270,7 @@ if(!isset($_SESSION['user_id'])) {
 
             <?php
             // Exibe a data e hora atual
-            echo date('Y-m-d'); 
+            echo date('Y-m-d H:i:s'); 
             ?>
 
             <div class="dropdown">
@@ -371,9 +371,7 @@ if(!isset($_SESSION['user_id'])) {
                                 $clientName = htmlspecialchars($order['client_name']);
                                 $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
                                 $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
-                                $createdAt = "<?php
-                                echo date('H:i'); 
-                                ?>";
+                                $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
                                 $status = $order['status'] ?? 'não iniciada';
                                 $statusButton = OrderStatus::getStatusButton($status);
                                 
@@ -385,7 +383,9 @@ if(!isset($_SESSION['user_id'])) {
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-3">
-                                            <small class="text-muted">{$createdAt}</small>
+                                            <small class="text-muted">{"<?php
+                                            echo date('H:i'); 
+                                            ?>"}</small>
                                             {$statusButton}
 
                                         </div>
