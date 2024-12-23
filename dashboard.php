@@ -3,6 +3,7 @@ session_start();
 
 
 $data =  date_default_timezone_set('America/Sao_Paulo');
+$data1 = $data;
 
 if(!isset($_SESSION['current_sector'])) {
     // Se não existir na sessão, busca do banco
