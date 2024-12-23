@@ -506,14 +506,9 @@ try {
                 margin-bottom: 10px;
             }
         }
-        #newNote{
-            background: red;
-        }
-        .newNote{
-            background: green;
-        }
-        #technicalNotes > *{
-            background: blue;
+        
+        #technicalNotes {
+            background-color: blue;
         }
     </style>
 </head>
