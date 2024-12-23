@@ -512,6 +512,9 @@ try {
         .newNote{
             background: green;
         }
+        #technicalNotes > *{
+            background: blue;
+        }
     </style>
 </head>
 <body>
