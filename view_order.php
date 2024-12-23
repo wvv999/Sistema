@@ -508,8 +508,9 @@ try {
         }
         
         #technicalNotes {
-            display:flex;
             background-color: blue;
+            display:flex;
+            gap: 20px;
         }
     </style>
 </head>
