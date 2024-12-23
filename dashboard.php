@@ -372,7 +372,6 @@ if(!isset($_SESSION['user_id'])) {
                                 $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
                                 $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
                                 $createdAt = "<?php
-                                // Exibe a data e hora atual
                                 echo date('H:i'); 
                                 ?>";
                                 $status = $order['status'] ?? 'não iniciada';
