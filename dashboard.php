@@ -270,7 +270,7 @@ if(!isset($_SESSION['user_id'])) {
 
             <?php
             // Exibe a data e hora atual
-            echo date('Y-m-d H:i:s'); 
+            echo date('Y-m-d'); 
             ?>
 
             <div class="dropdown">
