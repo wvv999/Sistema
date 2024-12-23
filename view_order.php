@@ -507,11 +507,7 @@ try {
             }
         }
         
-        #technicalNotes {
-            
-            display:flex;
-            gap: 20px;
-        }
+
     </style>
 </head>
 <body>
