@@ -356,7 +356,7 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
                 <ul class="list-group recent-orders-list">
                     <?php
-                    $horas = date('H:i');
+                    
                     require_once 'recent_orders.php';
                     require_once 'orderStatus.php';
                     
@@ -372,7 +372,7 @@ if(!isset($_SESSION['user_id'])) {
                                 $clientName = htmlspecialchars($order['client_name']);
                                 $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
                                 $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
-                                $createdAt = (new DateTime($order['created_at']))->format('d/m/Y');
+                                $createdAt = (new DateTime($order['created_at']))->format('H:i');
                                 $status = $order['status'] ?? 'não iniciada';
                                 $statusButton = OrderStatus::getStatusButton($status);
                                 
@@ -384,7 +384,7 @@ if(!isset($_SESSION['user_id'])) {
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-3">
-                                            <small class="text-muted">$horas</small>
+                                            <small class="text-muted">$createdAt</small>
                                             {$statusButton}
 
                                         </div>
