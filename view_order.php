@@ -506,8 +506,11 @@ try {
                 margin-bottom: 10px;
             }
         }
-        .detail{
-            background-color: red;
+        #newNote{
+            background: red;
+        }
+        .newNote{
+            background: green;
         }
     </style>
 </head>
