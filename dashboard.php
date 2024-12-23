@@ -356,10 +356,7 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
                 <ul class="list-group recent-orders-list">
                     <?php
-                    $horas = "<?php
-                                // Exibe a data e hora atual
-                                echo date('H:i'); 
-                                ?>";
+                    $horas = date('Y-m-d H:i:s');
                     require_once 'recent_orders.php';
                     require_once 'orderStatus.php';
                     
@@ -387,7 +384,7 @@ if(!isset($_SESSION['user_id'])) {
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-3">
-                                            <small class="text-muted">{$horas}</small>
+                                            <small class="text-muted">{echo $horas}</small>
                                             {$statusButton}
 
                                         </div>
