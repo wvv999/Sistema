@@ -384,7 +384,7 @@ if(!isset($_SESSION['user_id'])) {
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-3">
-                                            <small class="text-muted">{echo $horas}</small>
+                                            <small class="text-muted">$horas</small>
                                             {$statusButton}
 
                                         </div>
