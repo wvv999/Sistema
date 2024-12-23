@@ -508,7 +508,7 @@ try {
         }
         
         #technicalNotes {
-            background-color: blue;
+            
             display:flex;
             gap: 20px;
         }
