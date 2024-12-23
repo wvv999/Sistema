@@ -544,7 +544,7 @@ try {
                         <div class="info-label">
                             <i class="bi bi-calendar-event"></i> Data de Abertura
                         </div>
-                        <div class="info-value"><?php echo date('d/m/Y %/% H:i', strtotime($order['created_at'])); ?></div>
+                        <div class="info-value"><?php echo date('d/m/Y às H:i', strtotime($order['created_at'])); ?></div>
                     </div>
                     <div class="col-md-2">
                         <div class="info-label">
