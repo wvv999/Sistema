@@ -508,6 +508,7 @@ try {
         }
         
         #technicalNotes {
+            display:flex;
             background-color: blue;
         }
     </style>
