@@ -2,7 +2,7 @@
 session_start();
 
 
-$data =  date_default_timezone_set('America/Sao_Paulo');
+
 
 if(!isset($_SESSION['current_sector'])) {
     // Se não existir na sessão, busca do banco
@@ -268,10 +268,7 @@ if(!isset($_SESSION['user_id'])) {
         <div class="welcome-header">
             <h2><i class="bi bi-grid-1x2"></i> Sistema Interno Tele Dil</h2>
 
-            <?php
-            // Exibe a data e hora atual
-            echo date('Y-m-d H:i:s'); 
-            ?>
+            
 
             <div class="dropdown">
                 <div class="user-info" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -356,7 +353,7 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
                 <ul class="list-group recent-orders-list">
                     <?php
-                    
+
                     require_once 'recent_orders.php';
                     require_once 'orderStatus.php';
                     
