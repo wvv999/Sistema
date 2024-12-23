@@ -383,9 +383,9 @@ if(!isset($_SESSION['user_id'])) {
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-3">
-                                            <small class="text-muted">{"<?php
+                                            <small class="text-muted">{""<?php
                                             echo date('H:i'); 
-                                            ?>"}</small>
+                                            ?>"""}</small>
                                             {$statusButton}
 
                                         </div>
