@@ -52,6 +52,13 @@ try {
             margin-bottom: 1rem;
         }
         
+        .stats-card:nth-child(1),
+        .stats-card:nth-child(2),
+        .stats-card:nth-child(3) {
+            
+            background-color: purple;
+        }
+
         .stats-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -169,7 +176,7 @@ try {
     <div class="container">
 
 
-    
+
         <h2 class="text-center mb-4">Gestão do Sistema</h2>
         
         
