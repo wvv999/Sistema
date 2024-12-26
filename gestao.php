@@ -158,7 +158,9 @@ try {
             color: #000;
             border-color: #ced4da;
         }
-        
+        .técnica{
+            border-bottom: 1px solid black;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -188,7 +190,7 @@ try {
                 </div>
             </div>
             <!-- CARD EM ANDAMENTO -->
-            <div class="col">
+            <div class="col técnica">
                 <div class="card stats-card em-andamento text-dark cursor-pointer" data-status="em andamento">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
@@ -202,7 +204,7 @@ try {
                 </div>
             </div>
             <!-- CARD CONCLUÍDAS -->
-            <div class="col">
+            <div class="col técnica">
                 <div class="card stats-card concluída text-white cursor-pointer" data-status="concluída">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
@@ -216,7 +218,7 @@ try {
                 </div>
             </div>
             <!-- CARD PRONTO E AVISADO -->
-            <div class="col">
+            <div class="col  técnica">
                 <div class="card stats-card pronto-e-avisado text-white cursor-pointer" data-status="pronto e avisado">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
