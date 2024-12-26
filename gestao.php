@@ -176,7 +176,7 @@ try {
         <!-- Cards de Estatísticas -->
         <div class="row mb-4">
             <!-- CARD NÃO INICIADAS -->
-            <div class="col">
+            <div class="col técnica">
                 <div class="card stats-card text-white não-iniciada cursor-pointer" data-status="não iniciada">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
@@ -218,7 +218,7 @@ try {
                 </div>
             </div>
             <!-- CARD PRONTO E AVISADO -->
-            <div class="col  técnica">
+            <div class="col">
                 <div class="card stats-card pronto-e-avisado text-white cursor-pointer" data-status="pronto e avisado">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
