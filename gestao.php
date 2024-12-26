@@ -158,7 +158,10 @@ try {
             color: #000;
             border-color: #ced4da;
         }
-        
+        teste{
+            background: red;
+            
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -170,7 +173,7 @@ try {
         <h2 class="text-center mb-4">Gestão do Sistema</h2>
         
         
-        
+        <teste>
         <!-- Cards de Estatísticas -->
         <div class="row mb-4">
             <!-- CARD NÃO INICIADAS -->
@@ -215,6 +218,7 @@ try {
                     </div>
                 </div>
             </div>
+        </teste>
             <!-- CARD PRONTO E AVISADO -->
             <div class="col">
                 <div class="card stats-card pronto-e-avisado text-white cursor-pointer" data-status="pronto e avisado">
