@@ -52,11 +52,6 @@ try {
             margin-bottom: 1rem;
         }
         
-        .carde:nth-child(1){
-            
-            background-color: purple;
-        }
-
         .stats-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
@@ -172,15 +167,12 @@ try {
     </a>
 
     <div class="container">
-
-
-
         <h2 class="text-center mb-4">Gestão do Sistema</h2>
         
         
         
         <!-- Cards de Estatísticas -->
-        <div class="row mb-4 carde">
+        <div class="row mb-4">
             <!-- CARD NÃO INICIADAS -->
             <div class="col">
                 <div class="card stats-card text-white não-iniciada cursor-pointer" data-status="não iniciada">
