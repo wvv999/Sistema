@@ -52,7 +52,7 @@ try {
             margin-bottom: 1rem;
         }
         
-        .cardsss:nth-child(1){
+        .carde:nth-child(2){
             
             background-color: purple;
         }
@@ -180,7 +180,7 @@ try {
         
         
         <!-- Cards de Estatísticas -->
-        <div class="row mb-4 cardsss">
+        <div class="row mb-4 carde">
             <!-- CARD NÃO INICIADAS -->
             <div class="col">
                 <div class="card stats-card text-white não-iniciada cursor-pointer" data-status="não iniciada">
