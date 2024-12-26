@@ -164,7 +164,7 @@ try {
         .teste{
             width: fit-content;
             height: fit-content;
-            padding: 20px;
+            
             background: black;
             display: flex;
             gap:20px;
