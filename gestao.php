@@ -166,6 +166,8 @@ try {
             height: fit-content;
             padding: 20px;
             background: black;
+            display: flex;
+            gap:20px;
         }
     </style>
 </head>
