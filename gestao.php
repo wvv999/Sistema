@@ -169,7 +169,7 @@ try {
             display: flex;
             gap:20px;
         }
-        .teste{
+        .teste2{
             width: fit-content;
             height: fit-content;
             background: blue;
