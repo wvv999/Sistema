@@ -52,9 +52,7 @@ try {
             margin-bottom: 1rem;
         }
         
-        .stats-card:nth-child(1),
-        .stats-card:nth-child(2),
-        .stats-card:nth-child(3) {
+        .stats-card:nth-child(1){
             
             background-color: purple;
         }
