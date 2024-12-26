@@ -52,7 +52,7 @@ try {
             margin-bottom: 1rem;
         }
         
-        .carde:nth-child(2){
+        .carde:nth-child(1){
             
             background-color: purple;
         }
