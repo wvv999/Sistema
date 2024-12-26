@@ -158,24 +158,7 @@ try {
             color: #000;
             border-color: #ced4da;
         }
-        .técnica{
-            border-bottom: 1px solid black;
-        }
-        .teste{
-            width: fit-content;
-            height: fit-content;
-            
-            background: black;
-            display: flex;
-            gap:20px;
-        }
-        .teste2{
-            width: fit-content;
-            height: fit-content;
-            background: blue;
-            display: flex;
-            gap:20px;
-        }
+        
     </style>
 </head>
 <body class="bg-light">
@@ -190,52 +173,50 @@ try {
         
         <!-- Cards de Estatísticas -->
         <div class="row mb-4">
-            <div class="teste">
-                <!-- CARD NÃO INICIADAS -->
-                <div class="col técnica">
-                    <div class="card stats-card text-white não-iniciada cursor-pointer" data-status="não iniciada">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="card-title">Não Iniciadas</h6>
-                                    <h2 class="mb-0"><?php echo $stats['naoIniciadas']; ?></h2>
-                                </div>
-                                <i class="bi bi-clock stats-icon"></i>
+            <!-- CARD NÃO INICIADAS -->
+            <div class="col">
+                <div class="card stats-card text-white não-iniciada cursor-pointer" data-status="não iniciada">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="card-title">Não Iniciadas</h6>
+                                <h2 class="mb-0"><?php echo $stats['naoIniciadas']; ?></h2>
                             </div>
+                            <i class="bi bi-clock stats-icon"></i>
                         </div>
                     </div>
                 </div>
-                <!-- CARD EM ANDAMENTO -->
-                <div class="col técnica">
-                    <div class="card stats-card em-andamento text-dark cursor-pointer" data-status="em andamento">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="card-title">Em Andamento</h6>
-                                    <h2 class="mb-0"><?php echo $stats['emAndamento']; ?></h2>
-                                </div>
-                                <i class="bi bi-gear stats-icon"></i>
+            </div>
+            <!-- CARD EM ANDAMENTO -->
+            <div class="col">
+                <div class="card stats-card em-andamento text-dark cursor-pointer" data-status="em andamento">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="card-title">Em Andamento</h6>
+                                <h2 class="mb-0"><?php echo $stats['emAndamento']; ?></h2>
                             </div>
+                            <i class="bi bi-gear stats-icon"></i>
                         </div>
                     </div>
                 </div>
-                <!-- CARD CONCLUÍDAS -->
-                <div class="col técnica">
-                    <div class="card stats-card concluída text-white cursor-pointer" data-status="concluída">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div>
-                                    <h6 class="card-title">Concluídas</h6>
-                                    <h2 class="mb-0"><?php echo $stats['concluidas']; ?></h2>
-                                </div>
-                                <i class="bi bi-check2-circle stats-icon"></i>
+            </div>
+            <!-- CARD CONCLUÍDAS -->
+            <div class="col">
+                <div class="card stats-card concluída text-white cursor-pointer" data-status="concluída">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <h6 class="card-title">Concluídas</h6>
+                                <h2 class="mb-0"><?php echo $stats['concluidas']; ?></h2>
                             </div>
+                            <i class="bi bi-check2-circle stats-icon"></i>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- CARD PRONTO E AVISADO -->
-            <div class="col teste2">
+            <div class="col">
                 <div class="card stats-card pronto-e-avisado text-white cursor-pointer" data-status="pronto e avisado">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
@@ -249,7 +230,7 @@ try {
                 </div>
             </div>
             <!-- CARD ENTREGUE -->
-            <div class="col teste2">
+            <div class="col">
                 <div class="card stats-card entregue text-white cursor-pointer" data-status="entregue">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
