@@ -169,6 +169,13 @@ try {
             display: flex;
             gap:20px;
         }
+        .teste{
+            width: fit-content;
+            height: fit-content;
+            background: blue;
+            display: flex;
+            gap:20px;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -228,7 +235,7 @@ try {
                 </div>
             </div>
             <!-- CARD PRONTO E AVISADO -->
-            <div class="col">
+            <div class="col teste2">
                 <div class="card stats-card pronto-e-avisado text-white cursor-pointer" data-status="pronto e avisado">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
@@ -242,7 +249,7 @@ try {
                 </div>
             </div>
             <!-- CARD ENTREGUE -->
-            <div class="col">
+            <div class="col teste2">
                 <div class="card stats-card entregue text-white cursor-pointer" data-status="entregue">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
