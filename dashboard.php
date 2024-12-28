@@ -2,8 +2,6 @@
 session_start();
 
 
-$data =  date_default_timezone_set('America/Sao_Paulo');
-$data1 = date('H:i');
 
 if(!isset($_SESSION['current_sector'])) {
     // Se não existir na sessão, busca do banco
@@ -384,7 +382,7 @@ if(!isset($_SESSION['user_id'])) {
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-3">
-                                            <small class="text-muted">{$data1}</small>
+                                            <small class="text-muted">{$createdAt}</small>
                                             {$statusButton}
 
                                         </div>
