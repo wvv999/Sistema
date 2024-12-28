@@ -729,9 +729,9 @@ try {
                     if (data.notesHistory && data.notesHistory.length > 0) {
                         notesContainer.innerHTML = data.notesHistory.map(item => `
                             <div class="history-item">
-                                <div class="date">${item.formatted_date}</div><br><br><br><br>
-                                <div class="username">${item.username}</div><br><br><br><br>
-                                <div class="detail">${item.note}</div><br><br><br><br>
+                                <div class="date">${item.formatted_date}</div>
+                                <div class="username">${item.username}</div>
+                                <div class="detail">${item.note}</div>
                             </div>
                         `).join('');
                     } else {
