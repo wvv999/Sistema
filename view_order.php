@@ -818,7 +818,7 @@ try {
                     
                     let newNoteText = '';
                     if (!technicalNotes.value.includes(today)) {
-                        newNoteText = `\n ${today} \n\n`;
+                        newNoteText = `\n ${today} \n`;
                     }
                     
                     newNoteText += `${data.username}: ${noteText}\n \n \n`;
