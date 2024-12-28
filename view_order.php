@@ -821,7 +821,7 @@ try {
                         newNoteText = `\n ${today} \n`;
                     }
                     
-                    newNoteText += `${data.username}: ${noteText}\n \n \n`;
+                    newNoteText += `${data.username}: ${noteText}\n \n`;
                     technicalNotes.value += newNoteText;
                     document.getElementById('newNote').value = '';
                     technicalNotes.scrollTop = technicalNotes.scrollHeight;
