@@ -506,14 +506,11 @@ try {
                 margin-bottom: 10px;
             }
         }
-        .nota{
-            background-color: red;
-        }
-
+        
     </style>
 </head>
 <body>
-    <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: fixed; top: 20px; left: 20px; z-index: 10; background-color: white">
+    <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
     </a>
     <div class="container">
@@ -804,8 +801,8 @@ try {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        orderId: <?php echo $_GET['id']; echo '<br>'?>,
-                        note: noteText <?php echo $_GET['id']; echo '<br>'?>,
+                        orderId: <?php echo $_GET['id']; ?>,
+                        note: noteText
                     })
                 });
 
@@ -824,7 +821,7 @@ try {
                         newNoteText = `\n ${today} \n\n`;
                     }
                     
-                    newNoteText += `${data.username}: ${noteText}\n`;
+                    newNoteText += `${data.username}: ${noteText}\n <br> <br> <br> \n \n \n \n`;
                     technicalNotes.value += newNoteText;
                     document.getElementById('newNote').value = '';
                     technicalNotes.scrollTop = technicalNotes.scrollHeight;
