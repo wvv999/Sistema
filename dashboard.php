@@ -267,10 +267,6 @@ if(!isset($_SESSION['user_id'])) {
         <div class="welcome-header">
             <h2><i class="bi bi-grid-1x2"></i> Sistema Interno Tele Dil</h2>
 
-            <?php
-            // Exibe a data e hora atual
-            echo date('Y-m-d H:i:s'); 
-            ?>
 
             <div class="dropdown">
                 <div class="user-info" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -370,7 +366,7 @@ if(!isset($_SESSION['user_id'])) {
                                 $clientName = htmlspecialchars($order['client_name']);
                                 $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
                                 $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
-                                $createdAt = (new DateTime($order['created_at']))->format("d/m/Y  H:i");
+                                $createdAt = (new DateTime($order['created_at']))->format("H:i");
                                 $status = $order['status'] ?? 'não iniciada';
                                 $statusButton = OrderStatus::getStatusButton($status);
                                 
