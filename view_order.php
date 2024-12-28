@@ -804,8 +804,8 @@ try {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        orderId: <?php echo $_GET['id']; ?>,
-                        note: noteText
+                        orderId: <?php echo $_GET['id']; echo '<br>'?>,
+                        note: noteText <?php echo $_GET['id']; echo '<br>'?>,
                     })
                 });
 
