@@ -234,12 +234,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             <?php if (isset($_SESSION['print_order_id'])): ?>
             <script>
-                
+
                 function abrirOrdem(){
                     window.open('print_service_order.php?id=<?php echo $_SESSION['print_order_id']; ?>', '_blank');
                 }
                 // Abre a página de impressão em nova aba
-                window.open('print_service_order.php?id=<?php echo $_SESSION['print_order_id']; ?>', '_blank');
+                
                 
                 // Limpa os campos do formulário
                 document.getElementById('client_id').value = '';
