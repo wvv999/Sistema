@@ -224,8 +224,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="mt-4">
-                    
-                    <button onclick="abrirOrdem()" class="btn btn-primary" >
+                    <button type="submit" class="btn btn-primary">
                         <i class="bi bi-save"></i> Criar Ordem de Serviço
                     </button>
                 </div>
@@ -234,20 +233,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             <?php if (isset($_SESSION['print_order_id'])): ?>
             <script>
-
-                function abrirOrdem(){
-                    window.open('print_service_order.php?id=<?php echo $_SESSION['print_order_id']; ?>', '_blank');
-                    document.getElementById('client_id').value = '';
-                    document.getElementById('device_model').value = '';
-                    document.getElementById('device_password').value = '';
-                    document.getElementById('accessories').value = '';
-                    document.getElementById('reported_issue').value = '';
-                    document.getElementById('delivery_date').value = '';
+                // Abre a página de impressão em nova aba
+                window.open('print_service_order.php?id=<?php echo $_SESSION['print_order_id']; ?>', '_blank');
                 
-                    <?php unset($_SESSION['print_order_id']); ?>
-                }
+                // Limpa os campos do formulário
+                document.getElementById('client_id').value = '';
+                document.getElementById('device_model').value = '';
+                document.getElementById('device_password').value = '';
+                document.getElementById('accessories').value = '';
+                document.getElementById('reported_issue').value = '';
+                document.getElementById('delivery_date').value = '';
                 
-                
+                <?php unset($_SESSION['print_order_id']); ?>
             </script>
             <?php endif; ?>
         <?php endif; ?>
