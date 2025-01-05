@@ -224,7 +224,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="mt-4">
-                    <button type="submit" class="btn btn-primary">
+                    
+                    <button type="submit" class="btn btn-primary" onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
                         <i class="bi bi-save"></i> Criar Ordem de Serviço
                     </button>
                 </div>
