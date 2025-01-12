@@ -436,22 +436,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Função para verificar notificações
-    async function checkNotifications() {
-        try {
-            const response = await fetch('check_notifications.php');
-            const data = await response.json();
+    // async function checkNotifications() {
+    //     try {
+    //         const response = await fetch('check_notifications.php');
+    //         const data = await response.json();
             
-            if (data.success && data.hasNotification) {
-                const notification = data.notification;
-                showNotification(notification);
-            }
-        } catch (error) {
-            console.error('Erro ao verificar notificações:', error);
-        }
-    }
+    //         if (data.success && data.hasNotification) {
+    //             const notification = data.notification;
+    //             showNotification(notification);
+    //         }
+    //     } catch (error) {
+    //         console.error('Erro ao verificar notificações:', error);
+    //     }
+    // }
 
-    // Verifica notificações a cada 5 segundos
-    setInterval(checkNotifications, 500);
+    // // Verifica notificações a cada 5 segundos
+    // setInterval(checkNotifications, 500);
 });
 </script>
 
@@ -678,51 +678,51 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Verificar notificações a cada 5 segundos
-    setInterval(async function checkNotifications() {
-        const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
-        if (!currentSector) return;
+    // setInterval(async function checkNotifications() {
+    //     const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
+    //     if (!currentSector) return;
         
-        try {
-            const response = await fetch('check_notifications.php');
-            const data = await response.json();
+    //     try {
+    //         const response = await fetch('check_notifications.php');
+    //         const data = await response.json();
             
-            if (data.success && data.hasNotification) {
-                const notification = data.notification;
+    //         if (data.success && data.hasNotification) {
+    //             const notification = data.notification;
                 
-                // Verifica se a notificação é para o setor atual
-                if (notification.type === currentSector) {
-                    // Toca o som apenas quando recebe a notificação
-                    notificationSound.currentTime = 0;
-                    notificationSound.play().catch(console.error);
+    //             // Verifica se a notificação é para o setor atual
+    //             if (notification.type === currentSector) {
+    //                 // Toca o som apenas quando recebe a notificação
+    //                 notificationSound.currentTime = 0;
+    //                 notificationSound.play().catch(console.error);
                     
-                    showNotificationToast({
-                        type: notification.type,
-                        from_username: notification.from_username
-                    });
-                }
-                // Verifica notificações de status
-                else if (notification.type === 'auth_status' && currentSector === 'atendimento') {
-                    notificationSound.currentTime = 0;
-                    notificationSound.play().catch(console.error);
-                    showNotificationToast({
-                        type: 'auth_status',
-                        order_id: notification.order_id
-                    });
-                }
-                // Verifica notificações de autorização
-                else if (notification.type === 'auth_approved' && currentSector === 'tecnica') {
-                    notificationSound.currentTime = 0;
-                    notificationSound.play().catch(console.error);
-                    showNotificationToast({
-                        type: 'auth_approved',
-                        order_id: notification.order_id
-                    });
-                }
-            }
-        } catch (error) {
-            console.error('Erro ao verificar notificações:', error);
-        }
-    }, 1000);
+    //                 showNotificationToast({
+    //                     type: notification.type,
+    //                     from_username: notification.from_username
+    //                 });
+    //             }
+    //             // Verifica notificações de status
+    //             else if (notification.type === 'auth_status' && currentSector === 'atendimento') {
+    //                 notificationSound.currentTime = 0;
+    //                 notificationSound.play().catch(console.error);
+    //                 showNotificationToast({
+    //                     type: 'auth_status',
+    //                     order_id: notification.order_id
+    //                 });
+    //             }
+    //             // Verifica notificações de autorização
+    //             else if (notification.type === 'auth_approved' && currentSector === 'tecnica') {
+    //                 notificationSound.currentTime = 0;
+    //                 notificationSound.play().catch(console.error);
+    //                 showNotificationToast({
+    //                     type: 'auth_approved',
+    //                     order_id: notification.order_id
+    //                 });
+    //             }
+    //         }
+    //     } catch (error) {
+    //         console.error('Erro ao verificar notificações:', error);
+    //     }
+    // }, 1000);
 
     // Desabilita o botão de notificar se nenhum setor estiver selecionado
     if (!document.querySelector('input[name="sector"]:checked')) {
