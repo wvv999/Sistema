@@ -305,7 +305,7 @@ if(!isset($_SESSION['user_id'])) {
             <div class="search-container">
                 <div class="input-group">
                     <input type="text" class="form-control" id="searchInput" 
-                           placeholder="Digite o número da OS ou nome do cliente...">
+                           placeholder="Número da OS, nome do cliente, modelo ou defeito">
                     <button class="btn btn-primary" type="button" id="searchButton">
                         <i class="bi bi-search"></i> Buscar
                     </button>
