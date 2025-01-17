@@ -2,8 +2,6 @@
 session_start();
 
 
-$data =  date_default_timezone_set('America/Sao_Paulo');
-$data1 = date('H:i');
 
 if(!isset($_SESSION['current_sector'])) {
     // Se não existir na sessão, busca do banco
@@ -269,10 +267,6 @@ if(!isset($_SESSION['user_id'])) {
         <div class="welcome-header">
             <h2><i class="bi bi-grid-1x2"></i> Sistema Interno Tele Dil</h2>
 
-            <?php
-            // Exibe a data e hora atual
-            echo date('Y-m-d H:i:s'); 
-            ?>
 
             <div class="dropdown">
                 <div class="user-info" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -311,7 +305,7 @@ if(!isset($_SESSION['user_id'])) {
             <div class="search-container">
                 <div class="input-group">
                     <input type="text" class="form-control" id="searchInput" 
-                           placeholder="Digite o número da OS ou nome do cliente...">
+                           placeholder="Número da OS, nome do cliente, modelo ou defeito">
                     <button class="btn btn-primary" type="button" id="searchButton">
                         <i class="bi bi-search"></i> Buscar
                     </button>
@@ -372,7 +366,7 @@ if(!isset($_SESSION['user_id'])) {
                                 $clientName = htmlspecialchars($order['client_name']);
                                 $device_model = htmlspecialchars(mb_strimwidth($order['device_model'], 0, 50, "..."));
                                 $issue = htmlspecialchars(mb_strimwidth($order['reported_issue'], 0, 50, "..."));
-                                $createdAt = (new DateTime($order['created_at']))->format("d/m/Y  H:i");
+                                $createdAt = (new DateTime($order['created_at']))->format("H:i");
                                 $status = $order['status'] ?? 'não iniciada';
                                 $statusButton = OrderStatus::getStatusButton($status);
                                 
@@ -384,7 +378,7 @@ if(!isset($_SESSION['user_id'])) {
                                             <small class="text-muted d-block">Cliente: {$clientName}</small>
                                         </div>
                                         <div class="d-flex align-items-center gap-3">
-                                            <small class="text-muted">{$data1}</small>
+                                            <small class="text-muted">{$createdAt}</small>
                                             {$statusButton}
 
                                         </div>
@@ -442,22 +436,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Função para verificar notificações
-    async function checkNotifications() {
-        try {
-            const response = await fetch('check_notifications.php');
-            const data = await response.json();
+    // async function checkNotifications() {
+    //     try {
+    //         const response = await fetch('check_notifications.php');
+    //         const data = await response.json();
             
-            if (data.success && data.hasNotification) {
-                const notification = data.notification;
-                showNotification(notification);
-            }
-        } catch (error) {
-            console.error('Erro ao verificar notificações:', error);
-        }
-    }
+    //         if (data.success && data.hasNotification) {
+    //             const notification = data.notification;
+    //             showNotification(notification);
+    //         }
+    //     } catch (error) {
+    //         console.error('Erro ao verificar notificações:', error);
+    //     }
+    // }
 
-    // Verifica notificações a cada 5 segundos
-    setInterval(checkNotifications, 500);
+    // // Verifica notificações a cada 5 segundos
+    // setInterval(checkNotifications, 500);
 });
 </script>
 
@@ -684,51 +678,51 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Verificar notificações a cada 5 segundos
-    setInterval(async function checkNotifications() {
-        const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
-        if (!currentSector) return;
+    // setInterval(async function checkNotifications() {
+    //     const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
+    //     if (!currentSector) return;
         
-        try {
-            const response = await fetch('check_notifications.php');
-            const data = await response.json();
+    //     try {
+    //         const response = await fetch('check_notifications.php');
+    //         const data = await response.json();
             
-            if (data.success && data.hasNotification) {
-                const notification = data.notification;
+    //         if (data.success && data.hasNotification) {
+    //             const notification = data.notification;
                 
-                // Verifica se a notificação é para o setor atual
-                if (notification.type === currentSector) {
-                    // Toca o som apenas quando recebe a notificação
-                    notificationSound.currentTime = 0;
-                    notificationSound.play().catch(console.error);
+    //             // Verifica se a notificação é para o setor atual
+    //             if (notification.type === currentSector) {
+    //                 // Toca o som apenas quando recebe a notificação
+    //                 notificationSound.currentTime = 0;
+    //                 notificationSound.play().catch(console.error);
                     
-                    showNotificationToast({
-                        type: notification.type,
-                        from_username: notification.from_username
-                    });
-                }
-                // Verifica notificações de status
-                else if (notification.type === 'auth_status' && currentSector === 'atendimento') {
-                    notificationSound.currentTime = 0;
-                    notificationSound.play().catch(console.error);
-                    showNotificationToast({
-                        type: 'auth_status',
-                        order_id: notification.order_id
-                    });
-                }
-                // Verifica notificações de autorização
-                else if (notification.type === 'auth_approved' && currentSector === 'tecnica') {
-                    notificationSound.currentTime = 0;
-                    notificationSound.play().catch(console.error);
-                    showNotificationToast({
-                        type: 'auth_approved',
-                        order_id: notification.order_id
-                    });
-                }
-            }
-        } catch (error) {
-            console.error('Erro ao verificar notificações:', error);
-        }
-    }, 1000);
+    //                 showNotificationToast({
+    //                     type: notification.type,
+    //                     from_username: notification.from_username
+    //                 });
+    //             }
+    //             // Verifica notificações de status
+    //             else if (notification.type === 'auth_status' && currentSector === 'atendimento') {
+    //                 notificationSound.currentTime = 0;
+    //                 notificationSound.play().catch(console.error);
+    //                 showNotificationToast({
+    //                     type: 'auth_status',
+    //                     order_id: notification.order_id
+    //                 });
+    //             }
+    //             // Verifica notificações de autorização
+    //             else if (notification.type === 'auth_approved' && currentSector === 'tecnica') {
+    //                 notificationSound.currentTime = 0;
+    //                 notificationSound.play().catch(console.error);
+    //                 showNotificationToast({
+    //                     type: 'auth_approved',
+    //                     order_id: notification.order_id
+    //                 });
+    //             }
+    //         }
+    //     } catch (error) {
+    //         console.error('Erro ao verificar notificações:', error);
+    //     }
+    // }, 1000);
 
     // Desabilita o botão de notificar se nenhum setor estiver selecionado
     if (!document.querySelector('input[name="sector"]:checked')) {
