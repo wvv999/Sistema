@@ -63,7 +63,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
             width: 50%;
             padding: 0.5cm;
             box-sizing: border-box;
-            border-right: 1px dashed #000;
+            
             transform: scale(0.9);
             transform-origin: top center;
         }
