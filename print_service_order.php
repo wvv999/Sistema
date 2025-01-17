@@ -260,7 +260,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
             <div class="container-half">
                 <div class="container">
                     <div class="header">
-                        <!-- <div class="header-left">
+                        <div class="header-left">
                             <div class="title-container">
                                 <h1 class="brush-script">Tele Dil</h1>
                             </div>
@@ -268,7 +268,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                             <div class="company-info">Rua José de Quadros, 161</div>
                             <div class="company-info">Telefone: (51) 3561-5145</div>
                             <div class="company-info">WhatsApp: (51) 99538-4838</div>
-                        </div> -->
+                        </div>
                         <div class="header-right">
                             <div><?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
                             <div class="delivery-date">Entrega: <?php echo $delivery_date; ?></div>
