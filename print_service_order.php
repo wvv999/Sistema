@@ -63,7 +63,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
             width: 50%;
             padding: 0.5cm;
             box-sizing: border-box;
-            border-right: 1px dashed #000;
+            
             transform: scale(0.9);
             transform-origin: top center;
         }
@@ -270,7 +270,7 @@ $delivery_date = date("d/m", strtotime($order['delivery_date']));
                             <div class="company-info">WhatsApp: (51) 99538-4838</div>
                         </div>
                         <div class="header-right">
-                            <div>OS Nº <?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
+                            <div><?php echo str_pad($order['id'], 5, "0", STR_PAD_LEFT); ?></div>
                             <div class="delivery-date">Entrega: <?php echo $delivery_date; ?></div>
                         </div>
                     </div>
