@@ -57,17 +57,17 @@ try {
 }
 
 // Se houver um termo de busca, prepara o script para preencher o campo de pesquisa
-if (!empty($searchTerm)) {
-    echo "<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('orderSearch');
-            if (searchInput) {
-                searchInput.value = '" . htmlspecialchars($searchTerm) . "';
-                searchInput.dispatchEvent(new Event('input'));
-            }
-        });
-    </script>";
-}
+// if (!empty($searchTerm)) {
+//     echo "<script>
+//         document.addEventListener('DOMContentLoaded', function() {
+//             const searchInput = document.getElementById('orderSearch');
+//             if (searchInput) {
+//                 searchInput.value = '" . htmlspecialchars($searchTerm) . "';
+//                 searchInput.dispatchEvent(new Event('input'));
+//             }
+//         });
+//     </script>";
+// }
 ?>
 
 <!DOCTYPE html>
