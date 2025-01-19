@@ -280,7 +280,7 @@ try {
             </div>
 
             <div class="search-box">
-                <input type="text" class="form-control" id="orderSearch" placeholder="Buscar por cliente, dispositivo ou problema...">
+                <input type="text" class="form-control" id="orderSearch" placeholder="Busca específica">
             </div>
 
             <?php if (count($serviceOrders) > 0): ?>
