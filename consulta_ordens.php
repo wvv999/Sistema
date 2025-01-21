@@ -57,17 +57,17 @@ try {
 }
 
 // Se houver um termo de busca, prepara o script para preencher o campo de pesquisa
-if (!empty($searchTerm)) {
-    echo "<script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('orderSearch');
-            if (searchInput) {
-                searchInput.value = '" . htmlspecialchars($searchTerm) . "';
-                searchInput.dispatchEvent(new Event('input'));
-            }
-        });
-    </script>";
-}
+// if (!empty($searchTerm)) {
+//     echo "<script>
+//         document.addEventListener('DOMContentLoaded', function() {
+//             const searchInput = document.getElementById('orderSearch');
+//             if (searchInput) {
+//                 searchInput.value = '" . htmlspecialchars($searchTerm) . "';
+//                 searchInput.dispatchEvent(new Event('input'));
+//             }
+//         });
+//     </script>";
+// }
 ?>
 
 <!DOCTYPE html>
@@ -271,16 +271,16 @@ if (!empty($searchTerm)) {
         
     <div class="container">
         <div class="dashboard-container">
-            <div class="welcome-header">
+            <!-- <div class="welcome-header">
                 <h2><i class="bi bi-file-earmark-text"></i> Lista de Ordens de Serviço</h2>
                 <div class="user-info">
                     <i class="bi bi-person-circle"></i>
                     Bem-vindo, <?php echo htmlspecialchars($_SESSION['username']); ?>
                 </div>
-            </div>
+            </div> -->
 
             <div class="search-box">
-                <input type="text" class="form-control" id="orderSearch" placeholder="Buscar por cliente, dispositivo ou problema...">
+                <input type="text" class="form-control" id="orderSearch" placeholder="Busca específica">
             </div>
 
             <?php if (count($serviceOrders) > 0): ?>
