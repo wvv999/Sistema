@@ -786,7 +786,7 @@ try {
             }, 3000);
         }
 
-        // Função para adicionar nota técnica
+        // Função para adicionar nota técnica TESTE
         async function addNote() {
             const noteText = document.getElementById('newNote').value.trim();
             if (!noteText) {
