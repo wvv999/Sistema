@@ -132,7 +132,6 @@ try {
             font-size: 0.875rem;
         }
 
-        /* Status styles */
         .status-indicator {
             min-width: 140px;
             text-align: center;
@@ -221,7 +220,6 @@ try {
             color: #666;
         }
 
-        /* Layout responsivo */
         @media (max-width: 768px) {
             .dashboard-container {
                 margin: 10px;
