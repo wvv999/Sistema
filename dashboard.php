@@ -264,7 +264,7 @@ if(!isset($_SESSION['user_id'])) {
             flex: 1 1 45%;
             height: 60px;
             background: white;
-            box-shadow: 10px 10px 0px -7px rgba(0, 0, 0, 0.27);
+            box-shadow: 0px 0px 8px -2px rgba(0,0,0,0.75);
             border-radius: 10px;
         }
         .botao > a{
