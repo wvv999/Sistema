@@ -254,28 +254,6 @@ if(!isset($_SESSION['user_id'])) {
             margin-top: 100px;
         }
         } */
-         
-        .divbotoes{
-            display:flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .botao{
-            flex: 1 1 45%;
-            height: 60px;
-            background: white;
-            box-shadow: 0px 3px 8px -2px rgba(0, 0, 0, 0.15);
-            border-radius: 10px;
-            color:black;
-            padding: 15px;
-            font-size: larger;
-        }
-        .botao > a{
-            width: 100%;
-            height: 100%;
-            text-decoration: none;
-            color:black;
-        }
     </style>
 </head>
 <body class="bg-light">
@@ -334,31 +312,30 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
             </div>
 
-            <div class="divbotoes">
-
-                <div class="botao"><!--class="col-md-6 botao" -->
-                     <a href="service_order.php" > <!--class="btn btn-outline-success w-100 nav-button" -->
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
                         <i class="bi bi-file-earmark-text"></i>
                         Nova Ordem de Serviço 
                     </a>
                 </div>
 
-                <div class="botao"><!--class="col-md-6" -->
-                    <a href="users.php" ><!-- class="btn btn-outline-info w-100 nav-button"-->
+                <div class="col-md-6">
+                    <a href="users.php" class="btn btn-outline-info w-100 nav-button">
                         <i class="bi bi-person-plus"></i>
                         Usuários
                     </a>
                 </div>
                 
-                <div class="botao">
-                    <a href="clientes.php" > <!--class="btn btn-outline-success w-100 nav-button" -->
+                <div class="col-md-6">
+                    <a href="clientes.php" class="btn btn-outline-success w-100 nav-button">
                         <i class="bi bi-person-lines-fill"></i>
                         Cadastro de Clientes
                     </a>
                 </div>
 
-                <div class="botao">
-                    <a href="gestao.php" > <!--class="btn btn-outline-info w-100 nav-button" -->
+                <div class="col-md-6">
+                    <a href="gestao.php" class="btn btn-outline-info w-100 nav-button">
                         <i class="bi bi-gear stats-icon"></i>
                         Gestão
                     </a>
