@@ -400,40 +400,40 @@ if(!isset($_SESSION['user_id'])) {
 <div id="notification-container"></div>
 
 <script type="text/javascript">
-document.addEventListener('DOMContentLoaded', function() {
-    // Configuração do som de notificação
-    let notificationSound = new Audio('/assets/som.mp3');
-    notificationSound.load();
+// document.addEventListener('DOMContentLoaded', function() {
+//     // Configuração do som de notificação
+//     let notificationSound = new Audio('/assets/som.mp3');
+//     notificationSound.load();
 
-    // Função para mostrar notificação
-    function showNotification(notification) {
-        const toast = document.createElement('div');
-        toast.className = 'notification-persistent';
+//     // Função para mostrar notificação
+//     function showNotification(notification) {
+//         const toast = document.createElement('div');
+//         toast.className = 'notification-persistent';
         
-        // Define o conteúdo do toast baseado no tipo de notificação
-        toast.innerHTML = `
-            <div class="toast-header bg-primary text-white">
-                <strong class="me-auto">Nova Chamada</strong>
-                <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
-            </div>
-            <div class="toast-body">
-                <div class="d-flex align-items-center">
-                    <i class="bi bi-bell me-2"></i>
-                    <span>Chamada do setor ${notification.type === 'tecnica' ? 'Técnico' : 'Atendimento'}</span>
-                </div>
-                <small class="text-muted">De: ${notification.from_username}</small>
-            </div>
-        `;
+//         // Define o conteúdo do toast baseado no tipo de notificação
+//         toast.innerHTML = `
+//             <div class="toast-header bg-primary text-white">
+//                 <strong class="me-auto">Nova Chamada</strong>
+//                 <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+//             </div>
+//             <div class="toast-body">
+//                 <div class="d-flex align-items-center">
+//                     <i class="bi bi-bell me-2"></i>
+//                     <span>Chamada do setor ${notification.type === 'tecnica' ? 'Técnico' : 'Atendimento'}</span>
+//                 </div>
+//                 <small class="text-muted">De: ${notification.from_username}</small>
+//             </div>
+//         `;
         
-        document.body.appendChild(toast);
+//         document.body.appendChild(toast);
         
-        // Toca o som
-        notificationSound.currentTime = 0;
-        notificationSound.play().catch(console.error);
+//         // Toca o som
+//         notificationSound.currentTime = 0;
+//         notificationSound.play().catch(console.error);
         
-        // Remove a notificação após 5 segundos
-        setTimeout(() => toast.remove(), 5000);
-    }
+//         // Remove a notificação após 5 segundos
+//         setTimeout(() => toast.remove(), 5000);
+//     }
 
     // Função para verificar notificações
     // async function checkNotifications() {
@@ -452,8 +452,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // // Verifica notificações a cada 5 segundos
     // setInterval(checkNotifications, 500);
-});
-</script>
+// });
+// </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
