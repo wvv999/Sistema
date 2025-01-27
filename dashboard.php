@@ -295,7 +295,7 @@ if(!isset($_SESSION['user_id'])) {
                             <i class="bi bi-bell"></i> Chamar Setor
                         </button>
                     </li> -->
-                    <li><hr class="dropdown-divider"></li>
+                    <!-- <li><hr class="dropdown-divider"></li> -->
                     <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
                 </ul>
             </div>
