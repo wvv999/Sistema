@@ -254,8 +254,14 @@ if(!isset($_SESSION['user_id'])) {
             margin-top: 100px;
         }
         } */
+         
+        .divbotoes{
+            display:flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
         .botao{
-            width: 40%;
+            flex: 1 1 45%;
             height: 40px;
             background: red;
         }
@@ -317,30 +323,31 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6 botao">
+            <div class="divbotoes">
+
+                <div class="botao"><!--class="col-md-6 botao" -->
                      <a href="service_order.php" > <!--class="btn btn-outline-success w-100 nav-button" -->
                         <i class="bi bi-file-earmark-text"></i>
                         Nova Ordem de Serviço 
                     </a>
                 </div>
 
-                <div class="col-md-6">
-                    <a href="users.php" class="btn btn-outline-info w-100 nav-button">
+                <div class="botao"><!--class="col-md-6" -->
+                    <a href="users.php" ><!-- class="btn btn-outline-info w-100 nav-button"-->
                         <i class="bi bi-person-plus"></i>
                         Usuários
                     </a>
                 </div>
                 
-                <div class="col-md-6">
-                    <a href="clientes.php" class="btn btn-outline-success w-100 nav-button">
+                <div class="botao">
+                    <a href="clientes.php" > <!--class="btn btn-outline-success w-100 nav-button" -->
                         <i class="bi bi-person-lines-fill"></i>
                         Cadastro de Clientes
                     </a>
                 </div>
 
-                <div class="col-md-6">
-                    <a href="gestao.php" class="btn btn-outline-info w-100 nav-button">
+                <div class="botao">
+                    <a href="gestao.php" > <!--class="btn btn-outline-info w-100 nav-button" -->
                         <i class="bi bi-gear stats-icon"></i>
                         Gestão
                     </a>
