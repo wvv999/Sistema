@@ -270,6 +270,7 @@ if(!isset($_SESSION['user_id'])) {
         .botao > a{
             width: 100%;
             height: 100%;
+            text-decoration: none;
         }
     </style>
 </head>
