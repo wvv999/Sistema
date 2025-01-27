@@ -254,6 +254,11 @@ if(!isset($_SESSION['user_id'])) {
             margin-top: 100px;
         }
         } */
+        .botao{
+            width: 100%;
+            height: 40px;
+            background: red;
+        }
     </style>
 </head>
 <body class="bg-light">
