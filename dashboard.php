@@ -255,7 +255,7 @@ if(!isset($_SESSION['user_id'])) {
         }
         } */
         .botao{
-            width: 100%;
+            width: 40%;
             height: 40px;
             background: red;
         }
