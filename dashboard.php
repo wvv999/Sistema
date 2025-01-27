@@ -57,13 +57,8 @@ if(!isset($_SESSION['user_id'])) {
             padding-bottom: 15px;
             border-bottom: 1px solid #eee;
         }
-        .div-buttons{
-            display:flex;
-            flex-wrap: wrap;
-            gap:10%;
-        }
+
         .nav-button {
-            flex: 1 1 45%;
             margin-bottom: 15px;
             padding: 15px;
             text-align: left;
@@ -317,31 +312,30 @@ if(!isset($_SESSION['user_id'])) {
                 </div>
             </div>
 
-            <div class="div-buttons">
-
-                <div class="nav-button">
-                    <a href="service_order.php" class="nav-button">
+            <div class="row">
+                <div class="col-md-6">
+                    <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
                         <i class="bi bi-file-earmark-text"></i>
                         Nova Ordem de Serviço 
                     </a>
                 </div>
 
-                <div class="nav-button">
-                    <a href="users.php" class="nav-button">
+                <div class="col-md-6">
+                    <a href="users.php" class="btn btn-outline-info w-100 nav-button">
                         <i class="bi bi-person-plus"></i>
                         Usuários
                     </a>
                 </div>
                 
-                <div class="nav-button">
-                    <a href="clientes.php" class="nav-button">
+                <div class="col-md-6">
+                    <a href="clientes.php" class="btn btn-outline-success w-100 nav-button">
                         <i class="bi bi-person-lines-fill"></i>
                         Cadastro de Clientes
                     </a>
                 </div>
 
-                <div class="nav-button">
-                    <a href="gestao.php" class="nav-button">
+                <div class="col-md-6">
+                    <a href="gestao.php" class="btn btn-outline-info w-100 nav-button">
                         <i class="bi bi-gear stats-icon"></i>
                         Gestão
                     </a>
