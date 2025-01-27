@@ -262,8 +262,8 @@ if(!isset($_SESSION['user_id'])) {
         }
         .botao{
             flex: 1 1 45%;
-            height: 40px;
-            background: red;
+            height: 60px;
+            background: white;
         }
     </style>
 </head>
