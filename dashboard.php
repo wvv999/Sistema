@@ -275,7 +275,7 @@ if(!isset($_SESSION['user_id'])) {
                     <i class="bi bi-chevron-down ms-1"></i>
                 </div>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li class="px-3 py-2">
+                    <!-- <li class="px-3 py-2">
 
                         <div class="sector-selection">
 
@@ -294,7 +294,7 @@ if(!isset($_SESSION['user_id'])) {
                         <button id="notifyButton" class="btn btn-warning btn-sm w-100 mt-2">
                             <i class="bi bi-bell"></i> Chamar Setor
                         </button>
-                    </li>
+                    </li> -->
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
                 </ul>
