@@ -264,6 +264,7 @@ if(!isset($_SESSION['user_id'])) {
             flex: 1 1 45%;
             height: 60px;
             background: white;
+            box-shadow: 10px 10px 8px -7px rgba(0,0,0,0.75);
         }
     </style>
 </head>
