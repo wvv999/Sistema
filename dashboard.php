@@ -3,11 +3,11 @@ session_start();
 
 
 
-if(!isset($_SESSION['current_sector'])) {
+if (!isset($_SESSION['current_sector'])) {
     // Se não existir na sessão, busca do banco
     $database = new Database();
     $db = $database->getConnection();
-    
+
     $query = "SELECT current_sector FROM users WHERE id = ?";
     $stmt = $db->prepare($query);
     $stmt->execute([$_SESSION['user_id']]);
@@ -16,7 +16,7 @@ if(!isset($_SESSION['current_sector'])) {
 
 // Debug - remover depois
 error_log('Current Sector: ' . $_SESSION['current_sector']);
-if(!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit;
 }
@@ -24,6 +24,7 @@ if(!isset($_SESSION['user_id'])) {
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,20 +32,23 @@ if(!isset($_SESSION['user_id'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
-        body{
+        body {
             padding: 20px;
         }
 
-        body::-webkit-scrollbar{
+        body::-webkit-scrollbar {
             display: none;
         }
-        
-        .container { padding-top: 2rem; padding-bottom: 2rem; }
-        
+
+        .container {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
         .dashboard-container {
             background-color: white;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-top: 20px;
         }
@@ -67,7 +71,9 @@ if(!isset($_SESSION['user_id'])) {
             border-color: #2c3e50 !important;
         }
 
-        .nav-button i { margin-right: 10px; }
+        .nav-button i {
+            margin-right: 10px;
+        }
 
         .nav-button:hover {
             background-color: #2c3e50 !important;
@@ -86,7 +92,7 @@ if(!isset($_SESSION['user_id'])) {
             padding: 15px;
             background-color: #f8f9fa;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .recent-orders-list .list-group-item {
@@ -140,18 +146,37 @@ if(!isset($_SESSION['user_id'])) {
         .status-indicator i {
             font-size: 0.9em;
         }
-        
-        .não-iniciada {background: #e74c3c; color: white}
-        .em-andamento {background: #f39c12; color: white}
-        .concluída {background: #27ae60; color: white}
-        .pronto-e-avisado {background: #3498db; color: white}
-        .entregue {background: #2c3e50; color: white}
+
+        .não-iniciada {
+            background: #e74c3c;
+            color: white
+        }
+
+        .em-andamento {
+            background: #f39c12;
+            color: white
+        }
+
+        .concluída {
+            background: #27ae60;
+            color: white
+        }
+
+        .pronto-e-avisado {
+            background: #3498db;
+            color: white
+        }
+
+        .entregue {
+            background: #2c3e50;
+            color: white
+        }
 
         .notification-section {
             background: white;
             padding: 15px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
 
@@ -174,8 +199,8 @@ if(!isset($_SESSION['user_id'])) {
             z-index: 1060;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            border: 1px solid rgba(0,0,0,0.1);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .notification-persistent .toast-header {
@@ -190,6 +215,7 @@ if(!isset($_SESSION['user_id'])) {
         .notification-persistent .btn {
             width: 100%;
         }
+
         .user-info {
             background-color: #f8f9fa;
             padding: 8px 15px;
@@ -210,6 +236,7 @@ if(!isset($_SESSION['user_id'])) {
         .sector-selection {
             white-space: nowrap;
         }
+
         .notification-persistent {
             position: fixed;
             bottom: 20px;
@@ -218,7 +245,7 @@ if(!isset($_SESSION['user_id'])) {
             z-index: 1060;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             animation: slideIn 0.3s ease;
         }
 
@@ -236,16 +263,19 @@ if(!isset($_SESSION['user_id'])) {
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
             }
         }
-        nume-ordem{
-            color:red;
+
+        nume-ordem {
+            color: red;
             font-weight: bold;
         }
-        modelo{
+
+        modelo {
             font-weight: bold;
         }
 
@@ -256,6 +286,7 @@ if(!isset($_SESSION['user_id'])) {
         } */
     </style>
 </head>
+
 <body class="bg-light">
 
     <!-- <a href="logout.php" class="btn btn-outline-danger logout-btn">
@@ -264,18 +295,18 @@ if(!isset($_SESSION['user_id'])) {
 
     <div class="container">
         <div class="dashboard-container">
-        <div class="welcome-header">
-            <h2><i class="bi bi-grid-1x2"></i> Sistema Interno Tele Dil</h2>
+            <div class="welcome-header">
+                <h2><i class="bi bi-grid-1x2"></i> Sistema Interno Tele Dil</h2>
 
 
-            <div class="dropdown">
-                <div class="user-info" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle"></i>
-                    <?php echo htmlspecialchars($_SESSION['username']); ?>
-                    <i class="bi bi-chevron-down ms-1"></i>
-                </div>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <!-- <li class="px-3 py-2">
+                <div class="dropdown">
+                    <div class="user-info" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i>
+                        <?php echo htmlspecialchars($_SESSION['username']); ?>
+                        <i class="bi bi-chevron-down ms-1"></i>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <!-- <li class="px-3 py-2">
 
                         <div class="sector-selection">
 
@@ -295,17 +326,17 @@ if(!isset($_SESSION['user_id'])) {
                             <i class="bi bi-bell"></i> Chamar Setor
                         </button>
                     </li> -->
-                    <!-- <li><hr class="dropdown-divider"></li> -->
-                    <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
-                </ul>
+                        <!-- <li><hr class="dropdown-divider"></li> -->
+                        <li><a class="dropdown-item text-danger" href="logout.php"><i class="bi bi-box-arrow-right"></i> Sair</a></li>
+                    </ul>
+                </div>
             </div>
-        </div>
 
 
             <div class="search-container">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="searchInput" 
-                           placeholder="Número da OS, nome do cliente, modelo ou defeito">
+                    <input type="text" class="form-control" id="searchInput"
+                        placeholder="Número da OS, nome do cliente, modelo ou defeito">
                     <button class="btn btn-primary" type="button" id="searchButton">
                         <i class="bi bi-search"></i> Buscar
                     </button>
@@ -316,7 +347,7 @@ if(!isset($_SESSION['user_id'])) {
                 <div class="col-md-6">
                     <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
                         <i class="bi bi-file-earmark-text"></i>
-                        Nova Ordem de Serviço 
+                        Nova Ordem de Serviço
                     </a>
                 </div>
 
@@ -326,7 +357,7 @@ if(!isset($_SESSION['user_id'])) {
                         Usuários
                     </a>
                 </div>
-                
+
                 <div class="col-md-6">
                     <a href="clientes.php" class="btn btn-outline-success w-100 nav-button">
                         <i class="bi bi-person-lines-fill"></i>
@@ -353,11 +384,11 @@ if(!isset($_SESSION['user_id'])) {
                     <?php
                     require_once 'recent_orders.php';
                     require_once 'orderStatus.php';
-                    
+
                     try {
                         $recentOrders = new RecentOrders();
                         $orders = $recentOrders->getRecentOrders(5);
-                        
+
                         if (empty($orders)) {
                             echo '<li class="list-group-item">Nenhuma ordem de serviço recente encontrada.</li>';
                         } else {
@@ -369,7 +400,7 @@ if(!isset($_SESSION['user_id'])) {
                                 $createdAt = (new DateTime($order['created_at']))->format("H:i");
                                 $status = $order['status'] ?? 'não iniciada';
                                 $statusButton = OrderStatus::getStatusButton($status);
-                                
+
                                 echo <<<HTML
                                 <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
                                     <div class="d-flex justify-content-between align-items-center">
@@ -396,356 +427,80 @@ if(!isset($_SESSION['user_id'])) {
             </div>
         </div>
     </div>
-    <!-- Antes do fechamento do </body> no dashboard.php -->
-<div id="notification-container"></div>
 
-<script type="text/javascript">
-// document.addEventListener('DOMContentLoaded', function() {
-//     // Configuração do som de notificação
-//     let notificationSound = new Audio('/assets/som.mp3');
-//     notificationSound.load();
 
-//     // Função para mostrar notificação
-//     function showNotification(notification) {
-//         const toast = document.createElement('div');
-//         toast.className = 'notification-persistent';
-        
-//         // Define o conteúdo do toast baseado no tipo de notificação
-//         toast.innerHTML = `
-//             <div class="toast-header bg-primary text-white">
-//                 <strong class="me-auto">Nova Chamada</strong>
-//                 <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
-//             </div>
-//             <div class="toast-body">
-//                 <div class="d-flex align-items-center">
-//                     <i class="bi bi-bell me-2"></i>
-//                     <span>Chamada do setor ${notification.type === 'tecnica' ? 'Técnico' : 'Atendimento'}</span>
-//                 </div>
-//                 <small class="text-muted">De: ${notification.from_username}</small>
-//             </div>
-//         `;
-        
-//         document.body.appendChild(toast);
-        
-//         // Toca o som
-//         notificationSound.currentTime = 0;
-//         notificationSound.play().catch(console.error);
-        
-//         // Remove a notificação após 5 segundos
-//         setTimeout(() => toast.remove(), 5000);
-//     }
 
-    // Função para verificar notificações
-    // async function checkNotifications() {
-    //     try {
-    //         const response = await fetch('check_notifications.php');
-    //         const data = await response.json();
-            
-    //         if (data.success && data.hasNotification) {
-    //             const notification = data.notification;
-    //             showNotification(notification);
-    //         }
-    //     } catch (error) {
-    //         console.error('Erro ao verificar notificações:', error);
-    //     }
-    // }
 
-    // // Verifica notificações a cada 5 segundos
-    // setInterval(checkNotifications, 500);
-// });
-// </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Inicializa tooltips
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Primeiro vamos verificar se conseguimos pegar os elementos
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
 
-    // Configuração do som e elementos de notificação
-    let notificationSound = new Audio('assets/som.mp3');
-    notificationSound.load();
+            console.log('Input encontrado:', searchInput);
+            console.log('Botão encontrado:', searchButton);
 
-    // Elementos do setor
-    const sectorInputs = document.querySelectorAll('input[name="sector"]');
-    const notifyButton = document.getElementById('notifyButton');
-    
-    // Carrega o setor atual do usuário da sessão PHP
-    const currentSector = <?php echo json_encode($_SESSION['current_sector'] ?? ''); ?>;
-    
-    console.log('Current Sector:', currentSector); // Debug
+            // Função de busca com logs para debug
+            async function searchOrder() {
+                console.log('Função searchOrder iniciada');
 
-    // Marca o radio button correto baseado no setor atual
-    if (currentSector) {
-        const radioToCheck = document.querySelector(`input[name="sector"][value="${currentSector}"]`);
-        if (radioToCheck) {
-            radioToCheck.checked = true;
-            // Atualiza o texto do botão imediatamente
-            const targetSector = currentSector === 'atendimento' ? 'Técnica' : 'Atendimento';
-            notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
-            notifyButton.disabled = false;
-        }
-    }
+                const searchValue = searchInput.value.trim();
+                console.log('Valor da busca:', searchValue);
 
-    // Atualiza setor do usuário
-    sectorInputs.forEach(input => {
-        input.addEventListener('change', async function() {
-            try {
-                const response = await fetch('update_user_sector.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        sector: this.value
-                    })
-                });
-                
-                const data = await response.json();
-                if (data.success) {
-                    showToast('Setor atualizado com sucesso!', 'success');
-                    // Atualiza o texto do botão
-                    const targetSector = this.value === 'atendimento' ? 'Técnica' : 'Atendimento';
-                    notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
-                    notifyButton.disabled = false;
+                if (!searchValue) {
+                    alert('Por favor, digite um número de OS ou nome do cliente');
+                    return;
                 }
-            } catch (error) {
-                console.error('Erro ao atualizar setor:', error);
-                showToast('Erro ao atualizar setor', 'error');
+
+                try {
+                    console.log('Iniciando fetch para:', `search_order.php?search=${encodeURIComponent(searchValue)}`);
+
+                    const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
+                    const data = await response.json();
+
+                    console.log('Resposta da busca:', data);
+
+                    if (data.success) {
+                        if (data.data.length === 1 && !isNaN(searchValue)) {
+                            console.log('Redirecionando para view_order.php');
+                            window.location.href = `view_order.php?id=${data.data[0].id}`;
+                        } else {
+                            console.log('Redirecionando para consulta_ordens.php');
+                            window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
+                        }
+                    } else {
+                        console.log('Nenhum resultado encontrado');
+                        window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
+                    }
+                } catch (error) {
+                    console.error('Erro na busca:', error);
+                    alert('Erro ao realizar a busca');
+                }
+            }
+
+            // Registrando eventos com confirmação no console
+            if (searchButton) {
+                console.log('Adicionando evento de click ao botão');
+                searchButton.addEventListener('click', () => {
+                    console.log('Botão foi clicado!');
+                    searchOrder();
+                });
+            }
+
+            if (searchInput) {
+                console.log('Adicionando evento de keydown ao input');
+                searchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        console.log('Enter pressionado!');
+                        e.preventDefault();
+                        searchOrder();
+                    }
+                });
             }
         });
-    });
-
-    // Notificar outro setor
-    notifyButton.addEventListener('click', async function() {
-        const selectedInput = document.querySelector('input[name="sector"]:checked');
-        
-        if (!selectedInput) {
-            showToast('Selecione um setor primeiro', 'error');
-            return;
-        }
-
-        const currentSector = selectedInput.value;
-        const targetSector = currentSector === 'atendimento' ? 'tecnica' : 'atendimento';
-    
-        try {
-            const response = await fetch('send_notification.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    sector: targetSector,
-                    from_user: <?php echo $_SESSION['user_id']; ?>
-                })
-            });
-
-            const data = await response.json();
-            
-            if (data.success) {
-                // Apenas mostra um toast discreto de confirmação
-                showToast('Chamada enviada', 'success');
-            } else {
-                showToast('Erro ao enviar notificação: ' + data.message, 'error');
-            }
-        } catch (error) {
-            console.error('Erro ao enviar notificação:', error);
-            showToast('Erro ao enviar notificação', 'error');
-        }
-    });
-
-    // Sistema de busca
-    const searchInput = document.getElementById('searchInput');
-    const searchButton = document.getElementById('searchButton');
-
-    async function searchOrder() {
-        const searchValue = searchInput.value.trim();
-        if (!searchValue) {
-            alert('Por favor, digite um número de OS ou nome do cliente');
-            return;
-        }
-
-        try {
-            // Primeiro faz uma busca para verificar quantos resultados existem
-            const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
-            const data = await response.json();
-            
-            if (data.success) {
-                // Se encontrou exatamente uma ordem e é um número de OS
-                if (data.data.length === 1 && !isNaN(searchValue)) {
-                    // Redireciona diretamente para a visualização da ordem
-                    window.location.href = `view_order.php?id=${data.data[0].id}`;
-                } else {
-                    // Se houver múltiplos resultados ou for uma busca por texto
-                    window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
-                }
-            } else {
-                // Se não encontrou nenhum resultado
-                window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
-            }
-        } catch (error) {
-            console.error('Erro na busca:', error);
-            alert('Erro ao realizar a busca');
-        }
-    }
-
-    // Event listeners para busca
-    searchButton.addEventListener('click', searchOrder);
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') searchOrder();
-    });
-
-    // Sistema de notificações toast
-    function showToast(message, type = 'success') {
-        const toast = document.createElement('div');
-        toast.className = `toast show position-fixed bottom-0 end-0 m-3`;
-        toast.style.zIndex = '1050';
-        
-        toast.innerHTML = `
-            <div class="toast-header bg-${type === 'success' ? 'success' : 'danger'} text-white">
-                <strong class="me-auto">${type === 'success' ? 'Sucesso' : 'Erro'}</strong>
-                <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
-            </div>
-            <div class="toast-body">
-                ${message}
-            </div>
-        `;
-        
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 3000);
-    }
-
-    function showNotificationToast(notification) {
-        if (notification.type === 'auth_status') {
-            const toast = document.createElement('div');
-            toast.className = 'notification-persistent';
-            toast.innerHTML = `
-                <div class="toast-header bg-warning">
-                    <strong class="me-auto">Solicitação de Autorização</strong>
-                </div>
-                <div class="toast-body">
-                    <p>Ordem número ${notification.order_id} necessita solicitação</p>
-                    <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
-                            class="btn btn-primary mt-2">
-                        <i class="bi bi-eye"></i> Abrir Ordem
-                    </button>
-                </div>
-            `;
-            document.body.appendChild(toast);
-        } 
-        else if (notification.type === 'auth_approved') {
-            const toast = document.createElement('div');
-            toast.className = 'notification-persistent';
-            toast.innerHTML = `
-                <div class="toast-header bg-success text-white">
-                    <strong class="me-auto">Autorização Concedida</strong>
-                </div>
-                <div class="toast-body">
-                    <p>Ordem número ${notification.order_id} foi autorizada</p>
-                    <button onclick="window.location.href='view_order.php?id=${notification.order_id}'" 
-                            class="btn btn-primary mt-2">
-                        <i class="bi bi-eye"></i> Abrir Ordem
-                    </button>
-                </div>
-            `;
-            document.body.appendChild(toast);
-        }
-        else {
-            const toast = document.createElement('div');
-            toast.className = 'toast show position-fixed bottom-0 end-0 m-3';
-            toast.style.zIndex = '1050';
-            
-            toast.innerHTML = `
-                <div class="toast-header bg-primary text-white">
-                    <strong class="me-auto">Nova Chamada</strong>
-                    <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
-                </div>
-                <div class="toast-body">
-                    <div class="d-flex align-items-center">
-                        <i class="bi bi-bell me-2"></i>
-                        <span>Chamada do setor ${notification.type}</span>
-                    </div>
-                    <small class="text-muted">De: ${notification.from_username}</small>
-                </div>
-            `;
-            
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 1000);
-        }
-    }
-
-    // Verificar notificações a cada 5 segundos
-    // setInterval(async function checkNotifications() {
-    //     const currentSector = document.querySelector('input[name="sector"]:checked')?.value;
-    //     if (!currentSector) return;
-        
-    //     try {
-    //         const response = await fetch('check_notifications.php');
-    //         const data = await response.json();
-            
-    //         if (data.success && data.hasNotification) {
-    //             const notification = data.notification;
-                
-    //             // Verifica se a notificação é para o setor atual
-    //             if (notification.type === currentSector) {
-    //                 // Toca o som apenas quando recebe a notificação
-    //                 notificationSound.currentTime = 0;
-    //                 notificationSound.play().catch(console.error);
-                    
-    //                 showNotificationToast({
-    //                     type: notification.type,
-    //                     from_username: notification.from_username
-    //                 });
-    //             }
-    //             // Verifica notificações de status
-    //             else if (notification.type === 'auth_status' && currentSector === 'atendimento') {
-    //                 notificationSound.currentTime = 0;
-    //                 notificationSound.play().catch(console.error);
-    //                 showNotificationToast({
-    //                     type: 'auth_status',
-    //                     order_id: notification.order_id
-    //                 });
-    //             }
-    //             // Verifica notificações de autorização
-    //             else if (notification.type === 'auth_approved' && currentSector === 'tecnica') {
-    //                 notificationSound.currentTime = 0;
-    //                 notificationSound.play().catch(console.error);
-    //                 showNotificationToast({
-    //                     type: 'auth_approved',
-    //                     order_id: notification.order_id
-    //                 });
-    //             }
-    //         }
-    //     } catch (error) {
-    //         console.error('Erro ao verificar notificações:', error);
-    //     }
-    // }, 1000);
-
-    // Desabilita o botão de notificar se nenhum setor estiver selecionado
-    if (!document.querySelector('input[name="sector"]:checked')) {
-        notifyButton.disabled = true;
-    }
-
-    // Atualiza o texto do botão baseado no setor atual
-    if (currentSector) {
-        const targetSector = currentSector === 'atendimento' ? 'Técnica' : 'Atendimento';
-        notifyButton.innerHTML = `<i class="bi bi-bell"></i> Chamar ${targetSector}`;
-    }
-
-    // Botão de teste de som
-    //const testButton = document.createElement('button');
-    //testButton.className = 'btn btn-sm btn-outline-secondary position-fixed';
-    //testButton.style.bottom = '20px';
-    //testButton.style.left = '20px';
-    //testButton.innerHTML = '<i class="bi bi-volume-up"></i> Testar Som';
-    //testButton.onclick = () => {
-    //    notificationSound.play().catch(e => console.error('Erro ao testar som:', e));
-    //};
-    //document.body.appendChild(testButton);
-});
-</script>
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
