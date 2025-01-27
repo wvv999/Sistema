@@ -58,7 +58,7 @@ if(!isset($_SESSION['user_id'])) {
             border-bottom: 1px solid #eee;
         }
 
-        /* .nav-button {
+        .nav-button {
             margin-bottom: 15px;
             padding: 15px;
             text-align: left;
@@ -72,7 +72,7 @@ if(!isset($_SESSION['user_id'])) {
         .nav-button:hover {
             background-color: #2c3e50 !important;
             color: white !important;
-        } */
+        }
 
         .logout-btn {
             position: absolute;
@@ -314,28 +314,28 @@ if(!isset($_SESSION['user_id'])) {
 
             <div class="row">
                 <div class="col-md-6">
-                    <a href="service_order.php" class="btn btn-outline-success w-100 nav-button">
+                    <a href="service_order.php" class="nav-button">
                         <i class="bi bi-file-earmark-text"></i>
                         Nova Ordem de Serviço 
                     </a>
                 </div>
 
                 <div class="col-md-6">
-                    <a href="users.php" class="btn btn-outline-info w-100 nav-button">
+                    <a href="users.php" class="nav-button">
                         <i class="bi bi-person-plus"></i>
                         Usuários
                     </a>
                 </div>
                 
                 <div class="col-md-6">
-                    <a href="clientes.php" class="btn btn-outline-success w-100 nav-button">
+                    <a href="clientes.php" class="nav-button">
                         <i class="bi bi-person-lines-fill"></i>
                         Cadastro de Clientes
                     </a>
                 </div>
 
                 <div class="col-md-6">
-                    <a href="gestao.php" class="btn btn-outline-info w-100 nav-button">
+                    <a href="gestao.php" class="nav-button">
                         <i class="bi bi-gear stats-icon"></i>
                         Gestão
                     </a>
