@@ -267,7 +267,7 @@ if(!isset($_SESSION['user_id'])) {
             box-shadow: 0px 3px 8px -2px rgba(0, 0, 0, 0.15);
             border-radius: 10px;
             color:black;
-            padding: 10px;
+            padding: 15px;
             font-size: larger;
         }
         .botao > a{
