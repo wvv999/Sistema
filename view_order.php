@@ -403,25 +403,6 @@ try {
             transition: var(--transition);
         }
 
-        /* Toast notifications */
-        .toast-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-
-        .toast {
-            padding: 12px 20px;
-            border-radius: var(--border-radius);
-            background: white;
-            box-shadow: var(--shadow);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            animation: slideIn 0.3s ease;
-        }
 
         /* Estilos para o histórico */
         .history-item {
