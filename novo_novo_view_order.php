@@ -108,7 +108,14 @@ try {
     <div class="container text-center">
         <div class="row">
             <div class="col">
-                Column
+                <ul>
+                    <li>Número da ordem</li>
+                    <li>Nome do cliente</li>
+                    <li>Modelo</li>
+                    <li>Contatos</li>
+                    <li>Data de Abertura</li>
+                    <li>Data de Entrega</li>
+                </ul>
             </div>
             <div class="col-6">
                 Column
