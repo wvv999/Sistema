@@ -2,7 +2,6 @@
 session_start();
 require_once 'config.php';
 
-
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit;
@@ -73,7 +72,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ordem de Serviço <?php echo $order['id'] ?> </title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
         body {
@@ -95,8 +94,6 @@ try {
             gap: 5px;
             justify-content: space-around;
         }
-
-
 
         .left,
         .right {
@@ -148,7 +145,6 @@ try {
             font-size: 1rem;
             border-radius: var(--border-radius);
             text-align: left;
-
         }
 
         .item {
@@ -158,10 +154,6 @@ try {
             border-radius: 10px;
             padding: 8px;
         }
-
-        /* PAINEL DIREIO */
-        /* PAINEL DIREIO */
-        /* PAINEL DIREIO */
 
         .side-panel {
             width: 300px;
@@ -224,14 +216,12 @@ try {
             transition: var(--transition);
         }
 
-        /* Status button styles */
         .status-button {
             font-weight: 600;
             letter-spacing: 0.5px;
             justify-content: center;
         }
 
-        /* Status button styles */
         .status-nao-iniciada {
             background-color: #e74c3c;
             color: white;
@@ -257,7 +247,6 @@ try {
             color: white;
         }
 
-        /* Auth button styles */
         .auth-button {
             font-weight: 600;
             letter-spacing: 0.5px;
@@ -279,10 +268,6 @@ try {
             color: white;
         }
 
-        /* PAINEL DIREIO */
-        /* PAINEL DIREIO */
-        /* PAINEL DIREIO */
-
         :root {
             --primary-color: #4a6fff;
             --secondary-color: #f8f9fa;
@@ -295,19 +280,6 @@ try {
             --transition: all 0.3s ease;
         }
 
-        /* .container {
-            height: fit-content;
-            background-color: #fff;
-            border-radius: var(--border-radius);
-            padding: 24px;
-            box-shadow: var(--shadow);
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-        } */
-
-        /* Order info styles */
         .order-info {
             background: linear-gradient(145deg, var(--accent-color), #f8f9ff);
             padding: 20px;
@@ -332,7 +304,7 @@ try {
             padding-left: 15px;
             margin-top: 10px;
             background: rgba(255, 255, 255, 0.5);
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            border-radius: 0 var(--border-radius) var (--border-radius) 0;
         }
 
         .main-content {
@@ -346,46 +318,6 @@ try {
             flex: 1;
         }
 
-        .content-right {
-            width: 300px;
-            height: 495px;
-        }
-
-        .side-panel {
-            width: 300px;
-            height: 495px;
-            padding-right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            justify-content: space-between;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #6c757d;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .info-value {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 1rem;
-            padding: 8px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: var(--border-radius);
-
-        }
-
-        .info-value:hover {
-            background: rgba(255, 255, 255, 0.8);
-            transition: var(--transition);
-        }
-
         .device-password,
         .reported-issue {
             height: 105px;
@@ -396,14 +328,6 @@ try {
             margin-bottom: 20px;
             border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
-
-        }
-
-        .linha {
-            display: flex;
-            gap: 50px;
-
-            justify-content: space-between;
         }
 
         .device-password::before,
@@ -438,113 +362,6 @@ try {
             color: var(--primary-color);
         }
 
-        .menu-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding: 16px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-            border-radius: var(--border-radius);
-            background-color: #fff;
-        }
-
-        .menu-section:hover {
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .action-button {
-            width: 100%;
-            padding: 12px;
-            border-radius: var(--border-radius);
-            border: 1px solid #dee2e6;
-            background: white;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .action-button::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 0;
-            background: rgba(0, 0, 0, 0.05);
-        }
-
-        .action-button:hover::before {
-            width: 100%;
-            transition: var(--transition);
-        }
-
-        .action-button:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        /* Status button styles */
-        .status-button {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            justify-content: center;
-        }
-
-        /* Status button styles */
-        .status-nao-iniciada {
-            background-color: #e74c3c;
-            color: white;
-        }
-
-        .status-em-andamento {
-            background-color: #f39c12;
-            color: white;
-        }
-
-        .status-concluida {
-            background-color: #27ae60;
-            color: white;
-        }
-
-        .status-pronto-e-avisado {
-            background-color: #3498db;
-            color: white;
-        }
-
-        .status-entregue {
-            background-color: #2c3e50;
-            color: white;
-        }
-
-        /* Auth button styles */
-        .auth-button {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            justify-content: center;
-        }
-
-        .auth-autorizacao {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .auth-solicitado {
-            background-color: var(--warning-color);
-            color: black;
-        }
-
-        .auth-autorizado {
-            background-color: var(--success-color);
-            color: white;
-        }
-
-        /* Technical notes section */
         .technical-report {
             background-color: #f8f9fa;
             padding: 16px;
@@ -588,7 +405,6 @@ try {
         }
 
         .add-note-form {
-            /* border-top: 1px solid rgba(0,0,0,0.1); */
             padding-top: 16px;
             margin-top: 16px;
         }
@@ -608,7 +424,6 @@ try {
             background-color: white;
             resize: none;
             line-height: 20px;
-
         }
 
         .add-note-form textarea:focus {
@@ -623,7 +438,6 @@ try {
             display: flex;
             align-items: center;
             gap: 4px;
-
         }
 
         .add-note-form button:hover {
@@ -631,8 +445,6 @@ try {
             transition: var(--transition);
         }
 
-
-        /* Estilos para o histórico */
         .history-item {
             padding: 15px;
             border-radius: var(--border-radius);
@@ -689,7 +501,6 @@ try {
             }
         }
 
-        /* Responsive styles */
         @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
@@ -717,201 +528,144 @@ try {
     </style>
 </head>
 
-
-
-
-
-
 <body>
-
+    <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
+        <i class="bi bi-arrow-left"></i> Voltar
+    </a>
 
     <div class="container text-center">
-
-
-
         <div class="left">
-
-            <h4 class="mb-3">
-                Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
-            </h4>
+            <h4 class="mb-3">Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?></h4>
 
             <div class="item">
-                <div class="info-label">
-                    <i class="bi bi-person"></i> Nome do Cliente
-                </div>
-                <div class="info-value">
-                    <?php echo htmlspecialchars($order['client_name']); ?>
-                </div>
+                <div class="info-label"><i class="bi bi-person"></i> Nome do Cliente</div>
+                <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
             </div>
 
             <div class="item">
-                <div class="info-label">
-                    <i class="bi bi-laptop"></i> Modelo
-                </div>
-                <div class="info-value">
-                    <?php echo htmlspecialchars($order['device_model']); ?>
-                </div>
+                <div class="info-label"><i class="bi bi-laptop"></i> Modelo</div>
+                <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
             </div>
 
             <div class="item">
-                <div class="info-label">
-                    <i class="bi bi-key"></i> Senha do Dispositivo
-                </div>
-                <div class="info-value">
-                    <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
-                </div>
+                <div class="info-label"><i class="bi bi-key"></i> Senha do Dispositivo</div>
+                <div class="info-value"><?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></div>
             </div>
 
             <div class="item">
-                <div class="info-label">
-                    <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
-                </div>
-                <div class="info-value">
-                    <?php echo htmlspecialchars($order['reported_issue']); ?>
-                </div>
+                <div class="info-label"><i class="bi bi-exclamation-triangle"></i> Defeito Reclamado</div>
+                <div class="info-value"><?php echo htmlspecialchars($order['reported_issue']); ?></div>
             </div>
         </div>
-
 
         <div class="mid">
-            <ul>
-                <li>Laudo Técnico</li>
-            </ul>
-            <!-- <div class="technical-report">
-                        <div class="technical-notes">
-                            <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
-                            
-                            <div class="add-note-form">
-                                <div class="input-group">
-                                    <textarea id="newNote" 
-                                            rows="1"
-                                            placeholder="Digite sua nota técnica..."
-                                            data-autoresize></textarea>
-                                    <button onclick="addNote()" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Adicionar</button>
-                                </div>
-                            </div>
+            <div class="section-title"><i class="bi bi-clipboard-data"></i> Laudo Técnico</div>
+            <div class="technical-report">
+                <div class="technical-notes">
+                    <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
+                    <div class="add-note-form">
+                        <div class="input-group">
+                            <textarea id="newNote" rows="1" placeholder="Digite sua nota técnica..." data-autoresize></textarea>
+                            <button onclick="addNote()" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Adicionar</button>
                         </div>
                     </div>
-                </div> -->
+                </div>
+            </div>
         </div>
 
-
-
         <div class="right">
-
             <div class="item">
-                <div class="info-label">
-                    <i class="bi bi-telephone"></i> Contatos
-                </div>
+                <div class="info-label"><i class="bi bi-telephone"></i> Contatos</div>
                 <div class="info-value">
-                    <?php echo htmlspecialchars($order['phone1']); ?>
-                    <?php echo " |" ?>
+                    <?php echo htmlspecialchars($order['phone1']); ?> |
                     <?php echo htmlspecialchars($order['phone2'] ?? '-'); ?>
                 </div>
             </div>
 
             <div class="item">
-
-                <div class="info-label">
-                    <i class="bi bi-calendar-event"></i>
-                    <i class="bi bi-calendar-check"></i> Chegada e Saída
-                </div>
-                <div class="info-value">
-                    Abertura <?php echo date('d/m/Y', strtotime($order['created_at'])); ?><br>
-                    Entrega <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?>
-                </div>
+                <div class="info-label"><i class="bi bi-calendar-event"></i> Data de Abertura</div>
+                <div class="info-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></div>
+                <div class="info-label"><i class="bi bi-calendar-check"></i> Data de Entrega</div>
+                <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
             </div>
 
-
             <div class="side-panel">
-                <!-- Status e Ações -->
                 <div class="menu-section">
-                    <div id="statusButton"
-                        class="action-button status-button"
-                        data-status="<?php echo $order['status']; ?>"
-                        data-order-id="<?php echo $order['id']; ?>"
-                        data-bs-toggle="tooltip"
-                        title="">
+                    <div id="statusButton" class="action-button status-button" data-status="<?php echo $order['status']; ?>" data-order-id="<?php echo $order['id']; ?>" data-bs-toggle="tooltip" title="">
                         <i class="bi bi-gear"></i>
                         <span><?php echo $order['status']; ?></span>
                     </div>
 
-                    <div id="authButton"
-                        class="action-button auth-button auth-autorizacao"
-                        data-auth-status="Autorização"
-                        data-order-id="<?php echo $order['id']; ?>"
-                        data-bs-toggle="tooltip"
-                        title="Clique para alterar a autorização">
-                        <i class="bi bi-check-circle"></i>
-                        <span>Autorização</span>
-                    </div>
-
+                    <div id="authButton" class=""></div><i class="bi bi-check-circle"></i>
+                    <span>Autorização</span>
                 </div>
+                <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
+                    <i class="bi bi-cart"></i>
+                    <span>Compra de Peças</span>
+                </div>
+            </div>
 
-                <!-- Ações da OS -->
-                <div class="menu-section">
-                    <button class="action-button" data-bs-toggle="tooltip" title="Ver histórico completo">
-                        <i class="bi bi-clock-history"></i>
-                        <span>Histórico</span>
-                    </button>
-                    <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço"
+            <div class="menu-section">
+                <button class="action-button" data-bs-toggle="tooltip" title="Ver histórico completo">
+                    <i class="bi bi-clock-history"></i>
+                    <span>Histórico</span>
+                </button>
+                <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço" 
                         onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
-                        <i class="bi bi-printer"></i>
-                        <span>Imprimir</span>
-                    </button>
-                    <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
-                        <i class="bi bi-box-arrow-right"></i>
+                    <i class="bi bi-printer"></i>
+                    <span>Imprimir</span>
+                </button>
+                <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Salvar e Sair</span>
+                </button>
+            </div>
+        </div>
+    </div>
 
-                        <span>Salvar e Sair</span>
-                    </button>
+    <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="historyModalLabel">Histórico da Ordem de Serviço</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="historyModalLabel">Histórico da Ordem de Serviço</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="historyTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button" role="tab">
+                                <i class="bi bi-clock-history"></i> Status
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab">
+                                <i class="bi bi-card-text"></i> Notas Técnicas
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-3" id="historyTabContent">
+                        <div class="tab-pane fade show active" id="status" role="tabpanel">
+                            <div class="status-history-list" style="max-height: 400px; overflow-y: auto;">
+                                <!-- Status history will be inserted here -->
                             </div>
-                            <div class="modal-body">
-                                <ul class="nav nav-tabs" id="historyTabs" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="status-tab" data-bs-toggle="tab" data-bs-target="#status" type="button" role="tab">
-                                            <i class="bi bi-clock-history"></i> Status
-                                        </button>
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab">
-                                            <i class="bi bi-card-text"></i> Notas Técnicas
-                                        </button>
-                                    </li>
-                                </ul>
-                                <div class="tab-content mt-3" id="historyTabContent">
-                                    <div class="tab-pane fade show active" id="status" role="tabpanel">
-                                        <div class="status-history-list" style="max-height: 400px; overflow-y: auto;">
-                                            <!-- Status history will be inserted here -->
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="notes" role="tabpanel">
-                                        <div class="notes-history-list" style="max-height: 400px; overflow-y: auto;">
-                                            <!-- Notes history will be inserted here -->
-                                        </div>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="tab-pane fade" id="notes" role="tabpanel">
+                            <div class="notes-history-list" style="max-height: 400px; overflow-y: auto;">
+                                <!-- Notes history will be inserted here -->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Inicializa todos os tooltips
-        //var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        //var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        //    return new bootstrap.Tooltip(tooltipTriggerEl)
-        //})
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
 
         // Auto-resize textarea
         document.querySelectorAll('[data-autoresize]').forEach(function(element) {
@@ -936,7 +690,7 @@ try {
             }, 3000);
         }
 
-        // Função para adicionar nota técnica TESTE
+        // Função para adicionar nota técnica
         async function addNote() {
             const noteText = document.getElementById('newNote').value.trim();
             if (!noteText) {
@@ -994,8 +748,8 @@ try {
             }
         });
 
-                // Gestão de status e autorização
-                const statusButton = document.getElementById('statusButton');
+        // Gestão de status e autorização
+        const statusButton = document.getElementById('statusButton');
         const authButton = document.getElementById('authButton');
 
         // Arrays de status possíveis
@@ -1020,11 +774,6 @@ try {
 
         async function updateStatus(button, newStatus) {
             try {
-                console.log('Enviando atualização de status:', {
-                    orderId: button.dataset.orderId,
-                    status: newStatus
-                });
-
                 const response = await fetch('update_status.php', {
                     method: 'POST',
                     headers: {
@@ -1036,9 +785,7 @@ try {
                     })
                 });
 
-                console.log('Resposta recebida:', response);
                 const data = await response.json();
-                console.log('Dados da resposta:', data);
 
                 if (data.success) {
                     button.dataset.status = newStatus;
@@ -1079,11 +826,6 @@ try {
 
         async function updateAuthStatus(button, newStatus) {
             try {
-                console.log('Enviando atualização de autorização:', {
-                    orderId: button.dataset.orderId,
-                    authStatus: newStatus
-                });
-
                 const response = await fetch('update_auth_status.php', {
                     method: 'POST',
                     headers: {
@@ -1095,9 +837,7 @@ try {
                     })
                 });
 
-                console.log('Resposta recebida:', response);
                 const data = await response.json();
-                console.log('Dados da resposta:', data);
 
                 if (data.success) {
                     button.dataset.authStatus = newStatus;
@@ -1110,7 +850,9 @@ try {
                 console.error('Erro ao atualizar autorização:', error);
                 showToast('Erro ao atualizar autorização', 'error');
             }
-        } // Event listeners
+        }
+
+        // Event listeners
         statusButton.addEventListener('click', function() {
             let currentStatus = this.dataset.status;
             currentStatus = statusFlow.find(status =>
@@ -1143,13 +885,10 @@ try {
             // Auth inicial
             updateAuthButtonOnLoad();
         });
-    
-    
+
         // Atualizar a função loadOrderHistory
         async function loadOrderHistory() {
             try {
-                console.log('Carregando histórico para ordem:', <?php echo $_GET['id']; ?>);
-
                 const response = await fetch('get_order_history.php', {
                     method: 'POST',
                     headers: {
@@ -1161,7 +900,6 @@ try {
                 });
 
                 const data = await response.json();
-                console.log('Dados recebidos:', data);
 
                 if (data.success) {
                     // Atualizar histórico de status
