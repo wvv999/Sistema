@@ -124,7 +124,7 @@ try {
             color: #333;
             margin-bottom: 15px;
             font-size: 1rem;
-            padding: 8px;
+            
             border-radius: var(--border-radius);
             text-align: left;
         }
