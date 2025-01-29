@@ -106,7 +106,7 @@ try {
             flex-direction: column;
         }
         .info-label {
-            max-width: fit-content;
+            max-width: 40px;
             font-weight: 600;
             color: #6c757d;
             margin-bottom: 5px;
