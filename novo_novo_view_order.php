@@ -93,7 +93,7 @@ try {
             max-width: 90vw;
             padding: 10px;
             display:flex;
-            gap:10px;
+            gap:5px;
             justify-content: space-around;
         }
 
