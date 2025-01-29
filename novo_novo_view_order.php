@@ -260,6 +260,49 @@ try {
                     <li>Imprimir</li>
                     <li>Salvar e sair</li>
                 </ul>
+                <div class="side-panel">
+                    <!-- Status e Ações -->
+                    <div class="menu-section">
+                        <div id="statusButton" 
+                            class="action-button status-button"
+                            data-status="<?php echo $order['status']; ?>"
+                            data-order-id="<?php echo $order['id']; ?>"
+                            data-bs-toggle="tooltip"
+                            title="">
+                            <i class="bi bi-gear"></i>
+                            <span><?php echo $order['status']; ?></span>
+                        </div>
+
+                        <div id="authButton" 
+                            class="action-button auth-button auth-autorizacao"
+                            data-auth-status="Autorização"
+                            data-order-id="<?php echo $order['id']; ?>"
+                            data-bs-toggle="tooltip"
+                            title="Clique para alterar a autorização">
+                            <i class="bi bi-check-circle"></i>
+                            <span>Autorização</span>
+                        </div>
+
+                    </div>
+
+                    <!-- Ações da OS -->
+                    <div class="menu-section">
+                        <button class="action-button" data-bs-toggle="tooltip" title="Ver histórico completo">
+                            <i class="bi bi-clock-history"></i>
+                            <span>Histórico</span>
+                        </button>
+                        <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço" 
+                                onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
+                            <i class="bi bi-printer"></i>
+                            <span>Imprimir</span>
+                        </button>
+                        <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
+                            <i class="bi bi-box-arrow-right"></i>
+                        
+                            <span>Salvar e Sair</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         
     </div>
