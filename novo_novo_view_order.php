@@ -101,6 +101,7 @@ try {
             display:flex;
             width: 90vw;
             height: 92vh;
+            background: yellow;
         }
 
         .left,
