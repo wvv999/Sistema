@@ -115,9 +115,12 @@ try {
         }
 
         .mid{
-            flex: 1 1 40%;
-            padding: 20px;
             height: 90vh;
+            width: 50%;
+            max-width: 50%;
+            min-width: 50%;
+            padding: 20px;
+            flex: 1 1 40%;
             background-color: #fff;
             border-radius: 15px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
