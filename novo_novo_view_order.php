@@ -131,7 +131,7 @@ try {
         .item{
             width: 100%;
             height: fit-content;
-            background: gray;
+            background-color: #f5f6fa;
             border-radius: 10px;
         }
     </style>
