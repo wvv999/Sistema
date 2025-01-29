@@ -224,6 +224,22 @@ try {
                 <ul>
                     <li>Laudo Técnico</li>
                 </ul>
+                <div class="technical-report">
+                        <div class="technical-notes">
+                            <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
+                            
+                            <div class="add-note-form">
+                                <div class="input-group">
+                                    <textarea id="newNote" 
+                                            rows="1"
+                                            placeholder="Digite sua nota técnica..."
+                                            data-autoresize></textarea>
+                                    <button onclick="addNote()" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Adicionar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
