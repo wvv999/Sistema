@@ -190,17 +190,12 @@ try {
                     <div class="info-value">
                         <?php echo htmlspecialchars($order['reported_issue']); ?>
                     </div>
-
-
-
-
                 </div>
 
 
 
 
                 <ul>
-                    <li>Defeito <?php echo htmlspecialchars($order['reported_issue']); ?></li>
                     <li>Contatos <?php echo htmlspecialchars($order['phone1']); ?><br><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></li>
                     <li>Data de Abertura <?php echo date('d/m/Y', strtotime($order['created_at'])); ?></li>
                     <li>Data de Entrega <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></li>
