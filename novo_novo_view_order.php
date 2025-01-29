@@ -89,6 +89,7 @@ try {
         }
         .col{
             border: 1px solid black;
+            height: 90vh;
         }
     </style>
 </head>
