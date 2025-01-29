@@ -342,10 +342,13 @@ try {
 
                 <div class="item">
                     <div class="info-label">
-                            <i class="bi bi-telephone"></i> Contatos
-                        </div>
-                        <div class="info-value"><?php echo htmlspecialchars($order['phone1']);
-                          ?><?php echo " /"?> <?php echo htmlspecialchars($order['phone1'] ?? '-'); ?></div>    
+                        <i class="bi bi-telephone"></i> Contatos
+                    </div>
+                    <div class="info-value">
+                        <?php echo htmlspecialchars($order['phone1']);?>
+                        <?php echo " /"?>
+                        <?php echo htmlspecialchars($order['phone2'] ?? '-'); ?>
+                    </div>    
                 </div>
 
                 <ul>
