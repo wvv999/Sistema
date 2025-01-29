@@ -96,19 +96,25 @@ try {
         }
 
         .row {
-            gap: 20px;
+            gap: 10px;
+            display:flex;
         }
 
-        .col,
-        .col-6 {
+        .left,
+        .right {
             padding: 20px;
             height: 90vh;
             background-color: #fff;
             border-radius: 15px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             display: flex;
+            flex: 1 1 25%;
             flex-direction: column;
             gap: 20px;
+        }
+
+        .mid{
+            flex: 1 1 40%;
         }
 
         .info-label {
@@ -122,7 +128,7 @@ try {
         }
 
         .info-value {
-            max-width: 300px;
+            max-width: 100%;
             text-wrap: wrap;
             color: #333;
             margin-bottom: 15px;
@@ -150,9 +156,10 @@ try {
 
 
     <div class="container text-center">
+
         <div class="row">
 
-            <div class="col">
+            <div class="left">
 
                 <h4 class="mb-3">
                     Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
@@ -203,12 +210,17 @@ try {
                     <li>Data de Entrega <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></li>
                 </ul>
             </div>
-            <div class="col-6">
+
+
+            <div class="mid">
                 <ul>
                     <li>Laudo Técnico</li>
                 </ul>
             </div>
-            <div class="col">
+
+
+
+            <div class="right">
                 <ul>
                     <li>Não-iniciada/Entregue/Concluída</li>
                     <li>Autorizado/NA</li>
