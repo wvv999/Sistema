@@ -114,6 +114,7 @@ try {
             max-width: fit-content;
             font-weight: 600;
             color: #6c757d;
+            padding:8px;
             margin-bottom: 5px;
             font-size: 0.9rem;
             display: flex;
@@ -123,7 +124,7 @@ try {
             color: #333;
             margin-bottom: 15px;
             font-size: 1rem;
-            padding: 0 8px 0 0;
+            padding: 8px;
             background: rgba(255, 255, 255, 0.5);
             border-radius: var(--border-radius);
             text-align: left;
