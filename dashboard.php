@@ -402,7 +402,7 @@ if (!isset($_SESSION['user_id'])) {
                                 $statusButton = OrderStatus::getStatusButton($status);
 
                                 echo <<<HTML
-                                <li class="list-group-item" onclick="window.location='view_order.php?id={$order['id']}'">
+                                <li class="list-group-item" onclick="window.location='novo_view_order.php?id={$order['id']}'">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div>
                                             <nume-ordem>{$orderNumber}</nume-ordem> - <modelo>{$device_model}</modelo> - <small>{$issue}</small>
