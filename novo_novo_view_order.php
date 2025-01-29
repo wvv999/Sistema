@@ -103,6 +103,8 @@ try {
             padding: 20px;
             height: 90vh;
             width: 25%;
+            max-width: 25%;
+            min-width: 25%;
             background-color: #fff;
             border-radius: 15px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
