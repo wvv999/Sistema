@@ -85,10 +85,13 @@ try {
 
         body::-webkit-scrollbar {
             display: none;
+            height: 100vh;
         }
 
         .container {
             max-width: 90vw;
+            width: 90vw;
+            min-width: 90vw;
             padding: 10px;
             display: flex;
             gap: 5px;
@@ -109,6 +112,7 @@ try {
             flex: 1 1 25%;
             flex-direction: column;
             gap: 20px;
+            justify-content: space-between;
         }
 
         .mid {
