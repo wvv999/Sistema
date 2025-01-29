@@ -94,6 +94,7 @@ try {
             text-align: left;
             padding: 20px;
             background: red;
+            display:flex;
         }
 
         
