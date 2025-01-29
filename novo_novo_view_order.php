@@ -230,7 +230,7 @@ try {
                 <ul>
                     <li>Laudo Técnico</li>
                 </ul>
-                <div class="technical-report">
+                <!-- <div class="technical-report">
                         <div class="technical-notes">
                             <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
                             
@@ -245,7 +245,7 @@ try {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
 
