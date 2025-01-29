@@ -352,9 +352,6 @@ try {
                 </div>
 
                 <ul>
-                    <li>Não-iniciada/Entregue/Concluída</li>
-                    <li>Autorizado/NA</li>
-                    <br><br>
                     <li>Histórico</li>
                     <li>Imprimir</li>
                     <li>Salvar e sair</li>
