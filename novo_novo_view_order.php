@@ -123,7 +123,7 @@ try {
             color: #333;
             margin-bottom: 15px;
             font-size: 1rem;
-            padding: 8px;
+            padding: 0 8px 0 0;
             background: rgba(255, 255, 255, 0.5);
             border-radius: var(--border-radius);
             text-align: left;
