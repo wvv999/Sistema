@@ -111,14 +111,14 @@ try {
         <div class="row">
             <div class="col">
                 <ul>
-                    <li>Número da ordem</li>
-                    <li>Nome do cliente</li>
-                    <li>Modelo</li>
-                    <li>Senha</li>
-                    <li>Defeito</li>
-                    <li>Contatos</li>
-                    <li>Data de Abertura</li>
-                    <li>Data de Entrega</li>
+                    <li>Número da ordem <?php echo htmlspecialchars($order['id'], STR_PAD_RIGHT); ?></li>
+                    <li>Nome do cliente <?php echo htmlspecialchars($order['client_name']); ?></li>
+                    <li>Modelo <?php echo htmlspecialchars($order['device_model']); ?></li>
+                    <li>Senha <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></li>
+                    <li>Defeito <?php echo htmlspecialchars($order['reported_issue']); ?></li>
+                    <li>Contatos <?php echo htmlspecialchars($order['phone1']); ?><br><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></li>
+                    <li>Data de Abertura <?php echo date('d/m/Y', strtotime($order['created_at'])); ?></li>
+                    <li>Data de Entrega <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></li>
                 </ul>
             </div>
             <div class="col-6">
