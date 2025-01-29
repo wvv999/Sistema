@@ -98,7 +98,7 @@ try {
 
 
 <body>
-    <div class="container-sm">100% wide until small breakpoint</div>
+    <div class="container">100% wide until small breakpoint</div>
 
 
 
