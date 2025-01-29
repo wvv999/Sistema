@@ -109,7 +109,6 @@ try {
             display: flex;
             flex-direction: column;
         }
-
         .info-label {
             max-width: fit-content;
             font-weight: 600;
@@ -120,7 +119,6 @@ try {
             align-items: center;
             gap: 6px;
         }
-
         .info-value {
             color: #333;
             margin-bottom: 15px;
@@ -128,6 +126,11 @@ try {
             padding: 8px;
             background: rgba(255, 255, 255, 0.5);
             border-radius: var(--border-radius);
+        }
+        .item{
+            width: 100%;
+            height: fit-content;
+            background: gray;
         }
     </style>
 </head>
@@ -142,32 +145,38 @@ try {
 
     <div class="container text-center">
         <div class="row">
+
             <div class="col">
                 
-
                     <h4 class="mb-3">
                         Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
                     </h4>
 
-                    <div class="info-label">
-                        <i class="bi bi-person"></i> Nome do Cliente
-                    </div>
-                    <div class="info-value">
-                        <?php echo htmlspecialchars($order['client_name']); ?>
-                    </div>
-
-                    <div class="info-label">
-                        <i class="bi bi-laptop"></i> Modelo
-                    </div>
-                    <div class="info-value">
-                        <?php echo htmlspecialchars($order['device_model']); ?>
+                    <div class="item">
+                        <div class="info-label">
+                            <i class="bi bi-person"></i> Nome do Cliente
+                        </div>
+                        <div class="info-value">
+                            <?php echo htmlspecialchars($order['client_name']); ?>
+                        </div>
                     </div>
 
-                    <div class="info-label">
-                        <i class="bi bi-key"></i> Senha do Dispositivo
+                    <div class="item">
+                        <div class="info-label">
+                            <i class="bi bi-laptop"></i> Modelo
+                        </div>
+                        <div class="info-value">
+                            <?php echo htmlspecialchars($order['device_model']); ?>
+                        </div>
                     </div>
-                    <div class="info-value">
-                        <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
+
+                    <div class="item">
+                        <div class="info-label">
+                            <i class="bi bi-key"></i> Senha do Dispositivo
+                        </div>
+                        <div class="info-value">
+                            <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
+                        </div>
                     </div>
 
 
