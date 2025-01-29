@@ -98,6 +98,8 @@ try {
         .row {
             gap: 10px;
             display:flex;
+            width: 90vw;
+            height: 92vh;
         }
 
         .left,
