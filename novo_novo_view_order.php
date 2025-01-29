@@ -159,6 +159,15 @@ try {
             border-radius: 10px;
             padding: 8px;
         }
+        .side-panel {
+            width: 300px;
+            height: 495px;
+            padding-right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            justify-content: space-between;
+        }
     </style>
 </head>
 
