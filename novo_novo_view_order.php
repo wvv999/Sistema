@@ -90,7 +90,7 @@ try {
         }
 
         .container {
-            width: 90vw;
+            max-width: 90vw;
             padding: 10px;
             background: red;
             display:flex;
