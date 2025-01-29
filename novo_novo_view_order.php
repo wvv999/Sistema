@@ -346,7 +346,7 @@ try {
                     </div>
                     <div class="info-value">
                         <?php echo htmlspecialchars($order['phone1']);?>
-                        <?php echo " /"?>
+                        <?php echo " /"; echo "teste" ?>
                         <?php echo htmlspecialchars($order['phone2'] ?? '-'); ?>
                     </div>    
                 </div>
