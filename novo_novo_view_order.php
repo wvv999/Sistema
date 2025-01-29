@@ -96,13 +96,7 @@ try {
             background: red;
         }
 
-        .row {
-            gap: 10px;
-            display:flex;
-            width: 90vw;
-            height: 92vh;
-            background: yellow;
-        }
+        
 
         .left,
         .right {
@@ -169,7 +163,7 @@ try {
 
     <div class="container text-center">
 
-        <div class="row">
+        
 
             <div class="left">
 
@@ -242,7 +236,7 @@ try {
                     <li>Salvar e sair</li>
                 </ul>
             </div>
-        </div>
+        
     </div>
 
 
