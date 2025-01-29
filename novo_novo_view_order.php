@@ -108,8 +108,9 @@ try {
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             display: flex;
             flex-direction: column;
-            gap:20px;
+            gap: 20px;
         }
+
         .info-label {
             max-width: fit-content;
             font-weight: 600;
@@ -119,6 +120,7 @@ try {
             display: flex;
             gap: 6px;
         }
+
         .info-value {
             color: #333;
             margin-bottom: 15px;
@@ -126,7 +128,8 @@ try {
             border-radius: var(--border-radius);
             text-align: left;
         }
-        .item{
+
+        .item {
             width: 100%;
             height: fit-content;
             background-color: #f5f6fa;
@@ -148,44 +151,55 @@ try {
         <div class="row">
 
             <div class="col">
-                
-                    <h4 class="mb-3">
-                        Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
-                    </h4>
 
-                    <div class="item">
-                        <div class="info-label">
-                            <i class="bi bi-person"></i> Nome do Cliente
-                        </div>
-                        <div class="info-value">
-                            <?php echo htmlspecialchars($order['client_name']); ?>
-                        </div>
+                <h4 class="mb-3">
+                    Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
+                </h4>
+
+                <div class="item">
+                    <div class="info-label">
+                        <i class="bi bi-person"></i> Nome do Cliente
+                    </div>
+                    <div class="info-value">
+                        <?php echo htmlspecialchars($order['client_name']); ?>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="info-label">
+                        <i class="bi bi-laptop"></i> Modelo
+                    </div>
+                    <div class="info-value">
+                        <?php echo htmlspecialchars($order['device_model']); ?>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="info-label">
+                        <i class="bi bi-key"></i> Senha do Dispositivo
+                    </div>
+                    <div class="info-value">
+                        <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="info-label">
+                        <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
+                    </div>
+                    <div class="info-value">
+                        <?php echo htmlspecialchars($order['reported_issue']); ?>
                     </div>
 
-                    <div class="item">
-                        <div class="info-label">
-                            <i class="bi bi-laptop"></i> Modelo
-                        </div>
-                        <div class="info-value">
-                            <?php echo htmlspecialchars($order['device_model']); ?>
-                        </div>
-                    </div>
 
-                    <div class="item">
-                        <div class="info-label">
-                            <i class="bi bi-key"></i> Senha do Dispositivo
-                        </div>
-                        <div class="info-value">
-                            <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
-                        </div>
-                    </div>
 
+
+                </div>
 
 
 
 
                 <ul>
-                    <li>Senha <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></li>
                     <li>Defeito <?php echo htmlspecialchars($order['reported_issue']); ?></li>
                     <li>Contatos <?php echo htmlspecialchars($order['phone1']); ?><br><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></li>
                     <li>Data de Abertura <?php echo date('d/m/Y', strtotime($order['created_at'])); ?></li>
