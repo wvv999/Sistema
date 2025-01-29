@@ -87,10 +87,13 @@ try {
         body::-webkit-scrollbar {
             display: none;
         }
-        .row{
-            gap:20px;
+
+        .row {
+            gap: 20px;
         }
-        .col, .col-6{
+
+        .col,
+        .col-6 {
             height: 90vh;
             background-color: #fff;
             border-radius: 15px;
@@ -112,6 +115,9 @@ try {
             <div class="col">
                 <ul>
                     <li>Número da ordem <?php echo htmlspecialchars($order['id'], STR_PAD_RIGHT); ?></li>
+                    <h4 class="mb-3">
+                        Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
+                    </h4>
                     <li>Nome do cliente <?php echo htmlspecialchars($order['client_name']); ?></li>
                     <li>Modelo <?php echo htmlspecialchars($order['device_model']); ?></li>
                     <li>Senha <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></li>
