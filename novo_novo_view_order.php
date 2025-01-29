@@ -94,7 +94,7 @@ try {
             padding: 10px;
             display:flex;
             gap:10px;
-            justify-content: space-between;
+            justify-content: space-around;
         }
 
         
