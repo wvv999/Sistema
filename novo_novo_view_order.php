@@ -159,6 +159,11 @@ try {
             border-radius: 10px;
             padding: 8px;
         }
+
+        /* PAINEL DIREIO */
+        /* PAINEL DIREIO */
+        /* PAINEL DIREIO */
+
         .side-panel {
             width: 300px;
             height: 495px;
@@ -168,6 +173,23 @@ try {
             gap: 24px;
             justify-content: space-between;
         }
+        .content-right {
+            width: 300px;
+            height: 495px;
+        }
+        .menu-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: var(--border-radius);
+            background-color: #fff; 
+        }
+        
+        /* PAINEL DIREIO */
+        /* PAINEL DIREIO */
+        /* PAINEL DIREIO */
     </style>
 </head>
 

@@ -247,8 +247,7 @@ try {
             padding: 16px;
             border: 1px solid rgba(0,0,0,0.1);
             border-radius: var(--border-radius);
-            background-color: #fff;
-            
+            background-color: #fff; 
         }
 
         .menu-section:hover {
