@@ -91,7 +91,7 @@ try {
 
         .container {
             max-width: 90vw;
-            padding: 5px;
+            padding: 10px;
             display:flex;
             gap:5px;
             justify-content: space-around;
@@ -117,9 +117,9 @@ try {
 
         .mid{
             height: 90vh;
-            width: 40%;
-            max-width: 40%;
-            min-width: 40%;
+            width: 45%;
+            max-width: 45%;
+            min-width: 45%;
             padding: 20px;
             flex: 1 1 40%;
             background-color: #fff;
