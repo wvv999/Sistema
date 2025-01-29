@@ -519,7 +519,7 @@ try {
                         <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
                     </div>
                     <div class="col-md-2">
-                        
+
                         <div class="info-label">
                             <i class="bi bi-calendar-event"></i> Data de Abertura
                         </div>
@@ -621,7 +621,7 @@ try {
                         <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
                             <i class="bi bi-box-arrow-right"></i>
                         
-                            <span>Salvar e Sair</span>
+                            <span style="color:black">Salvar e Sair</span>
                         </button>
                     </div>
                 </div>
