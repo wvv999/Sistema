@@ -87,6 +87,9 @@ try {
         body::-webkit-scrollbar {
             display: none;
         }
+        .col{
+            border: 1px solid black;
+        }
     </style>
 </head>
 
