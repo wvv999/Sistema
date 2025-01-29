@@ -117,7 +117,6 @@ try {
             margin-bottom: 5px;
             font-size: 0.9rem;
             display: flex;
-            align-items: center;
             gap: 6px;
         }
         .info-value {
