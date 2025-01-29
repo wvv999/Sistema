@@ -519,6 +519,7 @@ try {
                         <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
                     </div>
                     <div class="col-md-2">
+                        
                         <div class="info-label">
                             <i class="bi bi-calendar-event"></i> Data de Abertura
                         </div>

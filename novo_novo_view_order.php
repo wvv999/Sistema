@@ -339,6 +339,25 @@ try {
 
 
             <div class="right">
+            <div class="info-label">
+                            <i class="bi bi-telephone"></i> Contatos
+                        </div>
+                        <div class="info-value"><?php echo htmlspecialchars($order['phone1']); ?></div>
+                        <div class="info-value"><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></div>
+                    </div>
+                    <div class="col-md-2">
+                        
+                        <div class="info-label">
+                            <i class="bi bi-calendar-event"></i> Data de Abertura
+                        </div>
+                        <div class="info-value"><?php echo date('d/m/Y - H:i', strtotime($order['created_at'])); ?></div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="info-label">
+                            <i class="bi bi-calendar-check"></i> Data de Entrega
+                        </div>
+                        <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
+                    </div>
                 <ul>
                     <li>Não-iniciada/Entregue/Concluída</li>
                     <li>Autorizado/NA</li>
