@@ -109,7 +109,7 @@ try {
         }
 
         .info-label {
-            max-width: 40px;
+            max-width: fit-content;
             font-weight: 600;
             color: #6c757d;
             margin-bottom: 5px;
