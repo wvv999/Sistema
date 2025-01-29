@@ -87,6 +87,9 @@ try {
         body::-webkit-scrollbar {
             display: none;
         }
+        .row{
+            gap:20px;
+        }
         .col{
             border: 1px solid black;
             height: 90vh;
