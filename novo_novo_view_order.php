@@ -133,6 +133,7 @@ try {
             height: fit-content;
             background-color: #f5f6fa;
             border-radius: 10px;
+            padding: 8px;
         }
     </style>
 </head>
