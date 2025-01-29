@@ -641,7 +641,6 @@ try {
                             <i class="bi bi-check-circle"></i>
                             <span>Autorização</span>
                         </div>
-
                     </div>
 
                     <!-- Ações da OS -->
