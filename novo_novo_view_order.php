@@ -403,7 +403,268 @@ try {
             </div>
         
     </div>
+    <script>
+        // Inicializa todos os tooltips
+        //var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        //var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        //    return new bootstrap.Tooltip(tooltipTriggerEl)
+        //})
 
+        // Auto-resize textarea
+        document.querySelectorAll('[data-autoresize]').forEach(function(element) {
+            element.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        });
+
+        // Sistema de notificações toast
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <i class="bi bi-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.querySelector('.toast-container').appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Função para adicionar nota técnica TESTE
+        async function addNote() {
+            const noteText = document.getElementById('newNote').value.trim();
+            if (!noteText) {
+                showToast('Por favor, digite uma nota técnica.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('save_technical_note.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderId: <?php echo $_GET['id']; ?>,
+                        note: noteText
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    const technicalNotes = document.getElementById('technicalNotes');
+                    const today = new Date().toLocaleDateString('pt-BR', { 
+                        day: '2-digit', 
+                        month: '2-digit', 
+                        year: '2-digit' 
+                    });
+                    
+                    let newNoteText = '';
+                    if (!technicalNotes.value.includes(today)) {
+                        newNoteText = `\n ${today} \n\n`;
+                    }
+                    
+                    newNoteText += `${data.username}: ${noteText}\n`;
+                    technicalNotes.value += newNoteText;
+                    document.getElementById('newNote').value = '';
+                    technicalNotes.scrollTop = technicalNotes.scrollHeight;
+                    
+                    showToast('Nota adicionada com sucesso!');
+                } else {
+                    showToast(data.message || 'Erro ao salvar nota', 'error');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                showToast('Erro ao salvar nota técnica', 'error');
+            }
+        }
+
+        // Event listener para tecla Enter no campo de nota
+        document.getElementById('newNote').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                addNote();
+            }
+        });
+
+        // Gestão de status e autorização
+        const statusButton = document.getElementById('statusButton');
+        const authButton = document.getElementById('authButton');
+
+        // Arrays de status possíveis
+        const statusFlow = ['Não iniciada', 'Em andamento', 'Concluída', 'Pronto e avisado', 'Entregue'];
+        const authFlow = ['Autorização', 'Solicitado', 'Autorizado'];
+
+        function updateButtonAppearance(button, status, prefix = 'status') {
+            const classes = [...button.classList];
+            classes.forEach(className => {
+                if (className !== 'action-button') {
+                    button.classList.remove(className);
+                }
+            });
+            
+            button.classList.add(`${prefix}-button`);
+            const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/ /g, '-')}`;
+            button.classList.add(statusClass);
+            button.querySelector('span').textContent = status;
+        }
+
+        async function updateStatus(button, newStatus) {
+            try {
+                console.log('Enviando atualização de status:', {
+                    orderId: button.dataset.orderId,
+                    status: newStatus
+                });
+
+                const response = await fetch('update_status.php', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: button.dataset.orderId,
+                        status: newStatus
+                    })
+                });
+
+                console.log('Resposta recebida:', response);
+                const data = await response.json();
+                console.log('Dados da resposta:', data);
+                
+                if (data.success) {
+                    button.dataset.status = newStatus;
+                    updateButtonAppearance(button, newStatus);
+                    showToast(`Status atualizado para: ${newStatus}`);
+                } else {
+                    showToast(data.message || 'Erro ao atualizar status', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar status:', error);
+                showToast('Erro ao atualizar status', 'error');
+            }
+        }
+
+        // Atualiza o botão de autorização com o status atual ao carregar a página
+        async function updateAuthButtonOnLoad() {
+            try {
+                const response = await fetch('get_auth_status.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        orderId: authButton.dataset.orderId
+                    })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    authButton.dataset.authStatus = data.authStatus;
+                    updateButtonAppearance(authButton, data.authStatus, 'auth');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        }
+
+        async function updateAuthStatus(button, newStatus) {
+            try {
+                console.log('Enviando atualização de autorização:', {
+                    orderId: button.dataset.orderId,
+                    authStatus: newStatus
+                });
+
+                const response = await fetch('update_auth_status.php', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId: button.dataset.orderId,
+                        authStatus: newStatus
+                    })
+                });
+
+                console.log('Resposta recebida:', response);
+                const data = await response.json();
+                console.log('Dados da resposta:', data);
+                
+                if (data.success) {
+                    button.dataset.authStatus = newStatus;
+                    updateButtonAppearance(button, newStatus, 'auth');
+                    showToast(`Autorização atualizada para: ${newStatus}`);
+                } else {
+                    showToast(data.message || 'Erro ao atualizar autorização', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar autorização:', error);showToast('Erro ao atualizar autorização', 'error');
+            }
+        }// Event listeners
+        statusButton.addEventListener('click', function() {
+                let currentStatus = this.dataset.status;
+                currentStatus = statusFlow.find(status => 
+                    status.toLowerCase() === currentStatus.toLowerCase()
+                ) || currentStatus;
+                
+                const currentIndex = statusFlow.indexOf(currentStatus);
+                const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+                updateStatus(this, nextStatus);
+            });
+
+            authButton.addEventListener('click', function() {
+                const currentStatus = this.dataset.authStatus;
+                const currentIndex = authFlow.indexOf(currentStatus);
+                const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
+                updateAuthStatus(this, nextStatus);
+            });
+
+            // Inicialização dos botões
+            document.addEventListener('DOMContentLoaded', function() {
+                // Status inicial
+                let initialStatus = statusButton.dataset.status;
+                initialStatus = statusFlow.find(status => 
+                    status.toLowerCase() === initialStatus.toLowerCase()
+                ) || initialStatus;
+                statusButton.dataset.status = initialStatus;
+                statusButton.innerHTML = '<i class="bi bi-gear"></i> <span>' + initialStatus + '</span>';
+                updateButtonAppearance(statusButton, initialStatus);
+
+                // Auth inicial
+                updateAuthButtonOnLoad();
+            });
+
+            // Verificação periódica de novas notificações
+            function checkNotifications() {
+                fetch('check_notifications.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success && data.hasNotification) {
+                            const notification = data.notification;
+                            
+                            if (notification.type === 'auth_status') {
+                                showToast(`Autorização solicitada para a OS #${notification.order_id} por ${notification.from_username}`);
+                            } else if (notification.type === 'auth_approved') {
+                                showToast(`Autorização aprovada para a OS #${notification.order_id} por ${notification.from_username}`);
+                                
+                                // Atualiza o botão de autorização
+                                authButton.dataset.authStatus = 'Autorizado';
+                                updateButtonAppearance(authButton, 'Autorizado', 'auth');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao verificar notificações:', error);
+                    });
+            }
+
+            // Chama a função checkNotifications a cada 5 segundos
+            setInterval(checkNotifications, 5000);
+        </script>
     <script>
         // Atualizar a função loadOrderHistory
         async function loadOrderHistory() {
