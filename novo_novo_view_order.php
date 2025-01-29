@@ -76,6 +76,213 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
+        body {
+            background-color: #f5f6fa;
+            padding: 20px;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        .container {
+            max-width: 90vw;
+            padding: 10px;
+            display: flex;
+            gap: 5px;
+            justify-content: space-around;
+        }
+
+
+
+        .left,
+        .right {
+            padding: 20px;
+            height: 90vh;
+            width: 25%;
+            max-width: 25%;
+            min-width: 25%;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex: 1 1 25%;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mid {
+            height: 90vh;
+            width: 45%;
+            max-width: 45%;
+            min-width: 45%;
+            padding: 20px;
+            flex: 1 1 40%;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-label {
+            max-width: fit-content;
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            display: flex;
+            gap: 6px;
+        }
+
+        .info-value {
+            max-width: 300px;
+            min-height: max-content;
+            text-wrap: wrap;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            border-radius: var(--border-radius);
+            text-align: left;
+
+        }
+
+        .item {
+            width: 100%;
+            height: fit-content;
+            background-color: #f5f6fa;
+            border-radius: 10px;
+            padding: 8px;
+        }
+
+        /* PAINEL DIREIO */
+        /* PAINEL DIREIO */
+        /* PAINEL DIREIO */
+
+        .side-panel {
+            width: 300px;
+            height: 495px;
+            padding-right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            justify-content: space-between;
+        }
+
+        .content-right {
+            width: 300px;
+            height: 495px;
+        }
+
+        .menu-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius);
+            background-color: #fff;
+        }
+
+        .action-button {
+            width: 100%;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            border: 1px solid #dee2e6;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .action-button:hover::before {
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        /* Status button styles */
+        .status-button {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            justify-content: center;
+        }
+
+        /* Status button styles */
+        .status-nao-iniciada {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .status-em-andamento {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .status-concluida {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .status-pronto-e-avisado {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .status-entregue {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        /* Auth button styles */
+        .auth-button {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            justify-content: center;
+        }
+
+        .auth-autorizacao {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .auth-solicitado {
+            background-color: var(--warning-color);
+            color: black;
+        }
+
+        .auth-autorizado {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        /* PAINEL DIREIO */
+        /* PAINEL DIREIO */
+        /* PAINEL DIREIO */
+        
         :root {
             --primary-color: #4a6fff;
             --secondary-color: #f8f9fa;
@@ -88,17 +295,7 @@ try {
             --transition: all 0.3s ease;
         }
 
-        body { 
-            background-color: #f5f6fa;
-            padding: 20px;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;margin: 0;
-            min-height: 100vh;
-            
-        }
-        
-        body::-webkit-scrollbar { display: none; }
-
-        .container {
+        /* .container {
             height: fit-content;
             background-color: #fff;
             border-radius: var(--border-radius);
@@ -108,7 +305,7 @@ try {
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-        }
+        } */
 
         /* Order info styles */
         .order-info {
@@ -484,6 +681,7 @@ try {
             }
         }
         
+    
     </style>
 </head>
 
