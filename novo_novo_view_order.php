@@ -90,7 +90,7 @@ try {
         .row{
             gap:20px;
         }
-        .col{
+        .col, .col-6{
             border: 1px solid black;
             height: 90vh;
         }
