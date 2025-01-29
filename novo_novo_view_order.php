@@ -115,6 +115,14 @@ try {
 
         .mid{
             flex: 1 1 40%;
+            padding: 20px;
+            height: 90vh;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
         .info-label {
