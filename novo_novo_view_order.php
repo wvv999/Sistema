@@ -93,6 +93,7 @@ try {
             max-width: 90vw;
             text-align: left;
             padding: 20px;
+            background: red;
         }
 
         .row {
