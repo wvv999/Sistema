@@ -136,12 +136,14 @@ try {
 
         .info-value {
             max-width: 300px;
+            min-height: max-content;
             text-wrap: wrap;
             color: #333;
             margin-bottom: 15px;
             font-size: 1rem;
             border-radius: var(--border-radius);
             text-align: left;
+            
         }
 
         .item {
