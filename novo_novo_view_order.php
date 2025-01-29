@@ -109,6 +109,14 @@ try {
             gap: 6px;
             background: red;
         }
+        .info-value {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: var(--border-radius);
+        }
     </style>
 </head>
 
