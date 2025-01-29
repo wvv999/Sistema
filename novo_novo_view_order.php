@@ -93,6 +93,7 @@ try {
         .col, .col-6{
             border: 1px solid black;
             height: 90vh;
+            background-color: #fff;
         }
     </style>
 </head>
