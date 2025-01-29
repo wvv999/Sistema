@@ -186,7 +186,20 @@ try {
             border-radius: var(--border-radius);
             background-color: #fff; 
         }
-        
+        .action-button {
+            width: 100%;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            border: 1px solid #dee2e6;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
         /* PAINEL DIREIO */
         /* PAINEL DIREIO */
         /* PAINEL DIREIO */

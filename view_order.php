@@ -265,7 +265,6 @@ try {
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            
             font-weight: 500;
             position: relative;
             overflow: hidden;
