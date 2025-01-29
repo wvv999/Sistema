@@ -91,7 +91,7 @@ try {
 
         .container {
             max-width: 90vw;
-            padding: 10px;
+            padding: 5px;
             display:flex;
             gap:5px;
             justify-content: space-around;
