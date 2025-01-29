@@ -85,7 +85,7 @@ try {
         }body::-webkit-scrollbar{
             display: none;
         }
-        .container-sm{
+        .container{
             border: 1px solid black;
         }
 
