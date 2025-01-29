@@ -116,9 +116,9 @@ try {
 
         .mid{
             height: 90vh;
-            width: 50%;
-            max-width: 50%;
-            min-width: 50%;
+            width: 40%;
+            max-width: 40%;
+            min-width: 40%;
             padding: 20px;
             flex: 1 1 40%;
             background-color: #fff;
