@@ -136,27 +136,39 @@ try {
         <div class="row">
             <div class="col">
                 <ul>
+
                     <h4 class="mb-3">
                         Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
                     </h4>
+
                     <div class="info-label">
                         <i class="bi bi-person"></i> Nome do Cliente
                     </div>
                     <div class="info-value">
                         <?php echo htmlspecialchars($order['client_name']); ?>
                     </div>
-                    <div class="col-md-2">
-                        <div class="info-label">
-                            <i class="bi bi-laptop"></i> Modelo
+ 
+                    <div class="info-label">
+                        <i class="bi bi-laptop"></i> Modelo
+                    </div>
+                        <div class="info-value">
+                            <?php echo htmlspecialchars($order['device_model']); ?>
                         </div>
-                        <div class="info-value"><?php echo htmlspecialchars($order['device_model']); ?></div>
+                    </div>
+
+                    <div>
+                        <div class="info-label">
+                            <i class="bi bi-key"></i> Senha do Dispositivo
+                        </div>
+                        <div class="info-value">
+                            <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
+                        </div>
                     </div>
 
 
 
 
-
-                    <li>Modelo <?php echo htmlspecialchars($order['device_model']); ?></li>
+                    
                     <li>Senha <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></li>
                     <li>Defeito <?php echo htmlspecialchars($order['reported_issue']); ?></li>
                     <li>Contatos <?php echo htmlspecialchars($order['phone1']); ?><br><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></li>
