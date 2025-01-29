@@ -94,6 +94,7 @@ try {
             border: 1px solid black;
             height: 90vh;
             background-color: #fff;
+            border-radius: 15px;
         }
     </style>
 </head>
