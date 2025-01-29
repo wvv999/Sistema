@@ -100,6 +100,7 @@ try {
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
         }
         .info-label {
+            width: fit-content;
             font-weight: 600;
             color: #6c757d;
             margin-bottom: 5px;
@@ -107,7 +108,6 @@ try {
             display: flex;
             align-items: center;
             gap: 6px;
-            background: red;
         }
         .info-value {
             color: #333;
