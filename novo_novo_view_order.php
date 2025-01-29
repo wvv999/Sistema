@@ -87,7 +87,9 @@ try {
         body::-webkit-scrollbar {
             display: none;
         }
-
+        .container{
+            max-width: 100vw;
+        }
         .row {
             gap: 20px;
         }
@@ -139,7 +141,7 @@ try {
                     <div class="info-label">
                         <i class="bi bi-person"></i> Nome do Cliente
                     </div>
-                    <div class="info-value">asdasdasdasdasdasdasdasdasdasdasdasas<?php echo htmlspecialchars($order['client_name']); ?></div>
+                    <div class="info-value">asdasdasdasdasdasda<?php echo htmlspecialchars($order['client_name']); ?></div>
 
 
 
