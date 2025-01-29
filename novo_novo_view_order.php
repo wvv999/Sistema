@@ -88,23 +88,26 @@ try {
         body::-webkit-scrollbar {
             display: none;
         }
-        .container{
+
+        .container {
             max-width: 90vw;
         }
+
         .row {
             gap: 20px;
         }
 
         .col,
         .col-6 {
-            padding:20px;
+            padding: 20px;
             height: 90vh;
             background-color: #fff;
             border-radius: 15px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            display:flex;
+            display: flex;
             flex-direction: column;
         }
+
         .info-label {
             max-width: 40px;
             font-weight: 600;
@@ -115,6 +118,7 @@ try {
             align-items: center;
             gap: 6px;
         }
+
         .info-value {
             color: #333;
             margin-bottom: 15px;
@@ -137,7 +141,7 @@ try {
     <div class="container text-center">
         <div class="row">
             <div class="col">
-                <ul>
+                
 
                     <h4 class="mb-3">
                         Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
@@ -149,28 +153,26 @@ try {
                     <div class="info-value">
                         <?php echo htmlspecialchars($order['client_name']); ?>
                     </div>
- 
+
                     <div class="info-label">
                         <i class="bi bi-laptop"></i> Modelo
                     </div>
-                        <div class="info-value">
-                            <?php echo htmlspecialchars($order['device_model']); ?>
-                        </div>
+                    <div class="info-value">
+                        <?php echo htmlspecialchars($order['device_model']); ?>
                     </div>
 
-                    <div>
-                        <div class="info-label">
-                            <i class="bi bi-key"></i> Senha do Dispositivo
-                        </div>
-                        <div class="info-value">
-                            <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
-                        </div>
+                    <div class="info-label">
+                        <i class="bi bi-key"></i> Senha do Dispositivo
+                    </div>
+                    <div class="info-value">
+                        <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?>
                     </div>
 
 
 
 
-                    
+
+                <ul>
                     <li>Senha <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></li>
                     <li>Defeito <?php echo htmlspecialchars($order['reported_issue']); ?></li>
                     <li>Contatos <?php echo htmlspecialchars($order['phone1']); ?><br><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></li>
