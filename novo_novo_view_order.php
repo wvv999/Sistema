@@ -354,9 +354,7 @@ try {
                     </div>
                 </div>
                 
-                <ul>
-                    <li>Salvar e sair</li>
-                </ul>
+                
                 <div class="side-panel">
                     <!-- Status e Ações -->
                     <div class="menu-section">
