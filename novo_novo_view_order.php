@@ -88,7 +88,7 @@ try {
             display: none;
         }
         .container{
-            max-width: 100vw;
+            max-width: 90vw;
         }
         .row {
             gap: 20px;
