@@ -99,6 +99,15 @@ try {
             border-radius: 15px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
         }
+        .info-label {
+            font-weight: 600;
+            color: #6c757d;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
     </style>
 </head>
 
@@ -117,14 +126,14 @@ try {
                     <h4 class="mb-3">
                         Ordem número: <?php echo str_pad($order['id'], STR_PAD_RIGHT); ?>
                     </h4>
-                    <div class="col-md-2">
-                        <div class="info-label">
-                            <i class="bi bi-person"></i> Nome do Cliente
-                        </div>
-                        <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
-                    </div>
 
-                    
+                    <div class="info-label">
+                        <i class="bi bi-person"></i> Nome do Cliente
+                    </div>
+                    <div class="info-value"><?php echo htmlspecialchars($order['client_name']); ?></div>
+
+
+
                     <li>Modelo <?php echo htmlspecialchars($order['device_model']); ?></li>
                     <li>Senha <?php echo htmlspecialchars($order['device_password'] ?? '-'); ?></li>
                     <li>Defeito <?php echo htmlspecialchars($order['reported_issue']); ?></li>
