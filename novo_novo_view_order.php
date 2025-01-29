@@ -345,8 +345,8 @@ try {
                 <div class="item">
 
                     <div class="info-label">
-                        <i class="bi bi-calendar-event"></i>
-                        <i class="bi bi-calendar-check"></i>
+                        <i class="bi bi-calendar-event"></i> 
+                        <i class="bi bi-calendar-check"></i> Chegada e Saída
                     </div>
                     <div class="info-value">
                         Abertura <?php echo date('d/m/Y', strtotime($order['created_at'])); ?><br>
