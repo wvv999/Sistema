@@ -108,6 +108,7 @@ try {
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             display: flex;
             flex-direction: column;
+            gap:20px;
         }
         .info-label {
             max-width: fit-content;
@@ -131,6 +132,7 @@ try {
             width: 100%;
             height: fit-content;
             background: gray;
+            border: 1px solid black;
         }
     </style>
 </head>
