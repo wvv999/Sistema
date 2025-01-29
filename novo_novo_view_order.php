@@ -355,8 +355,6 @@ try {
                 </div>
                 
                 <ul>
-                    <li>Histórico</li>
-                    <li>Imprimir</li>
                     <li>Salvar e sair</li>
                 </ul>
                 <div class="side-panel">
@@ -406,8 +404,73 @@ try {
         
     </div>
 
+    <script>
+        // Atualizar a função loadOrderHistory
+        async function loadOrderHistory() {
+            try {
+                console.log('Carregando histórico para ordem:', <?php echo $_GET['id']; ?>);
+                
+                const response = await fetch('get_order_history.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        orderId: <?php echo $_GET['id']; ?>
+                    })
+                });
 
+                const data = await response.json();
+                console.log('Dados recebidos:', data);
+                
+                if (data.success) {
+                    // Atualizar histórico de status
+                    const statusContainer = document.querySelector('.status-history-list');
+                    if (data.statusHistory && data.statusHistory.length > 0) {
+                        statusContainer.innerHTML = data.statusHistory.map(item => `
+                            <div class="history-item">
+                                <div class="date">${item.formatted_date}</div>
+                                <div class="username">${item.username}</div>
+                                <div class="detail">
+                                    <i class="bi bi-arrow-right-circle"></i> 
+                                    Alterou status para: ${JSON.parse(item.details).new_status}
+                                </div>
+                            </div>
+                        `).join('');
+                    } else {
+                        statusContainer.innerHTML = '<div class="p-3 text-muted">Nenhuma alteração de status encontrada.</div>';
+                    }
+
+                    // Atualizar histórico de notas
+                    const notesContainer = document.querySelector('.notes-history-list');
+                    if (data.notesHistory && data.notesHistory.length > 0) {
+                        notesContainer.innerHTML = data.notesHistory.map(item => `
+                            <div class="history-item">
+                                <div class="date">${item.formatted_date}</div>
+                                <div class="username">${item.username}</div>
+                                <div class="detail">${item.note}</div>
+                            </div>
+                        `).join('');
+                    } else {
+                        notesContainer.innerHTML = '<div class="p-3 text-muted">Nenhuma nota técnica encontrada.</div>';
+                    }
+                } else {
+                    console.error('Erro nos dados:', data);
+                    showToast('Erro ao carregar histórico: ' + (data.message || 'Erro desconhecido'), 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar histórico:', error);
+                showToast('Erro ao carregar histórico: ' + error.message, 'error');
+            }
+        }
+
+        // Adicionar evento ao botão de histórico
+        document.querySelector('button[title="Ver histórico completo"]').addEventListener('click', function() {
+            const historyModal = new bootstrap.Modal(document.getElementById('historyModal'));
+            loadOrderHistory(); // Carrega o histórico
+            historyModal.show(); // Mostra o modal
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 
 </html>
