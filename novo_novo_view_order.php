@@ -302,15 +302,6 @@ try {
                         <?php echo htmlspecialchars($order['reported_issue']); ?>
                     </div>
                 </div>
-
-
-
-
-                <ul>
-                    <li>Contatos <?php echo htmlspecialchars($order['phone1']); ?><br><?php echo htmlspecialchars($order['phone2'] ?? '-'); ?></li>
-                    <li>Data de Abertura <?php echo date('d/m/Y', strtotime($order['created_at'])); ?></li>
-                    <li>Data de Entrega <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></li>
-                </ul>
             </div>
 
 
@@ -351,6 +342,18 @@ try {
                     </div>    
                 </div>
 
+                <div class="item">
+
+                    <div class="info-label">
+                        <i class="bi bi-calendar-event"></i>
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                    <div class="info-value">
+                        Abertura <?php echo date('d/m/Y', strtotime($order['created_at'])); ?><br>
+                        Entrega <?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?>
+                    </div>
+                </div>
+                
                 <ul>
                     <li>Histórico</li>
                     <li>Imprimir</li>
