@@ -345,7 +345,7 @@ try {
                             <i class="bi bi-telephone"></i> Contatos
                         </div>
                         <div class="info-value"><?php echo htmlspecialchars($order['phone1']);
-                          ?> <?php echo htmlspecialchars($order['phone1'] ?? '-'); ?></div>    
+                          ?><?php echo "/"?> <?php echo htmlspecialchars($order['phone1'] ?? '-'); ?></div>    
                 </div>
 
                 <ul>
