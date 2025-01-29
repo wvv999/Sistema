@@ -107,6 +107,7 @@ try {
             display: flex;
             align-items: center;
             gap: 6px;
+            background: red;
         }
     </style>
 </head>
