@@ -136,7 +136,7 @@ try {
         }
 
         .info-value {
-            max-width: 100%;
+            max-width: 300px;
             text-wrap: wrap;
             color: #333;
             margin-bottom: 15px;
