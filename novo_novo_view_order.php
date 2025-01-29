@@ -190,7 +190,7 @@ try {
                         <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
                     </div>
                     <div class="info-value">
-                        <?php echo htmlspecialchars($order['reported_issue']); ?> <?php echo "asdasdaasgdjasdasdasdasdasdasdasdasdasdasdasdasdsg"?>
+                        <?php echo htmlspecialchars($order['reported_issue']); ?> <?php echo "asdasdaasgdjasdaasdfhkjasdhfjashdkfjahsdkjfahksjdfhakjdfhkjasdhfkjasdhfjashdfkjasdfjaskdjfahkjsdfhaksdhfkjasdhfassdasdasdasdasdasdasdasdasdasdasdsg"?>
                     </div>
                 </div>
 
