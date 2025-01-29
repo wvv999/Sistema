@@ -200,6 +200,15 @@ try {
             position: relative;
             overflow: hidden;
         }
+        .action-button::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: rgba(0,0,0,0.05);  
+        }
         /* PAINEL DIREIO */
         /* PAINEL DIREIO */
         /* PAINEL DIREIO */

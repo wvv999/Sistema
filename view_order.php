@@ -277,8 +277,7 @@ try {
             top: 0;
             height: 100%;
             width: 0;
-            background: rgba(0,0,0,0.05);
-            
+            background: rgba(0,0,0,0.05);  
         }
 
         .action-button:hover::before {
