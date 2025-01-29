@@ -176,6 +176,7 @@ try {
         }
 
         .menu-section {
+            width: 100%;
             align-items: center;
             justify-content: center;
             display: flex;
