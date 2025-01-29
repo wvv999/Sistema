@@ -621,7 +621,7 @@ try {
                         <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
                             <i class="bi bi-box-arrow-right"></i>
                         
-                            <span style="color:black">Salvar e Sair</span>
+                            <span>Salvar e Sair</span>
                         </button>
                     </div>
                 </div>
