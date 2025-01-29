@@ -97,6 +97,7 @@ try {
 
         .col,
         .col-6 {
+            padding:20px;
             height: 90vh;
             background-color: #fff;
             border-radius: 15px;
