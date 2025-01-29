@@ -176,6 +176,8 @@ try {
         }
 
         .menu-section {
+            align-items: center;
+            justify-content: center;
             display: flex;
             flex-direction: column;
             gap: 12px;
