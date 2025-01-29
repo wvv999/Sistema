@@ -110,7 +110,7 @@ try {
             <div class="col">
                 Column
             </div>
-            <div class="col">
+            <div class="col-6">
                 Column
             </div>
             <div class="col">
