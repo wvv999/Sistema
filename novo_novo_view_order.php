@@ -112,16 +112,27 @@ try {
                     <li>Número da ordem</li>
                     <li>Nome do cliente</li>
                     <li>Modelo</li>
+                    <li>Senha</li>
+                    <li>Defeito</li>
                     <li>Contatos</li>
                     <li>Data de Abertura</li>
                     <li>Data de Entrega</li>
                 </ul>
             </div>
             <div class="col-6">
-                Column
+                <ul>
+                    <li>Laudo Técnico</li>
+                </ul>
             </div>
             <div class="col">
-                Column
+                <ul>
+                    <li>Não-iniciada/Entregue/Concluída</li>
+                    <li>Autorizado/NA</li>
+                    <br><br>
+                    <li>Histórico</li>
+                    <li>Imprimir</li>
+                    <li>Salvar e sair</li>
+                </ul>
             </div>
         </div>
     </div>
