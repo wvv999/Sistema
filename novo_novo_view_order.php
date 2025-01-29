@@ -132,7 +132,7 @@ try {
             width: 100%;
             height: fit-content;
             background: gray;
-            border: 1px solid black;
+            border-radius: 10px;
         }
     </style>
 </head>
