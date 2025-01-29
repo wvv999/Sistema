@@ -122,6 +122,8 @@ try {
         }
 
         .info-value {
+            max-width: 100%;
+            text-wrap: wrap;
             color: #333;
             margin-bottom: 15px;
             font-size: 1rem;
