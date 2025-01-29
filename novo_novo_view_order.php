@@ -160,8 +160,9 @@ try {
         }
 
         .side-panel {
-            width: 300px;
-            height: 495px;
+            width: 100%;
+            height: 25%;
+            background: red;
             padding-right: 20px;
             display: flex;
             flex-direction: column;
