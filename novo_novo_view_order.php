@@ -104,7 +104,7 @@ try {
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
         }
         .info-label {
-            width: fit-content;
+            max-width: fit-content;
             font-weight: 600;
             color: #6c757d;
             margin-bottom: 5px;
