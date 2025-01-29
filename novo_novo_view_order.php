@@ -282,7 +282,7 @@ try {
         /* PAINEL DIREIO */
         /* PAINEL DIREIO */
         /* PAINEL DIREIO */
-        
+
         :root {
             --primary-color: #4a6fff;
             --secondary-color: #f8f9fa;
@@ -313,7 +313,7 @@ try {
             padding: 20px;
             border-radius: var(--border-radius);
             margin-bottom: 24px;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
         }
 
@@ -378,29 +378,31 @@ try {
             padding: 8px;
             background: rgba(255, 255, 255, 0.5);
             border-radius: var(--border-radius);
-            
+
         }
 
         .info-value:hover {
             background: rgba(255, 255, 255, 0.8);
             transition: var(--transition);
         }
-        .device-password, .reported-issue {
+
+        .device-password,
+        .reported-issue {
             height: 105px;
             width: 400px;
             background-color: #f8f9fa;
             padding: 16px;
             border-radius: var(--border-radius);
             margin-bottom: 20px;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
-            
+
         }
 
-        .linha{
-            display:flex;
+        .linha {
+            display: flex;
             gap: 50px;
-            
+
             justify-content: space-between;
         }
 
@@ -441,9 +443,9 @@ try {
             flex-direction: column;
             gap: 12px;
             padding: 16px;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: var(--border-radius);
-            background-color: #fff; 
+            background-color: #fff;
         }
 
         .menu-section:hover {
@@ -473,7 +475,7 @@ try {
             top: 0;
             height: 100%;
             width: 0;
-            background: rgba(0,0,0,0.05);  
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .action-button:hover::before {
@@ -495,11 +497,30 @@ try {
         }
 
         /* Status button styles */
-        .status-nao-iniciada { background-color: #e74c3c; color: white; }
-        .status-em-andamento { background-color: #f39c12; color: white; }
-        .status-concluida { background-color: #27ae60; color: white; }
-        .status-pronto-e-avisado { background-color: #3498db; color: white; }
-        .status-entregue { background-color: #2c3e50; color: white; }
+        .status-nao-iniciada {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .status-em-andamento {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .status-concluida {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .status-pronto-e-avisado {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .status-entregue {
+            background-color: #2c3e50;
+            color: white;
+        }
 
         /* Auth button styles */
         .auth-button {
@@ -508,16 +529,27 @@ try {
             justify-content: center;
         }
 
-        .auth-autorizacao { background-color: #6c757d; color: white; }
-        .auth-solicitado { background-color: var(--warning-color); color: black; }
-        .auth-autorizado { background-color: var(--success-color); color: white; }
+        .auth-autorizacao {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .auth-solicitado {
+            background-color: var(--warning-color);
+            color: black;
+        }
+
+        .auth-autorizado {
+            background-color: var(--success-color);
+            color: white;
+        }
 
         /* Technical notes section */
         .technical-report {
             background-color: #f8f9fa;
             padding: 16px;
             border-radius: var(--border-radius);
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
         }
 
@@ -576,7 +608,7 @@ try {
             background-color: white;
             resize: none;
             line-height: 20px;
-            
+
         }
 
         .add-note-form textarea:focus {
@@ -591,7 +623,7 @@ try {
             display: flex;
             align-items: center;
             gap: 4px;
-            
+
         }
 
         .add-note-form button:hover {
@@ -606,7 +638,7 @@ try {
             border-radius: var(--border-radius);
             background: var(--secondary-color);
             margin-bottom: 10px;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .history-item:hover {
@@ -640,7 +672,8 @@ try {
             font-size: 1.1em;
         }
 
-        .status-history-list, .notes-history-list {
+        .status-history-list,
+        .notes-history-list {
             padding: 10px;
         }
 
@@ -649,6 +682,7 @@ try {
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -660,7 +694,7 @@ try {
             .main-content {
                 flex-direction: column;
             }
-            
+
             .content-right {
                 width: 100%;
             }
@@ -680,8 +714,6 @@ try {
                 margin-bottom: 10px;
             }
         }
-        
-    
     </style>
 </head>
 
@@ -873,6 +905,7 @@ try {
         </div>
 
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
         // Inicializa todos os tooltips
         //var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
@@ -961,8 +994,8 @@ try {
             }
         });
 
-        // Gestão de status e autorização
-        const statusButton = document.getElementById('statusButton');
+                // Gestão de status e autorização
+                const statusButton = document.getElementById('statusButton');
         const authButton = document.getElementById('authButton');
 
         // Arrays de status possíveis
@@ -1110,35 +1143,8 @@ try {
             // Auth inicial
             updateAuthButtonOnLoad();
         });
-
-        // Verificação periódica de novas notificações
-        function checkNotifications() {
-            fetch('check_notifications.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success && data.hasNotification) {
-                        const notification = data.notification;
-
-                        if (notification.type === 'auth_status') {
-                            showToast(`Autorização solicitada para a OS #${notification.order_id} por ${notification.from_username}`);
-                        } else if (notification.type === 'auth_approved') {
-                            showToast(`Autorização aprovada para a OS #${notification.order_id} por ${notification.from_username}`);
-
-                            // Atualiza o botão de autorização
-                            authButton.dataset.authStatus = 'Autorizado';
-                            updateButtonAppearance(authButton, 'Autorizado', 'auth');
-                        }
-                    }
-                })
-                .catch(error => {
-                    console.error('Erro ao verificar notificações:', error);
-                });
-        }
-
-        // Chama a função checkNotifications a cada 5 segundos
-        setInterval(checkNotifications, 5000);
-    </script>
-    <script>
+    
+    
         // Atualizar a função loadOrderHistory
         async function loadOrderHistory() {
             try {
@@ -1205,8 +1211,6 @@ try {
             historyModal.show(); // Mostra o modal
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
 </body>
 
 </html>

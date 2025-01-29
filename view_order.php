@@ -1,21 +1,21 @@
-<?php 
+<?php
 date_default_timezone_set('America/Sao_Paulo');
-session_start(); 
-require_once 'config.php';  
+session_start();
+require_once 'config.php';
 
 
-if(!isset($_SESSION['user_id'])) {     
-    header("Location: index.php");     
-    exit; 
-}  
+if (!isset($_SESSION['user_id'])) {
+    header("Location: index.php");
+    exit;
+}
 
-if(!isset($_GET['id'])) {     
-    header("Location: dashboard.php");     
-    exit; 
-}  
+if (!isset($_GET['id'])) {
+    header("Location: dashboard.php");
+    exit;
+}
 
-$database = new Database(); 
-$db = $database->getConnection();  
+$database = new Database();
+$db = $database->getConnection();
 
 try {
     // Primeiro, buscar os dados da ordem de serviço
@@ -34,9 +34,9 @@ try {
     $stmt->execute([':id' => $_GET['id']]);
     $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if (!$order) {         
-        header("Location: dashboard.php");         
-        exit;     
+    if (!$order) {
+        header("Location: dashboard.php");
+        exit;
     }
 
     // Depois, buscar as notas técnicas
@@ -46,30 +46,30 @@ try {
                    FROM technical_notes tn 
                    JOIN users u ON tn.user_id = u.id 
                    WHERE tn.order_id = :order_id 
-                   ORDER BY tn.created_at ASC";  
+                   ORDER BY tn.created_at ASC";
 
-    $stmt = $db->prepare($notesQuery);     
-    $stmt->execute([':order_id' => $_GET['id']]);     
-    $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);      
+    $stmt = $db->prepare($notesQuery);
+    $stmt->execute([':order_id' => $_GET['id']]);
+    $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $textareaContent = '';     
-    $currentDate = '';      
+    $textareaContent = '';
+    $currentDate = '';
 
-    foreach ($notes as $note) {         
-        if ($currentDate != $note['note_date']) {             
-            $textareaContent .= "\n " . $note['formatted_date'] . " \n\n";             
-            $currentDate = $note['note_date'];         
-        }         
-        $textareaContent .= "{$note['username']}: {$note['note']}\n";     
-    }      
-
-} catch(Exception $e) {         
-    header("Location: dashboard.php");         
-    exit;     
-} 
+    foreach ($notes as $note) {
+        if ($currentDate != $note['note_date']) {
+            $textareaContent .= "\n " . $note['formatted_date'] . " \n\n";
+            $currentDate = $note['note_date'];
+        }
+        $textareaContent .= "{$note['username']}: {$note['note']}\n";
+    }
+} catch (Exception $e) {
+    header("Location: dashboard.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -89,15 +89,18 @@ try {
             --transition: all 0.3s ease;
         }
 
-        body { 
+        body {
             background-color: #f5f6fa;
             padding: 20px;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
             min-height: 100vh;
-            
+
         }
-        
-        body::-webkit-scrollbar { display: none; }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
 
         .container {
             height: fit-content;
@@ -117,7 +120,7 @@ try {
             padding: 20px;
             border-radius: var(--border-radius);
             margin-bottom: 24px;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
         }
 
@@ -182,29 +185,31 @@ try {
             padding: 8px;
             background: rgba(255, 255, 255, 0.5);
             border-radius: var(--border-radius);
-            
+
         }
 
         .info-value:hover {
             background: rgba(255, 255, 255, 0.8);
             transition: var(--transition);
         }
-        .device-password, .reported-issue {
+
+        .device-password,
+        .reported-issue {
             height: 105px;
             width: 400px;
             background-color: #f8f9fa;
             padding: 16px;
             border-radius: var(--border-radius);
             margin-bottom: 20px;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
-            
+
         }
 
-        .linha{
-            display:flex;
+        .linha {
+            display: flex;
             gap: 50px;
-            
+
             justify-content: space-between;
         }
 
@@ -245,9 +250,9 @@ try {
             flex-direction: column;
             gap: 12px;
             padding: 16px;
-            border: 1px solid rgba(0,0,0,0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: var(--border-radius);
-            background-color: #fff; 
+            background-color: #fff;
         }
 
         .menu-section:hover {
@@ -277,7 +282,7 @@ try {
             top: 0;
             height: 100%;
             width: 0;
-            background: rgba(0,0,0,0.05);  
+            background: rgba(0, 0, 0, 0.05);
         }
 
         .action-button:hover::before {
@@ -299,11 +304,30 @@ try {
         }
 
         /* Status button styles */
-        .status-nao-iniciada { background-color: #e74c3c; color: white; }
-        .status-em-andamento { background-color: #f39c12; color: white; }
-        .status-concluida { background-color: #27ae60; color: white; }
-        .status-pronto-e-avisado { background-color: #3498db; color: white; }
-        .status-entregue { background-color: #2c3e50; color: white; }
+        .status-nao-iniciada {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .status-em-andamento {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .status-concluida {
+            background-color: #27ae60;
+            color: white;
+        }
+
+        .status-pronto-e-avisado {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .status-entregue {
+            background-color: #2c3e50;
+            color: white;
+        }
 
         /* Auth button styles */
         .auth-button {
@@ -312,16 +336,27 @@ try {
             justify-content: center;
         }
 
-        .auth-autorizacao { background-color: #6c757d; color: white; }
-        .auth-solicitado { background-color: var(--warning-color); color: black; }
-        .auth-autorizado { background-color: var(--success-color); color: white; }
+        .auth-autorizacao {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .auth-solicitado {
+            background-color: var(--warning-color);
+            color: black;
+        }
+
+        .auth-autorizado {
+            background-color: var(--success-color);
+            color: white;
+        }
 
         /* Technical notes section */
         .technical-report {
             background-color: #f8f9fa;
             padding: 16px;
             border-radius: var(--border-radius);
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
         }
 
@@ -380,7 +415,7 @@ try {
             background-color: white;
             resize: none;
             line-height: 20px;
-            
+
         }
 
         .add-note-form textarea:focus {
@@ -395,7 +430,7 @@ try {
             display: flex;
             align-items: center;
             gap: 4px;
-            
+
         }
 
         .add-note-form button:hover {
@@ -410,7 +445,7 @@ try {
             border-radius: var(--border-radius);
             background: var(--secondary-color);
             margin-bottom: 10px;
-            border: 1px solid rgba(0,0,0,0.05);
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
 
         .history-item:hover {
@@ -444,7 +479,8 @@ try {
             font-size: 1.1em;
         }
 
-        .status-history-list, .notes-history-list {
+        .status-history-list,
+        .notes-history-list {
             padding: 10px;
         }
 
@@ -453,6 +489,7 @@ try {
                 transform: translateX(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -464,7 +501,7 @@ try {
             .main-content {
                 flex-direction: column;
             }
-            
+
             .content-right {
                 width: 100%;
             }
@@ -484,9 +521,9 @@ try {
                 margin-bottom: 10px;
             }
         }
-        
     </style>
 </head>
+
 <body>
     <a href="javascript:history.go(-1)" class="btn btn-outline-primary" style="position: absolute; top: 20px; left: 20px;">
         <i class="bi bi-arrow-left"></i> Voltar
@@ -554,7 +591,7 @@ try {
                             <i class="bi bi-exclamation-triangle"></i> Defeito Reclamado
                         </div>
                         <div class="reported-issue">
-                        <?php echo htmlspecialchars($order['reported_issue']); ?>
+                            <?php echo htmlspecialchars($order['reported_issue']); ?>
                         </div>
                     </div>
                 </div>
@@ -566,13 +603,13 @@ try {
                     <div class="technical-report">
                         <div class="technical-notes">
                             <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
-                            
+
                             <div class="add-note-form">
                                 <div class="input-group">
-                                    <textarea id="newNote" 
-                                            rows="1"
-                                            placeholder="Digite sua nota técnica..."
-                                            data-autoresize></textarea>
+                                    <textarea id="newNote"
+                                        rows="1"
+                                        placeholder="Digite sua nota técnica..."
+                                        data-autoresize></textarea>
                                     <button onclick="addNote()" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Adicionar</button>
                                 </div>
                             </div>
@@ -585,7 +622,7 @@ try {
                 <div class="side-panel">
                     <!-- Status e Ações -->
                     <div class="menu-section">
-                        <div id="statusButton" 
+                        <div id="statusButton"
                             class="action-button status-button"
                             data-status="<?php echo $order['status']; ?>"
                             data-order-id="<?php echo $order['id']; ?>"
@@ -595,7 +632,7 @@ try {
                             <span><?php echo $order['status']; ?></span>
                         </div>
 
-                        <div id="authButton" 
+                        <div id="authButton"
                             class="action-button auth-button auth-autorizacao"
                             data-auth-status="Autorização"
                             data-order-id="<?php echo $order['id']; ?>"
@@ -613,14 +650,14 @@ try {
                             <i class="bi bi-clock-history"></i>
                             <span>Histórico</span>
                         </button>
-                        <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço" 
-                                onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
+                        <button class="action-button" data-bs-toggle="tooltip" title="Imprimir ordem de serviço"
+                            onclick="window.open('print_service_order.php?id=<?php echo $order['id']; ?>', '_blank')">
                             <i class="bi bi-printer"></i>
                             <span>Imprimir</span>
                         </button>
                         <button class="action-button" style="background-color:var(--success-color); color: white" onclick="javascript:history.go(-1)">
                             <i class="bi bi-box-arrow-right"></i>
-                        
+
                             <span>Salvar e Sair</span>
                         </button>
                     </div>
@@ -670,10 +707,12 @@ try {
         async function loadOrderHistory() {
             try {
                 console.log('Carregando histórico para ordem:', <?php echo $_GET['id']; ?>);
-                
+
                 const response = await fetch('get_order_history.php', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         orderId: <?php echo $_GET['id']; ?>
                     })
@@ -681,7 +720,7 @@ try {
 
                 const data = await response.json();
                 console.log('Dados recebidos:', data);
-                
+
                 if (data.success) {
                     // Atualizar histórico de status
                     const statusContainer = document.querySelector('.status-history-list');
@@ -786,25 +825,25 @@ try {
                 });
 
                 const data = await response.json();
-                
+
                 if (data.success) {
                     const technicalNotes = document.getElementById('technicalNotes');
-                    const today = new Date().toLocaleDateString('pt-BR', { 
-                        day: '2-digit', 
-                        month: '2-digit', 
-                        year: '2-digit' 
+                    const today = new Date().toLocaleDateString('pt-BR', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: '2-digit'
                     });
-                    
+
                     let newNoteText = '';
                     if (!technicalNotes.value.includes(today)) {
                         newNoteText = `\n ${today} \n\n`;
                     }
-                    
+
                     newNoteText += `${data.username}: ${noteText}\n`;
                     technicalNotes.value += newNoteText;
                     document.getElementById('newNote').value = '';
                     technicalNotes.scrollTop = technicalNotes.scrollHeight;
-                    
+
                     showToast('Nota adicionada com sucesso!');
                 } else {
                     showToast(data.message || 'Erro ao salvar nota', 'error');
@@ -838,7 +877,7 @@ try {
                     button.classList.remove(className);
                 }
             });
-            
+
             button.classList.add(`${prefix}-button`);
             const statusClass = `${prefix}-${status.toLowerCase().normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, "")
@@ -856,7 +895,7 @@ try {
 
                 const response = await fetch('update_status.php', {
                     method: 'POST',
-                    headers: { 
+                    headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
@@ -868,7 +907,7 @@ try {
                 console.log('Resposta recebida:', response);
                 const data = await response.json();
                 console.log('Dados da resposta:', data);
-                
+
                 if (data.success) {
                     button.dataset.status = newStatus;
                     updateButtonAppearance(button, newStatus);
@@ -887,14 +926,16 @@ try {
             try {
                 const response = await fetch('get_auth_status.php', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         orderId: authButton.dataset.orderId
                     })
                 });
 
                 const data = await response.json();
-                
+
                 if (data.success) {
                     authButton.dataset.authStatus = data.authStatus;
                     updateButtonAppearance(authButton, data.authStatus, 'auth');
@@ -913,7 +954,7 @@ try {
 
                 const response = await fetch('update_auth_status.php', {
                     method: 'POST',
-                    headers: { 
+                    headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
@@ -925,7 +966,7 @@ try {
                 console.log('Resposta recebida:', response);
                 const data = await response.json();
                 console.log('Dados da resposta:', data);
-                
+
                 if (data.success) {
                     button.dataset.authStatus = newStatus;
                     updateButtonAppearance(button, newStatus, 'auth');
@@ -934,67 +975,43 @@ try {
                     showToast(data.message || 'Erro ao atualizar autorização', 'error');
                 }
             } catch (error) {
-                console.error('Erro ao atualizar autorização:', error);showToast('Erro ao atualizar autorização', 'error');
+                console.error('Erro ao atualizar autorização:', error);
+                showToast('Erro ao atualizar autorização', 'error');
             }
-        }// Event listeners
+        } // Event listeners
         statusButton.addEventListener('click', function() {
-                let currentStatus = this.dataset.status;
-                currentStatus = statusFlow.find(status => 
-                    status.toLowerCase() === currentStatus.toLowerCase()
-                ) || currentStatus;
-                
-                const currentIndex = statusFlow.indexOf(currentStatus);
-                const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
-                updateStatus(this, nextStatus);
-            });
+            let currentStatus = this.dataset.status;
+            currentStatus = statusFlow.find(status =>
+                status.toLowerCase() === currentStatus.toLowerCase()
+            ) || currentStatus;
 
-            authButton.addEventListener('click', function() {
-                const currentStatus = this.dataset.authStatus;
-                const currentIndex = authFlow.indexOf(currentStatus);
-                const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
-                updateAuthStatus(this, nextStatus);
-            });
+            const currentIndex = statusFlow.indexOf(currentStatus);
+            const nextStatus = statusFlow[(currentIndex + 1) % statusFlow.length];
+            updateStatus(this, nextStatus);
+        });
 
-            // Inicialização dos botões
-            document.addEventListener('DOMContentLoaded', function() {
-                // Status inicial
-                let initialStatus = statusButton.dataset.status;
-                initialStatus = statusFlow.find(status => 
-                    status.toLowerCase() === initialStatus.toLowerCase()
-                ) || initialStatus;
-                statusButton.dataset.status = initialStatus;
-                statusButton.innerHTML = '<i class="bi bi-gear"></i> <span>' + initialStatus + '</span>';
-                updateButtonAppearance(statusButton, initialStatus);
+        authButton.addEventListener('click', function() {
+            const currentStatus = this.dataset.authStatus;
+            const currentIndex = authFlow.indexOf(currentStatus);
+            const nextStatus = authFlow[(currentIndex + 1) % authFlow.length];
+            updateAuthStatus(this, nextStatus);
+        });
 
-                // Auth inicial
-                updateAuthButtonOnLoad();
-            });
+        // Inicialização dos botões
+        document.addEventListener('DOMContentLoaded', function() {
+            // Status inicial
+            let initialStatus = statusButton.dataset.status;
+            initialStatus = statusFlow.find(status =>
+                status.toLowerCase() === initialStatus.toLowerCase()
+            ) || initialStatus;
+            statusButton.dataset.status = initialStatus;
+            statusButton.innerHTML = '<i class="bi bi-gear"></i> <span>' + initialStatus + '</span>';
+            updateButtonAppearance(statusButton, initialStatus);
 
-            // Verificação periódica de novas notificações
-            function checkNotifications() {
-                fetch('check_notifications.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success && data.hasNotification) {
-                            const notification = data.notification;
-                            
-                            if (notification.type === 'auth_status') {
-                                showToast(`Autorização solicitada para a OS #${notification.order_id} por ${notification.from_username}`);
-                            } else if (notification.type === 'auth_approved') {
-                                showToast(`Autorização aprovada para a OS #${notification.order_id} por ${notification.from_username}`);
-                                
-                                // Atualiza o botão de autorização
-                                authButton.dataset.authStatus = 'Autorizado';
-                                updateButtonAppearance(authButton, 'Autorizado', 'auth');
-                            }
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Erro ao verificar notificações:', error);
-                    });
-            }
-
-            // Chama a função checkNotifications a cada 5 segundos
-            setInterval(checkNotifications, 5000);
-        </script>
+            // Auth inicial
+            updateAuthButtonOnLoad();
+        });
+    </script>
 </body>
+
+</html>
