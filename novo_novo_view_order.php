@@ -92,8 +92,6 @@ try {
             max-width: 90vw;
             width: 90vw;
             min-width: 90vw;
-            min-height: 777px;
-            height: 90vh;
             padding: 10px;
             display: flex;
             gap: 5px;
@@ -101,13 +99,13 @@ try {
 
         .left,
         .right {
-            min-height: 777px;
-            height: 90vh;
             width: 25%;
             max-width: 25%;
             min-width: 25%;
-            background-color: #fff;
+            height: 90vh;
+            min-height: 777px;
             padding: 20px;
+            background-color: #fff;
             border-radius: 15px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             display: flex;
@@ -117,10 +115,11 @@ try {
         }
 
         .mid {
-            height: 90vh;
             width: 45%;
             max-width: 45%;
             min-width: 45%;
+            height: 90vh;
+            min-height: 777px;
             padding: 20px;
             flex: 1 1 40%;
             background-color: #fff;
