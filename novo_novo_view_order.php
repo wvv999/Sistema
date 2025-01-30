@@ -583,10 +583,7 @@ try {
                         <i class="bi bi-check-circle"></i>
                         <span>Autorização</span>
                     </div>
-                    <!-- <div class="action-button" data-bs-toggle="tooltip" title="Gerenciar peças">
-                        <i class="bi bi-cart"></i>
-                        <span>Compra de Peças</span>
-                    </div> -->
+                    
                 </div>
 
                 <div class="menu-section">
