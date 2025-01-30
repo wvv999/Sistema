@@ -449,7 +449,7 @@ try {
 
         .history-item:hover {
             background: var(--accent-color);
-            transition: var(--transition);
+            transition: var (--transition);
         }
 
         .history-item .date {
@@ -545,7 +545,7 @@ try {
             <div class="section-title"><i class="bi bi-clipboard-data"></i> Laudo Técnico</div>
             <div class="technical-report">
                 <div class="technical-notes">
-                    <textarea id="technicalNotes" rows="6" readonly><?php echo $textareaContent; ?></textarea>
+                    <textarea id="technicalNotes" readonly><?php echo $textareaContent; ?></textarea>
                     <div class="add-note-form">
                         <div class="input-group">
                             <textarea id="newNote" rows="1" placeholder="Digite sua nota técnica..." data-autoresize></textarea>
@@ -590,7 +590,7 @@ try {
                 </div>
 
                 <div class="menu-section">
-                    <button class="action-button" data-bs-toggle="tooltip" title="Ver histórico completo">
+                    <button class="action-button" data-bs-toggle="tooltip" title="Ver histórico completo" data-bs-toggle="modal" data-bs-target="#historyModal">
                         <i class="bi bi-clock-history"></i>
                         <span>Histórico</span>
                     </button>
@@ -928,9 +928,7 @@ try {
 
             // Adicionar evento ao botão de histórico
             document.querySelector('button[title="Ver histórico completo"]').addEventListener('click', function() {
-                const historyModal = new bootstrap.Modal(document.getElementById('historyModal'));
                 loadOrderHistory(); // Carrega o histórico
-                historyModal.show(); // Mostra o modal
             });
         </script>
     </body>
