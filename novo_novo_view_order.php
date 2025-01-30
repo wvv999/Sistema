@@ -95,7 +95,6 @@ try {
             padding: 10px;
             display: flex;
             gap: 5px;
-            justify-content: space-around;
         }
 
         .left,
@@ -112,7 +111,6 @@ try {
             flex: 1 1 25%;
             flex-direction: column;
             gap: 20px;
-            justify-content: space-between;
         }
 
         .mid {
