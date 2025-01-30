@@ -161,7 +161,7 @@ try {
 
         .side-panel {
             width: 100%;
-            height: 25%;
+            height: 100%;
             background: red;
             padding-right: 20px;
             display: flex;
