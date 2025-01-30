@@ -170,11 +170,6 @@ try {
             justify-content: space-between;
         }
 
-        .content-right {
-            width: 300px;
-            height: 495px;
-        }
-
         .menu-section {
             width: 100%;
             align-items: center;
@@ -256,6 +251,7 @@ try {
         }
 
         .auth-button {
+            width: 100%;
             font-weight: 600;
             letter-spacing: 0.5px;
             justify-content: center;
@@ -514,9 +510,7 @@ try {
                 flex-direction: column;
             }
 
-            .content-right {
-                width: 100%;
-            }
+            
         }
 
         @media (max-width: 576px) {
@@ -582,6 +576,8 @@ try {
         </div>
 
         <div class="right">
+
+            <!-- CONTATOS --><!-- CONTATOS --><!-- CONTATOS --><!-- CONTATOS -->
             <div class="item">
                 <div class="info-label"><i class="bi bi-telephone"></i> Contatos</div>
                 <div class="info-value">
@@ -589,20 +585,26 @@ try {
                     <?php echo htmlspecialchars($order['phone2'] ?? '-'); ?>
                 </div>
             </div>
+            <!-- CONTATOS --><!-- CONTATOS --><!-- CONTATOS --><!-- CONTATOS -->
 
+            <!-- DATAS --><!-- DATAS --><!-- DATAS --><!-- DATAS --><!-- DATAS -->
             <div class="item">
                 <div class="info-label"><i class="bi bi-calendar-event"></i> Data de Abertura</div>
                 <div class="info-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></div>
                 <div class="info-label"><i class="bi bi-calendar-check"></i> Data de Entrega</div>
                 <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
             </div>
+            <!-- DATAS --><!-- DATAS --><!-- DATAS --><!-- DATAS --><!-- DATAS -->
 
+            <!-- STATUS --><!-- STATUS --><!-- STATUS --><!-- STATUS --><!-- STATUS -->
+            <!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO -->
             <div class="side-panel">
                 <div class="menu-section">
                     <div id="statusButton" class="action-button status-button" data-status="<?php echo $order['status']; ?>" data-order-id="<?php echo $order['id']; ?>" data-bs-toggle="tooltip" title="">
                         <i class="bi bi-gear"></i>
                         <span><?php echo $order['status']; ?></span>
                     </div>
+                <!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO -->
 
                     <div id="authButton" class="action-button auth-button auth-autorizacao" data-auth-status="Autorização" data-order-id="<?php echo $order['id']; ?>" data-bs-toggle="tooltip" title="Clique para alterar a autorização">
                         <i class="bi bi-check-circle"></i>
