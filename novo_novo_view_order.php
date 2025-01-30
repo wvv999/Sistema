@@ -309,13 +309,6 @@ try {
             border-radius: 0 var(--border-radius) var (--border-radius) 0;
         }
 
-        .main-content {
-            display: flex;
-            gap: 24px;
-            flex: 1;
-            margin-bottom: 24px;
-        }
-
         .content-left {
             flex: 1;
         }
