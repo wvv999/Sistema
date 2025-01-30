@@ -356,6 +356,7 @@ try {
             border-radius: var(--border-radius);
             border: 1px solid rgba(0, 0, 0, 0.05);
             position: relative;
+            flex: 1;
         }
 
         .technical-report::before {
@@ -373,18 +374,23 @@ try {
             background: white;
             border-radius: var(--border-radius);
             padding: 16px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .technical-notes textarea {
             border: none;
             background: transparent;
             width: 100%;
+            height: 100%;
             resize: none;
             padding: 0;
             margin-bottom: 10px;
             font-size: 0.9rem;
             font-family: inherit;
             line-height: 1.5;
+            flex: 1;
         }
 
         .technical-notes textarea:focus {
