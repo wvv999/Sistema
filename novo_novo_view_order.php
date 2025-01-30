@@ -75,6 +75,18 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <style>
+        :root {
+            --primary-color: #4a6fff;
+            --secondary-color: #f8f9fa;
+            --accent-color: #e7e9f6;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 8px;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
         body {
             background-color: #f5f6fa;
             padding: 20px;
@@ -85,29 +97,27 @@ try {
 
         body::-webkit-scrollbar {
             display: none;
-            height: 100vh;
         }
 
         .container {
             max-width: 90vw;
-            width: 90vw;
-            min-width: 90vw;
             padding: 10px;
             display: flex;
             gap: 5px;
+            justify-content: space-around;
+            flex-wrap: wrap;
         }
 
         .left,
         .right {
+            padding: 20px;
+            height: auto;
             width: 25%;
             max-width: 25%;
-            min-width: 25%;
-            height: 90vh;
-            min-height: 777px;
-            padding: 20px;
+            min-width: 300px;
             background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             display: flex;
             flex: 1 1 25%;
             flex-direction: column;
@@ -115,16 +125,15 @@ try {
         }
 
         .mid {
+            height: auto;
             width: 45%;
             max-width: 45%;
-            min-width: 45%;
-            height: 90vh;
-            min-height: 777px;
+            min-width: 300px;
             padding: 20px;
             flex: 1 1 40%;
             background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -155,14 +164,13 @@ try {
             width: 100%;
             height: fit-content;
             background-color: #f5f6fa;
-            border-radius: 10px;
+            border-radius: var(--border-radius);
             padding: 8px;
         }
 
         .side-panel {
             width: 100%;
             height: 100%;
-            background: red;
             padding-right: 20px;
             display: flex;
             flex-direction: column;
@@ -179,6 +187,7 @@ try {
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: var(--border-radius);
             background-color: #fff;
+            padding: 16px;
         }
 
         .action-button {
@@ -194,6 +203,7 @@ try {
             font-weight: 500;
             position: relative;
             overflow: hidden;
+            transition: var(--transition);
         }
 
         .action-button::before {
@@ -204,17 +214,16 @@ try {
             height: 100%;
             width: 0;
             background: rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
         }
 
         .action-button:hover::before {
             width: 100%;
-            transition: var(--transition);
         }
 
         .action-button:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow);
-            transition: var(--transition);
         }
 
         .status-button {
@@ -270,18 +279,6 @@ try {
             color: white;
         }
 
-        :root {
-            --primary-color: #4a6fff;
-            --secondary-color: #f8f9fa;
-            --accent-color: #e7e9f6;
-            --success-color: #28a745;
-            --warning-color: #ffc107;
-            --danger-color: #dc3545;
-            --border-radius: 8px;
-            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-            --transition: all 0.3s ease;
-        }
-
         .order-info {
             background: linear-gradient(145deg, var(--accent-color), #f8f9ff);
             padding: 20px;
@@ -306,17 +303,13 @@ try {
             padding-left: 15px;
             margin-top: 10px;
             background: rgba(255, 255, 255, 0.5);
-            border-radius: 0 var(--border-radius) var (--border-radius) 0;
-        }
-
-        .content-left {
-            flex: 1;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
         }
 
         .device-password,
         .reported-issue {
             height: 105px;
-            width: 400px;
+            width: 100%;
             background-color: #f8f9fa;
             padding: 16px;
             border-radius: var(--border-radius);
@@ -484,31 +477,31 @@ try {
             padding: 10px;
         }
 
-
-        @media (width: 400px) {
-            .main-content {
-                flex-direction: column;
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
             }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
             .container {
                 flex-direction: column;
             }
-            
-        }
 
-        /* @media (max-width: 576px) {
-            .order-container {
-                padding: 16px;
-            }
-
-            .client-details .row {
-                flex-direction: column;
-            }
-
-            .client-details .col-md-2 {
+            .left,
+            .right,
+            .mid {
                 width: 100%;
-                margin-bottom: 10px;
+                max-width: 100%;
+                min-width: 100%;
             }
-        } */
+        }
     </style>
 </head>
 
@@ -558,8 +551,6 @@ try {
         </div>
 
         <div class="right">
-
-            <!-- CONTATOS --><!-- CONTATOS --><!-- CONTATOS --><!-- CONTATOS -->
             <div class="item">
                 <div class="info-label"><i class="bi bi-telephone"></i> Contatos</div>
                 <div class="info-value">
@@ -567,26 +558,20 @@ try {
                     <?php echo htmlspecialchars($order['phone2'] ?? '-'); ?>
                 </div>
             </div>
-            <!-- CONTATOS --><!-- CONTATOS --><!-- CONTATOS --><!-- CONTATOS -->
 
-            <!-- DATAS --><!-- DATAS --><!-- DATAS --><!-- DATAS --><!-- DATAS -->
             <div class="item">
                 <div class="info-label"><i class="bi bi-calendar-event"></i> Data de Abertura</div>
                 <div class="info-value"><?php echo date('d/m/Y', strtotime($order['created_at'])); ?></div>
                 <div class="info-label"><i class="bi bi-calendar-check"></i> Data de Entrega</div>
                 <div class="info-value"><?php echo date('d/m/Y', strtotime($order['delivery_date'])); ?></div>
             </div>
-            <!-- DATAS --><!-- DATAS --><!-- DATAS --><!-- DATAS --><!-- DATAS -->
 
-            <!-- STATUS --><!-- STATUS --><!-- STATUS --><!-- STATUS --><!-- STATUS -->
-            <!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO -->
-            
+            <div class="side-panel">
                 <div class="menu-section">
-                    <div id="statusButton" class="action-button status-button" data-status="<?php echo $order['status']; ?>" data-order-id="<?php echo $order['id']; ?>" data-bs-toggle="tooltip" title="">
+                    <div id="statusButton" class="action-button status-button" data-status="<?php echo $order['status']; ?>" data-order-id="<?php echo $order['id']; ?>" data-bs-toggle="tooltip" title="Clique para alterar o status">
                         <i class="bi bi-gear"></i>
                         <span><?php echo $order['status']; ?></span>
                     </div>
-                    <!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO --><!-- ANDAMENTO -->
 
                     <div id="authButton" class="action-button auth-button auth-autorizacao" data-auth-status="Autorização" data-order-id="<?php echo $order['id']; ?>" data-bs-toggle="tooltip" title="Clique para alterar a autorização">
                         <i class="bi bi-check-circle"></i>
@@ -613,7 +598,7 @@ try {
                         <span>Salvar e Sair</span>
                     </button>
                 </div>
-            
+            </div>
         </div>
 
         <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
@@ -944,4 +929,4 @@ try {
         </script>
     </body>
 
-    </html>
+</html>
