@@ -503,7 +503,7 @@ try {
             }
         }
 
-        @media (max-width: 400px) {
+        @media (width: 400px) {
             .main-content {
                 flex-direction: column;
             }
