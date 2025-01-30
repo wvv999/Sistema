@@ -579,10 +579,7 @@ try {
                         <span><?php echo $order['status']; ?></span>
                     </div>
 
-                    <div id="authButton" class="action-button auth-button auth-autorizacao" data-auth-status="Autorização" data-order-id="<?php echo $order['id']; ?>" data-bs-toggle="tooltip" title="Clique para alterar a autorização">
-                        <i class="bi bi-check-circle"></i>
-                        <span>Autorização</span>
-                    </div>
+                    
                     
                 </div>
 
