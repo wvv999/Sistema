@@ -92,6 +92,7 @@ try {
             max-width: 90vw;
             width: 90vw;
             min-width: 90vw;
+            min-height: 800px;
             padding: 10px;
             display: flex;
             gap: 5px;
@@ -99,12 +100,13 @@ try {
 
         .left,
         .right {
-            padding: 20px;
+            min-height: 800px;
             height: 90vh;
             width: 25%;
             max-width: 25%;
             min-width: 25%;
             background-color: #fff;
+            padding: 20px;
             border-radius: 15px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
             display: flex;
