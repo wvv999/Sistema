@@ -491,17 +491,6 @@ try {
             padding: 10px;
         }
 
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
 
         @media (width: 400px) {
             .main-content {
@@ -513,7 +502,7 @@ try {
             
         }
 
-        @media (max-width: 576px) {
+        /* @media (max-width: 576px) {
             .order-container {
                 padding: 16px;
             }
@@ -526,7 +515,7 @@ try {
                 width: 100%;
                 margin-bottom: 10px;
             }
-        }
+        } */
     </style>
 </head>
 
