@@ -176,8 +176,6 @@ try {
             justify-content: center;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            padding: 16px;
             border: 1px solid rgba(0, 0, 0, 0.1);
             border-radius: var(--border-radius);
             background-color: #fff;
