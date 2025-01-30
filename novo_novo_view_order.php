@@ -92,7 +92,8 @@ try {
             max-width: 90vw;
             width: 90vw;
             min-width: 90vw;
-            min-height: 800px;
+            min-height: 777px;
+            height: 90vh;
             padding: 10px;
             display: flex;
             gap: 5px;
@@ -100,7 +101,7 @@ try {
 
         .left,
         .right {
-            min-height: 800px;
+            min-height: 777px;
             height: 90vh;
             width: 25%;
             max-width: 25%;
