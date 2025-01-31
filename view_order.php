@@ -169,7 +169,7 @@ try {
         }
 
         .side-panel {
-            width: 100%;
+            width: 90%;
             height: 100%;
             display: flex;
             flex-direction: column;
