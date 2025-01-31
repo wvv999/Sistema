@@ -707,7 +707,7 @@ try {
                         year: '2-digit'
                     });
 
-                    let newNoteText = '';
+                    let newNoteText = 'TESTE';
                     if (!technicalNotes.value.includes(today)) {
                         newNoteText = `\n ${today} \n\n`;
                     }
