@@ -706,10 +706,10 @@ try {
                         month: '2-digit',
                         year: '2-digit'
                     });
-                    let elemento = "<span>" + today + "</span>";
+
                     let newNoteText = '';
                     if (!technicalNotes.value.includes(today)) {
-                        newNoteText = $elemento;
+                        newNoteText = `\n ${today} \n\n`;
                     }
 
                     newNoteText += `${data.username}: ${noteText}\n`;
