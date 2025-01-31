@@ -169,12 +169,13 @@ try {
         }
 
         .side-panel {
-            width: 90%;
+            width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
             gap: 24px;
             justify-content: space-between;
+            align-items: center;
         }
 
         .menu-section {
