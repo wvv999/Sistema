@@ -45,7 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = $e->getMessage();
     }
 }
-
+if ($success) {
+    $lastInsertId = $db->lastInsertId();
+    $success .= ' <a href="create_order.php?client_id=' . $lastInsertId . '" class="btn btn-success btn-sm ms-2">Criar Nova Ordem</a>';
+}
 // Busca todos os clientes para exibir na tabela
 try {
     $database = new Database();
