@@ -707,9 +707,9 @@ try {
                         year: '2-digit'
                     });
 
-                    let newNoteText = '<h2 style="bg-color: #f8f9fa;">' + today + '</h2>\n\n';
+                    let newNoteText = '';
                     if (!technicalNotes.value.includes(today)) {
-                        newNoteText = `\n ${today} 'teste<h2>' \n\n`;
+                        newNoteText = "<h1>Teste</h1>"`\n ${today} \n\n`;
                     }
 
                     newNoteText += `${data.username}: ${noteText}\n`;
