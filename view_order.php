@@ -171,7 +171,6 @@ try {
         .side-panel {
             width: 100%;
             height: 100%;
-            padding-right: 20px;
             display: flex;
             flex-direction: column;
             gap: 24px;
