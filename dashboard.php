@@ -439,15 +439,14 @@ if (!isset($_SESSION['user_id'])) {
             const searchInput = document.getElementById('searchInput');
             const searchButton = document.getElementById('searchButton');
 
-            console.log('Input encontrado:', searchInput);
-            console.log('Botão encontrado:', searchButton);
+            
 
             // Função de busca com logs para debug
             async function searchOrder() {
-                console.log('Função searchOrder iniciada');
+                
 
                 const searchValue = searchInput.value.trim();
-                console.log('Valor da busca:', searchValue);
+                
 
                 if (!searchValue) {
                     alert('Por favor, digite um número de OS ou nome do cliente');
@@ -455,23 +454,23 @@ if (!isset($_SESSION['user_id'])) {
                 }
 
                 try {
-                    console.log('Iniciando fetch para:', `search_order.php?search=${encodeURIComponent(searchValue)}`);
+                    
 
                     const response = await fetch(`search_order.php?search=${encodeURIComponent(searchValue)}`);
                     const data = await response.json();
 
-                    console.log('Resposta da busca:', data);
+                    
 
                     if (data.success) {
                         if (data.data.length === 1 && !isNaN(searchValue)) {
-                            console.log('Redirecionando para view_order.php');
+                            
                             window.location.href = `view_order.php?id=${data.data[0].id}`;
                         } else {
-                            console.log('Redirecionando para consulta_ordens.php');
+                            
                             window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
                         }
                     } else {
-                        console.log('Nenhum resultado encontrado');
+                        
                         window.location.href = `consulta_ordens.php?search=${encodeURIComponent(searchValue)}`;
                     }
                 } catch (error) {
@@ -482,18 +481,18 @@ if (!isset($_SESSION['user_id'])) {
 
             // Registrando eventos com confirmação no console
             if (searchButton) {
-                console.log('Adicionando evento de click ao botão');
+                
                 searchButton.addEventListener('click', () => {
-                    console.log('Botão foi clicado!');
+                    
                     searchOrder();
                 });
             }
 
             if (searchInput) {
-                console.log('Adicionando evento de keydown ao input');
+                
                 searchInput.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter') {
-                        console.log('Enter pressionado!');
+                        
                         e.preventDefault();
                         searchOrder();
                     }
